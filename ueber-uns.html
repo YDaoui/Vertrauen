@@ -14,6 +14,35 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Force le style de la carte Über uns pour qu'elle soit identique aux autres pages */
+        .ueber-uns-box {
+            background-color: #dbd6d5 !important;
+            border: 2px solid #cc0000 !important;
+            border-radius: 16px !important;
+            padding: 30px 40px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+            max-width: 900px !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+        }
+        .ueber-uns-box h2 {
+            color: #cc0000;
+            border-bottom: 2px solid #cc0000;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        .ueber-uns-box p {
+            color: #333;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        @media (max-width: 600px) {
+            .ueber-uns-box {
+                padding: 20px !important;
+            }
+        }
+    </style>
 </head>
 <body class="dashboard-page">
     <header class="dashboard-header">

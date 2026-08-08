@@ -75,6 +75,24 @@
       font-size: 1.2rem;
     }
 
+    /* Correction pour que la carte principale ait le même style que stat-box */
+    .company-box {
+      background-color: #dbd6d5 !important;
+      border: 2px solid #cc0000 !important;
+      border-radius: 16px !important;
+      padding: 30px 40px !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+      max-width: 900px !important;
+      margin: 0 auto !important;
+      width: 100% !important;
+    }
+    .company-box h2 {
+      color: #cc0000;
+      border-bottom: 2px solid #cc0000;
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+    }
+
     /* Responsive */
     @media (max-width: 600px) {
       .company-item {
@@ -87,6 +105,9 @@
       }
       .company-item .company-stats {
         align-self: flex-start;
+      }
+      .company-box {
+        padding: 20px !important;
       }
     }
   </style>
