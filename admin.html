@@ -12,6 +12,332 @@
     gtag('config', 'G-EV3MLGBFYW');
   </script>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ===== Carte principale ===== */
+    .admin-box {
+      background-color: #dbd6d5;
+      border: 2px solid #cc0000;
+      border-radius: 16px;
+      padding: 30px 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .admin-box:hover {
+      border-color: #a00000;
+      box-shadow: 0 6px 30px rgba(204, 0, 0, 0.15);
+    }
+    .admin-box h1 {
+      color: #cc0000;
+      border-bottom: 2px solid #cc0000;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    /* ===== Onglets ===== */
+    .tab-container {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #cc0000;
+      padding-bottom: 10px;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: 8px 20px;
+      cursor: pointer;
+      color: #4d4c4c;
+      border-bottom: 3px solid transparent;
+      transition: 0.2s;
+    }
+    .tab-btn.active {
+      color: #cc0000;
+      border-bottom-color: #cc0000;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    /* ===== Liste des entreprises (lignes horizontales) ===== */
+    .company-item {
+      background-color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      transition: border-color 0.2s;
+    }
+    .company-item:hover {
+      border-color: #cc0000;
+    }
+    .company-item .company-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1 1 60%;
+      min-width: 200px;
+    }
+    .company-item .company-info img.company-logo {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      border-radius: 8px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 4px;
+    }
+    .company-item .company-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .company-item .company-actions .edit-btn,
+    .company-item .company-actions .delete-btn {
+      border: none;
+      padding: 4px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .company-item .company-actions .edit-btn {
+      background-color: #cc0000;
+      color: white;
+    }
+    .company-item .company-actions .edit-btn:hover {
+      background-color: #990000;
+    }
+    .company-item .company-actions .delete-btn {
+      background-color: #888;
+      color: white;
+    }
+    .company-item .company-actions .delete-btn:hover {
+      background-color: #666;
+    }
+
+    /* ===== Liste des utilisateurs (lignes horizontales) ===== */
+    .user-item {
+      background-color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      transition: border-color 0.2s;
+    }
+    .user-item:hover {
+      border-color: #cc0000;
+    }
+    .user-item .user-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1 1 60%;
+      min-width: 200px;
+    }
+    .user-item .user-info .email {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #1a1a1a;
+    }
+    .user-item .user-info .name {
+      font-size: 0.95rem;
+      color: #555;
+    }
+    .user-item .user-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .user-item .user-actions .edit-btn {
+      background-color: #cc0000;
+      color: white;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .user-item .user-actions .edit-btn:hover {
+      background-color: #990000;
+    }
+
+    /* ===== Bouton Ajouter ===== */
+    .add-company-btn {
+      background-color: #cc0000;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: 0.2s;
+    }
+    .add-company-btn:hover {
+      background-color: #990000;
+    }
+
+    /* ===== Formulaire ===== */
+    .company-form-container {
+      display: none;
+      background-color: #f0f0f0;
+      padding: 20px 24px;
+      border-radius: 16px;
+      margin-bottom: 30px;
+      border-left: 4px solid #cc0000;
+    }
+    .company-form-container.active {
+      display: block;
+    }
+    .company-form-container .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .company-form-container .form-group {
+      flex: 1 1 200px;
+    }
+    .company-form-container .form-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .company-form-container .form-group input,
+    .company-form-container .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-submit {
+      background-color: #cc0000;
+      color: white;
+      border: none;
+      padding: 10px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-submit:hover {
+      background-color: #990000;
+    }
+    .btn-submit.secondary {
+      background-color: #888;
+    }
+    .btn-submit.secondary:hover {
+      background-color: #666;
+    }
+
+    .logo-preview {
+      max-width: 120px;
+      max-height: 120px;
+      display: none;
+      margin-top: 8px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 4px;
+    }
+    .logo-preview.visible {
+      display: block;
+    }
+
+    .upload-progress {
+      display: none;
+      margin-top: 8px;
+      font-weight: 500;
+      color: #cc0000;
+    }
+    .upload-progress.active {
+      display: block;
+    }
+
+    .edit-mode-indicator {
+      background-color: #ffcc00;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      color: #333;
+      display: none;
+      margin-left: 12px;
+      font-size: 0.8rem;
+    }
+    .edit-mode-indicator.active {
+      display: inline-block;
+    }
+
+    .message {
+      margin-top: 10px;
+      font-weight: 500;
+    }
+    .message.success {
+      color: #008000;
+    }
+    .message.error {
+      color: #cc0000;
+    }
+
+    .edit-form {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #f0f0f0;
+      border-radius: 12px;
+      display: none;
+    }
+    .edit-form .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .edit-form .form-row .form-group {
+      flex: 1 1 200px;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 600px) {
+      .admin-box {
+        padding: 20px;
+      }
+      .company-item,
+      .user-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .company-item .company-info,
+      .user-item .user-info {
+        flex-wrap: wrap;
+      }
+      .company-item .company-actions,
+      .user-item .user-actions {
+        justify-content: flex-end;
+      }
+    }
+  </style>
 </head>
 <body class="dashboard-page">
   <header class="dashboard-header">
@@ -29,104 +355,108 @@
   </header>
 
   <main class="dashboard-content">
-    <h1 style="color:#cc0000; margin-bottom:20px;">Admin-Bereich</h1>
+    <!-- ===== Carte grise avec bordure rouge (admin-box) ===== -->
+    <div class="admin-box">
+      <h1>Admin-Bereich</h1>
 
-    <div class="tab-container">
-      <button class="tab-btn active" data-tab="tab-companies">Unternehmen</button>
-      <button class="tab-btn" data-tab="tab-users">Benutzer</button>
-    </div>
-
-    <!-- ========== ONGLET UNTERNEHMEN ========== -->
-    <div id="tab-companies" class="tab-content active">
-      <button id="toggleCompanyForm" class="add-company-btn">➕ Unternehmen hinzufügen</button>
-
-      <div id="companyFormContainer" class="company-form-container">
-        <h2 id="companyFormTitle">Neues Unternehmen</h2>
-        <span id="editModeIndicator" class="edit-mode-indicator">✏️ Bearbeitungsmodus</span>
-
-        <form id="companyForm" class="admin-form">
-          <input type="hidden" id="editCompanyId" value="" />
-          <div class="form-row">
-            <div class="form-group">
-              <label for="compName">Name *</label>
-              <input type="text" id="compName" placeholder="Firmenname" required />
-            </div>
-            <div class="form-group">
-              <label for="compService">Service</label>
-              <input type="text" id="compService" placeholder="Dienstleistung" />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="compPhone">Telefon</label>
-              <input type="text" id="compPhone" placeholder="Telefonnummer" />
-            </div>
-            <div class="form-group">
-              <label for="compCreated">Erstellt am</label>
-              <input type="date" id="compCreated" />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="compCommercial">Commercial</label>
-              <input type="text" id="compCommercial" placeholder="Ansprechpartner / Vertriebler" />
-            </div>
-            <div class="form-group">
-              <label for="compLogo">Logo (Bild hochladen)</label>
-              <input type="file" id="compLogo" accept="image/*" />
-              <img id="logoPreview" class="logo-preview" alt="Logo Vorschau" />
-              <div id="uploadProgress" class="upload-progress">Wird hochgeladen...</div>
-              <small style="color:#888; display:block; margin-top:4px;">Unterstützte Formate: JPEG, PNG, GIF, etc.</small>
-            </div>
-          </div>
-          <div class="form-actions">
-            <button type="submit" class="btn-submit" id="submitCompanyBtn">Unternehmen speichern</button>
-            <button type="button" id="cancelCompanyForm" class="btn-submit secondary">Abbrechen</button>
-          </div>
-          <div id="companyMessage" class="message"></div>
-        </form>
+      <div class="tab-container">
+        <button class="tab-btn active" data-tab="tab-companies">Unternehmen</button>
+        <button class="tab-btn" data-tab="tab-users">Benutzer</button>
       </div>
 
-      <h2>📋 Vorhandene Unternehmen</h2>
-      <div id="companyList" class="company-list"><p>Lade Unternehmen...</p></div>
-    </div>
+      <!-- ===== ONGLET UNTERNEHMEN ===== -->
+      <div id="tab-companies" class="tab-content active">
+        <button id="toggleCompanyForm" class="add-company-btn">➕ Unternehmen hinzufügen</button>
 
-    <!-- ========== ONGLET BENUTZER ========== -->
-    <div id="tab-users" class="tab-content">
-      <h2>👥 Benutzer verwalten</h2>
-      <div id="userList" class="user-list"><p>Lade Benutzer...</p></div>
-      <div id="editFormContainer" class="edit-form">
-        <h3>Benutzer bearbeiten</h3>
-        <form id="editUserForm" class="admin-form">
-          <input type="hidden" id="editEmail" />
-          <div class="form-row">
-            <div class="form-group">
-              <label>Anrede</label>
-              <input type="text" id="editAnrede" />
+        <div id="companyFormContainer" class="company-form-container">
+          <h2 id="companyFormTitle">Neues Unternehmen</h2>
+          <span id="editModeIndicator" class="edit-mode-indicator">✏️ Bearbeitungsmodus</span>
+
+          <form id="companyForm" class="admin-form">
+            <input type="hidden" id="editCompanyId" value="" />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="compName">Name *</label>
+                <input type="text" id="compName" placeholder="Firmenname" required />
+              </div>
+              <div class="form-group">
+                <label for="compService">Service</label>
+                <input type="text" id="compService" placeholder="Dienstleistung" />
+              </div>
             </div>
-            <div class="form-group">
-              <label>Vorname</label>
-              <input type="text" id="editVorname" />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="compPhone">Telefon</label>
+                <input type="text" id="compPhone" placeholder="Telefonnummer" />
+              </div>
+              <div class="form-group">
+                <label for="compCreated">Erstellt am</label>
+                <input type="date" id="compCreated" />
+              </div>
             </div>
-            <div class="form-group">
-              <label>Nachname</label>
-              <input type="text" id="editNachname" />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="compCommercial">Commercial</label>
+                <input type="text" id="compCommercial" placeholder="Ansprechpartner / Vertriebler" />
+              </div>
+              <div class="form-group">
+                <label for="compLogo">Logo (Bild hochladen)</label>
+                <input type="file" id="compLogo" accept="image/*" />
+                <img id="logoPreview" class="logo-preview" alt="Logo Vorschau" />
+                <div id="uploadProgress" class="upload-progress">Wird hochgeladen...</div>
+                <small style="color:#888; display:block; margin-top:4px;">Unterstützte Formate: JPEG, PNG, GIF, etc.</small>
+              </div>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Telefon</label>
-              <input type="text" id="editTelefon" />
+            <div class="form-actions">
+              <button type="submit" class="btn-submit" id="submitCompanyBtn">Unternehmen speichern</button>
+              <button type="button" id="cancelCompanyForm" class="btn-submit secondary">Abbrechen</button>
             </div>
-            <div class="form-group">
-              <label>Fax</label>
-              <input type="text" id="editFax" />
+            <div id="companyMessage" class="message"></div>
+          </form>
+        </div>
+
+        <h2 style="font-size:1.5rem; margin:20px 0 12px;">Vorhandene Unternehmen</h2>
+        <div id="companyList"><p>Lade Unternehmen...</p></div>
+      </div>
+
+      <!-- ===== ONGLET BENUTZER ===== -->
+      <div id="tab-users" class="tab-content">
+        <h2 style="font-size:1.5rem; margin:20px 0 12px;">Benutzer verwalten</h2>
+        <div id="userList"><p>Lade Benutzer...</p></div>
+
+        <div id="editFormContainer" class="edit-form">
+          <h3>Benutzer bearbeiten</h3>
+          <form id="editUserForm" class="admin-form">
+            <input type="hidden" id="editEmail" />
+            <div class="form-row">
+              <div class="form-group">
+                <label>Anrede</label>
+                <input type="text" id="editAnrede" />
+              </div>
+              <div class="form-group">
+                <label>Vorname</label>
+                <input type="text" id="editVorname" />
+              </div>
+              <div class="form-group">
+                <label>Nachname</label>
+                <input type="text" id="editNachname" />
+              </div>
             </div>
-          </div>
-          <button type="submit" class="btn-submit">Änderungen speichern</button>
-          <button type="button" id="cancelEdit" class="btn-submit secondary">Abbrechen</button>
-          <div id="editMessage" class="message"></div>
-        </form>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Telefon</label>
+                <input type="text" id="editTelefon" />
+              </div>
+              <div class="form-group">
+                <label>Fax</label>
+                <input type="text" id="editFax" />
+              </div>
+            </div>
+            <button type="submit" class="btn-submit">Änderungen speichern</button>
+            <button type="button" id="cancelEdit" class="btn-submit secondary">Abbrechen</button>
+            <div id="editMessage" class="message"></div>
+          </form>
+        </div>
       </div>
     </div>
   </main>
@@ -140,6 +470,7 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <!-- Pas de Firebase Storage nécessaire car les logos sont encodés en base64 dans Firestore -->
   <!-- Toute la logique JS est dans main.js -->
   <script src="main.js"></script>
 </body>

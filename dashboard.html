@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard – Vertrauen Distributor</title>
-    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -12,13 +11,11 @@
         gtag('js', new Date());
         gtag('config', 'G-EV3MLGBFYW');
     </script>
-    <!-- ✅ Firebase SDK (ajouté) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body class="dashboard-page">
-    <!-- MENU -->
     <header class="dashboard-header">
         <a href="index.html" class="logo-link">
             <img src="Images/Vertrauen_Logo.png" alt="Vertrauen Distributor" />
@@ -33,10 +30,9 @@
         <a href="login.html" class="login-btn">Login</a>
     </header>
 
-    <!-- CONTENU -->
     <main class="dashboard-content">
         <div class="willkommen-box">
-            <h1>👋 Willkommen im Dashboard!</h1>
+            <h1>Willkommen im Dashboard!</h1>
             <p>
                 Hier finden Sie alle wichtigen Informationen auf einen Blick.<br />
                 Nutzen Sie das Menü oben, um zwischen den Bereichen zu wechseln.
@@ -44,20 +40,17 @@
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="dashboard-footer">
         <a href="datenschutz.html">Datenschutzerklärung</a>
         <span style="color:#aaa; margin:0 12px;">|</span>
         <span style="color:#888;">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
     </footer>
 
-    <!-- ✅ Script d'affichage du lien Admin -->
     <script>
         if (localStorage.getItem('isAdmin') === 'true') {
             document.getElementById('adminLink').style.display = 'inline-block';
         }
     </script>
-
     <script src="main.js"></script>
 </body>
 </html>

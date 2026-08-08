@@ -666,6 +666,33 @@ function initCompanyPage() {
 }
 
 // =====================================================================
+// ===== BLOC 4 : Gestion du bouton Login / Abmelden sur toutes les pages
+// =====================================================================
+function updateLoginButton() {
+  // Sélectionne tous les liens de connexion (dans le header ou la barre rouge)
+  const loginLinks = document.querySelectorAll('.login-btn, .btn-login');
+  const isLoggedIn = localStorage.getItem('userEmail') !== null;
+
+  loginLinks.forEach(link => {
+    if (isLoggedIn) {
+      link.textContent = 'Abmelden';
+      link.href = '#';
+      // On retire l'ancien écouteur en le remplaçant
+      link.onclick = function(e) {
+        e.preventDefault();
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('isAdmin');
+        window.location.href = 'login.html';
+      };
+    } else {
+      link.textContent = 'Login';
+      link.href = 'login.html';
+      link.onclick = null; // on retire l'écouteur de déconnexion
+    }
+  });
+}
+
+// =====================================================================
 // ===== INIT GLOBAL — s'exécute sur toutes les pages, chaque bloc
 // ===== se protège lui-même s'il n'est pas sur la bonne page.
 // =====================================================================
@@ -673,4 +700,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initLoginPage();
   initAdminPage();
   initCompanyPage();
+  updateLoginButton(); // <-- Nouvelle fonction appelée après les autres init
 });

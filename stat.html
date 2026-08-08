@@ -17,9 +17,82 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css" />
+    <style>
+        .stat-donuts {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px 50px;
+            margin-bottom: 30px;
+        }
+        .donut-wrapper {
+            text-align: center;
+            max-width: 180px;
+            flex: 1 0 140px;
+        }
+        .donut-wrapper .label {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 10px;
+            color: #333;
+        }
+        .donut-wrapper .number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #cc0000;
+            margin-top: 2px;
+        }
+        .donut-wrapper canvas {
+            max-width: 140px;
+            max-height: 140px;
+            display: block;
+            margin: 0 auto;
+        }
+        .stat-box {
+            background-color: #dbd6d5;
+            border: 2px solid #cc0000;
+            border-radius: 16px;
+            padding: 30px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .stat-box h2 {
+            color: #cc0000;
+            border-bottom: 2px solid #cc0000;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        @media (max-width: 700px) {
+            .stat-donuts {
+                gap: 20px 30px;
+            }
+            .donut-wrapper canvas {
+                max-width: 110px;
+                max-height: 110px;
+            }
+            .donut-wrapper .number {
+                font-size: 1.3rem;
+            }
+        }
+        @media (max-width: 450px) {
+            .stat-box {
+                padding: 20px;
+            }
+            .donut-wrapper canvas {
+                max-width: 90px;
+                max-height: 90px;
+            }
+            .donut-wrapper .label {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
 </head>
 <body class="dashboard-page">
-    <!-- MENU FIXE -->
     <header class="dashboard-header">
         <a href="index.html" class="logo-link">
             <img src="Images/Vertrauen_Logo.png" alt="Vertrauen Distributor" />
@@ -29,120 +102,161 @@
             <a href="stat.html" class="active">Statistik</a>
             <a href="company.html">Company</a>
             <a href="ueber-uns.html">Über uns</a>
-            <!-- ✅ Lien Admin (caché par défaut) -->
             <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
         </nav>
         <a href="login.html" class="login-btn">Login</a>
     </header>
 
-    <!-- CONTENU -->
     <main class="dashboard-content">
-        <div class="stat-grid">
-            <div class="stat-card">
-                <span class="number" id="emailCount">0</span>
-                <span class="label">Registrierte E‑Mails</span>
-            </div>
-            <div class="stat-card">
-                <span class="number" id="companyCount">0</span>
-                <span class="label">Unternehmen</span>
-            </div>
-        </div>
+        <div class="stat-box">
+            <h2>Übersicht</h2>
 
-        <div class="chart-container">
-            <h3>📊 Übersicht</h3>
-            <div class="chart-wrapper">
-                <canvas id="statsChart" width="400" height="250"></canvas>
+            <div class="stat-donuts">
+                <!-- 1. Vertrauensvolle Kunden (anciennement E-Mails) -->
+                <div class="donut-wrapper">
+                    <canvas id="emailDonut"></canvas>
+                    <div class="label">Unsere vertrauensvollen Kunden</div>
+                    <div class="number" id="emailCount">0</div>
+                </div>
+                <!-- 2. Unternehmen -->
+                <div class="donut-wrapper">
+                    <canvas id="companyDonut"></canvas>
+                    <div class="label">Unternehmen</div>
+                    <div class="number" id="companyCount">0</div>
+                </div>
+                <!-- 3. Stromvertrag -->
+                <div class="donut-wrapper">
+                    <canvas id="stromDonut"></canvas>
+                    <div class="label">Stromvertrag</div>
+                    <div class="number" id="stromCount">0</div>
+                </div>
+                <!-- 4. Gasvertrag -->
+                <div class="donut-wrapper">
+                    <canvas id="gasDonut"></canvas>
+                    <div class="label">Gasvertrag</div>
+                    <div class="number" id="gasCount">0</div>
+                </div>
             </div>
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="dashboard-footer">
         <a href="datenschutz.html">Datenschutzerklärung</a>
         <span style="color:#aaa; margin:0 12px;">|</span>
         <span style="color:#888;">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
     </footer>
 
-    <!-- ✅ SCRIPT POUR AFFICHER LE LIEN ADMIN -->
     <script>
+        // Afficher le lien Admin si l'utilisateur est admin
         if (localStorage.getItem('isAdmin') === 'true') {
             document.getElementById('adminLink').style.display = 'inline-block';
         }
     </script>
 
-    <!-- STATS SCRIPT -->
     <script>
-        // ===== FIREBASE INIT =====
-        const firebaseConfig = {
-            apiKey: "AIzaSyDQQ_AUOF5mQZ-mrTxJX6j25gbmkSEd5f8",
-            authDomain: "vertrauen-e1039.firebaseapp.com",
-            projectId: "vertrauen-e1039",
-            storageBucket: "vertrauen-e1039.firebasestorage.app",
-            messagingSenderId: "936311977548",
-            appId: "1:936311977548:web:826b67f91a84a060c6e6e9"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        let chartInstance = null;
-
-        async function loadStats() {
-            try {
-                // Compter les utilisateurs (collection users)
-                const usersSnapshot = await db.collection('users').get();
-                const totalUsers = usersSnapshot.size;
-
-                // Compter les entreprises (collection companies)
-                const companiesSnapshot = await db.collection('companies').get();
-                const totalCompanies = companiesSnapshot.size;
-
-                // Mettre à jour les affichages
-                document.getElementById('emailCount').textContent = totalUsers;
-                document.getElementById('companyCount').textContent = totalCompanies;
-
-                // Mettre à jour le diagramme
-                updateChart(totalUsers, totalCompanies);
-            } catch (error) {
-                console.error('Fehler beim Laden der Statistiken:', error);
-                document.getElementById('emailCount').textContent = 'Fehler';
-                document.getElementById('companyCount').textContent = 'Fehler';
+        function initStats() {
+            if (typeof firebase === 'undefined' || !firebase.apps.length) {
+                console.warn('Firebase nicht initialisiert. Warte...');
+                setTimeout(initStats, 500);
+                return;
             }
-        }
+            const db = firebase.firestore();
 
-        function updateChart(users, companies) {
-            const ctx = document.getElementById('statsChart').getContext('2d');
-            if (chartInstance) {
-                chartInstance.destroy();
-            }
-            chartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['E‑Mails', 'Unternehmen'],
-                    datasets: [{
-                        label: 'Anzahl',
-                        data: [users, companies],
-                        backgroundColor: ['#cc0000', '#e06666'],
-                        borderColor: ['#990000', '#cc0000'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { stepSize: 1 }
-                        }
-                    }
+            let emailChart = null,
+                companyChart = null,
+                stromChart = null,
+                gasChart = null;
+
+            async function loadStats() {
+                try {
+                    const [usersSnap, companiesSnap] = await Promise.all([
+                        db.collection('users').get(),
+                        db.collection('companies').get()
+                    ]);
+                    const totalUsers = usersSnap.size;
+                    const totalCompanies = companiesSnap.size;
+                    // Pour les contrats, on n'a pas encore de données => 0
+                    const totalStrom = 0;
+                    const totalGas = 0;
+
+                    document.getElementById('emailCount').textContent = totalUsers;
+                    document.getElementById('companyCount').textContent = totalCompanies;
+                    document.getElementById('stromCount').textContent = totalStrom;
+                    document.getElementById('gasCount').textContent = totalGas;
+
+                    updateDonut('emailDonut', totalUsers, '#cc0000', '#e0e0e0');
+                    updateDonut('companyDonut', totalCompanies, '#e06666', '#e0e0e0');
+                    updateDonut('stromDonut', totalStrom, '#2196F3', '#e0e0e0');
+                    updateDonut('gasDonut', totalGas, '#4CAF50', '#e0e0e0');
+                } catch (error) {
+                    console.error('Fehler beim Laden der Statistiken:', error);
+                    document.getElementById('emailCount').textContent = '❌';
+                    document.getElementById('companyCount').textContent = '❌';
+                    document.getElementById('stromCount').textContent = '❌';
+                    document.getElementById('gasCount').textContent = '❌';
                 }
-            });
+            }
+
+            function updateDonut(canvasId, value, color, bgColor) {
+                const ctx = document.getElementById(canvasId).getContext('2d');
+                // Détruire le graphique précédent
+                if (canvasId === 'emailDonut' && emailChart) { emailChart.destroy(); }
+                else if (canvasId === 'companyDonut' && companyChart) { companyChart.destroy(); }
+                else if (canvasId === 'stromDonut' && stromChart) { stromChart.destroy(); }
+                else if (canvasId === 'gasDonut' && gasChart) { gasChart.destroy(); }
+
+                const displayValue = Math.min(value, 100);
+                const remaining = 100 - displayValue;
+
+                const chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['', ''],
+                        datasets: [{
+                            data: [displayValue, remaining],
+                            backgroundColor: [color, bgColor],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        cutout: '70%',
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { enabled: false }
+                        }
+                    },
+                    plugins: [{
+                        id: 'centerText',
+                        beforeDraw: function(chart) {
+                            const { width, height, ctx } = chart;
+                            ctx.save();
+                            const text = value.toString();
+                            ctx.font = 'bold 26px Arial';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillStyle = color;
+                            const centerX = width / 2;
+                            const centerY = height / 2;
+                            ctx.fillText(text, centerX, centerY);
+                            ctx.restore();
+                        }
+                    }]
+                });
+
+                if (canvasId === 'emailDonut') { emailChart = chart; }
+                else if (canvasId === 'companyDonut') { companyChart = chart; }
+                else if (canvasId === 'stromDonut') { stromChart = chart; }
+                else if (canvasId === 'gasDonut') { gasChart = chart; }
+            }
+
+            loadStats();
         }
 
-        document.addEventListener('DOMContentLoaded', loadStats);
+        document.addEventListener('DOMContentLoaded', initStats);
     </script>
+
+    <script src="main.js"></script>
 </body>
 </html>

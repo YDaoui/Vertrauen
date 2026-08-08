@@ -12,6 +12,84 @@
     gtag('config', 'G-EV3MLGBFYW');
   </script>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Styles spécifiques à la page Company */
+    .company-item {
+      background-color: #f8f8f8;
+      padding: 12px 18px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      transition: border-color 0.2s;
+    }
+    .company-item:hover {
+      border-color: #cc0000;
+    }
+    .company-item .company-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1 1 60%;
+      min-width: 200px;
+    }
+    .company-item .company-info img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      border-radius: 8px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 4px;
+    }
+    .company-item .company-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .company-item .company-details .name {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #1a1a1a;
+    }
+    .company-item .company-details .meta {
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .company-item .company-details .meta span {
+      margin-right: 12px;
+    }
+    .company-item .company-stats {
+      font-weight: 600;
+      color: #cc0000;
+      background-color: #f0f0f0;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid #cc0000;
+      white-space: nowrap;
+    }
+    .company-item .company-stats .number {
+      font-size: 1.2rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .company-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .company-item .company-info {
+        flex-wrap: wrap;
+      }
+      .company-item .company-stats {
+        align-self: flex-start;
+      }
+    }
+  </style>
 </head>
 <body class="dashboard-page">
   <header class="dashboard-header">
@@ -23,16 +101,18 @@
       <a href="stat.html">Statistik</a>
       <a href="company.html" class="active">Company</a>
       <a href="ueber-uns.html">Über uns</a>
-      <a href="admin.html">Admin</a>
+      <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
     </nav>
     <a href="login.html" class="login-btn">Login</a>
   </header>
 
   <main class="dashboard-content">
-    <h1 style="color:#cc0000; margin-bottom:20px;">Unsere Partnerunternehmen</h1>
-
-    <div id="companyListPublic" class="company-list">
-      <p>Lade Unternehmen...</p>
+    <div class="company-box">
+      <h2>Unsere Partnerunternehmen</h2>
+      <p style="color:#555; margin-bottom:20px;">Hier sehen Sie alle Unternehmen, die bei uns registriert sind.</p>
+      <div id="companyListPublic">
+        <p>Lade Unternehmen...</p>
+      </div>
     </div>
   </main>
 
@@ -47,5 +127,78 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <!-- Toute la logique JS est dans main.js -->
   <script src="main.js"></script>
+
+  <!-- Script d'affichage des entreprises -->
+  <script>
+    // Fonction pour charger les entreprises dans la vue publique (lignes horizontales)
+    function loadPublicCompanies() {
+      const container = document.getElementById('companyListPublic');
+      if (!container) return;
+      container.innerHTML = '<p>Lade Unternehmen...</p>';
+
+      // Vérifier que Firebase est initialisé (via main.js)
+      if (typeof firebase === 'undefined' || !firebase.apps.length) {
+        console.warn('Firebase nicht initialisiert. Warte...');
+        setTimeout(loadPublicCompanies, 500);
+        return;
+      }
+
+      const db = firebase.firestore();
+
+      db.collection('companies')
+        .orderBy('createdAt', 'desc')
+        .get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            container.innerHTML = '<p>Keine Unternehmen vorhanden.</p>';
+            return;
+          }
+
+          let html = '';
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            const logoUrl = data.logo || 'Images/default_company.png';
+            // Construction des métadonnées
+            let metaParts = [];
+            if (data.service) metaParts.push('Service: ' + data.service);
+            if (data.phone) metaParts.push('Tel: ' + data.phone);
+            if (data.commercial) metaParts.push('Commercial: ' + data.commercial);
+            if (data.created) metaParts.push('Erstellt: ' + data.created);
+            const metaText = metaParts.join(' | ');
+
+            // Ici on met le nombre d'adhérents à 0 (à améliorer plus tard)
+            const adherents = 0;
+
+            html += `
+              <div class="company-item">
+                <div class="company-info">
+                  <img src="${logoUrl}" alt="${data.name || 'Logo'}" />
+                  <div class="company-details">
+                    <div class="name">${data.name || 'Unbekannt'}</div>
+                    <div class="meta">${metaText}</div>
+                  </div>
+                </div>
+                <div class="company-stats">
+                  <span class="number">${adherents}</span> Adhérents
+                </div>
+              </div>
+            `;
+          });
+          container.innerHTML = html;
+        })
+        .catch(error => {
+          console.error('Fehler beim Laden der Unternehmen:', error);
+          container.innerHTML = '<p>Fehler beim Laden der Unternehmen.</p>';
+        });
+    }
+
+    // Afficher le lien Admin si l'utilisateur est admin
+    if (localStorage.getItem('isAdmin') === 'true') {
+      document.getElementById('adminLink').style.display = 'inline-block';
+    }
+
+    // Lancer le chargement quand le DOM est prêt
+    document.addEventListener('DOMContentLoaded', loadPublicCompanies);
+  </script>
 </body>
 </html>
