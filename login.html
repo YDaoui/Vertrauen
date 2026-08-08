@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login – Strom Distributor</title>
+    <title>Login – Vertrauen Distributor</title>
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone.ico" />
     <link rel="stylesheet" href="style.css" />
@@ -28,11 +28,11 @@
                 <form id="login-form" action="#" method="post">
                     <div class="form-group">
                         <label for="user">Benutzername (E‑Mail)</label>
-                        <input type="email" id="user" name="user" placeholder="E-Mail" class="form-control" />
+                        <input type="email" id="user" name="user" placeholder="E-Mail" class="form-control" required />
                     </div>
                     <div class="form-group">
                         <label for="pass">Passwort</label>
-                        <input type="password" id="pass" name="pass" placeholder="Passwort" class="form-control" />
+                        <input type="password" id="pass" name="pass" placeholder="Passwort" class="form-control" required />
                     </div>
                     <div class="form-group text-right">
                         <button type="submit" class="btn-login" style="background-color: #cc0000; color: white; border: none;">Anmelden</button>
@@ -52,7 +52,6 @@
             <div id="registration-form-container" style="display: none; margin-top: 30px; border-top: 1px solid #ccc; padding-top: 20px;">
                 <h3 style="color: #333; margin-bottom: 20px;">Registrierung</h3>
                 <form id="registration-form" action="#" method="post">
-                    <!-- Anrede -->
                     <div class="form-group">
                         <label for="anrede">Anrede</label>
                         <select id="anrede" name="anrede" class="form-control">
@@ -60,17 +59,14 @@
                             <option value="Frau">Frau</option>
                         </select>
                     </div>
-                    <!-- Vorname -->
                     <div class="form-group">
                         <label for="vorname">Vorname</label>
                         <input type="text" id="vorname" name="vorname" placeholder="Vorname" class="form-control" />
                     </div>
-                    <!-- Nachname -->
                     <div class="form-group">
                         <label for="nachname">Nachname</label>
                         <input type="text" id="nachname" name="nachname" placeholder="Nachname" class="form-control" />
                     </div>
-                    <!-- Telefon -->
                     <div class="form-group">
                         <label for="tel_vorwahl">Telefon (Festnetz)</label>
                         <div class="input-with-icon">
@@ -81,7 +77,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Fax -->
                     <div class="form-group">
                         <label for="fax_vorwahl">Fax</label>
                         <div class="input-with-icon">
@@ -92,7 +87,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- E-Mail -->
                     <div class="form-group">
                         <label for="email">E-Mail</label>
                         <div class="input-with-icon">
@@ -100,13 +94,11 @@
                             <input type="email" id="email" name="email" placeholder="E-Mail" class="form-control icon-input" />
                         </div>
                     </div>
-                    <!-- E-Mail wdh. -->
                     <div class="form-group">
                         <label for="email_wdh">E-Mail wdh.</label>
                         <input type="email" id="email_wdh" name="email_wdh" placeholder="E-Mail wiederholen" class="form-control" />
                     </div>
 
-                    <!-- Champs mot de passe (cachés au départ) -->
                     <div id="password-fields" style="display: none;">
                         <div class="form-group">
                             <label for="reg-password">Passwort</label>
@@ -118,7 +110,6 @@
                         </div>
                     </div>
 
-                    <!-- Datenschutz -->
                     <div class="form-group">
                         <label style="display: flex; align-items: center; gap: 10px; color: #555; cursor: pointer;">
                             <input type="checkbox" id="datenschutz" name="datenschutz" value="1" required />

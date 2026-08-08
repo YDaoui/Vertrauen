@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statistik – Vertrauen Distributor</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EV3MLGBFYW');
+    </script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dashboard-page">
+    <!-- MENU FIXE -->
+    <header class="dashboard-header">
+        <a href="index.html" class="logo-link">
+            <img src="Images/Vertrauen_Logo.png" alt="Vertrauen Distributor" />
+        </a>
+        <nav class="dashboard-nav">
+            <a href="dashboard.html">Willkommen</a>
+            <a href="stat.html" class="active">Statistik</a>
+            <a href="company.html">Company</a>
+            <a href="ueber-uns.html">Über uns</a>
+            <!-- ✅ Lien Admin (caché par défaut) -->
+            <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+        </nav>
+        <a href="login.html" class="login-btn">Login</a>
+    </header>
+
+    <!-- CONTENU -->
+    <main class="dashboard-content">
+        <div class="stat-grid">
+            <div class="stat-card">
+                <span class="number" id="emailCount">0</span>
+                <span class="label">Registrierte E‑Mails</span>
+            </div>
+            <div class="stat-card">
+                <span class="number" id="companyCount">0</span>
+                <span class="label">Unternehmen</span>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3>📊 Übersicht</h3>
+            <div class="chart-wrapper">
+                <canvas id="statsChart" width="400" height="250"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="dashboard-footer">
+        <a href="datenschutz.html">Datenschutzerklärung</a>
+        <span style="color:#aaa; margin:0 12px;">|</span>
+        <span style="color:#888;">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
+    </footer>
+
+    <!-- ✅ SCRIPT POUR AFFICHER LE LIEN ADMIN -->
+    <script>
+        if (localStorage.getItem('isAdmin') === 'true') {
+            document.getElementById('adminLink').style.display = 'inline-block';
+        }
+    </script>
+
+    <!-- STATS SCRIPT -->
+    <script>
+        // ===== FIREBASE INIT =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQQ_AUOF5mQZ-mrTxJX6j25gbmkSEd5f8",
+            authDomain: "vertrauen-e1039.firebaseapp.com",
+            projectId: "vertrauen-e1039",
+            storageBucket: "vertrauen-e1039.firebasestorage.app",
+            messagingSenderId: "936311977548",
+            appId: "1:936311977548:web:826b67f91a84a060c6e6e9"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let chartInstance = null;
+
+        async function loadStats() {
+            try {
+                // Compter les utilisateurs (collection users)
+                const usersSnapshot = await db.collection('users').get();
+                const totalUsers = usersSnapshot.size;
+
+                // Compter les entreprises (collection companies)
+                const companiesSnapshot = await db.collection('companies').get();
+                const totalCompanies = companiesSnapshot.size;
+
+                // Mettre à jour les affichages
+                document.getElementById('emailCount').textContent = totalUsers;
+                document.getElementById('companyCount').textContent = totalCompanies;
+
+                // Mettre à jour le diagramme
+                updateChart(totalUsers, totalCompanies);
+            } catch (error) {
+                console.error('Fehler beim Laden der Statistiken:', error);
+                document.getElementById('emailCount').textContent = 'Fehler';
+                document.getElementById('companyCount').textContent = 'Fehler';
+            }
+        }
+
+        function updateChart(users, companies) {
+            const ctx = document.getElementById('statsChart').getContext('2d');
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['E‑Mails', 'Unternehmen'],
+                    datasets: [{
+                        label: 'Anzahl',
+                        data: [users, companies],
+                        backgroundColor: ['#cc0000', '#e06666'],
+                        borderColor: ['#990000', '#cc0000'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadStats);
+    </script>
+</body>
+</html>

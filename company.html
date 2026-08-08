@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Company – Vertrauen Distributor</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EV3MLGBFYW');
+  </script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dashboard-page">
+  <header class="dashboard-header">
+    <a href="index.html" class="logo-link">
+      <img src="Images/Vertrauen_Logo.png" alt="Vertrauen Distributor" />
+    </a>
+    <nav class="dashboard-nav">
+      <a href="dashboard.html">Willkommen</a>
+      <a href="stat.html">Statistik</a>
+      <a href="company.html" class="active">Company</a>
+      <a href="ueber-uns.html">Über uns</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+    <a href="login.html" class="login-btn">Login</a>
+  </header>
+
+  <main class="dashboard-content">
+    <h1 style="color:#cc0000; margin-bottom:20px;">Unsere Partnerunternehmen</h1>
+
+    <div id="companyListPublic" class="company-list">
+      <p>Lade Unternehmen...</p>
+    </div>
+  </main>
+
+  <footer class="dashboard-footer">
+    <a href="datenschutz.html">Datenschutzerklärung</a>
+    <span style="color:#aaa; margin:0 12px;">|</span>
+    <span style="color:#888;">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <!-- Toute la logique JS est dans main.js -->
+  <script src="main.js"></script>
+</body>
+</html>

@@ -369,3 +369,511 @@ body.login-page {
     align-items: center;
     gap: 12px;
 }
+/* ============================================================
+   STYLES POUR LE DASHBOARD ET PAGES ASSOCIÉES
+   ============================================================ */
+
+/* Fonds blancs pour toutes les pages du Dashboard */
+body.dashboard-page {
+    background-color: #ffffff;
+    background-image: none !important;
+    color: #4d4c4c;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ---------- MENU FIXE ---------- */
+.dashboard-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    background-color: #ffffff;
+    border-bottom: 3px solid #cc0000;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    flex-wrap: wrap;
+}
+
+.dashboard-header .logo-link img {
+    max-height: 50px;
+    width: auto;
+    display: block;
+}
+
+.dashboard-nav {
+    display: flex;
+    gap: 28px;
+    font-weight: 500;
+    font-size: 1.05rem;
+    flex-wrap: wrap;
+}
+.dashboard-nav a {
+    color: #4d4c4c;
+    text-decoration: none;
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.25s, color 0.25s;
+}
+.dashboard-nav a:hover,
+.dashboard-nav a.active {
+    color: #cc0000;
+    border-bottom-color: #cc0000;
+}
+
+.dashboard-header .login-btn {
+    background-color: #cc0000;
+    color: #ffffff !important;
+    padding: 8px 28px;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.dashboard-header .login-btn:hover {
+    background-color: #990000;
+}
+
+/* ---------- CONTENU PRINCIPAL ---------- */
+.dashboard-content {
+    flex: 1;
+    max-width: 1200px;
+    margin: 30px auto 40px;
+    padding: 0 40px 60px;
+    width: 100%;
+}
+
+/* ---------- FOOTER ---------- */
+.dashboard-footer {
+    background-color: #f0f0f0;
+    padding: 20px 40px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    font-size: 0.95rem;
+    margin-top: auto;
+}
+.dashboard-footer a {
+    color: #cc0000;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+.dashboard-footer a:hover {
+    color: #990000;
+    text-decoration: underline;
+}
+
+/* ---------- PAGES INDIVIDUELLES ---------- */
+.willkommen-box,
+.company-box,
+.ueber-uns-box {
+    background-color: #f8f8f8;
+    border-radius: 16px;
+    padding: 40px 50px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.willkommen-box h1 {
+    font-size: 2.8rem;
+    color: #cc0000;
+    margin-bottom: 20px;
+}
+.willkommen-box p {
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.7;
+}
+
+.company-box h2,
+.ueber-uns-box h2 {
+    color: #cc0000;
+    font-size: 2rem;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #cc0000;
+    padding-bottom: 12px;
+}
+.company-box .block {
+    margin-bottom: 18px;
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+.company-box .label {
+    font-weight: 600;
+    color: #333;
+    display: inline-block;
+    min-width: 180px;
+}
+.company-box .value a {
+    color: #cc0000;
+    text-decoration: none;
+}
+.company-box .value a:hover {
+    text-decoration: underline;
+}
+
+.ueber-uns-box p {
+    line-height: 1.8;
+    font-size: 1.05rem;
+    color: #333;
+}
+
+/* ---------- STATISTIQUES ---------- */
+.stat-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+.stat-card {
+    flex: 1 1 240px;
+    background-color: #f8f8f8;
+    border-radius: 14px;
+    padding: 28px 30px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.stat-card .number {
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: #cc0000;
+    display: block;
+    margin-bottom: 6px;
+}
+.stat-card .label {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.chart-container {
+    background-color: #f8f8f8;
+    border-radius: 16px;
+    padding: 30px 30px 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.chart-container h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+.chart-wrapper {
+    max-height: 280px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+    .dashboard-header {
+        padding: 12px 20px;
+        justify-content: center;
+        gap: 12px;
+    }
+    .dashboard-nav {
+        gap: 16px;
+        font-size: 0.95rem;
+        justify-content: center;
+    }
+    .dashboard-content {
+        padding: 0 20px 40px;
+    }
+    .willkommen-box,
+    .company-box,
+    .ueber-uns-box {
+        padding: 24px 20px;
+    }
+    .willkommen-box h1 {
+        font-size: 2.2rem;
+    }
+    .company-box .label {
+        min-width: 120px;
+    }
+}
+@media (max-width: 450px) {
+    .dashboard-header .logo-link img {
+        max-height: 38px;
+    }
+    .stat-card .number {
+        font-size: 2.4rem;
+    }
+}
+/* ============================================================
+   STYLES POUR LA PAGE ADMIN
+   ============================================================ */
+.tab-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #cc0000;
+  padding-bottom: 10px;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 8px 20px;
+  cursor: pointer;
+  color: #4d4c4c;
+  border-bottom: 3px solid transparent;
+  transition: 0.2s;
+}
+.tab-btn.active {
+  color: #cc0000;
+  border-bottom-color: #cc0000;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+.admin-form .form-group {
+  margin-bottom: 16px;
+}
+.admin-form .form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.admin-form .form-group input,
+.admin-form .form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.btn-submit {
+  background-color: #cc0000;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-submit:hover {
+  background-color: #990000;
+}
+.btn-submit.secondary {
+  background-color: #888;
+}
+.btn-submit.secondary:hover {
+  background-color: #666;
+}
+.user-list, .company-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.user-item, .company-item {
+  background-color: #f8f8f8;
+  padding: 12px 18px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.user-item .email { font-weight: 600; min-width: 180px; }
+.user-item .info { color: #333; }
+.edit-btn {
+  background-color: #cc0000;
+  color: white;
+  border: none;
+  padding: 4px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.edit-btn:hover { background-color: #990000; }
+.edit-form {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  display: none;
+}
+.edit-form .form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.edit-form .form-row .form-group {
+  flex: 1 1 200px;
+}
+.message {
+  margin-top: 10px;
+  font-weight: 500;
+}
+.message.success { color: #008000; }
+.message.error { color: #cc0000; }
+hr.admin-hr { margin: 30px 0; }
+.company-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-right: 12px;
+}
+.company-card .logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+/* ============================================================
+   STYLES POUR LA PAGE ADMIN
+   ============================================================ */
+
+/* Conteneur du formulaire */
+.company-form-container {
+  display: none;
+  background-color: #f0f0f0;
+  padding: 20px 24px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  border-left: 4px solid #cc0000;
+}
+.company-form-container.active {
+  display: block;
+}
+
+/* Aperçu du logo */
+.logo-preview {
+  max-width: 120px;
+  max-height: 120px;
+  display: none;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 4px;
+}
+.logo-preview.visible {
+  display: block;
+}
+
+/* Indicateur de progression upload */
+.upload-progress {
+  display: none;
+  margin-top: 8px;
+  font-weight: 500;
+  color: #cc0000;
+}
+.upload-progress.active {
+  display: block;
+}
+
+/* Éléments de la liste des entreprises */
+.company-item {
+  background-color: #f8f8f8;
+  padding: 12px 18px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.company-item .company-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 200px;
+}
+.company-item .company-info img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 4px;
+  background-color: #fff;
+}
+.company-item .company-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.company-item .edit-btn,
+.company-item .delete-btn {
+  border: none;
+  padding: 4px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.company-item .edit-btn {
+  background-color: #cc0000;
+  color: white;
+}
+.company-item .edit-btn:hover {
+  background-color: #990000;
+}
+.company-item .delete-btn {
+  background-color: #888;
+  color: white;
+}
+.company-item .delete-btn:hover {
+  background-color: #666;
+}
+
+/* Bouton "Ajouter" */
+.add-company-btn {
+  background-color: #cc0000;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: 0.2s;
+}
+.add-company-btn:hover {
+  background-color: #990000;
+}
+
+/* Indicateur de mode édition */
+.edit-mode-indicator {
+  background-color: #ffcc00;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #333;
+  display: none;
+  margin-left: 12px;
+  font-size: 0.8rem;
+}
+.edit-mode-indicator.active {
+  display: inline-block;
+}
+
+/* Messages */
+.message {
+  margin-top: 10px;
+  font-weight: 500;
+}
+.message.success {
+  color: #008000;
+}
+.message.error {
+  color: #cc0000;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .company-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .company-item .company-info {
+    margin-bottom: 8px;
+  }
+  .company-item .company-actions {
+    justify-content: flex-end;
+  }
+}
