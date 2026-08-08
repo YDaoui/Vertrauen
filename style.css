@@ -382,7 +382,7 @@ body.dashboard-page {
     min-height: 100vh;
 }
 
-/* ---------- MENU FIXE ---------- */
+/* ---------- MENU FIXE AVEC BARRE COULISSANTE ---------- */
 .dashboard-header {
     position: sticky;
     top: 0;
@@ -401,25 +401,48 @@ body.dashboard-page {
     width: auto;
     display: block;
 }
+
+/* MENU – nouvelle version avec barre coulissante */
 .dashboard-nav {
     display: flex;
     gap: 28px;
     font-weight: 500;
     font-size: 1.05rem;
     flex-wrap: wrap;
+    position: relative;
 }
 .dashboard-nav a {
     color: #4d4c4c;
     text-decoration: none;
-    padding: 6px 0;
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.25s, color 0.25s;
+    padding: 6px 0 10px 0; /* espace pour la barre */
+    position: relative;
+    transition: color 0.25s ease;
 }
-.dashboard-nav a:hover,
+.dashboard-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #cc0000;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.dashboard-nav a:hover {
+    color: #cc0000;
+}
+.dashboard-nav a:hover::after {
+    transform: scaleX(1);
+}
 .dashboard-nav a.active {
     color: #cc0000;
-    border-bottom-color: #cc0000;
 }
+.dashboard-nav a.active::after {
+    transform: scaleX(1);
+}
+
 .dashboard-header .login-btn {
     background-color: #cc0000;
     color: #ffffff !important;
@@ -470,8 +493,8 @@ body.dashboard-page {
 .ueber-uns-box,
 .stat-box,
 .admin-box {
-    background-color: #dbd6d5;         /* gris-beige professionnel */
-    border: 2px solid #cc0000;          /* bordure rouge */
+    background-color: #dbd6d5;
+    border: 2px solid #cc0000;
     border-radius: 16px;
     padding: 40px 48px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
