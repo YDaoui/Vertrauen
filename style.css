@@ -915,66 +915,186 @@ hr.admin-hr {
     -webkit-backdrop-filter: blur(8px);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
-/* ---------- Bouton Hamburger ---------- */
-.hamburger {
-    display: none; /* caché par défaut (visible sur mobile) */
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 25px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 1001;
-}
-.hamburger span {
-    display: block;
-    width: 100%;
-    height: 3px;
-    background-color: #4d4c4c;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    border-radius: 2px;
-}
-.hamburger.active span:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-}
-.hamburger.active span:nth-child(2) {
-    opacity: 0;
-}
-.hamburger.active span:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+/* ---------- HEADER DASHBOARD (version mobile adaptée) ---------- */
+.dashboard-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background-color: #ffffff;
+  border-bottom: 3px solid #cc0000;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  flex-wrap: nowrap; /* important pour mobile */
 }
 
-/* ---------- Menu responsive ---------- */
+/* Logo */
+.dashboard-header .logo-link {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.dashboard-header .logo-link img {
+  max-height: 40px;
+  width: auto;
+  display: block;
+}
+
+/* Message de bienvenue centré */
+.welcome-center {
+  flex: 1;
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #4d4c4c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 8px;
+}
+.welcome-center .welcome-text {
+  color: #cc0000;
+  font-weight: 600;
+}
+.welcome-center .welcome-name {
+  color: #4d4c4c;
+  font-weight: 500;
+}
+
+/* Bouton Login / Abmelden */
+.dashboard-header .login-btn {
+  background-color: #cc0000;
+  color: #ffffff !important;
+  padding: 6px 18px;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+.dashboard-header .login-btn:hover {
+  background-color: #990000;
+}
+
+/* --- Hamburger --- */
+.hamburger {
+  display: none; /* caché sur desktop */
+  flex-direction: column;
+  justify-content: space-around;
+  width: 28px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #4d4c4c;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hamburger.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --- Navigation (desktop) --- */
+.dashboard-nav {
+  display: flex;
+  gap: 28px;
+  font-weight: 500;
+  font-size: 1.05rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.dashboard-nav a {
+  color: #4d4c4c;
+  text-decoration: none;
+  padding: 6px 0 10px 0;
+  position: relative;
+  transition: color 0.25s ease;
+}
+.dashboard-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #cc0000;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.dashboard-nav a:hover,
+.dashboard-nav a.active {
+  color: #cc0000;
+}
+.dashboard-nav a:hover::after,
+.dashboard-nav a.active::after {
+  transform: scaleX(1);
+}
+
+/* ---------- RESPONSIVE : mobile ---------- */
 @media (max-width: 768px) {
-    .hamburger {
-        display: flex; /* visible sur mobile */
-    }
-    .dashboard-nav {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background-color: #ffffff;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px 0;
-        gap: 16px;
-        border-bottom: 3px solid #cc0000;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        transform: translateY(-120%);
-        transition: transform 0.3s ease;
-        z-index: 1000;
-    }
-    .dashboard-nav.open {
-        transform: translateY(0);
-    }
-    .dashboard-nav a {
-        padding: 8px 0;
-        border-bottom: none;
-    }
-    .dashboard-header {
-        position: relative; /* pour que le menu absolu soit positionné par rapport au header */
-    }
+  .hamburger {
+    display: flex; /* visible sur mobile */
+  }
+
+  .dashboard-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    gap: 16px;
+    border-bottom: 3px solid #cc0000;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    transform: translateY(-120%);
+    transition: transform 0.3s ease;
+    z-index: 999;
+    display: flex; /* on le force en flex */
+  }
+  .dashboard-nav.open {
+    transform: translateY(0);
+  }
+  .dashboard-nav a {
+    padding: 8px 0;
+    border-bottom: none;
+  }
+  .dashboard-nav a::after {
+    display: none; /* on retire la barre coulissante sur mobile pour plus de clarté */
+  }
+
+  /* Ajustements du header sur mobile */
+  .dashboard-header {
+    padding: 10px 16px;
+  }
+  .dashboard-header .logo-link img {
+    max-height: 32px;
+  }
+  .welcome-center {
+    font-size: 0.8rem;
+  }
+  .dashboard-header .login-btn {
+    padding: 4px 14px;
+    font-size: 0.8rem;
+  }
 }
