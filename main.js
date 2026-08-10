@@ -664,41 +664,40 @@ function initCompanyPage() {
 // =====================================================================
 // ===== BLOC 4 : Gestion du bouton Login / Abmelden ===================
 // =====================================================================
+// =====================================================================
+// ===== BLOC 4 : Gestion du bouton Login / Abmelden ===================
+// =====================================================================
 function updateLoginButton() {
-  // 1. Gérer le lien "Abmelden" dans le menu mobile (logoutMobile)
-  const logoutMobileLink = document.getElementById('logoutMobile');
+  const loginBtn = document.querySelector('.login-btn'); // bouton dans la barre supérieure
+  const logoutMobile = document.getElementById('logoutMobile'); // lien dans le menu
   const isLoggedIn = localStorage.getItem('userEmail') !== null;
 
-  if (logoutMobileLink) {
+  // 1. Gérer le bouton dans la barre supérieure
+  if (loginBtn) {
     if (isLoggedIn) {
-      logoutMobileLink.style.display = 'block';
-      logoutMobileLink.textContent = 'Abmelden';
-      logoutMobileLink.onclick = function(e) {
-        e.preventDefault();
-        window.logout();
-      };
+      loginBtn.style.display = 'none'; // le cacher quand connecté
     } else {
-      logoutMobileLink.style.display = 'none';
-      logoutMobileLink.onclick = null;
+      loginBtn.style.display = 'block';
+      loginBtn.textContent = 'Login';
+      loginBtn.href = 'login.html';
+      loginBtn.onclick = null;
     }
   }
 
-  // 2. Gérer le bouton Login dans la barre supérieure
-  const loginLinks = document.querySelectorAll('.login-btn, .btn-login');
-  loginLinks.forEach(link => {
+  // 2. Gérer le lien "Abmelden" dans le menu (mobile & desktop)
+  if (logoutMobile) {
     if (isLoggedIn) {
-      link.textContent = 'Abmelden';
-      link.href = '#';
-      link.onclick = function(e) {
+      logoutMobile.style.display = 'block';
+      logoutMobile.textContent = 'Abmelden';
+      logoutMobile.onclick = function(e) {
         e.preventDefault();
         window.logout();
       };
     } else {
-      link.textContent = 'Login';
-      link.href = 'login.html';
-      link.onclick = null;
+      logoutMobile.style.display = 'none';
+      logoutMobile.onclick = null;
     }
-  });
+  }
 }
 
 // =====================================================================
