@@ -4,16 +4,38 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Datenschutz – Vertrauen Distributor</title>
+    <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone.ico" />
+    <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone.ico" />
     <link rel="stylesheet" href="style.css" />
 </head>
 <body class="index-page">
-    <main class="main-content">
-        <div class="logo-wrapper">
-            <a href="index.html">
-                <img src="Images/Vertrauen_Logo.png" alt="Vertrauen Distributor Logo" />
-            </a>
+    <header class="dashboard-header">
+        <a href="index.html" class="logo-link">
+            <img src="Images/Vertrauen_Logo.png" alt="Vertrauen Distributor" />
+        </a>
+        <!-- ⬇️ AJOUT : Bouton hamburger pour mobile -->
+        <button class="hamburger" id="hamburgerBtn" aria-label="Menü öffnen/schließen">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <!-- ⬇️ AJOUT : id="mainNav" sur le nav -->
+        <nav class="dashboard-nav" id="mainNav">
+            <a href="dashboard.html">Willkommen</a>
+            <a href="stat.html">Statistik</a>
+            <a href="company.html">Company</a>
+            <a href="ueber-uns.html">Über uns</a>
+            <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+        </nav>
+        <!-- ⬇️ Zone droite : message de bienvenue + bouton Login/Abmelden -->
+        <div class="dashboard-header-right">
+            <span id="userNameDisplay"></span>
+            <a href="login.html" class="login-btn">Login</a>
         </div>
+    </header>
 
+    <main class="main-content">
+        <!-- Barre rouge avec le titre (conservée) -->
         <div class="top-bar" style="justify-content: center;">
             <span style="color: white; font-weight: 600; font-size: 1.1rem;">
                 Datenschutzerklärung
@@ -109,6 +131,10 @@
             </div>
         </section>
     </main>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

@@ -346,16 +346,23 @@
     <a href="index.html" class="logo-link">
       <img src="Images/Vertrauen_Logo.png" alt="Vertrauen Distributor" />
     </a>
-    <nav class="dashboard-nav">
+    <!-- ⬇️ AJOUT : Bouton hamburger pour mobile -->
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menü öffnen/schließen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <!-- ⬇️ AJOUT : id="mainNav" sur le nav -->
+    <nav class="dashboard-nav" id="mainNav">
       <a href="dashboard.html">Willkommen</a>
       <a href="stat.html">Statistik</a>
       <a href="company.html">Company</a>
       <a href="ueber-uns.html">Über uns</a>
       <a href="admin.html" class="active">Admin</a>
     </nav>
-    <!-- ⬇️ AJOUT : message de bienvenue + bouton Login/Abmelden -->
+    <!-- ⬇️ Zone droite : message de bienvenue + bouton Login/Abmelden -->
     <div class="dashboard-header-right">
-      <span id="userNameDisplay" style="margin-right: 16px; font-weight: 500; color: #4d4c4c;"></span>
+      <span id="userNameDisplay"></span>
       <a href="login.html" class="login-btn">Login</a>
     </div>
   </header>
@@ -476,7 +483,6 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <!-- Pas de Firebase Storage nécessaire car les logos sont encodés en base64 dans Firestore -->
   <!-- Toute la logique JS est dans main.js -->
   <script src="main.js"></script>
 </body>
