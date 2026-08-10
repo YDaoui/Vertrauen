@@ -2,13 +2,11 @@
 // main.js — Fichier JS UNIQUE partagé par toutes les pages
 // (login.html, admin.html, company.html, dashboard.html, ...)
 //
-// IMPORTANT : chaque bloc ci-dessous vérifie d'abord que les éléments
-// DOM dont il a besoin existent sur la page actuelle. S'ils n'existent
-// pas, le bloc s'arrête immédiatement (return) sans planter et sans
-// bloquer l'exécution des autres blocs.
+// IMPORTANT : chaque bloc vérifie d'abord si les éléments DOM existent.
+// Si ce n'est pas le cas, le bloc s'arrête (return) sans planter.
 // =====================================================================
 
-// ===== FIREBASE INIT (une seule fois, pour toutes les pages) =====
+// ===== 1. FIREBASE INIT ==============================================
 const firebaseConfig = {
   apiKey: "AIzaSyDQQ_AUOF5mQZ-mrTxJX6j25gbmkSEd5f8",
   authDomain: "vertrauen-e1039.firebaseapp.com",
@@ -22,45 +20,59 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 const db = firebase.firestore();
-// Note : Firebase Storage n'est plus utilisé — les logos sont stockés
-// directement dans Firestore en base64 (voir fileToCompressedDataUrl).
+
+// ===== 2. CONSTANTES ET FONCTIONS UTILITAIRES ========================
 
 const ADMIN_EMAIL = 'daoui00yassine@gmail.com';
-// Placeholder intégré (SVG en data URI) : aucun fichier externe requis, donc pas de 404
+
+// Logo par défaut (SVG intégré)
 const DEFAULT_LOGO = 'data:image/svg+xml;utf8,' + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" fill="%23eeeeee"/><text x="50%" y="50%" font-size="12" fill="%23999999" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif">Logo</text></svg>'
 );
+
 function isAdmin(email) {
   return email === ADMIN_EMAIL;
 }
 
-// ===== HELPERS FIRESTORE (users) — utilisés par login + admin =====
+// ===== 3. FIRESTORE HELPERS ==========================================
+
+/**
+ * Vérifie si un email existe déjà dans la collection 'users'
+ */
 async function emailExists(email) {
   const doc = await db.collection('users').doc(email).get();
   return doc.exists;
 }
 
+/**
+ * Crée un nouvel utilisateur dans la collection 'users'
+ */
 async function createUser(userData) {
   const { email, ...data } = userData;
   await db.collection('users').doc(email).set(data);
   return true;
 }
 
+/**
+ * Récupère les données d'un utilisateur à partir de son email
+ */
 async function getUser(email) {
   const doc = await db.collection('users').doc(email).get();
   return doc.exists ? doc.data() : null;
 }
 
-// ===== LOGOUT (utilisable sur toutes les pages) =====
+// ===== 4. GESTION DE LA DÉCONNEXION ==================================
+
 window.logout = function () {
   localStorage.removeItem('userEmail');
   localStorage.removeItem('isAdmin');
+  localStorage.removeItem('userNachname');
+  localStorage.removeItem('userAnrede');
   window.location.href = 'login.html';
 };
 
-// ===== Conversion image -> base64 compressé (remplace Firebase Storage) =====
-// Redimensionne à max 300px et compresse en JPEG pour rester largement
-// sous la limite de ~1 Mo par document Firestore.
+// ===== 5. CONVERSION D'IMAGE EN BASE64 (pour les logos) ==============
+
 function fileToCompressedDataUrl(file, maxSize = 300, quality = 0.7) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -89,19 +101,20 @@ function fileToCompressedDataUrl(file, maxSize = 300, quality = 0.7) {
   });
 }
 
-// ===== helper : <img> logo avec fallback si absent/cassé =====
+// ===== 6. AFFICHAGE D'UN LOGO (avec fallback) ========================
+
 function logoImgHtml(logoUrl, altName) {
   const src = logoUrl || DEFAULT_LOGO;
   return `<img src="${src}" alt="Logo von ${altName || 'Unternehmen'}" class="company-logo" onerror="this.onerror=null;this.src='${DEFAULT_LOGO}';" />`;
 }
 
 // =====================================================================
-// ===== BLOC 1 : login.html (login / registration / mot de passe oublié)
+// ===== BLOC 1 : login.html (connexion, inscription, mot de passe oublié)
 // =====================================================================
 function initLoginPage() {
   const loginForm = document.getElementById('login-form');
   const regForm = document.getElementById('registration-form');
-  if (!loginForm || !regForm) return; // on n'est pas sur login.html → on sort
+  if (!loginForm || !regForm) return; // pas sur login.html
 
   const loginContainer = document.getElementById('login-form-container');
   const registrationContainer = document.getElementById('registration-form-container');
@@ -112,6 +125,7 @@ function initLoginPage() {
   const forgotLink = document.getElementById('forgot-link');
   const backToLoginLink = document.getElementById('back-to-login-link');
 
+  // Réinitialisation du formulaire d'inscription
   function resetRegistrationForm() {
     document.getElementById('email').value = '';
     document.getElementById('email_wdh').value = '';
@@ -131,6 +145,7 @@ function initLoginPage() {
     document.getElementById('email').dataset.validated = '';
   }
 
+  // Navigation entre les formulaires
   showRegLink.addEventListener('click', (e) => {
     e.preventDefault();
     loginContainer.style.display = 'none';
@@ -161,7 +176,7 @@ function initLoginPage() {
     loginContainer.style.display = 'block';
   });
 
-  // ===== INSCRIPTION (2 étapes) =====
+  // ----- INSCRIPTION (2 étapes) -----
   const regMessage = document.getElementById('register-message');
   const registerBtn = document.getElementById('register-btn');
 
@@ -169,6 +184,7 @@ function initLoginPage() {
     e.preventDefault();
 
     if (registerBtn.dataset.emailVerified !== 'true') {
+      // Étape 1 : Vérification de l'email
       const email = document.getElementById('email').value.trim();
       const emailWdh = document.getElementById('email_wdh').value.trim();
       const vorname = document.getElementById('vorname').value.trim();
@@ -212,6 +228,7 @@ function initLoginPage() {
         regMessage.style.color = '#cc0000';
       }
     } else {
+      // Étape 2 : Enregistrement avec mot de passe
       const email = document.getElementById('email').dataset.validated;
       const password = document.getElementById('reg-password').value;
       const passwordConfirm = document.getElementById('reg-password-confirm').value;
@@ -262,7 +279,7 @@ function initLoginPage() {
     }
   });
 
-  // ===== CONNEXION =====
+  // ----- CONNEXION -----
   const loginMsg = document.getElementById('login-message');
   loginForm.addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -278,8 +295,20 @@ function initLoginPage() {
     try {
       const user = await getUser(email);
       if (user && user.password === password) {
+        // Stocker les informations de session
         localStorage.setItem('userEmail', email);
         localStorage.setItem('isAdmin', isAdmin(email) ? 'true' : 'false');
+        if (user.nachname) {
+          localStorage.setItem('userNachname', user.nachname);
+        } else {
+          localStorage.removeItem('userNachname');
+        }
+        if (user.anrede) {
+          localStorage.setItem('userAnrede', user.anrede);
+        } else {
+          localStorage.removeItem('userAnrede');
+        }
+
         loginMsg.textContent = 'Login erfolgreich! Weiterleitung ...';
         loginMsg.style.color = '#008000';
         setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
@@ -294,7 +323,7 @@ function initLoginPage() {
     }
   });
 
-  // ===== MOT DE PASSE OUBLIÉ =====
+  // ----- MOT DE PASSE OUBLIÉ -----
   const forgotForm = document.getElementById('forgot-form');
   if (forgotForm) {
     const forgotMsg = document.getElementById('forgot-message');
@@ -327,14 +356,14 @@ function initLoginPage() {
 }
 
 // =====================================================================
-// ===== BLOC 2 : admin.html (gestion des Unternehmen + Benutzer)
+// ===== BLOC 2 : admin.html (gestion des entreprises + utilisateurs)
 // =====================================================================
 function initAdminPage() {
   const companyForm = document.getElementById('companyForm');
   const userList = document.getElementById('userList');
-  if (!companyForm || !userList) return; // on n'est pas sur admin.html → on sort
+  if (!companyForm || !userList) return;
 
-  // Protection d'accès
+  // Vérification des droits admin
   if (localStorage.getItem('isAdmin') !== 'true') {
     window.location.href = 'dashboard.html';
     return;
@@ -350,7 +379,7 @@ function initAdminPage() {
     });
   });
 
-  // ----- Formulaire Unternehmen -----
+  // ----- Formulaire des entreprises -----
   const formContainer = document.getElementById('companyFormContainer');
   const toggleBtn = document.getElementById('toggleCompanyForm');
   const cancelFormBtn = document.getElementById('cancelCompanyForm');
@@ -410,6 +439,7 @@ function initAdminPage() {
   });
   cancelFormBtn.addEventListener('click', closeForm);
 
+  // Aperçu du logo lors du téléchargement
   logoInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) {
@@ -425,6 +455,7 @@ function initAdminPage() {
     reader.readAsDataURL(file);
   });
 
+  // Soumission du formulaire (ajout ou modification)
   companyForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const docId = document.getElementById('editCompanyId').value;
@@ -478,6 +509,7 @@ function initAdminPage() {
     }
   });
 
+  // Chargement de la liste des entreprises (admin)
   async function loadCompaniesAdmin() {
     const container = document.getElementById('companyList');
     try {
@@ -510,6 +542,7 @@ function initAdminPage() {
       });
       container.innerHTML = html;
 
+      // Gestion des boutons "Bearbeiten" et "Löschen"
       document.querySelectorAll('#companyList .edit-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
           const id = btn.dataset.id;
@@ -543,7 +576,7 @@ function initAdminPage() {
     }
   }
 
-  // ----- Benutzer -----
+  // ----- Gestion des utilisateurs -----
   async function loadUsers() {
     const container = document.getElementById('userList');
     try {
@@ -620,16 +653,17 @@ function initAdminPage() {
     document.getElementById('editFormContainer').style.display = 'none';
   });
 
+  // Chargement initial des données
   loadCompaniesAdmin();
   loadUsers();
 }
 
 // =====================================================================
-// ===== BLOC 3 : company.html (liste publique des Unternehmen)
+// ===== BLOC 3 : company.html (liste publique des entreprises) =======
 // =====================================================================
 function initCompanyPage() {
   const container = document.getElementById('companyListPublic');
-  if (!container) return; // on n'est pas sur company.html → on sort
+  if (!container) return;
 
   async function loadCompaniesPublic() {
     try {
@@ -666,10 +700,9 @@ function initCompanyPage() {
 }
 
 // =====================================================================
-// ===== BLOC 4 : Gestion du bouton Login / Abmelden sur toutes les pages
+// ===== BLOC 4 : Gestion du bouton Login / Abmelden ===================
 // =====================================================================
 function updateLoginButton() {
-  // Sélectionne tous les liens de connexion (dans le header ou la barre rouge)
   const loginLinks = document.querySelectorAll('.login-btn, .btn-login');
   const isLoggedIn = localStorage.getItem('userEmail') !== null;
 
@@ -677,28 +710,69 @@ function updateLoginButton() {
     if (isLoggedIn) {
       link.textContent = 'Abmelden';
       link.href = '#';
-      // On retire l'ancien écouteur en le remplaçant
       link.onclick = function(e) {
         e.preventDefault();
         localStorage.removeItem('userEmail');
         localStorage.removeItem('isAdmin');
+        localStorage.removeItem('userNachname');
+        localStorage.removeItem('userAnrede');
         window.location.href = 'login.html';
       };
     } else {
       link.textContent = 'Login';
       link.href = 'login.html';
-      link.onclick = null; // on retire l'écouteur de déconnexion
+      link.onclick = null;
     }
   });
 }
 
 // =====================================================================
-// ===== INIT GLOBAL — s'exécute sur toutes les pages, chaque bloc
-// ===== se protège lui-même s'il n'est pas sur la bonne page.
+// ===== BLOC 5 : Affichage du message de bienvenue (avec civilité) ====
+// =====================================================================
+function updateUserDisplay() {
+  const nameSpan = document.getElementById('userNameDisplay');
+  if (!nameSpan) return;
+
+  const isLoggedIn = localStorage.getItem('userEmail') !== null;
+  const anrede = localStorage.getItem('userAnrede');
+  const nachname = localStorage.getItem('userNachname');
+
+  if (isLoggedIn && nachname) {
+    const displayName = anrede ? anrede + ' ' + nachname : nachname;
+    nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>, <span class="welcome-name">' + displayName + '</span>';
+  } else if (isLoggedIn) {
+    nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>';
+  } else {
+    nameSpan.innerHTML = '';
+  }
+}
+
+// =====================================================================
+// ===== BLOC 6 : Gestion du menu transparent au scroll ================
+// =====================================================================
+function initScrollHeader() {
+  const header = document.querySelector('.dashboard-header');
+  if (!header) return;
+
+  const threshold = 50; // seuil en pixels avant d'activer la transparence
+
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > threshold) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+}
+
+// =====================================================================
+// ===== INIT GLOBAL ===================================================
 // =====================================================================
 document.addEventListener('DOMContentLoaded', () => {
   initLoginPage();
   initAdminPage();
   initCompanyPage();
-  updateLoginButton(); // <-- Nouvelle fonction appelée après les autres init
+  updateLoginButton();
+  updateUserDisplay();
+  initScrollHeader(); // Ajout de la fonction pour la transparence du menu
 });

@@ -886,3 +886,32 @@ hr.admin-hr {
         justify-content: flex-end;
     }
 }
+.dashboard-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+#userNameDisplay {
+    font-weight: 500;
+    color: #4d4c4c;
+    font-size: 0.95rem;
+}
+/* ---------- Message de bienvenue dans le header ---------- */
+.welcome-text {
+    color: #cc0000;
+    font-weight: 600;
+}
+.welcome-name {
+    color: #4d4c4c;
+    font-weight: 500;
+}
+
+.dashboard-header {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.dashboard-header.scrolled {
+    background-color: rgba(196, 194, 194, 0.85); /* légèrement transparent (15% de transparence) */
+    backdrop-filter: blur(8px);                 /* effet flou derrière le menu */
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
