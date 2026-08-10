@@ -1,9 +1,5 @@
 // =====================================================================
 // main.js — Fichier JS UNIQUE partagé par toutes les pages
-// (login.html, admin.html, company.html, dashboard.html, ...)
-//
-// IMPORTANT : chaque bloc vérifie d'abord si les éléments DOM existent.
-// Si ce n'est pas le cas, le bloc s'arrête (return) sans planter.
 // =====================================================================
 
 // ===== 1. FIREBASE INIT ==============================================
@@ -21,11 +17,8 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 
-// ===== 2. CONSTANTES ET FONCTIONS UTILITAIRES ========================
-
 const ADMIN_EMAIL = 'daoui00yassine@gmail.com';
 
-// Logo par défaut (SVG intégré)
 const DEFAULT_LOGO = 'data:image/svg+xml;utf8,' + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" fill="%23eeeeee"/><text x="50%" y="50%" font-size="12" fill="%23999999" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif">Logo</text></svg>'
 );
@@ -34,35 +27,24 @@ function isAdmin(email) {
   return email === ADMIN_EMAIL;
 }
 
-// ===== 3. FIRESTORE HELPERS ==========================================
-
-/**
- * Vérifie si un email existe déjà dans la collection 'users'
- */
+// ===== 2. FIRESTORE HELPERS ==========================================
 async function emailExists(email) {
   const doc = await db.collection('users').doc(email).get();
   return doc.exists;
 }
 
-/**
- * Crée un nouvel utilisateur dans la collection 'users'
- */
 async function createUser(userData) {
   const { email, ...data } = userData;
   await db.collection('users').doc(email).set(data);
   return true;
 }
 
-/**
- * Récupère les données d'un utilisateur à partir de son email
- */
 async function getUser(email) {
   const doc = await db.collection('users').doc(email).get();
   return doc.exists ? doc.data() : null;
 }
 
-// ===== 4. GESTION DE LA DÉCONNEXION ==================================
-
+// ===== 3. DÉCONNEXION ================================================
 window.logout = function () {
   localStorage.removeItem('userEmail');
   localStorage.removeItem('isAdmin');
@@ -71,8 +53,7 @@ window.logout = function () {
   window.location.href = 'login.html';
 };
 
-// ===== 5. CONVERSION D'IMAGE EN BASE64 (pour les logos) ==============
-
+// ===== 4. CONVERSION D'IMAGE EN BASE64 ===============================
 function fileToCompressedDataUrl(file, maxSize = 300, quality = 0.7) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -101,20 +82,18 @@ function fileToCompressedDataUrl(file, maxSize = 300, quality = 0.7) {
   });
 }
 
-// ===== 6. AFFICHAGE D'UN LOGO (avec fallback) ========================
-
 function logoImgHtml(logoUrl, altName) {
   const src = logoUrl || DEFAULT_LOGO;
   return `<img src="${src}" alt="Logo von ${altName || 'Unternehmen'}" class="company-logo" onerror="this.onerror=null;this.src='${DEFAULT_LOGO}';" />`;
 }
 
 // =====================================================================
-// ===== BLOC 1 : login.html (connexion, inscription, mot de passe oublié)
+// ===== BLOC 1 : login.html ===========================================
 // =====================================================================
 function initLoginPage() {
   const loginForm = document.getElementById('login-form');
   const regForm = document.getElementById('registration-form');
-  if (!loginForm || !regForm) return; // pas sur login.html
+  if (!loginForm || !regForm) return;
 
   const loginContainer = document.getElementById('login-form-container');
   const registrationContainer = document.getElementById('registration-form-container');
@@ -125,7 +104,6 @@ function initLoginPage() {
   const forgotLink = document.getElementById('forgot-link');
   const backToLoginLink = document.getElementById('back-to-login-link');
 
-  // Réinitialisation du formulaire d'inscription
   function resetRegistrationForm() {
     document.getElementById('email').value = '';
     document.getElementById('email_wdh').value = '';
@@ -145,7 +123,6 @@ function initLoginPage() {
     document.getElementById('email').dataset.validated = '';
   }
 
-  // Navigation entre les formulaires
   showRegLink.addEventListener('click', (e) => {
     e.preventDefault();
     loginContainer.style.display = 'none';
@@ -176,7 +153,6 @@ function initLoginPage() {
     loginContainer.style.display = 'block';
   });
 
-  // ----- INSCRIPTION (2 étapes) -----
   const regMessage = document.getElementById('register-message');
   const registerBtn = document.getElementById('register-btn');
 
@@ -184,7 +160,6 @@ function initLoginPage() {
     e.preventDefault();
 
     if (registerBtn.dataset.emailVerified !== 'true') {
-      // Étape 1 : Vérification de l'email
       const email = document.getElementById('email').value.trim();
       const emailWdh = document.getElementById('email_wdh').value.trim();
       const vorname = document.getElementById('vorname').value.trim();
@@ -228,7 +203,6 @@ function initLoginPage() {
         regMessage.style.color = '#cc0000';
       }
     } else {
-      // Étape 2 : Enregistrement avec mot de passe
       const email = document.getElementById('email').dataset.validated;
       const password = document.getElementById('reg-password').value;
       const passwordConfirm = document.getElementById('reg-password-confirm').value;
@@ -279,7 +253,6 @@ function initLoginPage() {
     }
   });
 
-  // ----- CONNEXION -----
   const loginMsg = document.getElementById('login-message');
   loginForm.addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -295,7 +268,6 @@ function initLoginPage() {
     try {
       const user = await getUser(email);
       if (user && user.password === password) {
-        // Stocker les informations de session
         localStorage.setItem('userEmail', email);
         localStorage.setItem('isAdmin', isAdmin(email) ? 'true' : 'false');
         if (user.nachname) {
@@ -323,7 +295,6 @@ function initLoginPage() {
     }
   });
 
-  // ----- MOT DE PASSE OUBLIÉ -----
   const forgotForm = document.getElementById('forgot-form');
   if (forgotForm) {
     const forgotMsg = document.getElementById('forgot-message');
@@ -356,20 +327,18 @@ function initLoginPage() {
 }
 
 // =====================================================================
-// ===== BLOC 2 : admin.html (gestion des entreprises + utilisateurs)
+// ===== BLOC 2 : admin.html ===========================================
 // =====================================================================
 function initAdminPage() {
   const companyForm = document.getElementById('companyForm');
   const userList = document.getElementById('userList');
   if (!companyForm || !userList) return;
 
-  // Vérification des droits admin
   if (localStorage.getItem('isAdmin') !== 'true') {
     window.location.href = 'dashboard.html';
     return;
   }
 
-  // ----- Onglets -----
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -379,7 +348,6 @@ function initAdminPage() {
     });
   });
 
-  // ----- Formulaire des entreprises -----
   const formContainer = document.getElementById('companyFormContainer');
   const toggleBtn = document.getElementById('toggleCompanyForm');
   const cancelFormBtn = document.getElementById('cancelCompanyForm');
@@ -439,7 +407,6 @@ function initAdminPage() {
   });
   cancelFormBtn.addEventListener('click', closeForm);
 
-  // Aperçu du logo lors du téléchargement
   logoInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) {
@@ -455,7 +422,6 @@ function initAdminPage() {
     reader.readAsDataURL(file);
   });
 
-  // Soumission du formulaire (ajout ou modification)
   companyForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const docId = document.getElementById('editCompanyId').value;
@@ -509,7 +475,6 @@ function initAdminPage() {
     }
   });
 
-  // Chargement de la liste des entreprises (admin)
   async function loadCompaniesAdmin() {
     const container = document.getElementById('companyList');
     try {
@@ -542,7 +507,6 @@ function initAdminPage() {
       });
       container.innerHTML = html;
 
-      // Gestion des boutons "Bearbeiten" et "Löschen"
       document.querySelectorAll('#companyList .edit-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
           const id = btn.dataset.id;
@@ -576,7 +540,6 @@ function initAdminPage() {
     }
   }
 
-  // ----- Gestion des utilisateurs -----
   async function loadUsers() {
     const container = document.getElementById('userList');
     try {
@@ -653,13 +616,12 @@ function initAdminPage() {
     document.getElementById('editFormContainer').style.display = 'none';
   });
 
-  // Chargement initial des données
   loadCompaniesAdmin();
   loadUsers();
 }
 
 // =====================================================================
-// ===== BLOC 3 : company.html (liste publique des entreprises) =======
+// ===== BLOC 3 : company.html =========================================
 // =====================================================================
 function initCompanyPage() {
   const container = document.getElementById('companyListPublic');
@@ -703,20 +665,33 @@ function initCompanyPage() {
 // ===== BLOC 4 : Gestion du bouton Login / Abmelden ===================
 // =====================================================================
 function updateLoginButton() {
-  const loginLinks = document.querySelectorAll('.login-btn, .btn-login');
+  // 1. Gérer le lien "Abmelden" dans le menu mobile (logoutMobile)
+  const logoutMobileLink = document.getElementById('logoutMobile');
   const isLoggedIn = localStorage.getItem('userEmail') !== null;
 
+  if (logoutMobileLink) {
+    if (isLoggedIn) {
+      logoutMobileLink.style.display = 'block';
+      logoutMobileLink.textContent = 'Abmelden';
+      logoutMobileLink.onclick = function(e) {
+        e.preventDefault();
+        window.logout();
+      };
+    } else {
+      logoutMobileLink.style.display = 'none';
+      logoutMobileLink.onclick = null;
+    }
+  }
+
+  // 2. Gérer le bouton Login dans la barre supérieure
+  const loginLinks = document.querySelectorAll('.login-btn, .btn-login');
   loginLinks.forEach(link => {
     if (isLoggedIn) {
       link.textContent = 'Abmelden';
       link.href = '#';
       link.onclick = function(e) {
         e.preventDefault();
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('isAdmin');
-        localStorage.removeItem('userNachname');
-        localStorage.removeItem('userAnrede');
-        window.location.href = 'login.html';
+        window.logout();
       };
     } else {
       link.textContent = 'Login';
@@ -727,7 +702,7 @@ function updateLoginButton() {
 }
 
 // =====================================================================
-// ===== BLOC 5 : Affichage du message de bienvenue (avec civilité) ====
+// ===== BLOC 5 : Affichage du message de bienvenue ====================
 // =====================================================================
 function updateUserDisplay() {
   const nameSpan = document.getElementById('userNameDisplay');
@@ -748,14 +723,13 @@ function updateUserDisplay() {
 }
 
 // =====================================================================
-// ===== BLOC 6 : Gestion du menu transparent au scroll ================
+// ===== BLOC 6 : Menu transparent au scroll (désactivé si vous ne voulez pas) =====
 // =====================================================================
+// Si vous ne voulez pas de transparence, commentez ou supprimez cette fonction et son appel
 function initScrollHeader() {
   const header = document.querySelector('.dashboard-header');
   if (!header) return;
-
-  const threshold = 50; // seuil en pixels avant d'activer la transparence
-
+  const threshold = 50;
   window.addEventListener('scroll', function() {
     if (window.scrollY > threshold) {
       header.classList.add('scrolled');
@@ -766,20 +740,18 @@ function initScrollHeader() {
 }
 
 // =====================================================================
-// ===== BLOC 7 : Gestion du menu hamburger sur mobile =================
+// ===== BLOC 7 : Menu hamburger sur mobile ============================
 // =====================================================================
 function initHamburger() {
   const hamburger = document.getElementById('hamburgerBtn');
   const nav = document.getElementById('mainNav');
   if (!hamburger || !nav) return;
 
-  // Ouvrir/fermer le menu au clic sur le hamburger
   hamburger.addEventListener('click', function() {
     this.classList.toggle('active');
     nav.classList.toggle('open');
   });
 
-  // Fermer le menu lorsqu'un lien est cliqué (sur mobile)
   nav.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', function() {
       hamburger.classList.remove('active');
@@ -797,6 +769,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initCompanyPage();
   updateLoginButton();
   updateUserDisplay();
-  initScrollHeader();
-  initHamburger(); // Initialisation du menu hamburger
+  initScrollHeader();   // Si vous ne voulez pas de transparence, retirez cette ligne
+  initHamburger();
 });

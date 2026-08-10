@@ -980,46 +980,43 @@ hr.admin-hr {
   background-color: #990000;
 }
 
-/* --- Hamburger --- */
-.hamburger {
-  display: none; /* caché sur desktop */
-  flex-direction: column;
-  justify-content: space-around;
-  width: 28px;
-  height: 22px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  flex-shrink: 0;
-  margin-left: 10px;
-}
-.hamburger span {
-  display: block;
-  width: 100%;
-  height: 3px;
-  background-color: #4d4c4c;
-  border-radius: 2px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-.hamburger.active span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-.hamburger.active span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+/* ---------- HEADER DASHBOARD ---------- */
+.dashboard-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 40px;
+  background-color: #ffffff;
+  border-bottom: 3px solid #cc0000;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  flex-wrap: wrap;
 }
 
-/* --- Navigation (desktop) --- */
+/* Logo */
+.dashboard-header .logo-link {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.dashboard-header .logo-link img {
+  max-height: 50px;
+  width: auto;
+  display: block;
+}
+
+/* Navigation (centrée) */
 .dashboard-nav {
   display: flex;
   gap: 28px;
   font-weight: 500;
   font-size: 1.05rem;
-  flex-wrap: wrap;
   align-items: center;
+  margin: 0 auto;
+  flex: 1;
+  justify-content: center;
 }
 .dashboard-nav a {
   color: #4d4c4c;
@@ -1048,11 +1045,80 @@ hr.admin-hr {
 .dashboard-nav a.active::after {
   transform: scaleX(1);
 }
+/* Masquer le bouton mobile dans le menu sur desktop */
+.dashboard-nav .login-btn-mobile {
+  display: none !important;
+}
+
+/* Éléments de droite (desktop) */
+.dashboard-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+.welcome-text-desktop {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #4d4c4c;
+}
+.welcome-text-desktop .welcome-text {
+  color: #cc0000;
+  font-weight: 600;
+}
+.welcome-text-desktop .welcome-name {
+  color: #4d4c4c;
+  font-weight: 500;
+}
+
+.dashboard-header .login-btn {
+  background-color: #cc0000;
+  color: #ffffff !important;
+  padding: 8px 28px;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+.dashboard-header .login-btn:hover {
+  background-color: #990000;
+}
+
+/* --- Hamburger --- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #4d4c4c;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hamburger.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
 
 /* ---------- RESPONSIVE : mobile ---------- */
 @media (max-width: 768px) {
   .hamburger {
-    display: flex; /* visible sur mobile */
+    display: flex;
   }
 
   .dashboard-nav {
@@ -1070,7 +1136,8 @@ hr.admin-hr {
     transform: translateY(-120%);
     transition: transform 0.3s ease;
     z-index: 999;
-    display: flex; /* on le force en flex */
+    display: flex;
+    margin: 0;
   }
   .dashboard-nav.open {
     transform: translateY(0);
@@ -1080,21 +1147,35 @@ hr.admin-hr {
     border-bottom: none;
   }
   .dashboard-nav a::after {
-    display: none; /* on retire la barre coulissante sur mobile pour plus de clarté */
+    display: none;
+  }
+  /* Afficher le bouton Login/Abmelden dans le menu mobile */
+  .dashboard-nav .login-btn-mobile {
+    display: block !important;
+    background-color: #cc0000;
+    color: #ffffff !important;
+    padding: 8px 28px;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 8px;
+  }
+  .dashboard-nav .login-btn-mobile:hover {
+    background-color: #990000;
+  }
+  /* Cacher le bouton desktop sur mobile */
+  .dashboard-header .login-btn {
+    display: none !important;
+  }
+  .dashboard-header-right .welcome-text-desktop {
+    display: none;
   }
 
-  /* Ajustements du header sur mobile */
   .dashboard-header {
     padding: 10px 16px;
+    flex-wrap: nowrap;
   }
   .dashboard-header .logo-link img {
-    max-height: 32px;
-  }
-  .welcome-center {
-    font-size: 0.8rem;
-  }
-  .dashboard-header .login-btn {
-    padding: 4px 14px;
-    font-size: 0.8rem;
+    max-height: 35px;
   }
 }

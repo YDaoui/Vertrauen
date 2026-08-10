@@ -48,32 +48,34 @@
 </head>
 <body class="dashboard-page">
     <header class="dashboard-header">
-    <!-- Logo à gauche -->
-    <a href="index.html" class="logo-link">
-        <img src="Images/Vertrauen_Logo.png" alt="Vertrauen Distributor" />
-    </a>
+        <!-- Logo à gauche -->
+        <a href="index.html" class="logo-link">
+            <img src="Images/Vertrauen_Logo.png" alt="Vertrauen Distributor" />
+        </a>
 
-    <!-- Message de bienvenue centré -->
-    <span id="userNameDisplay" class="welcome-center"></span>
+        <!-- Message de bienvenue centré -->
+        <span id="userNameDisplay" class="welcome-center"></span>
 
-    <!-- Hamburger (visible sur mobile) -->
-    <button class="hamburger" id="hamburgerBtn" aria-label="Menü öffnen/schließen">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+        <!-- Hamburger (visible sur mobile) -->
+        <button class="hamburger" id="hamburgerBtn" aria-label="Menü öffnen/schließen">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
 
-    <!-- Navigation (masquée sur mobile, affichée en desktop) -->
-    <nav class="dashboard-nav" id="mainNav">
-        <a href="dashboard.html">Willkommen</a>
-        <a href="stat.html">Statistik</a>
-        <a href="company.html">Company</a>
-        <a href="ueber-uns.html">Über uns</a>
-        <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
-    </nav>
+        <!-- Navigation (masquée sur mobile, affichée en desktop) -->
+        <nav class="dashboard-nav" id="mainNav">
+            <a href="dashboard.html">Willkommen</a>
+            <a href="stat.html">Statistik</a>
+            <a href="company.html">Company</a>
+            <a href="ueber-uns.html" class="active">Über uns</a>
+            <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+            <!-- ⬇️ Lien de déconnexion pour mobile (caché sur desktop) -->
+            <a href="#" id="logoutMobile" style="display:none;">Abmelden</a>
+        </nav>
 
-    <!-- Bouton Login / Abmelden (à droite) -->
-    <a href="login.html" class="login-btn">Login</a>
+        <!-- Bouton Login / Abmelden (à droite) -->
+        <a href="login.html" class="login-btn">Login</a>
     </header>
 
     <main class="dashboard-content">
