@@ -766,6 +766,29 @@ function initScrollHeader() {
 }
 
 // =====================================================================
+// ===== BLOC 7 : Gestion du menu hamburger sur mobile =================
+// =====================================================================
+function initHamburger() {
+  const hamburger = document.getElementById('hamburgerBtn');
+  const nav = document.getElementById('mainNav');
+  if (!hamburger || !nav) return;
+
+  // Ouvrir/fermer le menu au clic sur le hamburger
+  hamburger.addEventListener('click', function() {
+    this.classList.toggle('active');
+    nav.classList.toggle('open');
+  });
+
+  // Fermer le menu lorsqu'un lien est cliqué (sur mobile)
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function() {
+      hamburger.classList.remove('active');
+      nav.classList.remove('open');
+    });
+  });
+}
+
+// =====================================================================
 // ===== INIT GLOBAL ===================================================
 // =====================================================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -774,5 +797,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initCompanyPage();
   updateLoginButton();
   updateUserDisplay();
-  initScrollHeader(); // Ajout de la fonction pour la transparence du menu
+  initScrollHeader();
+  initHamburger(); // Initialisation du menu hamburger
 });
