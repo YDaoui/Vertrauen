@@ -488,17 +488,22 @@ body.dashboard-page {
 /* ============================================================
    CARTES DASHBOARD : fond #dbd6d5 et bordure rouge
    ============================================================ */
+/* ============================================================
+   CARTES DASHBOARD – STYLE PROFESSIONNEL
+   ============================================================ */
 .willkommen-box,
 .company-box,
 .ueber-uns-box,
 .stat-box,
 .admin-box {
-    background-color: #dbd6d5;
-    border: 2px solid #cc0000;
+    background: linear-gradient(145deg, #e3deda, #d4cfca);
+    border: 1.5px solid #cc0000;
     border-radius: 16px;
     padding: 40px 48px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
     max-width: 900px;
     margin: 0 auto;
     width: 100%;
@@ -509,7 +514,10 @@ body.dashboard-page {
 .stat-box:hover,
 .admin-box:hover {
     border-color: #a00000;
-    box-shadow: 0 6px 30px rgba(204, 0, 0, 0.15);
+    box-shadow: 
+        0 8px 30px rgba(204, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px);
 }
 
 /* Titres dans les cartes */
