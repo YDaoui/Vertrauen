@@ -778,24 +778,36 @@ function initHamburger() {
 }
 
 // =====================================================================
-// ===== BLOC 8 : Chat Tawk.to (BOUTON INDÉPENDANT) ====================
+// ===== BLOC 8 : Chat Tawk.to (BULLE DE CHAT SEULEMENT) ==============
+// =====================================================================
+
+
+  // =====================================================================
+// ===== BLOC 8 : Chat Tawk.to (BULLE DE CHAT AVEC BROUILLARD) ========
 // =====================================================================
 function initTawkTo() {
-  // ---- 1. CRÉER LE BOUTON EN PREMIER (AVANT Tawk.to) ----
-  createPersistentButton();
+  // ---- 1. SUPPRIMER VOTRE BOUTON ROUGE PERSONNALISÉ ----
+  const oldBtn = document.getElementById('custom-tawk-btn');
+  if (oldBtn) {
+    oldBtn.remove();
+    console.log('🗑️ Bouton rouge personnalisé supprimé');
+  }
 
-  // ---- 2. CHARGER TAWK.TO EN MODE "INVISIBLE" ----
+  // ---- 2. SUPPRIMER TOUS LES BOUTONS PERSONNALISÉS ----
+  document.querySelectorAll('.tawk-float, .tawk-chat-custom, [class*="tawk-float"]').forEach(el => {
+    if (el.id !== 'custom-tawk-btn') {
+      el.remove();
+    }
+  });
+
+  // ---- 3. CHARGER TAWK.TO ----
   window.Tawk_API = window.Tawk_API || {};
   window.Tawk_API.onLoad = function() {
     if (window.Tawk_API) {
-      // Masquer complètement le widget Tawk.to
-      window.Tawk_API.hideWidget();
-      window.Tawk_API.hideChatButton();
-      console.log('✅ Tawk.to chargé et masqué');
+      console.log('✅ Tawk.to chargé - Bulle de chat avec brouillard');
     }
   };
 
-  // Charger le script Tawk.to
   const script = document.createElement('script');
   script.async = true;
   script.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
@@ -803,51 +815,7 @@ function initTawkTo() {
   script.setAttribute('crossorigin', '*');
   document.head.appendChild(script);
 
-  // ---- 3. FONCTION DE CRÉATION DU BOUTON (INDÉPENDANT) ----
-  function createPersistentButton() {
-    // Supprimer l'ancien bouton
-    const oldBtn = document.getElementById('custom-tawk-btn');
-    if (oldBtn) oldBtn.remove();
-
-    // Créer le bouton
-    const floatBtn = document.createElement('div');
-    floatBtn.id = 'custom-tawk-btn';
-    floatBtn.className = 'tawk-float';
-    floatBtn.innerHTML = `
-      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712039.png" alt="Chat" />
-      <span class="tawk-tooltip">Frage stellen</span>
-    `;
-    
-    // Ajouter au body
-    document.body.appendChild(floatBtn);
-
-    // Ouvrir le chat au clic
-    floatBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      
-      if (window.Tawk_API) {
-        window.Tawk_API.toggle();
-      } else {
-        // Si Tawk.to n'est pas encore chargé, on attend
-        let attempts = 0;
-        const checkTawk = setInterval(function() {
-          attempts++;
-          if (window.Tawk_API) {
-            window.Tawk_API.toggle();
-            clearInterval(checkTawk);
-          } else if (attempts > 20) {
-            clearInterval(checkTawk);
-            console.warn('⚠️ Tawk.to non disponible après 10 secondes');
-          }
-        }, 500);
-      }
-    });
-
-    return floatBtn;
-  }
-
-  // ---- 4. SURVEILLANCE DU BOUTON ----
+  // ---- 4. SURVEILLANCE : SUPPRIMER LES BOUTONS PERSONNALISÉS ----
   let observer = null;
   
   function setupObserver() {
@@ -855,11 +823,20 @@ function initTawkTo() {
     
     observer = new MutationObserver(function(mutations) {
       for (const mutation of mutations) {
-        for (const node of mutation.removedNodes) {
-          if (node.id === 'custom-tawk-btn') {
-            console.log('🔄 Bouton supprimé, recréation immédiate...');
-            setTimeout(createPersistentButton, 10);
-            return;
+        if (mutation.addedNodes.length > 0) {
+          for (const node of mutation.addedNodes) {
+            if (node.nodeType === 1) {
+              if (node.id === 'custom-tawk-btn' || 
+                  (node.className && typeof node.className === 'string' && 
+                   node.className.includes('tawk-float') && !node.className.includes('tawk-bubble'))) {
+                setTimeout(() => {
+                  if (node.parentNode) {
+                    node.remove();
+                    console.log('🗑️ Bouton personnalisé supprimé');
+                  }
+                }, 10);
+              }
+            }
           }
         }
       }
@@ -867,27 +844,25 @@ function initTawkTo() {
     
     observer.observe(document.body, {
       childList: true,
-      subtree: false
+      subtree: true
     });
   }
   
   setTimeout(setupObserver, 100);
 
-  // ---- 5. INTERVALLE DE SÉCURITÉ ----
+  // ---- 5. INTERVALLE DE NETTOYAGE ----
   setInterval(function() {
-    const btn = document.getElementById('custom-tawk-btn');
-    if (!btn) {
-      console.log('🔄 Bouton manquant, recréation...');
-      createPersistentButton();
-    }
+    document.querySelectorAll('.tawk-float, #custom-tawk-btn, [class*="tawk-float"]:not(.tawk-bubble)').forEach(el => {
+      if (!el.className || !el.className.includes('tawk-bubble')) {
+        el.remove();
+      }
+    });
   }, 2000);
 
-  console.log('✅ Assistant chat initialisé (bouton indépendant)');
+  console.log('✅ Assistant chat initialisé - BULLE AVEC BROUILLARD');
 }
 
-// =====================================================================
-// ===== INIT GLOBAL ===================================================
-// =====================================================================
+
 document.addEventListener('DOMContentLoaded', () => {
   initLoginPage();
   initAdminPage();
