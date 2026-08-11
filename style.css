@@ -1179,3 +1179,305 @@ hr.admin-hr {
     max-height: 35px;
   }
 }
+/* ============================================================
+   STYLES POUR LE BOUTON CHAT TAWK.TO - EFFET BROUILLARD
+   ============================================================ */
+
+/* ---- Cacher le texte "We are here" et autres labels ---- */
+.tawk-bubble .tawk-branding,
+.tawk-bubble .tawk-label,
+.tawk-bubble .tawk-text,
+.tawk-bubble .branding,
+.tawk-bubble .label,
+.tawk-bubble .text,
+.tawk-bubble span:not(.tawk-icon),
+.tawk-bubble div:not(.tawk-icon-container),
+.tawk-chat-button .tawk-label,
+.tawk-chat-button .tawk-text,
+.tawk-chat-button span,
+.tawk-chat-button div:not(.tawk-icon-container),
+[class*="tawk-bubble"] span,
+[class*="tawk-bubble"] div:not(.tawk-icon-container),
+.tawk-widget-button .tawk-label,
+.tawk-widget-button .tawk-text,
+.tawk-widget-button span:not(.tawk-icon),
+.tawk-widget-button div:not(.tawk-icon-container) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  font-size: 0 !important;
+  text-indent: -9999px !important;
+}
+
+/* ---- BOUTON AVEC EFFET BROUILLARD ---- */
+.tawk-bubble,
+.tawk-chat-button,
+.tawk-widget-button,
+[class*="tawk-bubble"] {
+  width: 65px !important;
+  height: 65px !important;
+  min-width: 65px !important;
+  min-height: 65px !important;
+  max-width: 65px !important;
+  max-height: 65px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background-color: #cc0000 !important;
+  box-shadow: 
+    0 0 30px 10px rgba(204, 0, 0, 0.3),
+    0 0 60px 20px rgba(204, 0, 0, 0.15),
+    0 0 100px 30px rgba(204, 0, 0, 0.08),
+    0 4px 20px rgba(204, 0, 0, 0.4) !important;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  position: relative !important;
+  z-index: 9999999 !important;
+}
+
+/* ---- EFFET BROUILLARD (halo lumineux) ---- */
+.tawk-bubble::before,
+.tawk-chat-button::before,
+.tawk-widget-button::before,
+[class*="tawk-bubble"]::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -25px !important;
+  left: -25px !important;
+  right: -25px !important;
+  bottom: -25px !important;
+  border-radius: 50% !important;
+  background: radial-gradient(
+    circle at center,
+    rgba(204, 0, 0, 0.20) 0%,
+    rgba(204, 0, 0, 0.08) 40%,
+    rgba(204, 0, 0, 0.03) 70%,
+    transparent 100%
+  ) !important;
+  z-index: -1 !important;
+  animation: fogPulse 3s ease-in-out infinite !important;
+  pointer-events: none !important;
+}
+
+/* ---- SURVOL : TAILLE PLUS GRANDE ---- */
+.tawk-bubble:hover,
+.tawk-chat-button:hover,
+.tawk-widget-button:hover,
+[class*="tawk-bubble"]:hover {
+  width: 80px !important;
+  height: 80px !important;
+  min-width: 80px !important;
+  min-height: 80px !important;
+  max-width: 80px !important;
+  max-height: 80px !important;
+  transform: scale(1.1) !important;
+  box-shadow: 
+    0 0 40px 15px rgba(204, 0, 0, 0.4),
+    0 0 80px 30px rgba(204, 0, 0, 0.2),
+    0 0 120px 40px rgba(204, 0, 0, 0.1),
+    0 8px 30px rgba(204, 0, 0, 0.5) !important;
+}
+
+/* Agrandir l'effet brouillard au survol */
+.tawk-bubble:hover::before,
+.tawk-chat-button:hover::before,
+.tawk-widget-button:hover::before,
+[class*="tawk-bubble"]:hover::before {
+  top: -35px !important;
+  left: -35px !important;
+  right: -35px !important;
+  bottom: -35px !important;
+  background: radial-gradient(
+    circle at center,
+    rgba(204, 0, 0, 0.25) 0%,
+    rgba(204, 0, 0, 0.10) 40%,
+    rgba(204, 0, 0, 0.04) 70%,
+    transparent 100%
+  ) !important;
+}
+
+/* ---- ICÔNE ---- */
+.tawk-bubble .tawk-icon,
+.tawk-chat-button .tawk-icon,
+.tawk-widget-button .tawk-icon,
+[class*="tawk-bubble"] .tawk-icon,
+[class*="tawk-chat-button"] .tawk-icon,
+.tawk-bubble svg,
+.tawk-chat-button svg,
+.tawk-widget-button svg {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 32px !important;
+  height: 32px !important;
+  margin: 0 auto !important;
+  color: white !important;
+  fill: white !important;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+/* Agrandir l'icône au survol */
+.tawk-bubble:hover .tawk-icon,
+.tawk-chat-button:hover .tawk-icon,
+.tawk-widget-button:hover .tawk-icon,
+[class*="tawk-bubble"]:hover .tawk-icon,
+.tawk-bubble:hover svg,
+.tawk-chat-button:hover svg,
+.tawk-widget-button:hover svg {
+  width: 38px !important;
+  height: 38px !important;
+}
+
+/* ---- CACHER LE TOOLTIP ---- */
+.tawk-tooltip,
+.tawk-bubble-tooltip,
+.tawk-chat-tooltip,
+[class*="tawk-tooltip"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* ---- CONTENEUR ---- */
+.tawk-bubble-container,
+.tawk-chat-container,
+.tawk-widget-container {
+  width: 65px !important;
+  height: 65px !important;
+  min-width: 65px !important;
+  min-height: 65px !important;
+  max-width: 65px !important;
+  max-height: 65px !important;
+  overflow: visible !important;
+  position: fixed !important;
+  bottom: 30px !important;
+  right: 30px !important;
+  z-index: 9999999 !important;
+}
+
+/* Supprimer les marges et paddings inutiles */
+.tawk-bubble-container *,
+.tawk-chat-container *,
+.tawk-widget-container * {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* ---- ANIMATION BROUILLARD ---- */
+@keyframes fogPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+/* ---- ANIMATION DE PULSATION DU BOUTON ---- */
+@keyframes tawkPulse {
+  0% { 
+    box-shadow: 
+      0 0 30px 10px rgba(204, 0, 0, 0.3),
+      0 0 60px 20px rgba(204, 0, 0, 0.15),
+      0 4px 20px rgba(204, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 0 40px 15px rgba(204, 0, 0, 0.4),
+      0 0 80px 30px rgba(204, 0, 0, 0.2),
+      0 4px 25px rgba(204, 0, 0, 0.5);
+  }
+  100% { 
+    box-shadow: 
+      0 0 30px 10px rgba(204, 0, 0, 0.3),
+      0 0 60px 20px rgba(204, 0, 0, 0.15),
+      0 4px 20px rgba(204, 0, 0, 0.4);
+  }
+}
+
+.tawk-bubble,
+.tawk-chat-button,
+.tawk-widget-button,
+[class*="tawk-bubble"] {
+  animation: tawkPulse 3s ease-in-out infinite !important;
+}
+
+.tawk-bubble:hover,
+.tawk-chat-button:hover,
+.tawk-widget-button:hover,
+[class*="tawk-bubble"]:hover {
+  animation: none !important;
+}
+
+/* ---- RESPONSIVE MOBILE ---- */
+@media (max-width: 600px) {
+  .tawk-bubble,
+  .tawk-chat-button,
+  .tawk-widget-button,
+  [class*="tawk-bubble"] {
+    width: 55px !important;
+    height: 55px !important;
+    min-width: 55px !important;
+    min-height: 55px !important;
+    max-width: 55px !important;
+    max-height: 55px !important;
+  }
+
+  .tawk-bubble-container,
+  .tawk-chat-container,
+  .tawk-widget-container {
+    width: 55px !important;
+    height: 55px !important;
+    min-width: 55px !important;
+    min-height: 55px !important;
+    max-width: 55px !important;
+    max-height: 55px !important;
+    bottom: 20px !important;
+    right: 20px !important;
+  }
+
+  .tawk-bubble .tawk-icon,
+  .tawk-chat-button .tawk-icon,
+  .tawk-widget-button .tawk-icon,
+  [class*="tawk-bubble"] .tawk-icon {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  .tawk-bubble:hover,
+  .tawk-chat-button:hover,
+  .tawk-widget-button:hover,
+  [class*="tawk-bubble"]:hover {
+    width: 65px !important;
+    height: 65px !important;
+    min-width: 65px !important;
+    min-height: 65px !important;
+    max-width: 65px !important;
+    max-height: 65px !important;
+  }
+
+  .tawk-bubble:hover .tawk-icon,
+  .tawk-chat-button:hover .tawk-icon,
+  .tawk-widget-button:hover .tawk-icon,
+  [class*="tawk-bubble"]:hover .tawk-icon {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .tawk-bubble::before,
+  .tawk-chat-button::before,
+  .tawk-widget-button::before,
+  [class*="tawk-bubble"]::before {
+    top: -12px !important;
+    left: -12px !important;
+    right: -12px !important;
+    bottom: -12px !important;
+  }
+}

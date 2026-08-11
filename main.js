@@ -740,9 +740,7 @@ function updateUserDisplay() {
   }
 }
 
-// =====================================================================
-// ===== BLOC 6 : Menu transparent au scroll ===========================
-// =====================================================================
+
 function initScrollHeader() {
   const header = document.querySelector('.dashboard-header');
   if (!header) return;
