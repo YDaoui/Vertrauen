@@ -4,32 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin – Vertrauen Distributor</title>
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
-  <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone.ico" />
-  <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone.ico" />
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-EV3MLGBFYW');
   </script>
+  <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone.ico" />
+  <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone.ico" />
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* ===== Carte principale ===== */
+    /* ===== Karte ===== */
     .admin-box {
       background-color: #dbd6d5;
       border: 2px solid #cc0000;
       border-radius: 16px;
       padding: 30px 40px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       max-width: 1000px;
       margin: 0 auto;
       width: 100%;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
     .admin-box:hover {
       border-color: #a00000;
-      box-shadow: 0 6px 30px rgba(204, 0, 0, 0.15);
+      box-shadow: 0 6px 30px rgba(204,0,0,0.15);
     }
     .admin-box h1 {
       color: #cc0000;
@@ -38,8 +39,7 @@
       margin-bottom: 20px;
       font-size: 2rem;
     }
-
-    /* ===== Onglets ===== */
+    /* Tabs */
     .tab-container {
       display: flex;
       gap: 20px;
@@ -62,15 +62,10 @@
       color: #cc0000;
       border-bottom-color: #cc0000;
     }
-    .tab-content {
-      display: none;
-    }
-    .tab-content.active {
-      display: block;
-    }
-
-    /* ===== Liste des entreprises (lignes horizontales) ===== */
-    .company-item {
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    /* Einträge */
+    .company-item, .user-item {
       background-color: #ffffff;
       padding: 10px 16px;
       border-radius: 8px;
@@ -82,10 +77,11 @@
       border: 1px solid #ddd;
       transition: border-color 0.2s;
     }
-    .company-item:hover {
+    .company-item:hover, .user-item:hover {
       border-color: #cc0000;
     }
-    .company-item .company-info {
+    .company-item .company-info,
+    .user-item .user-info {
       display: flex;
       align-items: center;
       gap: 16px;
@@ -97,60 +93,43 @@
       height: 50px;
       object-fit: contain;
       border-radius: 8px;
-      background-color: #fff;
+      background: #fff;
       border: 1px solid #ccc;
       padding: 4px;
     }
-    .company-item .company-actions {
+    .company-item .company-actions,
+    .user-item .user-actions {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
     }
     .company-item .company-actions .edit-btn,
-    .company-item .company-actions .delete-btn {
+    .company-item .company-actions .delete-btn,
+    .user-item .user-actions .edit-btn,
+    .user-item .user-actions .delete-btn {
       border: none;
       padding: 4px 16px;
       border-radius: 20px;
       cursor: pointer;
       font-size: 0.85rem;
     }
-    .company-item .company-actions .edit-btn {
+    .company-item .company-actions .edit-btn,
+    .user-item .user-actions .edit-btn {
       background-color: #cc0000;
       color: white;
     }
-    .company-item .company-actions .edit-btn:hover {
+    .company-item .company-actions .edit-btn:hover,
+    .user-item .user-actions .edit-btn:hover {
       background-color: #990000;
     }
-    .company-item .company-actions .delete-btn {
+    .company-item .company-actions .delete-btn,
+    .user-item .user-actions .delete-btn {
       background-color: #888;
       color: white;
     }
-    .company-item .company-actions .delete-btn:hover {
+    .company-item .company-actions .delete-btn:hover,
+    .user-item .user-actions .delete-btn:hover {
       background-color: #666;
-    }
-
-    /* ===== Liste des utilisateurs (lignes horizontales) ===== */
-    .user-item {
-      background-color: #ffffff;
-      padding: 10px 16px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-      border: 1px solid #ddd;
-      transition: border-color 0.2s;
-    }
-    .user-item:hover {
-      border-color: #cc0000;
-    }
-    .user-item .user-info {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex: 1 1 60%;
-      min-width: 200px;
     }
     .user-item .user-info .email {
       font-weight: 700;
@@ -161,25 +140,7 @@
       font-size: 0.95rem;
       color: #555;
     }
-    .user-item .user-actions {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    .user-item .user-actions .edit-btn {
-      background-color: #cc0000;
-      color: white;
-      border: none;
-      padding: 4px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.85rem;
-    }
-    .user-item .user-actions .edit-btn:hover {
-      background-color: #990000;
-    }
-
-    /* ===== Bouton Ajouter ===== */
+    /* Buttons & Formulare */
     .add-company-btn {
       background-color: #cc0000;
       color: white;
@@ -192,11 +153,7 @@
       margin-bottom: 20px;
       transition: 0.2s;
     }
-    .add-company-btn:hover {
-      background-color: #990000;
-    }
-
-    /* ===== Formulaire ===== */
+    .add-company-btn:hover { background-color: #990000; }
     .company-form-container {
       display: none;
       background-color: #f0f0f0;
@@ -205,9 +162,7 @@
       margin-bottom: 30px;
       border-left: 4px solid #cc0000;
     }
-    .company-form-container.active {
-      display: block;
-    }
+    .company-form-container.active { display: block; }
     .company-form-container .form-row {
       display: flex;
       flex-wrap: wrap;
@@ -245,16 +200,11 @@
       cursor: pointer;
       transition: 0.2s;
     }
-    .btn-submit:hover {
-      background-color: #990000;
-    }
+    .btn-submit:hover { background-color: #990000; }
     .btn-submit.secondary {
       background-color: #888;
     }
-    .btn-submit.secondary:hover {
-      background-color: #666;
-    }
-
+    .btn-submit.secondary:hover { background-color: #666; }
     .logo-preview {
       max-width: 120px;
       max-height: 120px;
@@ -264,20 +214,7 @@
       border-radius: 8px;
       padding: 4px;
     }
-    .logo-preview.visible {
-      display: block;
-    }
-
-    .upload-progress {
-      display: none;
-      margin-top: 8px;
-      font-weight: 500;
-      color: #cc0000;
-    }
-    .upload-progress.active {
-      display: block;
-    }
-
+    .logo-preview.visible { display: block; }
     .edit-mode-indicator {
       background-color: #ffcc00;
       padding: 4px 12px;
@@ -288,21 +225,13 @@
       margin-left: 12px;
       font-size: 0.8rem;
     }
-    .edit-mode-indicator.active {
-      display: inline-block;
-    }
-
+    .edit-mode-indicator.active { display: inline-block; }
     .message {
       margin-top: 10px;
       font-weight: 500;
     }
-    .message.success {
-      color: #008000;
-    }
-    .message.error {
-      color: #cc0000;
-    }
-
+    .message.success { color: #008000; }
+    .message.error { color: #cc0000; }
     .edit-form {
       margin-top: 20px;
       padding: 20px;
@@ -318,81 +247,128 @@
     .edit-form .form-row .form-group {
       flex: 1 1 200px;
     }
-
-    /* ===== Responsive ===== */
+    /* Responsive */
     @media (max-width: 600px) {
-      .admin-box {
-        padding: 20px;
-      }
-      .company-item,
-      .user-item {
+      .admin-box { padding: 20px; }
+      .company-item, .user-item {
         flex-direction: column;
         align-items: stretch;
         gap: 8px;
       }
       .company-item .company-info,
-      .user-item .user-info {
-        flex-wrap: wrap;
-      }
+      .user-item .user-info { flex-wrap: wrap; }
       .company-item .company-actions,
-      .user-item .user-actions {
-        justify-content: flex-end;
+      .user-item .user-actions { justify-content: flex-end; }
+    }
+    /* Header / Footer (falls style.css nicht lädt) */
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 40px;
+      background: white;
+      border-bottom: 2px solid #cc0000;
+    }
+    .dashboard-header .logo-link img { height: 50px; }
+    .welcome-center {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #333;
+    }
+    .dashboard-nav a {
+      margin: 0 12px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+    .dashboard-nav a.active { color: #cc0000; }
+    .login-btn {
+      background: #cc0000;
+      color: white;
+      padding: 6px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+    }
+    .dashboard-footer {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      border-top: 1px solid #ddd;
+      margin-top: 40px;
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #333;
+      border-radius: 2px;
+    }
+    @media (max-width: 768px) {
+      .dashboard-header { flex-wrap: wrap; }
+      .hamburger { display: flex; }
+      .dashboard-nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
       }
+      .dashboard-nav.open { display: flex; }
+      .dashboard-nav a { margin: 6px 0; }
+      .welcome-center { order: 3; width: 100%; text-align: center; margin-top: 6px; }
     }
   </style>
 </head>
 <body class="dashboard-page">
+
+  <!-- ===== HEADER ===== -->
   <header class="dashboard-header">
-    <!-- Logo à gauche -->
     <a href="index.html" class="logo-link">
       <img src="Images/Vertrauen_Logo.png" alt="Vertrauen Distributor" />
     </a>
-
-    <!-- Message de bienvenue centré -->
     <span id="userNameDisplay" class="welcome-center"></span>
-
-    <!-- Hamburger (visible sur mobile) -->
     <button class="hamburger" id="hamburgerBtn" aria-label="Menü öffnen/schließen">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
-
-    <!-- Navigation (masquée sur mobile, affichée en desktop) -->
     <nav class="dashboard-nav" id="mainNav">
       <a href="dashboard.html">Willkommen</a>
       <a href="stat.html">Statistik</a>
       <a href="company.html">Company</a>
       <a href="ueber-uns.html">Über uns</a>
       <a href="admin.html" class="active" id="adminLinkDesktop">Admin</a>
-      <!-- ⬇️ Lien de déconnexion pour mobile (caché sur desktop) -->
       <a href="#" id="logoutMobile" style="display:none;">Abmelden</a>
     </nav>
-
-    <!-- Bouton Login / Abmelden (à droite) -->
     <a href="login.html" class="login-btn">Login</a>
   </header>
 
+  <!-- ===== MAIN ===== -->
   <main class="dashboard-content">
-    <!-- ===== Carte grise avec bordure rouge (admin-box) ===== -->
     <div class="admin-box">
       <h1>Admin-Bereich</h1>
 
+      <!-- Tabs -->
       <div class="tab-container">
         <button class="tab-btn active" data-tab="tab-companies">Unternehmen</button>
         <button class="tab-btn" data-tab="tab-users">Benutzer</button>
+        <button class="tab-btn" data-tab="tab-contracts">Verträge</button>
       </div>
 
-      <!-- ===== ONGLET UNTERNEHMEN ===== -->
+      <!-- Tab: Unternehmen -->
       <div id="tab-companies" class="tab-content active">
         <button id="toggleCompanyForm" class="add-company-btn">➕ Unternehmen hinzufügen</button>
 
         <div id="companyFormContainer" class="company-form-container">
           <h2 id="companyFormTitle">Neues Unternehmen</h2>
           <span id="editModeIndicator" class="edit-mode-indicator">✏️ Bearbeitungsmodus</span>
-
-          <form id="companyForm" class="admin-form">
-            <input type="hidden" id="editCompanyId" value="" />
+          <form id="companyForm">
+            <input type="hidden" id="editCompanyId" />
             <div class="form-row">
               <div class="form-group">
                 <label for="compName">Name *</label>
@@ -416,14 +392,13 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="compCommercial">Commercial</label>
-                <input type="text" id="compCommercial" placeholder="Ansprechpartner / Vertriebler" />
+                <input type="text" id="compCommercial" placeholder="Ansprechpartner" />
               </div>
               <div class="form-group">
                 <label for="compLogo">Logo (Bild hochladen)</label>
                 <input type="file" id="compLogo" accept="image/*" />
                 <img id="logoPreview" class="logo-preview" alt="Logo Vorschau" />
-                <div id="uploadProgress" class="upload-progress">Wird hochgeladen...</div>
-                <small style="color:#888; display:block; margin-top:4px;">Unterstützte Formate: JPEG, PNG, GIF, etc.</small>
+                <small style="color:#888; display:block; margin-top:4px;">JPEG, PNG, GIF usw.</small>
               </div>
             </div>
             <div class="form-actions">
@@ -438,14 +413,14 @@
         <div id="companyList"><p>Lade Unternehmen...</p></div>
       </div>
 
-      <!-- ===== ONGLET BENUTZER ===== -->
+      <!-- Tab: Benutzer -->
       <div id="tab-users" class="tab-content">
         <h2 style="font-size:1.5rem; margin:20px 0 12px;">Benutzer verwalten</h2>
         <div id="userList"><p>Lade Benutzer...</p></div>
 
         <div id="editFormContainer" class="edit-form">
           <h3>Benutzer bearbeiten</h3>
-          <form id="editUserForm" class="admin-form">
+          <form id="editUserForm">
             <input type="hidden" id="editEmail" />
             <div class="form-row">
               <div class="form-group">
@@ -477,9 +452,16 @@
           </form>
         </div>
       </div>
+
+      <!-- Tab: Verträge (Platzhalter) -->
+      <div id="tab-contracts" class="tab-content">
+        <h2 style="font-size:1.5rem; margin:20px 0 12px;">Verträge verwalten</h2>
+        <p style="color:#666;">Hier können Sie Verträge einsehen und verwalten. (In Entwicklung)</p>
+      </div>
     </div>
   </main>
 
+  <!-- ===== FOOTER ===== -->
   <footer class="dashboard-footer">
     <a href="datenschutz.html">Datenschutzerklärung</a>
     <span style="color:#aaa; margin:0 12px;">|</span>
@@ -489,7 +471,8 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <!-- Toute la logique JS est dans main.js -->
+
+  <!-- ===== HIER WIRD main.js GELADEN ===== -->
   <script src="main.js"></script>
 </body>
 </html>

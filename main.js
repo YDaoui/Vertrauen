@@ -556,14 +556,41 @@ function initAdminPage() {
           <div class="user-item" data-email="${email}">
             <span class="email">${email}</span>
             <span class="info">${data.vorname || ''} ${data.nachname || ''}</span>
-            <button class="edit-btn" data-email="${email}">Bearbeiten</button>
+            <div class="user-actions">
+              <button class="edit-btn" data-email="${email}">Bearbeiten</button>
+              <button class="delete-btn" data-email="${email}">Löschen</button>
+            </div>
           </div>
         `;
       });
       container.innerHTML = html;
+
       document.querySelectorAll('#userList .edit-btn').forEach(btn => {
         btn.addEventListener('click', () => openEditUserForm(btn.dataset.email));
       });
+
+      document.querySelectorAll('#userList .delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const email = btn.dataset.email;
+          if (confirm(`Möchten Sie den Benutzer "${email}" wirklich löschen?`)) {
+            try {
+              await db.collection('users').doc(email).delete();
+              loadUsers();
+              document.getElementById('editFormContainer').style.display = 'none';
+              const msg = document.getElementById('editMessage');
+              if (msg) {
+                msg.textContent = '✅ Benutzer gelöscht.';
+                msg.className = 'message success';
+                setTimeout(() => { msg.textContent = ''; msg.className = 'message'; }, 3000);
+              }
+            } catch (error) {
+              console.error('Fehler beim Löschen:', error);
+              alert('Fehler beim Löschen des Benutzers.');
+            }
+          }
+        });
+      });
+
     } catch (error) {
       console.error(error);
       container.innerHTML = '<p>Fehler beim Laden.</p>';
@@ -664,18 +691,14 @@ function initCompanyPage() {
 // =====================================================================
 // ===== BLOC 4 : Gestion du bouton Login / Abmelden ===================
 // =====================================================================
-// =====================================================================
-// ===== BLOC 4 : Gestion du bouton Login / Abmelden ===================
-// =====================================================================
 function updateLoginButton() {
-  const loginBtn = document.querySelector('.login-btn'); // bouton dans la barre supérieure
-  const logoutMobile = document.getElementById('logoutMobile'); // lien dans le menu
+  const loginBtn = document.querySelector('.login-btn');
+  const logoutMobile = document.getElementById('logoutMobile');
   const isLoggedIn = localStorage.getItem('userEmail') !== null;
 
-  // 1. Gérer le bouton dans la barre supérieure
   if (loginBtn) {
     if (isLoggedIn) {
-      loginBtn.style.display = 'none'; // le cacher quand connecté
+      loginBtn.style.display = 'none';
     } else {
       loginBtn.style.display = 'block';
       loginBtn.textContent = 'Login';
@@ -684,7 +707,6 @@ function updateLoginButton() {
     }
   }
 
-  // 2. Gérer le lien "Abmelden" dans le menu (mobile & desktop)
   if (logoutMobile) {
     if (isLoggedIn) {
       logoutMobile.style.display = 'block';
@@ -700,9 +722,6 @@ function updateLoginButton() {
   }
 }
 
-// =====================================================================
-// ===== BLOC 5 : Affichage du message de bienvenue ====================
-// =====================================================================
 function updateUserDisplay() {
   const nameSpan = document.getElementById('userNameDisplay');
   if (!nameSpan) return;
@@ -722,9 +741,8 @@ function updateUserDisplay() {
 }
 
 // =====================================================================
-// ===== BLOC 6 : Menu transparent au scroll (désactivé si vous ne voulez pas) =====
+// ===== BLOC 6 : Menu transparent au scroll ===========================
 // =====================================================================
-// Si vous ne voulez pas de transparence, commentez ou supprimez cette fonction et son appel
 function initScrollHeader() {
   const header = document.querySelector('.dashboard-header');
   if (!header) return;
@@ -760,6 +778,114 @@ function initHamburger() {
 }
 
 // =====================================================================
+// ===== BLOC 8 : Chat Tawk.to (BOUTON INDÉPENDANT) ====================
+// =====================================================================
+function initTawkTo() {
+  // ---- 1. CRÉER LE BOUTON EN PREMIER (AVANT Tawk.to) ----
+  createPersistentButton();
+
+  // ---- 2. CHARGER TAWK.TO EN MODE "INVISIBLE" ----
+  window.Tawk_API = window.Tawk_API || {};
+  window.Tawk_API.onLoad = function() {
+    if (window.Tawk_API) {
+      // Masquer complètement le widget Tawk.to
+      window.Tawk_API.hideWidget();
+      window.Tawk_API.hideChatButton();
+      console.log('✅ Tawk.to chargé et masqué');
+    }
+  };
+
+  // Charger le script Tawk.to
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
+  script.charset = 'UTF-8';
+  script.setAttribute('crossorigin', '*');
+  document.head.appendChild(script);
+
+  // ---- 3. FONCTION DE CRÉATION DU BOUTON (INDÉPENDANT) ----
+  function createPersistentButton() {
+    // Supprimer l'ancien bouton
+    const oldBtn = document.getElementById('custom-tawk-btn');
+    if (oldBtn) oldBtn.remove();
+
+    // Créer le bouton
+    const floatBtn = document.createElement('div');
+    floatBtn.id = 'custom-tawk-btn';
+    floatBtn.className = 'tawk-float';
+    floatBtn.innerHTML = `
+      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712039.png" alt="Chat" />
+      <span class="tawk-tooltip">Frage stellen</span>
+    `;
+    
+    // Ajouter au body
+    document.body.appendChild(floatBtn);
+
+    // Ouvrir le chat au clic
+    floatBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      
+      if (window.Tawk_API) {
+        window.Tawk_API.toggle();
+      } else {
+        // Si Tawk.to n'est pas encore chargé, on attend
+        let attempts = 0;
+        const checkTawk = setInterval(function() {
+          attempts++;
+          if (window.Tawk_API) {
+            window.Tawk_API.toggle();
+            clearInterval(checkTawk);
+          } else if (attempts > 20) {
+            clearInterval(checkTawk);
+            console.warn('⚠️ Tawk.to non disponible après 10 secondes');
+          }
+        }, 500);
+      }
+    });
+
+    return floatBtn;
+  }
+
+  // ---- 4. SURVEILLANCE DU BOUTON ----
+  let observer = null;
+  
+  function setupObserver() {
+    if (observer) observer.disconnect();
+    
+    observer = new MutationObserver(function(mutations) {
+      for (const mutation of mutations) {
+        for (const node of mutation.removedNodes) {
+          if (node.id === 'custom-tawk-btn') {
+            console.log('🔄 Bouton supprimé, recréation immédiate...');
+            setTimeout(createPersistentButton, 10);
+            return;
+          }
+        }
+      }
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: false
+    });
+  }
+  
+  setTimeout(setupObserver, 100);
+
+  // ---- 5. INTERVALLE DE SÉCURITÉ ----
+  setInterval(function() {
+    const btn = document.getElementById('custom-tawk-btn');
+    if (!btn) {
+      console.log('🔄 Bouton manquant, recréation...');
+      createPersistentButton();
+    }
+  }, 2000);
+
+  console.log('✅ Assistant chat initialisé (bouton indépendant)');
+}
+
+// =====================================================================
 // ===== INIT GLOBAL ===================================================
 // =====================================================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -768,6 +894,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCompanyPage();
   updateLoginButton();
   updateUserDisplay();
-  initScrollHeader();   // Si vous ne voulez pas de transparence, retirez cette ligne
+  initScrollHeader();
   initHamburger();
+  initTawkTo();
 });
