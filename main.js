@@ -740,7 +740,9 @@ function updateUserDisplay() {
   }
 }
 
-
+// =====================================================================
+// ===== BLOC 6 : Menu transparent au scroll ===========================
+// =====================================================================
 function initScrollHeader() {
   const header = document.querySelector('.dashboard-header');
   if (!header) return;
@@ -776,12 +778,7 @@ function initHamburger() {
 }
 
 // =====================================================================
-// ===== BLOC 8 : Chat Tawk.to (BULLE DE CHAT SEULEMENT) ==============
-// =====================================================================
-
-
-  // =====================================================================
-// ===== BLOC 8 : Chat Tawk.to (BULLE DE CHAT AVEC BROUILLARD) ========
+// ===== BLOC 8 : Chat Tawk.to (GARDER LE BOUTON "WE ARE HERE") =======
 // =====================================================================
 function initTawkTo() {
   // ---- 1. SUPPRIMER VOTRE BOUTON ROUGE PERSONNALISÉ ----
@@ -798,14 +795,17 @@ function initTawkTo() {
     }
   });
 
-  // ---- 3. CHARGER TAWK.TO ----
+  // ---- 3. CONFIGURER TAWK.TO POUR QU'IL AFFICHE SON BOUTON ----
   window.Tawk_API = window.Tawk_API || {};
   window.Tawk_API.onLoad = function() {
     if (window.Tawk_API) {
-      console.log('✅ Tawk.to chargé - Bulle de chat avec brouillard');
+      // NE PAS cacher le widget - on le laisse s'afficher !
+      // NE PAS appeler hideWidget() ni hideChatButton()
+      console.log('✅ Tawk.to chargé - Bouton "We are here" visible');
     }
   };
 
+  // ---- 4. CHARGER TAWK.TO (sans cacher le bouton) ----
   const script = document.createElement('script');
   script.async = true;
   script.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
@@ -813,7 +813,7 @@ function initTawkTo() {
   script.setAttribute('crossorigin', '*');
   document.head.appendChild(script);
 
-  // ---- 4. SURVEILLANCE : SUPPRIMER LES BOUTONS PERSONNALISÉS ----
+  // ---- 5. SURVEILLANCE : SUPPRIMER LES BOUTONS PERSONNALISÉS ----
   let observer = null;
   
   function setupObserver() {
@@ -821,12 +821,14 @@ function initTawkTo() {
     
     observer = new MutationObserver(function(mutations) {
       for (const mutation of mutations) {
+        // Si un nouveau bouton personnalisé apparaît, le supprimer
         if (mutation.addedNodes.length > 0) {
           for (const node of mutation.addedNodes) {
             if (node.nodeType === 1) {
+              // Vérifier si c'est notre bouton rouge personnalisé
               if (node.id === 'custom-tawk-btn' || 
                   (node.className && typeof node.className === 'string' && 
-                   node.className.includes('tawk-float') && !node.className.includes('tawk-bubble'))) {
+                   (node.className.includes('tawk-float') && !node.className.includes('tawk-bubble')))) {
                 setTimeout(() => {
                   if (node.parentNode) {
                     node.remove();
@@ -848,19 +850,23 @@ function initTawkTo() {
   
   setTimeout(setupObserver, 100);
 
-  // ---- 5. INTERVALLE DE NETTOYAGE ----
+  // ---- 6. INTERVALLE DE NETTOYAGE ----
   setInterval(function() {
+    // Supprimer tout bouton personnalisé qui pourrait apparaître
     document.querySelectorAll('.tawk-float, #custom-tawk-btn, [class*="tawk-float"]:not(.tawk-bubble)').forEach(el => {
+      // Ne pas supprimer le bouton Tawk.to par défaut
       if (!el.className || !el.className.includes('tawk-bubble')) {
         el.remove();
       }
     });
   }, 2000);
 
-  console.log('✅ Assistant chat initialisé - BULLE AVEC BROUILLARD');
+  console.log('✅ Assistant chat initialisé - UN SEUL BOUTON : "We are here"');
 }
 
-
+// =====================================================================
+// ===== INIT GLOBAL ===================================================
+// =====================================================================
 document.addEventListener('DOMContentLoaded', () => {
   initLoginPage();
   initAdminPage();
