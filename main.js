@@ -315,7 +315,7 @@ function initLoginPage() {
           forgotMsg.style.color = '#008000';
         } else {
           forgotMsg.textContent = 'Kein Konto mit dieser E-Mail verknüpft.';
-          forgotMsg.style.color = '#cc0000';
+          forgotMsg.style.color = '#54e50d';
         }
       } catch (error) {
         console.error('Firebase error:', error);
@@ -778,95 +778,25 @@ function initHamburger() {
 }
 
 // =====================================================================
-// ===== BLOC 8 : Chat Tawk.to (GARDER LE BOUTON "WE ARE HERE") =======
+// ===== BLOC 8 : Chat Tawk.to ==========================================
 // =====================================================================
+// NOTE: La bulle "We are here" est un "Attention Grabber" natif de Tawk.to.
+// Elle ne peut pas être supprimée en JS depuis cette page car le widget
+// tourne dans un iframe cross-origin (embed.tawk.to) - le DOM interne
+// n'est pas accessible depuis main.js.
+// => À désactiver directement dans le dashboard Tawk.to :
+//    Admin > Channels > Chat Widget > Widget Appearance > Advanced > Attention Grabber
 function initTawkTo() {
-  // ---- 1. SUPPRIMER VOTRE BOUTON ROUGE PERSONNALISÉ ----
-  const oldBtn = document.getElementById('custom-tawk-btn');
-  if (oldBtn) {
-    oldBtn.remove();
-    console.log('🗑️ Bouton rouge personnalisé supprimé');
-  }
+  document.querySelectorAll('script[src*="embed.tawk.to"]').forEach(s => s.remove());
 
-  // ---- 2. SUPPRIMER TOUS LES BOUTONS PERSONNALISÉS ----
-  document.querySelectorAll('.tawk-float, .tawk-chat-custom, [class*="tawk-float"]').forEach(el => {
-    if (el.id !== 'custom-tawk-btn') {
-      el.remove();
-    }
-  });
-
-  // ---- 3. CONFIGURER TAWK.TO POUR QU'IL AFFICHE SON BOUTON ----
-  window.Tawk_API = window.Tawk_API || {};
-  window.Tawk_API.onLoad = function() {
-    if (window.Tawk_API) {
-      // NE PAS cacher le widget - on le laisse s'afficher !
-      // NE PAS appeler hideWidget() ni hideChatButton()
-      console.log('✅ Tawk.to chargé - Bouton "We are here" visible');
-    }
-  };
-
-  // ---- 4. CHARGER TAWK.TO (sans cacher le bouton) ----
   const script = document.createElement('script');
   script.async = true;
   script.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
   script.charset = 'UTF-8';
   script.setAttribute('crossorigin', '*');
   document.head.appendChild(script);
-
-  // ---- 5. SURVEILLANCE : SUPPRIMER LES BOUTONS PERSONNALISÉS ----
-  let observer = null;
-  
-  function setupObserver() {
-    if (observer) observer.disconnect();
-    
-    observer = new MutationObserver(function(mutations) {
-      for (const mutation of mutations) {
-        // Si un nouveau bouton personnalisé apparaît, le supprimer
-        if (mutation.addedNodes.length > 0) {
-          for (const node of mutation.addedNodes) {
-            if (node.nodeType === 1) {
-              // Vérifier si c'est notre bouton rouge personnalisé
-              if (node.id === 'custom-tawk-btn' || 
-                  (node.className && typeof node.className === 'string' && 
-                   (node.className.includes('tawk-float') && !node.className.includes('tawk-bubble')))) {
-                setTimeout(() => {
-                  if (node.parentNode) {
-                    node.remove();
-                    console.log('🗑️ Bouton personnalisé supprimé');
-                  }
-                }, 10);
-              }
-            }
-          }
-        }
-      }
-    });
-    
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-  }
-  
-  setTimeout(setupObserver, 100);
-
-  // ---- 6. INTERVALLE DE NETTOYAGE ----
-  setInterval(function() {
-    // Supprimer tout bouton personnalisé qui pourrait apparaître
-    document.querySelectorAll('.tawk-float, #custom-tawk-btn, [class*="tawk-float"]:not(.tawk-bubble)').forEach(el => {
-      // Ne pas supprimer le bouton Tawk.to par défaut
-      if (!el.className || !el.className.includes('tawk-bubble')) {
-        el.remove();
-      }
-    });
-  }, 2000);
-
-  console.log('✅ Assistant chat initialisé - UN SEUL BOUTON : "We are here"');
 }
 
-// =====================================================================
-// ===== INIT GLOBAL ===================================================
-// =====================================================================
 document.addEventListener('DOMContentLoaded', () => {
   initLoginPage();
   initAdminPage();
