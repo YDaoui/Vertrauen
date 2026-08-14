@@ -637,25 +637,33 @@ body.dashboard-page {
 }
 
 /* ---------- FOOTER ---------- */
+/* ---------- FOOTER ---------- */
 .dashboard-footer {
-    background-color: #f0f0f0;
+    background-color: #0c2545; /* Même couleur que le header */
     padding: 20px 40px;
     text-align: center;
-    border-top: 1px solid #ddd;
+    border-top: 3px solid #54e50d; /* Même bordure que le header */
     font-size: 0.95rem;
     margin-top: auto;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15); /* Ombre identique au header */
 }
 .dashboard-footer a {
-    color: #0c2545;
+    color: #54e50d; /* Texte blanc comme le header */
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s;
 }
 .dashboard-footer a:hover {
-    color: #54e50d;
+    color: #ffffff; /* Vert au hover comme le header */
     text-decoration: underline;
 }
-
+.dashboard-footer span {
+    color: #ffffff; /* Texte blanc */
+}
+.dashboard-footer .footer-separator {
+    color: #6a7b91;
+    margin: 0 4px;
+}
 /* ============================================================
    CARTES DASHBOARD – FOND #243957 / TEXTE BLANC
    ============================================================ */
