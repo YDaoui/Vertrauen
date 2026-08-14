@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Strom Distributor – Impressum</title>
+    <title>Vertrauen Distributor – Impressum</title>
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
@@ -18,19 +18,76 @@
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone.ico" />
     <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Style spécial pour la page d'accueil */
+        .top-bar-login {
+            background-color: #0c2545;
+            padding: 12px 48px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            max-width: 820px;
+            border-radius: 12px;
+            margin: 0 auto 24px auto;
+            box-shadow: 0 4px 20px rgba(12, 37, 69, 0.3);
+        }
+        .top-bar-login .btn-login {
+            background-color: #54e50d;
+            color: #0c2545;
+            border: none;
+            padding: 10px 32px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            text-decoration: none;
+            display: inline-block;
+        }
+        .top-bar-login .btn-login:hover {
+            background-color: #6a7b91;
+            color: #ffffff;
+            transform: scale(1.04);
+            box-shadow: 0 4px 16px rgba(106, 123, 145, 0.3);
+        }
+
+        /* Titre en vert et ligne en gris */
+        .impressum-card h1 {
+            color: #54e50d !important;
+            border-bottom: 2px solid #97a3b3 !important;
+        }
+
+        /* Liens email et téléphone - inversion des couleurs au hover */
+        .impressum-card .value a {
+            color: #54e50d !important;
+            text-decoration: none !important;
+            transition: all 0.3s ease !important;
+        }
+        .impressum-card .value a:hover {
+            color: #0c2545 !important;
+            text-decoration: underline !important;
+        }
+    </style>
 </head>
 <body class="index-page">
     <main class="main-content">
+        <!-- Logo -->
         <div class="logo-wrapper">
             <a href="index.html">
                 <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor Logo" />
             </a>
         </div>
 
-        <div class="top-bar">
+        <!-- Barre avec bouton Login à droite -->
+        <div class="top-bar-login">
             <a href="login.html" class="btn-login">Login</a>
         </div>
 
+        <!-- Carte Impressum -->
         <section class="impressum-card">
             <h1>Impressum</h1>
             <div class="block">
@@ -64,6 +121,7 @@
             </div>
         </section>
 
+        <!-- Footer -->
         <footer class="page-footer">
             <a href="#" class="footer-link">Impressum</a>
             <span class="footer-separator">|</span>
