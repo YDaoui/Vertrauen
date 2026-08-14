@@ -675,14 +675,24 @@ body.dashboard-page {
     width: 100%;
     color: #ffffff;
 }
-.willkommen-box:hover,
-.company-box:hover,
-.ueber-uns-box:hover,
-.stat-box:hover,
-.admin-box:hover {
-    border-color: #6a7b91;
-    box-shadow: 0 8px 30px rgba(84, 229, 13, 0.15);
-    transform: translateY(-2px);
+/* ============================================================
+   CARTES DASHBOARD – COULEURS IDENTIQUES AU HEADER
+   ============================================================ */
+.willkommen-box,
+.company-box,
+.ueber-uns-box,
+.stat-box,
+.admin-box {
+    background-color: #0c2545; /* Même couleur que le header */
+    border: 2px solid #54e50d;
+    border-radius: 16px;
+    padding: 40px 48px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+    color: #ffffff;
 }
 
 /* Titres dans les cartes */
@@ -1258,8 +1268,8 @@ hr.admin-hr {
     /* Hamburger à gauche */
     .hamburger {
         display: flex;
-        order: 0; /* Hamburger en premier (à gauche) */
-        margin-right: auto; /* Pousse les autres éléments à droite */
+        order: 0;
+        margin-right: auto;
     }
 
     .dashboard-header {
@@ -1269,7 +1279,6 @@ hr.admin-hr {
         justify-content: flex-start;
     }
     
-    /* Logo après le hamburger */
     .dashboard-header .logo-link {
         order: 1;
         flex-shrink: 0;
@@ -1278,7 +1287,6 @@ hr.admin-hr {
         max-height: 35px;
     }
     
-    /* Message de bienvenue */
     .welcome-center {
         order: 2;
         flex: 1;
@@ -1288,7 +1296,6 @@ hr.admin-hr {
         white-space: normal;
     }
     
-    /* Login caché sur mobile (remplacé par le menu) */
     .dashboard-header .login-btn {
         display: none !important;
     }
@@ -1328,7 +1335,6 @@ hr.admin-hr {
         color: #54e50d;
     }
 
-    /* Menu mobile scrolled */
     .dashboard-header.scrolled .dashboard-nav {
         background-color: rgba(255, 255, 255, 0.95);
         border-bottom-color: #97a3b3;
@@ -1341,7 +1347,6 @@ hr.admin-hr {
         color: #54e50d;
     }
 
-    /* Afficher le bouton Login/Abmelden dans le menu mobile */
     .dashboard-nav .login-btn-mobile {
         display: block !important;
         background-color: #54e50d;
@@ -1399,7 +1404,6 @@ hr.admin-hr {
         padding: 20px;
     }
     
-    /* Tabs responsive */
     .tab-container {
         gap: 10px;
         flex-wrap: wrap;
@@ -1479,6 +1483,7 @@ hr.admin-hr {
         font-size: 0.75rem;
     }
 }
+
 /* ============================================================
    STYLES SPÉCIFIQUES À LA PAGE ÜBER UNS
    ============================================================ */
@@ -1513,7 +1518,6 @@ hr.admin-hr {
     color: #54e50d;
 }
 
-/* Responsive pour Über uns */
 @media (max-width: 600px) {
     .ueber-uns-box {
         padding: 20px !important;
@@ -1536,4 +1540,27 @@ hr.admin-hr {
     .ueber-uns-box p {
         font-size: 0.9rem;
     }
+}
+
+/* ============================================================
+   NOMS DES ENTREPRISES EN VERT - ADMIN
+   ============================================================ */
+
+/* Noms des entreprises dans la liste admin (section Vorhandene Unternehmen) */
+#companyList .company-item .company-info .name,
+#companyList .company-item .company-info .comp-name,
+#companyList .company-item .company-info .company-name,
+#companyList .company-item .company-info > span:first-child,
+#companyList .company-item .company-info > div:first-child,
+#companyList .company-item .company-info .company-details .name {
+    color: #54e50d !important;
+    font-weight: 700 !important;
+}
+
+/* Pour tous les noms dans company-info */
+.admin-box .company-item .company-info .name,
+.admin-box .company-item .company-info .comp-name,
+.admin-box .company-item .company-info .company-name {
+    color: #54e50d !important;
+    font-weight: 700 !important;
 }

@@ -475,12 +475,13 @@ function initAdminPage() {
     }
   });
 
+  // ===== FONCTION LOAD COMPANIES ADMIN AVEC NOM EN VERT =====
   async function loadCompaniesAdmin() {
     const container = document.getElementById('companyList');
     try {
       const snapshot = await db.collection('companies').orderBy('createdAt', 'desc').get();
       if (snapshot.empty) {
-        container.innerHTML = '<p>Keine Unternehmen vorhanden.</p>';
+        container.innerHTML = '<p style="color:#6a7b91;">Keine Unternehmen vorhanden.</p>';
         return;
       }
       let html = '';
@@ -491,11 +492,11 @@ function initAdminPage() {
             <div class="company-info">
               ${logoImgHtml(data.logo, data.name)}
               <div>
-                <strong>${data.name || 'Unbekannt'}</strong>
-                ${data.service ? ` - ${data.service}` : ''}
-                ${data.commercial ? ` (Commercial: ${data.commercial})` : ''}
-                ${data.phone ? ` - Tel: ${data.phone}` : ''}
-                ${data.created ? ` - Erstellt: ${data.created}` : ''}
+                <strong style="color:#54e50d; font-weight:700;">${data.name || 'Unbekannt'}</strong>
+                ${data.service ? `<span style="color:#ffffff;"> - ${data.service}</span>` : ''}
+                ${data.commercial ? `<span style="color:#6a7b91;"> (Commercial: ${data.commercial})</span>` : ''}
+                ${data.phone ? `<span style="color:#6a7b91;"> - Tel: ${data.phone}</span>` : ''}
+                ${data.created ? `<span style="color:#6a7b91;"> - Erstellt: ${data.created}</span>` : ''}
               </div>
             </div>
             <div class="company-actions">
@@ -536,7 +537,7 @@ function initAdminPage() {
       });
     } catch (error) {
       console.error('❌ Fehler beim Laden:', error);
-      container.innerHTML = '<p>Fehler beim Laden.</p>';
+      container.innerHTML = '<p style="color:#ff6b6b;">Fehler beim Laden.</p>';
     }
   }
 
@@ -545,7 +546,7 @@ function initAdminPage() {
     try {
       const snapshot = await db.collection('users').get();
       if (snapshot.empty) {
-        container.innerHTML = '<p>Keine Benutzer vorhanden.</p>';
+        container.innerHTML = '<p style="color:#6a7b91;">Keine Benutzer vorhanden.</p>';
         return;
       }
       let html = '';
@@ -593,7 +594,7 @@ function initAdminPage() {
 
     } catch (error) {
       console.error(error);
-      container.innerHTML = '<p>Fehler beim Laden.</p>';
+      container.innerHTML = '<p style="color:#ff6b6b;">Fehler beim Laden.</p>';
     }
   }
 
@@ -658,7 +659,7 @@ function initCompanyPage() {
     try {
       const snapshot = await db.collection('companies').orderBy('createdAt', 'desc').get();
       if (snapshot.empty) {
-        container.innerHTML = '<p>Keine Unternehmen vorhanden.</p>';
+        container.innerHTML = '<p style="color:#6a7b91;">Keine Unternehmen vorhanden.</p>';
         return;
       }
       let html = '';
@@ -669,10 +670,10 @@ function initCompanyPage() {
             <div class="company-info">
               ${logoImgHtml(data.logo, data.name)}
               <div>
-                <strong>${data.name || 'Unbekannt'}</strong>
-                ${data.service ? ` - ${data.service}` : ''}
-                ${data.commercial ? ` (Commercial: ${data.commercial})` : ''}
-                ${data.phone ? ` - Tel: ${data.phone}` : ''}
+                <strong style="color:#54e50d; font-weight:700;">${data.name || 'Unbekannt'}</strong>
+                ${data.service ? `<span style="color:#ffffff;"> - ${data.service}</span>` : ''}
+                ${data.commercial ? `<span style="color:#6a7b91;"> (Commercial: ${data.commercial})</span>` : ''}
+                ${data.phone ? `<span style="color:#6a7b91;"> - Tel: ${data.phone}</span>` : ''}
               </div>
             </div>
           </div>
@@ -681,7 +682,7 @@ function initCompanyPage() {
       container.innerHTML = html;
     } catch (error) {
       console.error('❌ Fehler beim Laden:', error);
-      container.innerHTML = '<p>Fehler beim Laden.</p>';
+      container.innerHTML = '<p style="color:#ff6b6b;">Fehler beim Laden.</p>';
     }
   }
 
@@ -780,12 +781,6 @@ function initHamburger() {
 // =====================================================================
 // ===== BLOC 8 : Chat Tawk.to ==========================================
 // =====================================================================
-// NOTE: La bulle "We are here" est un "Attention Grabber" natif de Tawk.to.
-// Elle ne peut pas être supprimée en JS depuis cette page car le widget
-// tourne dans un iframe cross-origin (embed.tawk.to) - le DOM interne
-// n'est pas accessible depuis main.js.
-// => À désactiver directement dans le dashboard Tawk.to :
-//    Admin > Channels > Chat Widget > Widget Appearance > Advanced > Attention Grabber
 function initTawkTo() {
   document.querySelectorAll('script[src*="embed.tawk.to"]').forEach(s => s.remove());
 
