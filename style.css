@@ -501,6 +501,11 @@ body.dashboard-page {
 
 /* ===== LOGO - COULEURS PERSONNALISÉES ===== */
 /* Logo normal - couleurs originales sur fond bleu */
+.dashboard-header .logo-link {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
 .dashboard-header .logo-link img {
     max-height: 50px;
     width: auto;
@@ -509,9 +514,9 @@ body.dashboard-page {
     transition: filter 0.4s ease;
 }
 
-/* Logo scrolled - devient VERT (#54e50d) */
+/* Logo scrolled - devient BLEU FONCÉ comme le texte */
 .dashboard-header.scrolled .logo-link img {
-     filter: brightness(0) saturate(100%) invert(8%) sepia(71%) saturate(2289%) hue-rotate(197deg) brightness(91%) contrast(106%);
+    filter: brightness(0) saturate(100%) invert(8%) sepia(71%) saturate(2289%) hue-rotate(197deg) brightness(91%) contrast(106%);
 }
 
 /* Message de bienvenue centré */
@@ -1250,16 +1255,42 @@ hr.admin-hr {
 
 /* ---------- RESPONSIVE DASHBOARD ---------- */
 @media (max-width: 768px) {
+    /* Hamburger à gauche */
     .hamburger {
         display: flex;
+        order: 0; /* Hamburger en premier (à gauche) */
+        margin-right: auto; /* Pousse les autres éléments à droite */
     }
 
     .dashboard-header {
         padding: 10px 16px;
         flex-wrap: nowrap;
+        gap: 8px;
+        justify-content: flex-start;
+    }
+    
+    /* Logo après le hamburger */
+    .dashboard-header .logo-link {
+        order: 1;
+        flex-shrink: 0;
     }
     .dashboard-header .logo-link img {
         max-height: 35px;
+    }
+    
+    /* Message de bienvenue */
+    .welcome-center {
+        order: 2;
+        flex: 1;
+        text-align: center;
+        margin: 0 4px;
+        font-size: 0.85rem;
+        white-space: normal;
+    }
+    
+    /* Login caché sur mobile (remplacé par le menu) */
+    .dashboard-header .login-btn {
+        display: none !important;
     }
 
     .dashboard-nav {
@@ -1287,6 +1318,7 @@ hr.admin-hr {
         padding: 8px 0;
         border-bottom: none;
         color: #ffffff;
+        font-size: 1rem;
     }
     .dashboard-nav a::after {
         display: none;
@@ -1334,20 +1366,6 @@ hr.admin-hr {
         color: #0c2545 !important;
     }
 
-    /* Cacher le bouton desktop sur mobile */
-    .dashboard-header .login-btn {
-        display: none !important;
-    }
-
-    .welcome-center {
-        order: 3;
-        width: 100%;
-        text-align: center;
-        margin-top: 6px;
-        font-size: 0.9rem;
-        white-space: normal;
-    }
-
     .dashboard-content {
         padding: 0 20px 40px;
         margin-top: 80px;
@@ -1380,6 +1398,19 @@ hr.admin-hr {
     .stat-box {
         padding: 20px;
     }
+    
+    /* Tabs responsive */
+    .tab-container {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .tab-btn {
+        font-size: 1rem;
+        padding: 6px 12px;
+    }
+    .admin-box h1 {
+        font-size: 1.6rem;
+    }
 }
 
 @media (max-width: 600px) {
@@ -1402,6 +1433,9 @@ hr.admin-hr {
     }
     .company-item .company-actions {
         justify-content: flex-end;
+    }
+    .ueber-uns-box {
+        padding: 20px !important;
     }
 }
 
@@ -1433,6 +1467,16 @@ hr.admin-hr {
     }
     .datenschutz-card .ds-text {
         font-size: 0.9rem;
+    }
+    .admin-box h1 {
+        font-size: 1.3rem;
+    }
+    .tab-btn {
+        font-size: 0.85rem;
+        padding: 4px 10px;
+    }
+    .welcome-center {
+        font-size: 0.75rem;
     }
 }
 /* ============================================================
@@ -1469,8 +1513,27 @@ hr.admin-hr {
     color: #54e50d;
 }
 
+/* Responsive pour Über uns */
 @media (max-width: 600px) {
     .ueber-uns-box {
         padding: 20px !important;
+    }
+    .ueber-uns-box h2 {
+        font-size: 1.5rem;
+    }
+    .ueber-uns-box p {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 450px) {
+    .ueber-uns-box {
+        padding: 16px !important;
+    }
+    .ueber-uns-box h2 {
+        font-size: 1.3rem;
+    }
+    .ueber-uns-box p {
+        font-size: 0.9rem;
     }
 }
