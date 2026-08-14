@@ -14,436 +14,6 @@
     gtag('config', 'G-EV3MLGBFYW');
   </script>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* Styles spécifiques à la page Company - COULEURS HOMOGENES */
-    .company-item {
-      background-color: rgba(255, 255, 255, 0.06);
-      padding: 12px 18px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-      border: 1px solid #6a7b91;
-      transition: border-color 0.2s, background-color 0.2s;
-      color: #ffffff;
-    }
-    .company-item:hover {
-      border-color: #54e50d;
-      background-color: rgba(255, 255, 255, 0.10);
-    }
-    .company-item .company-info {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex: 1 1 60%;
-      min-width: 200px;
-    }
-    .company-item .company-info img {
-      width: 50px;
-      height: 50px;
-      object-fit: contain;
-      border-radius: 8px;
-      background-color: #fff;
-      border: 1px solid #6a7b91;
-      padding: 4px;
-    }
-    .company-item .company-details {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .company-item .company-details .name {
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #54e50d;
-    }
-    .company-item .company-details .meta {
-      font-size: 0.9rem;
-      color: #ffffff;
-    }
-    .company-item .company-details .meta span {
-      margin-right: 12px;
-    }
-    .company-item .company-stats {
-      font-weight: 600;
-      color: #0c2545;
-      background-color: #54e50d;
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid #54e50d;
-      white-space: nowrap;
-    }
-    .company-item .company-stats .number {
-      font-size: 1.2rem;
-    }
-
-    /* Carte principale - COULEURS HOMOGENES */
-    .company-box {
-      background-color: #243957 !important;
-      border: 2px solid #54e50d !important;
-      border-radius: 16px !important;
-      padding: 30px 40px !important;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
-      max-width: 900px !important;
-      margin: 0 auto !important;
-      width: 100% !important;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-    .company-box:hover {
-      border-color: #6a7b91 !important;
-      box-shadow: 0 6px 30px rgba(84, 229, 13, 0.15) !important;
-    }
-    .company-box h2 {
-      color: #54e50d;
-      border-bottom: 2px solid #97a3b3;
-      padding-bottom: 12px;
-      margin-bottom: 24px;
-    }
-    .company-box p {
-      color: #ffffff;
-    }
-
-    /* ============================================================
-       HEADER HOMOGENE AVEC EFFET DE SCROLL
-       ============================================================ */
-    .dashboard-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 40px;
-      background-color: #0c2545;
-      border-bottom: 3px solid #54e50d;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-      flex-wrap: wrap;
-      transition: all 0.4s ease;
-    }
-
-    /* Header scrolled - fond transparent avec flou */
-    .dashboard-header.scrolled {
-      background-color: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 3px solid #97a3b3;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-    }
-
-    /* Logo normal */
-    .dashboard-header .logo-link {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-    .dashboard-header .logo-link img {
-      max-height: 50px;
-      width: auto;
-      display: block;
-      filter: brightness(0) invert(1);
-      transition: filter 0.4s ease;
-    }
-
-    /* Logo scrolled - devient sombre */
-    .dashboard-header.scrolled .logo-link img {
-      filter: brightness(0) invert(0);
-    }
-
-    .welcome-center {
-      flex: 1;
-      text-align: center;
-      font-weight: 500;
-      font-size: 1rem;
-      color: #ffffff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin: 0 8px;
-      transition: color 0.4s ease;
-    }
-    .welcome-center .welcome-text {
-      color: #54e50d;
-      font-weight: 600;
-    }
-    .welcome-center .welcome-name {
-      color: #ffffff;
-      font-weight: 500;
-    }
-
-    /* Texte bienvenue scrolled - devient sombre */
-    .dashboard-header.scrolled .welcome-center {
-      color: #0c2545;
-    }
-    .dashboard-header.scrolled .welcome-center .welcome-name {
-      color: #0c2545;
-    }
-
-    .dashboard-nav {
-      display: flex;
-      gap: 28px;
-      font-weight: 500;
-      font-size: 1.05rem;
-      flex-wrap: wrap;
-      position: relative;
-    }
-    .dashboard-nav a {
-      color: #ffffff;
-      text-decoration: none;
-      padding: 6px 0 10px 0;
-      position: relative;
-      transition: color 0.25s ease;
-    }
-    .dashboard-nav a::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 3px;
-      background-color: #97a3b3;
-      transform: scaleX(0);
-      transform-origin: left center;
-      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .dashboard-nav a:hover {
-      color: #54e50d;
-    }
-    .dashboard-nav a:hover::after {
-      transform: scaleX(1);
-    }
-    .dashboard-nav a.active {
-      color: #54e50d;
-    }
-    .dashboard-nav a.active::after {
-      transform: scaleX(1);
-    }
-
-    /* Liens scrolled - deviennent sombres */
-    .dashboard-header.scrolled .dashboard-nav a {
-      color: #0c2545;
-    }
-    .dashboard-header.scrolled .dashboard-nav a:hover,
-    .dashboard-header.scrolled .dashboard-nav a.active {
-      color: #54e50d;
-    }
-    .dashboard-header.scrolled .dashboard-nav a::after {
-      background-color: #97a3b3;
-    }
-
-    /* BOUTON LOGIN */
-    .dashboard-header .login-btn {
-      background-color: #54e50d;
-      color: #0c2545 !important;
-      padding: 8px 28px;
-      border-radius: 30px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-    .dashboard-header .login-btn:hover {
-      background-color: #6a7b91;
-      color: #ffffff !important;
-    }
-
-    /* Bouton login scrolled */
-    .dashboard-header.scrolled .login-btn {
-      background-color: #0c2545;
-      color: #ffffff !important;
-    }
-    .dashboard-header.scrolled .login-btn:hover {
-      background-color: #54e50d;
-      color: #0c2545 !important;
-    }
-
-    /* ---------- CONTENU PRINCIPAL ---------- */
-    .dashboard-content {
-      flex: 1;
-      max-width: 1200px;
-      margin: 100px auto 40px;
-      padding: 0 40px 60px;
-      width: 100%;
-    }
-
-    /* ---------- FOOTER ---------- */
-    .dashboard-footer {
-      background-color: #f0f0f0;
-      padding: 20px 40px;
-      text-align: center;
-      border-top: 1px solid #ddd;
-      font-size: 0.95rem;
-      margin-top: auto;
-    }
-    .dashboard-footer a {
-      color: #0c2545;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .dashboard-footer a:hover {
-      color: #54e50d;
-      text-decoration: underline;
-    }
-
-    /* --- Hamburger --- */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: space-around;
-      width: 30px;
-      height: 25px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      flex-shrink: 0;
-    }
-    .hamburger span {
-      display: block;
-      width: 100%;
-      height: 3px;
-      background-color: #ffffff;
-      border-radius: 2px;
-      transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.4s ease;
-    }
-
-    /* Hamburger scrolled - devient sombre */
-    .dashboard-header.scrolled .hamburger span {
-      background-color: #0c2545;
-    }
-
-    .hamburger.active span:nth-child(1) {
-      transform: translateY(8px) rotate(45deg);
-    }
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger.active span:nth-child(3) {
-      transform: translateY(-8px) rotate(-45deg);
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .company-item {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-      }
-      .company-item .company-info {
-        flex-wrap: wrap;
-      }
-      .company-item .company-stats {
-        align-self: flex-start;
-      }
-      .company-box {
-        padding: 20px !important;
-      }
-      .dashboard-content {
-        margin-top: 80px;
-        padding: 0 20px 40px;
-      }
-    }
-
-    /* ---------- RESPONSIVE : mobile ---------- */
-    @media (max-width: 768px) {
-      .hamburger {
-        display: flex;
-      }
-
-      .dashboard-header {
-        padding: 10px 16px;
-        flex-wrap: nowrap;
-      }
-      .dashboard-header .logo-link img {
-        max-height: 35px;
-      }
-      .dashboard-nav {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background-color: #0c2545;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px 0;
-        gap: 16px;
-        border-bottom: 3px solid #97a3b3;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-        transform: translateY(-120%);
-        transition: transform 0.3s ease;
-        z-index: 999;
-        display: flex;
-        margin: 0;
-      }
-      .dashboard-nav.open {
-        transform: translateY(0);
-      }
-      .dashboard-nav a {
-        padding: 8px 0;
-        border-bottom: none;
-        color: #ffffff;
-      }
-      .dashboard-nav a::after {
-        display: none;
-      }
-      .dashboard-nav a:hover,
-      .dashboard-nav a.active {
-        color: #54e50d;
-      }
-
-      /* Menu mobile scrolled */
-      .dashboard-header.scrolled .dashboard-nav {
-        background-color: rgba(255, 255, 255, 0.95);
-        border-bottom-color: #97a3b3;
-      }
-      .dashboard-header.scrolled .dashboard-nav a {
-        color: #0c2545;
-      }
-      .dashboard-header.scrolled .dashboard-nav a:hover,
-      .dashboard-header.scrolled .dashboard-nav a.active {
-        color: #54e50d;
-      }
-
-      .dashboard-nav .login-btn-mobile {
-        display: block !important;
-        background-color: #54e50d;
-        color: #0c2545 !important;
-        padding: 8px 28px;
-        border-radius: 30px;
-        font-weight: 600;
-        text-decoration: none;
-        margin-top: 8px;
-      }
-      .dashboard-nav .login-btn-mobile:hover {
-        background-color: #6a7b91;
-        color: #ffffff !important;
-      }
-
-      .dashboard-header.scrolled .dashboard-nav .login-btn-mobile {
-        background-color: #0c2545;
-        color: #ffffff !important;
-      }
-      .dashboard-header.scrolled .dashboard-nav .login-btn-mobile:hover {
-        background-color: #54e50d;
-        color: #0c2545 !important;
-      }
-
-      .dashboard-header .login-btn {
-        display: none !important;
-      }
-      .welcome-center {
-        order: 3;
-        width: 100%;
-        text-align: center;
-        margin-top: 6px;
-        font-size: 0.9rem;
-        white-space: normal;
-      }
-    }
-  </style>
 </head>
 <body class="dashboard-page">
   <header class="dashboard-header" id="dashboardHeader">
@@ -462,18 +32,17 @@
       <span></span>
     </button>
 
-    <!-- Navigation (masquée sur mobile, affichée en desktop) -->
+    <!-- Navigation -->
     <nav class="dashboard-nav" id="mainNav">
       <a href="dashboard.html">Willkommen</a>
       <a href="stat.html">Statistik</a>
       <a href="company.html" class="active">Company</a>
       <a href="ueber-uns.html">Über uns</a>
       <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
-      <!-- ⬇️ Lien de déconnexion pour mobile (caché sur desktop) -->
       <a href="#" id="logoutMobile" style="display:none;">Abmelden</a>
     </nav>
 
-    <!-- Bouton Login / Abmelden (à droite) -->
+    <!-- Bouton Login / Abmelden -->
     <a href="login.html" class="login-btn">Login</a>
   </header>
 
@@ -496,24 +65,18 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <!-- Toute la logique JS est dans main.js -->
   <script src="main.js"></script>
 
-  <!-- Script d'affichage des entreprises -->
   <script>
     // ===== EFFET DE SCROLL SUR LE HEADER =====
     document.addEventListener('DOMContentLoaded', function() {
       const header = document.getElementById('dashboardHeader');
-      let lastScrollY = 0;
-
       window.addEventListener('scroll', function() {
-        const scrollY = window.scrollY;
-        if (scrollY > 50) {
+        if (window.scrollY > 50) {
           header.classList.add('scrolled');
         } else {
           header.classList.remove('scrolled');
         }
-        lastScrollY = scrollY;
       });
     });
 
@@ -530,13 +93,12 @@
       }
     });
 
-    // Fonction pour charger les entreprises dans la vue publique (lignes horizontales)
+    // ===== CHARGER LES ENTREPRISES =====
     function loadPublicCompanies() {
       const container = document.getElementById('companyListPublic');
       if (!container) return;
       container.innerHTML = '<p style="color:#6a7b91;">Lade Unternehmen...</p>';
 
-      // Vérifier que Firebase est initialisé (via main.js)
       if (typeof firebase === 'undefined' || !firebase.apps.length) {
         console.warn('Firebase nicht initialisiert. Warte...');
         setTimeout(loadPublicCompanies, 500);
@@ -558,15 +120,12 @@
           snapshot.forEach(doc => {
             const data = doc.data();
             const logoUrl = data.logo || 'Images/default_company.png';
-            // Construction des métadonnées
             let metaParts = [];
             if (data.service) metaParts.push('Service: ' + data.service);
             if (data.phone) metaParts.push('Tel: ' + data.phone);
             if (data.commercial) metaParts.push('Commercial: ' + data.commercial);
             if (data.created) metaParts.push('Erstellt: ' + data.created);
             const metaText = metaParts.join(' | ');
-
-            // Ici on met le nombre d'adhérents à 0 (à améliorer plus tard)
             const adherents = 0;
 
             html += `
@@ -597,7 +156,6 @@
       document.getElementById('adminLink').style.display = 'inline-block';
     }
 
-    // Lancer le chargement quand le DOM est prêt
     document.addEventListener('DOMContentLoaded', loadPublicCompanies);
   </script>
 </body>
