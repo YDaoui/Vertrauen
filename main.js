@@ -760,24 +760,46 @@ function initScrollHeader() {
 // =====================================================================
 // ===== BLOC 7 : Menu hamburger sur mobile ============================
 // =====================================================================
+// =====================================================================
+// ===== BLOC 7 : Menu hamburger sur mobile ============================
+// =====================================================================
 function initHamburger() {
   const hamburger = document.getElementById('hamburgerBtn');
   const nav = document.getElementById('mainNav');
   if (!hamburger || !nav) return;
 
-  hamburger.addEventListener('click', function() {
+  // Supprimer les anciens événements pour éviter les doublons
+  const newHamburger = hamburger.cloneNode(true);
+  hamburger.parentNode.replaceChild(newHamburger, hamburger);
+  
+  const newNav = nav.cloneNode(true);
+  nav.parentNode.replaceChild(newNav, nav);
+
+  // Réattacher les événements
+  const finalHamburger = document.getElementById('hamburgerBtn');
+  const finalNav = document.getElementById('mainNav');
+
+  finalHamburger.addEventListener('click', function(e) {
+    e.stopPropagation();
     this.classList.toggle('active');
-    nav.classList.toggle('open');
+    finalNav.classList.toggle('open');
   });
 
-  nav.querySelectorAll('a').forEach(link => {
+  finalNav.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', function() {
-      hamburger.classList.remove('active');
-      nav.classList.remove('open');
+      finalHamburger.classList.remove('active');
+      finalNav.classList.remove('open');
     });
   });
-}
 
+  // Fermer le menu si on clique en dehors
+  document.addEventListener('click', function(e) {
+    if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
+      finalHamburger.classList.remove('active');
+      finalNav.classList.remove('open');
+    }
+  });
+}
 // =====================================================================
 // ===== BLOC 8 : Chat Tawk.to ==========================================
 // =====================================================================

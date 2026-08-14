@@ -1316,7 +1316,9 @@ hr.admin-hr {
         top: 100%;
         left: 0;
         right: 0;
-        background-color: #0c2545;
+        background-color: rgba(12, 37, 69, 0.92); /* Transparent à 92% */
+        backdrop-filter: blur(10px); /* Effet de flou au fond */
+        -webkit-backdrop-filter: blur(10px); /* Pour Safari */
         flex-direction: column;
         align-items: center;
         padding: 20px 0;
