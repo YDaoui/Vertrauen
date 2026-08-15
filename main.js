@@ -348,6 +348,7 @@ function initAdminPage() {
     });
   });
 
+  // ===== GESTION DES ENTREPRISES =====
   const formContainer = document.getElementById('companyFormContainer');
   const toggleBtn = document.getElementById('toggleCompanyForm');
   const cancelFormBtn = document.getElementById('cancelCompanyForm');
@@ -475,7 +476,6 @@ function initAdminPage() {
     }
   });
 
-  // ===== FONCTION LOAD COMPANIES ADMIN AVEC NOM EN VERT =====
   async function loadCompaniesAdmin() {
     const container = document.getElementById('companyList');
     try {
@@ -541,6 +541,7 @@ function initAdminPage() {
     }
   }
 
+  // ===== GESTION DES UTILISATEURS =====
   async function loadUsers() {
     const container = document.getElementById('userList');
     try {
@@ -644,8 +645,13 @@ function initAdminPage() {
     document.getElementById('editFormContainer').style.display = 'none';
   });
 
+  // ===== GESTION DES OFFRES (Angebote) =====
+  initOfferForm();
+
+  // Charger les données au démarrage
   loadCompaniesAdmin();
   loadUsers();
+  loadOffersAdmin();
 }
 
 // =====================================================================
@@ -742,7 +748,7 @@ function updateUserDisplay() {
 }
 
 // =====================================================================
-// ===== BLOC 6 : Menu transparent au scroll ===========================
+// ===== BLOC 5 : Menu transparent au scroll ===========================
 // =====================================================================
 function initScrollHeader() {
   const header = document.querySelector('.dashboard-header');
@@ -758,10 +764,7 @@ function initScrollHeader() {
 }
 
 // =====================================================================
-// ===== BLOC 7 : Menu hamburger sur mobile ============================
-// =====================================================================
-// =====================================================================
-// ===== BLOC 7 : Menu hamburger sur mobile ============================
+// ===== BLOC 6 : Menu hamburger sur mobile ============================
 // =====================================================================
 function initHamburger() {
   const hamburger = document.getElementById('hamburgerBtn');
@@ -771,7 +774,7 @@ function initHamburger() {
   // Supprimer les anciens événements pour éviter les doublons
   const newHamburger = hamburger.cloneNode(true);
   hamburger.parentNode.replaceChild(newHamburger, hamburger);
-  
+
   const newNav = nav.cloneNode(true);
   nav.parentNode.replaceChild(newNav, nav);
 
@@ -800,8 +803,9 @@ function initHamburger() {
     }
   });
 }
+
 // =====================================================================
-// ===== BLOC 8 : Chat Tawk.to ==========================================
+// ===== BLOC 7 : Chat Tawk.to ==========================================
 // =====================================================================
 function initTawkTo() {
   document.querySelectorAll('script[src*="embed.tawk.to"]').forEach(s => s.remove());
@@ -814,10 +818,491 @@ function initTawkTo() {
   document.head.appendChild(script);
 }
 
+// =====================================================================
+// ===== BLOC STATS : stat.html ========================================
+// =====================================================================
+function initStatsPage() {
+    // Vérifier si on est sur la page stats
+    if (!document.getElementById('emailDonut')) return;
+
+    if (typeof firebase === 'undefined' || !firebase.apps.length) {
+        console.warn('Firebase nicht initialisiert. Warte...');
+        setTimeout(initStatsPage, 500);
+        return;
+    }
+    const db = firebase.firestore();
+
+    let emailChart = null,
+        companyChart = null,
+        stromChart = null,
+        gasChart = null,
+        stromVertragChart = null,
+        gasVertragChart = null;
+
+    async function loadStats() {
+        try {
+            const [usersSnap, companiesSnap, offersSnap] = await Promise.all([
+                db.collection('users').get(),
+                db.collection('companies').get(),
+                db.collection('offers').get()
+            ]);
+
+            const totalUsers = usersSnap.size;
+            const totalCompanies = companiesSnap.size;
+
+            // Compter les offres par type
+            let totalStrom = 0;
+            let totalGas = 0;
+
+            offersSnap.forEach(doc => {
+                const data = doc.data();
+                if (data.type === 'strom' || data.type === 'both') {
+                    totalStrom++;
+                }
+                if (data.type === 'gas' || data.type === 'both') {
+                    totalGas++;
+                }
+            });
+
+            // Pour les contrats, on n'a pas encore de données => 0
+            const totalStromVertrag = 0;
+            const totalGasVertrag = 0;
+
+            // Mettre à jour les nombres
+            const emailEl = document.getElementById('emailCount');
+            const companyEl = document.getElementById('companyCount');
+            const stromEl = document.getElementById('stromCount');
+            const gasEl = document.getElementById('gasCount');
+            const stromVertragEl = document.getElementById('stromVertragCount');
+            const gasVertragEl = document.getElementById('gasVertragCount');
+
+            if (emailEl) emailEl.textContent = totalUsers;
+            if (companyEl) companyEl.textContent = totalCompanies;
+            if (stromEl) stromEl.textContent = totalStrom;
+            if (gasEl) gasEl.textContent = totalGas;
+            if (stromVertragEl) stromVertragEl.textContent = totalStromVertrag;
+            if (gasVertragEl) gasVertragEl.textContent = totalGasVertrag;
+
+            // Mettre à jour les graphiques
+            updateDonut('emailDonut', totalUsers, '#54e50d', '#6a7b91');
+            updateDonut('companyDonut', totalCompanies, '#54e50d', '#6a7b91');
+            updateDonut('stromDonut', totalStrom, '#54e50d', '#6a7b91');
+            updateDonut('gasDonut', totalGas, '#54e50d', '#6a7b91');
+            updateDonut('stromVertragDonut', totalStromVertrag, '#54e50d', '#6a7b91');
+            updateDonut('gasVertragDonut', totalGasVertrag, '#54e50d', '#6a7b91');
+
+        } catch (error) {
+            console.error('Fehler beim Laden der Statistiken:', error);
+            const ids = ['emailCount', 'companyCount', 'stromCount', 'gasCount', 'stromVertragCount', 'gasVertragCount'];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = '❌';
+            });
+        }
+    }
+
+    function updateDonut(canvasId, value, color, bgColor) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        // Détruire le graphique précédent
+        if (canvasId === 'emailDonut' && emailChart) { emailChart.destroy(); }
+        else if (canvasId === 'companyDonut' && companyChart) { companyChart.destroy(); }
+        else if (canvasId === 'stromDonut' && stromChart) { stromChart.destroy(); }
+        else if (canvasId === 'gasDonut' && gasChart) { gasChart.destroy(); }
+        else if (canvasId === 'stromVertragDonut' && stromVertragChart) { stromVertragChart.destroy(); }
+        else if (canvasId === 'gasVertragDonut' && gasVertragChart) { gasVertragChart.destroy(); }
+
+        const displayValue = Math.min(value, 100);
+        const remaining = 100 - displayValue;
+
+        const chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['', ''],
+                datasets: [{
+                    data: [displayValue, remaining],
+                    backgroundColor: [color, bgColor],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: '70%',
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
+            },
+            plugins: [{
+                id: 'centerText',
+                beforeDraw: function(chart) {
+                    const { width, height, ctx } = chart;
+                    ctx.save();
+                    const text = value.toString();
+                    ctx.font = 'bold 26px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillStyle = '#ffffff';
+                    const centerX = width / 2;
+                    const centerY = height / 2;
+                    ctx.fillText(text, centerX, centerY);
+                    ctx.restore();
+                }
+            }]
+        });
+
+        if (canvasId === 'emailDonut') { emailChart = chart; }
+        else if (canvasId === 'companyDonut') { companyChart = chart; }
+        else if (canvasId === 'stromDonut') { stromChart = chart; }
+        else if (canvasId === 'gasDonut') { gasChart = chart; }
+        else if (canvasId === 'stromVertragDonut') { stromVertragChart = chart; }
+        else if (canvasId === 'gasVertragDonut') { gasVertragChart = chart; }
+    }
+
+    loadStats();
+}
+
+// =====================================================================
+// ===== GESTION DES OFFRES (Angebote) - ADMIN =========================
+// =====================================================================
+// NOTE IMPORTANTE :
+// Un <select> HTML natif ne peut pas afficher d'image dans ses <option>.
+// On utilise donc un "combo" personnalisé (div + bouton) qui affiche
+// le logo ET le nom de chaque entreprise dans la liste déroulante.
+// Un <input type="hidden" id="offerCompany"> garde la valeur sélectionnée
+// pour ne rien casser dans le reste du code (offerForm.submit, etc.)
+// =====================================================================
+
+// Charger les entreprises dans le combo personnalisé (logo + nom)
+async function loadCompaniesForOfferSelect() {
+    const panel = document.getElementById('offerCompanyPanel');
+    if (!panel) return;
+
+    panel.innerHTML = '<p style="color:#6a7b91; padding:10px;">Lade Unternehmen...</p>';
+
+    try {
+        const snapshot = await db.collection('companies').orderBy('name').get();
+
+        if (snapshot.empty) {
+            panel.innerHTML = '<p style="color:#6a7b91; padding:10px;">Keine Unternehmen vorhanden.</p>';
+            return;
+        }
+
+        const currentId = document.getElementById('offerCompany')?.value || '';
+        let html = '';
+
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const name = (data.name || 'Unbekannt').replace(/"/g, '&quot;');
+            const logo = data.logo || '';
+            const selectedClass = doc.id === currentId ? ' selected' : '';
+
+            html += `
+              <div class="custom-select-option${selectedClass}" data-id="${doc.id}" data-name="${name}" data-logo="${logo}">
+                <img src="${logo || DEFAULT_LOGO}" alt="${name}" class="custom-select-option-logo" onerror="this.onerror=null;this.src='${DEFAULT_LOGO}';" />
+                <span class="custom-select-option-name">${name}</span>
+              </div>
+            `;
+        });
+
+        panel.innerHTML = html;
+
+        panel.querySelectorAll('.custom-select-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                setOfferCompanySelection(opt.dataset.id, opt.dataset.name, opt.dataset.logo);
+                closeOfferCompanyPanel();
+            });
+        });
+
+    } catch (error) {
+        console.error('Fehler beim Laden der Unternehmen:', error);
+        panel.innerHTML = '<p style="color:#ff6b6b; padding:10px;">Fehler beim Laden.</p>';
+    }
+}
+
+// Applique une sélection (id + nom + logo) au combo : input caché + bouton visible
+function setOfferCompanySelection(id, name, logoUrl) {
+    const hiddenInput = document.getElementById('offerCompany');
+    const trigger = document.getElementById('offerCompanyTrigger');
+    if (hiddenInput) hiddenInput.value = id || '';
+
+    if (trigger) {
+        if (id) {
+            trigger.innerHTML = `
+              <img src="${logoUrl || DEFAULT_LOGO}" alt="${name || ''}" class="custom-select-trigger-logo" onerror="this.onerror=null;this.src='${DEFAULT_LOGO}';" />
+              <span class="custom-select-trigger-name">${name || ''}</span>
+            `;
+        } else {
+            trigger.innerHTML = '<span class="custom-select-trigger-placeholder">-- Unternehmen auswählen --</span>';
+        }
+    }
+
+    document.querySelectorAll('#offerCompanyPanel .custom-select-option').forEach(opt => {
+        opt.classList.toggle('selected', opt.dataset.id === id);
+    });
+}
+
+function openOfferCompanyPanel() {
+    const wrap = document.getElementById('offerCompanySelect');
+    if (wrap) wrap.classList.add('open');
+}
+
+function closeOfferCompanyPanel() {
+    const wrap = document.getElementById('offerCompanySelect');
+    if (wrap) wrap.classList.remove('open');
+}
+
+// Ouvre/ferme le combo personnalisé au clic, et ferme si on clique ailleurs
+function setupCompanyLogoPreview() {
+    const trigger = document.getElementById('offerCompanyTrigger');
+    const wrap = document.getElementById('offerCompanySelect');
+    if (!trigger || !wrap) return;
+
+    // Éviter les doublons d'écouteurs si la fonction est rappelée
+    const newTrigger = trigger.cloneNode(true);
+    trigger.parentNode.replaceChild(newTrigger, trigger);
+
+    newTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        wrap.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!wrap.contains(e.target)) closeOfferCompanyPanel();
+    });
+}
+
+// Gestion du formulaire d'offres (ajout ET édition, un seul handler submit)
+function initOfferForm() {
+    const offerForm = document.getElementById('offerForm');
+    const toggleOfferBtn = document.getElementById('toggleOfferForm');
+    const offerFormContainer = document.getElementById('offerFormContainer');
+    const cancelOfferBtn = document.getElementById('cancelOfferForm');
+    const offerMessage = document.getElementById('offerMessage');
+
+    // Charger les entreprises dans le combo
+    loadCompaniesForOfferSelect();
+    setupCompanyLogoPreview();
+
+    if (toggleOfferBtn && offerFormContainer) {
+        toggleOfferBtn.addEventListener('click', function() {
+            if (offerFormContainer.style.display === 'none' || offerFormContainer.style.display === '') {
+                offerFormContainer.style.display = 'block';
+                this.textContent = '✖ Angebot schließen';
+                loadCompaniesForOfferSelect();
+            } else {
+                offerFormContainer.style.display = 'none';
+                this.textContent = '➕ Angebot hinzufügen';
+            }
+        });
+    }
+
+    if (cancelOfferBtn && offerFormContainer) {
+        cancelOfferBtn.addEventListener('click', function() {
+            offerFormContainer.style.display = 'none';
+            if (toggleOfferBtn) {
+                toggleOfferBtn.textContent = '➕ Angebot hinzufügen';
+            }
+            if (offerMessage) {
+                offerMessage.textContent = '';
+                offerMessage.className = 'message';
+            }
+            if (offerForm) {
+                offerForm.reset();
+                delete offerForm.dataset.editId;
+            }
+            setOfferCompanySelection('', '', '');
+            closeOfferCompanyPanel();
+        });
+    }
+
+    if (offerForm) {
+        offerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const editId = this.dataset.editId;
+            const companyId = document.getElementById('offerCompany').value;
+            const energyType = document.querySelector('input[name="offerEnergyType"]:checked');
+            const price = document.getElementById('offerPrice').value.trim();
+            const duration = document.getElementById('offerDuration').value.trim();
+            const msg = document.getElementById('offerMessage');
+
+            if (!companyId) {
+                msg.textContent = 'Bitte wählen Sie ein Unternehmen aus.';
+                msg.className = 'message error';
+                return;
+            }
+
+            if (!energyType) {
+                msg.textContent = 'Bitte wählen Sie einen Energietyp.';
+                msg.className = 'message error';
+                return;
+            }
+
+            if (!price) {
+                msg.textContent = 'Bitte geben Sie einen Preis ein.';
+                msg.className = 'message error';
+                return;
+            }
+
+            if (!duration) {
+                msg.textContent = 'Bitte geben Sie eine Laufzeit ein.';
+                msg.className = 'message error';
+                return;
+            }
+
+            try {
+                const companyDoc = await db.collection('companies').doc(companyId).get();
+                const companyData = companyDoc.data() || {};
+                const companyName = companyData.name || 'Unbekannt';
+
+                const offerData = {
+                    companyId: companyId,
+                    companyName: companyName,
+                    companyLogo: companyData.logo || '',
+                    type: energyType.value,
+                    price: price,
+                    duration: duration
+                };
+
+                if (editId) {
+                    await db.collection('offers').doc(editId).update(offerData);
+                    msg.textContent = `✅ Angebot für ${companyName} erfolgreich aktualisiert!`;
+                    delete offerForm.dataset.editId;
+                } else {
+                    offerData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    await db.collection('offers').add(offerData);
+                    msg.textContent = `✅ Angebot für ${companyName} (${energyType.value === 'strom' ? '⚡ Strom' : '🔥 Gas'}) erfolgreich hinzugefügt!`;
+                }
+
+                msg.className = 'message success';
+                offerForm.reset();
+                setOfferCompanySelection('', '', '');
+
+                loadOffersAdmin();
+                loadCompaniesForOfferSelect();
+
+                setTimeout(() => {
+                    offerFormContainer.style.display = 'none';
+                    if (toggleOfferBtn) toggleOfferBtn.textContent = '➕ Angebot hinzufügen';
+                    msg.textContent = '';
+                    msg.className = 'message';
+                }, 1500);
+
+            } catch (error) {
+                console.error('❌ Fehler beim Speichern des Angebots:', error);
+                msg.textContent = '❌ Fehler: ' + error.message;
+                msg.className = 'message error';
+            }
+        });
+    }
+}
+
+// Charger les offres dans la liste admin
+async function loadOffersAdmin() {
+    const container = document.getElementById('offerList');
+    if (!container) return;
+
+    try {
+        const snapshot = await db.collection('offers').orderBy('createdAt', 'desc').get();
+        if (snapshot.empty) {
+            container.innerHTML = '<p style="color:#6a7b91;">Keine Angebote vorhanden.</p>';
+            return;
+        }
+        let html = '';
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const typeLabel = data.type === 'strom' ? '⚡ Strom' : '🔥 Gas';
+
+            html += `
+                <div class="company-item" data-id="${doc.id}">
+                    <div class="company-info">
+                        ${data.companyLogo ? `<img src="${data.companyLogo}" style="width:40px; height:40px; object-fit:contain; border-radius:4px; background:#fff; padding:2px;" />` : ''}
+                        <div>
+                            <strong style="color:#54e50d; font-weight:700;">${data.companyName || 'Unbekannt'}</strong>
+                            <span style="color:#ffffff; margin-left:12px;">${typeLabel}</span>
+                            <span style="color:#6a7b91; margin-left:12px;">💰 ${data.price || 'k.A.'}</span>
+                            <span style="color:#6a7b91; margin-left:12px;">⏱ ${data.duration || 'k.A.'}</span>
+                        </div>
+                    </div>
+                    <div class="company-actions">
+                        <button class="edit-btn" data-id="${doc.id}" onclick="editOffer('${doc.id}')">Bearbeiten</button>
+                        <button class="delete-btn" data-id="${doc.id}" onclick="deleteOffer('${doc.id}')">Löschen</button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    } catch (error) {
+        console.error('❌ Fehler beim Laden der Angebote:', error);
+        container.innerHTML = '<p style="color:#ff6b6b;">Fehler beim Laden.</p>';
+    }
+}
+
+// Modifier une offre
+window.editOffer = async function(id) {
+    try {
+        const doc = await db.collection('offers').doc(id).get();
+        if (doc.exists) {
+            const data = doc.data();
+
+            const toggleBtn = document.getElementById('toggleOfferForm');
+            const formContainer = document.getElementById('offerFormContainer');
+            if (toggleBtn && formContainer) {
+                formContainer.style.display = 'block';
+                toggleBtn.textContent = '✖ Angebot schließen';
+            }
+
+            // On utilise directement companyId/companyName/companyLogo stockés sur l'offre
+            setOfferCompanySelection(data.companyId || '', data.companyName || '', data.companyLogo || '');
+
+            const radio = document.querySelector(`input[name="offerEnergyType"][value="${data.type}"]`);
+            if (radio) radio.checked = true;
+
+            document.getElementById('offerPrice').value = data.price || '';
+            document.getElementById('offerDuration').value = data.duration || '';
+
+            document.getElementById('offerMessage').textContent = '✏️ Angebot wird bearbeitet...';
+            document.getElementById('offerMessage').className = 'message';
+
+            document.getElementById('offerForm').dataset.editId = id;
+        }
+    } catch (error) {
+        console.error('Fehler beim Laden des Angebots:', error);
+        alert('Fehler beim Laden des Angebots.');
+    }
+};
+
+// Supprimer une offre
+window.deleteOffer = async function(id) {
+    if (confirm('Möchten Sie dieses Angebot wirklich löschen?')) {
+        try {
+            await db.collection('offers').doc(id).delete();
+            loadOffersAdmin();
+            const msg = document.getElementById('offerMessage');
+            if (msg) {
+                msg.textContent = '✅ Angebot gelöscht.';
+                msg.className = 'message success';
+                setTimeout(() => { msg.textContent = ''; msg.className = 'message'; }, 3000);
+            }
+        } catch (error) {
+            console.error('Fehler beim Löschen des Angebots:', error);
+            alert('Fehler beim Löschen des Angebots.');
+        }
+    }
+};
+
+// =====================================================================
+// ===== INITIALISATION ================================================
+// =====================================================================
 document.addEventListener('DOMContentLoaded', () => {
   initLoginPage();
   initAdminPage();
   initCompanyPage();
+  initStatsPage();
   updateLoginButton();
   updateUserDisplay();
   initScrollHeader();

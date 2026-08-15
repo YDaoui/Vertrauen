@@ -16,8 +16,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone.ico" />
-    <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone.ico" />
+    <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
+    <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
     <link rel="stylesheet" href="style.css" />
 </head>
 <body class="dashboard-page">
@@ -43,7 +43,7 @@
             <a href="stat.html" class="active">Statistik</a>
             <a href="company.html">Company</a>
             <a href="ueber-uns.html">Über uns</a>
-            <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+            <a href="admin.html" id="adminLink">Admin</a>
             <a href="#" id="logoutMobile" style="display:none;">Abmelden</a>
         </nav>
 
@@ -59,7 +59,7 @@
                 <!-- 1. Vertrauensvolle Kunden -->
                 <div class="donut-wrapper">
                     <canvas id="emailDonut"></canvas>
-                    <div class="label">Unsere vertrauensvollen Kunden</div>
+                    <div class="label">Vertrauenskunden</div>
                     <div class="number" id="emailCount">0</div>
                 </div>
                 <!-- 2. Unternehmen -->
@@ -68,17 +68,29 @@
                     <div class="label">Unternehmen</div>
                     <div class="number" id="companyCount">0</div>
                 </div>
-                <!-- 3. Stromvertrag -->
+                <!-- 3. Strom Angebote -->
                 <div class="donut-wrapper">
                     <canvas id="stromDonut"></canvas>
-                    <div class="label">Stromvertrag</div>
+                    <div class="label">Strom Angebote</div>
                     <div class="number" id="stromCount">0</div>
                 </div>
-                <!-- 4. Gasvertrag -->
+                <!-- 4. Gas Angebote -->
                 <div class="donut-wrapper">
                     <canvas id="gasDonut"></canvas>
-                    <div class="label">Gasvertrag</div>
+                    <div class="label">Gas Angebote</div>
                     <div class="number" id="gasCount">0</div>
+                </div>
+                <!-- 5. Strom Verträge -->
+                <div class="donut-wrapper">
+                    <canvas id="stromVertragDonut"></canvas>
+                    <div class="label">Strom Verträge</div>
+                    <div class="number" id="stromVertragCount">0</div>
+                </div>
+                <!-- 6. Gas Verträge -->
+                <div class="donut-wrapper">
+                    <canvas id="gasVertragDonut"></canvas>
+                    <div class="label">Gas Verträge</div>
+                    <div class="number" id="gasVertragCount">0</div>
                 </div>
             </div>
         </div>
@@ -90,143 +102,7 @@
         <span style="color:#6a7b91;">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
     </footer>
 
-    <script>
-        // ===== EFFET DE SCROLL SUR LE HEADER =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.getElementById('dashboardHeader');
-
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
-        });
-
-        // ===== HAMBURGER MENU =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburgerBtn = document.getElementById('hamburgerBtn');
-            const mainNav = document.getElementById('mainNav');
-
-            if (hamburgerBtn) {
-                hamburgerBtn.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    mainNav.classList.toggle('open');
-                });
-            }
-        });
-
-        // Afficher le lien Admin si l'utilisateur est admin
-        if (localStorage.getItem('isAdmin') === 'true') {
-            document.getElementById('adminLink').style.display = 'inline-block';
-        }
-    </script>
-
-    <script>
-        function initStats() {
-            if (typeof firebase === 'undefined' || !firebase.apps.length) {
-                console.warn('Firebase nicht initialisiert. Warte...');
-                setTimeout(initStats, 500);
-                return;
-            }
-            const db = firebase.firestore();
-
-            let emailChart = null,
-                companyChart = null,
-                stromChart = null,
-                gasChart = null;
-
-            async function loadStats() {
-                try {
-                    const [usersSnap, companiesSnap] = await Promise.all([
-                        db.collection('users').get(),
-                        db.collection('companies').get()
-                    ]);
-                    const totalUsers = usersSnap.size;
-                    const totalCompanies = companiesSnap.size;
-                    // Pour les contrats, on n'a pas encore de données => 0
-                    const totalStrom = 0;
-                    const totalGas = 0;
-
-                    document.getElementById('emailCount').textContent = totalUsers;
-                    document.getElementById('companyCount').textContent = totalCompanies;
-                    document.getElementById('stromCount').textContent = totalStrom;
-                    document.getElementById('gasCount').textContent = totalGas;
-
-                    updateDonut('emailDonut', totalUsers, '#54e50d', '#6a7b91');
-                    updateDonut('companyDonut', totalCompanies, '#54e50d', '#6a7b91');
-                    updateDonut('stromDonut', totalStrom, '#54e50d', '#6a7b91');
-                    updateDonut('gasDonut', totalGas, '#54e50d', '#6a7b91');
-                } catch (error) {
-                    console.error('Fehler beim Laden der Statistiken:', error);
-                    document.getElementById('emailCount').textContent = '❌';
-                    document.getElementById('companyCount').textContent = '❌';
-                    document.getElementById('stromCount').textContent = '❌';
-                    document.getElementById('gasCount').textContent = '❌';
-                }
-            }
-
-            function updateDonut(canvasId, value, color, bgColor) {
-                const ctx = document.getElementById(canvasId).getContext('2d');
-                // Détruire le graphique précédent
-                if (canvasId === 'emailDonut' && emailChart) { emailChart.destroy(); }
-                else if (canvasId === 'companyDonut' && companyChart) { companyChart.destroy(); }
-                else if (canvasId === 'stromDonut' && stromChart) { stromChart.destroy(); }
-                else if (canvasId === 'gasDonut' && gasChart) { gasChart.destroy(); }
-
-                const displayValue = Math.min(value, 100);
-                const remaining = 100 - displayValue;
-
-                const chart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['', ''],
-                        datasets: [{
-                            data: [displayValue, remaining],
-                            backgroundColor: [color, bgColor],
-                            borderWidth: 0
-                        }]
-                    },
-                    options: {
-                        cutout: '70%',
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: { enabled: false }
-                        }
-                    },
-                    plugins: [{
-                        id: 'centerText',
-                        beforeDraw: function(chart) {
-                            const { width, height, ctx } = chart;
-                            ctx.save();
-                            const text = value.toString();
-                            ctx.font = 'bold 26px Arial';
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillStyle = '#ffffff';
-                            const centerX = width / 2;
-                            const centerY = height / 2;
-                            ctx.fillText(text, centerX, centerY);
-                            ctx.restore();
-                        }
-                    }]
-                });
-
-                if (canvasId === 'emailDonut') { emailChart = chart; }
-                else if (canvasId === 'companyDonut') { companyChart = chart; }
-                else if (canvasId === 'stromDonut') { stromChart = chart; }
-                else if (canvasId === 'gasDonut') { gasChart = chart; }
-            }
-
-            loadStats();
-        }
-
-        document.addEventListener('DOMContentLoaded', initStats);
-    </script>
-
+    <!-- ===== MAIN.JS ===== -->
     <script src="main.js"></script>
 </body>
 </html>
