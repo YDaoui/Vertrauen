@@ -510,7 +510,7 @@ body.dashboard-page {
     max-height: 50px;
     width: auto;
     display: block;
-    filter: none; /* Garde les couleurs originales */
+    filter: none;
     transition: filter 0.4s ease;
 }
 
@@ -637,33 +637,33 @@ body.dashboard-page {
 }
 
 /* ---------- FOOTER ---------- */
-/* ---------- FOOTER ---------- */
 .dashboard-footer {
-    background-color: #0c2545; /* Même couleur que le header */
+    background-color: #0c2545;
     padding: 20px 40px;
     text-align: center;
-    border-top: 3px solid #54e50d; /* Même bordure que le header */
+    border-top: 3px solid #54e50d;
     font-size: 0.95rem;
     margin-top: auto;
-    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15); /* Ombre identique au header */
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15);
 }
 .dashboard-footer a {
-    color: #54e50d; /* Texte blanc comme le header */
+    color: #54e50d;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s;
 }
 .dashboard-footer a:hover {
-    color: #ffffff; /* Vert au hover comme le header */
+    color: #ffffff;
     text-decoration: underline;
 }
 .dashboard-footer span {
-    color: #ffffff; /* Texte blanc */
+    color: #ffffff;
 }
 .dashboard-footer .footer-separator {
     color: #6a7b91;
     margin: 0 4px;
 }
+
 /* ============================================================
    CARTES DASHBOARD – FOND #243957 / TEXTE BLANC
    ============================================================ */
@@ -691,7 +691,7 @@ body.dashboard-page {
 .ueber-uns-box,
 .stat-box,
 .admin-box {
-    background-color: #0c2545; /* Même couleur que le header */
+    background-color: #0c2545;
     border: 2px solid #54e50d;
     border-radius: 16px;
     padding: 40px 48px;
@@ -1229,6 +1229,160 @@ hr.admin-hr {
     display: inline-block;
 }
 
+/* ============================================================
+   STYLES POUR LE COMBO PERSONNALISÉ (OFFRE) - FOND #0c2545
+   ============================================================ */
+
+/* Conteneur principal du select personnalisé */
+.custom-select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Le bouton/trigger du select (visible) */
+.custom-select-trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background-color: #0c2545;
+    border: 1px solid #6a7b91;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    min-height: 50px;
+    color: #ffffff;
+}
+
+.custom-select-trigger:hover {
+    border-color: #54e50d;
+}
+
+.custom-select-trigger.open {
+    border-color: #54e50d;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Logo dans le trigger */
+.custom-select-trigger-logo {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    border-radius: 4px;
+    background-color: #ffffff;
+    padding: 2px;
+}
+
+/* Nom dans le trigger */
+.custom-select-trigger-name {
+    font-weight: 500;
+    color: #ffffff;
+}
+
+/* Placeholder quand rien n'est sélectionné */
+.custom-select-trigger-placeholder {
+    color: #6a7b91;
+    font-weight: 400;
+}
+
+/* Flèche du select */
+.custom-select-arrow {
+    margin-left: auto;
+    color: #6a7b91;
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+}
+
+.custom-select-wrapper.open .custom-select-arrow {
+    transform: rotate(180deg);
+}
+
+/* Panneau déroulant des options */
+.custom-select-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #0c2545 !important;;
+    border: 1px solid #54e50d;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.custom-select-wrapper.open .custom-select-panel {
+    display: block;
+}
+
+/* Options individuelles */
+.custom-select-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(106, 123, 145, 0.2);
+}
+
+.custom-select-option:last-child {
+    border-bottom: none;
+}
+
+.custom-select-option:hover {
+    background-color: #1a3a6a;
+}
+
+.custom-select-option.selected {
+    background-color: #54e50d;
+    color: #0c2545;
+}
+
+.custom-select-option.selected .custom-select-option-name {
+    color: #0c2545;
+}
+
+/* Logo dans les options */
+.custom-select-option-logo {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    border-radius: 4px;
+    background-color: #ffffff;
+    padding: 2px;
+    flex-shrink: 0;
+}
+
+/* Nom dans les options */
+.custom-select-option-name {
+    font-weight: 500;
+    color: #ffffff;
+}
+
+/* Scrollbar personnalisée */
+.custom-select-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-select-panel::-webkit-scrollbar-track {
+    background: #0c2545;
+}
+
+.custom-select-panel::-webkit-scrollbar-thumb {
+    background: #54e50d;
+    border-radius: 3px;
+}
+
+.custom-select-panel::-webkit-scrollbar-thumb:hover {
+    background: #6a7b91;
+}
+
 /* ---------- HAMBURGER ---------- */
 .hamburger {
     display: none;
@@ -1276,15 +1430,15 @@ hr.admin-hr {
     /* Hamburger à droite */
     .hamburger {
         display: flex;
-        order: 3; /* Hamburger en dernier (à droite) */
-        margin-left: auto; /* Pousse le hamburger à droite */
+        order: 3;
+        margin-left: auto;
     }
 
     .dashboard-header {
         padding: 10px 16px;
         flex-wrap: nowrap;
         gap: 8px;
-        justify-content: space-between; /* Espace entre les éléments */
+        justify-content: space-between;
     }
     
     /* Logo à gauche */
@@ -1316,9 +1470,9 @@ hr.admin-hr {
         top: 100%;
         left: 0;
         right: 0;
-        background-color: rgba(12, 37, 69, 0.92); /* Transparent à 92% */
-        backdrop-filter: blur(10px); /* Effet de flou au fond */
-        -webkit-backdrop-filter: blur(10px); /* Pour Safari */
+        background-color: rgba(12, 37, 69, 0.92);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         flex-direction: column;
         align-items: center;
         padding: 20px 0;
@@ -1429,6 +1583,7 @@ hr.admin-hr {
         font-size: 1.6rem;
     }
 }
+
 @media (max-width: 600px) {
     .company-item {
         flex-direction: column;
@@ -1576,11 +1731,12 @@ hr.admin-hr {
     color: #54e50d !important;
     font-weight: 700 !important;
 }
+
 /* Style personnalisé pour le select avec logo */
 .select-with-logo {
     appearance: none;
     -webkit-appearance: none;
-    background-color:  #243957;
+    background-color: #0c2545 !important;;
     border: 1px solid #6a7b91;
     border-radius: 8px;
     color: #ffffff;
@@ -1595,11 +1751,11 @@ hr.admin-hr {
 .select-with-logo:focus {
     outline: none;
     border-color: #54e50d;
-    box-shadow: 0 0 0 3px rgba(84, 229, 13, 0.2);
+    box-shadow: 0 0 0 3px #243957;
 }
 
 .select-with-logo option {
-    background-color: #243957;
+    background-color: #0c2545 !important;;
     color: #ffffff;
     padding: 8px 12px;
     display: flex;
