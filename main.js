@@ -1024,7 +1024,7 @@ function updateOfferComparisonChart(data) {
     const ctx = canvas.getContext('2d');
     
     // Préparer les données
-    const labels = data.map(item => item.name);
+    const labels = data.map((item, index) => index + 1);
     const stromPrices = data.map(item => item.strom || 0);
     const gasPrices = data.map(item => item.gas || 0);
 
@@ -1074,16 +1074,14 @@ function updateOfferComparisonChart(data) {
                         padding: 20,
                         usePointStyle: true,
                         pointStyle: 'circle',
-                        // Forcer les couleurs de la légende avec les couleurs exactes
                         generateLabels: function(chart) {
                             const data = chart.data;
                             return data.datasets.map(function(dataset, i) {
-                                // Utiliser la couleur exacte pour la légende
                                 let color;
                                 if (i === 0) {
-                                    color = stromColor; // Vert pour Strom
+                                    color = stromColor;
                                 } else {
-                                    color = gasColor; // Bleu pour Gas
+                                    color = gasColor;
                                 }
                                 
                                 return {
@@ -1124,13 +1122,11 @@ function updateOfferComparisonChart(data) {
                         display: false
                     },
                     ticks: {
-                        color: '#ffffff',
-                        maxRotation: 30,
-                        minRotation: 0,
-                        font: {
-                            size: 12,
-                            weight: 'bold'
-                        }
+                        display: false
+                    },
+                    // Ajouter un padding en bas pour les logos
+                    afterFit: function(scale) {
+                        scale.height += 50; // Augmenter l'espace en bas pour les logos
                     }
                 }
             },
@@ -1156,23 +1152,20 @@ function updateOfferComparisonChart(data) {
                 }
             }]
         },
-        // Plugin pour afficher les logos à droite du nom sur l'axe X
+        // Plugin pour afficher uniquement les logos sur l'axe X
         plugins: [{
             id: 'logoLabels',
             afterDraw: function(chart) {
                 const ctx = chart.ctx;
                 const xAxis = chart.scales.x;
                 const yAxis = chart.scales.y;
-                const logoSize = 20;
-                const spacing = 6;
+                const logoSize = 35;
+                
+                // Calculer la position Y en tenant compte du padding
+                const logoY = yAxis.bottom + 30;
                 
                 data.forEach((item, index) => {
                     const x = xAxis.getPixelForValue(index);
-                    const labelText = item.name || 'Unbekannt';
-                    ctx.font = 'bold 12px Arial';
-                    const textWidth = ctx.measureText(labelText).width;
-                    const logoX = x + textWidth/2 + spacing + logoSize/2;
-                    const logoY = yAxis.bottom + 12;
                     
                     const img = new Image();
                     img.crossOrigin = 'anonymous';
@@ -1180,17 +1173,19 @@ function updateOfferComparisonChart(data) {
                     
                     const drawLogo = function() {
                         ctx.save();
+                        // Fond pour le logo
                         ctx.shadowColor = 'rgba(0,0,0,0.4)';
-                        ctx.shadowBlur = 6;
+                        ctx.shadowBlur = 8;
                         ctx.beginPath();
-                        ctx.roundRect(logoX - logoSize/2 - 3, logoY - logoSize/2 - 3, logoSize + 6, logoSize + 6, 5);
+                        ctx.roundRect(x - logoSize/2 - 4, logoY - logoSize/2 - 4, logoSize + 8, logoSize + 8, 6);
                         ctx.fillStyle = 'rgba(0,0,0,0.6)';
                         ctx.fill();
                         ctx.shadowBlur = 0;
+                        // Découpage en cercle pour le logo
                         ctx.beginPath();
-                        ctx.arc(logoX, logoY, logoSize/2, 0, Math.PI * 2);
+                        ctx.arc(x, logoY, logoSize/2, 0, Math.PI * 2);
                         ctx.clip();
-                        ctx.drawImage(img, logoX - logoSize/2, logoY - logoSize/2, logoSize, logoSize);
+                        ctx.drawImage(img, x - logoSize/2, logoY - logoSize/2, logoSize, logoSize);
                         ctx.restore();
                     };
                     
