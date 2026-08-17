@@ -14,6 +14,8 @@
     gtag('config', 'G-EV3MLGBFYW');
   </script>
   <link rel="stylesheet" href="style.css" />
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="dashboard-page">
   <header class="dashboard-header" id="dashboardHeader">
@@ -65,34 +67,12 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  
+  <!-- main.js (UNIQUE fichier partagé) -->
   <script src="main.js"></script>
 
+  <!-- Script spécifique à la page company -->
   <script>
-    // ===== EFFET DE SCROLL SUR LE HEADER =====
-    document.addEventListener('DOMContentLoaded', function() {
-      const header = document.getElementById('dashboardHeader');
-      window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-          header.classList.add('scrolled');
-        } else {
-          header.classList.remove('scrolled');
-        }
-      });
-    });
-
-    // ===== HAMBURGER MENU =====
-    document.addEventListener('DOMContentLoaded', function() {
-      const hamburgerBtn = document.getElementById('hamburgerBtn');
-      const mainNav = document.getElementById('mainNav');
-
-      if (hamburgerBtn) {
-        hamburgerBtn.addEventListener('click', function() {
-          this.classList.toggle('active');
-          mainNav.classList.toggle('open');
-        });
-      }
-    });
-
     // ===== CHARGER LES ENTREPRISES =====
     function loadPublicCompanies() {
       const container = document.getElementById('companyListPublic');
@@ -153,10 +133,14 @@
 
     // Afficher le lien Admin si l'utilisateur est admin
     if (localStorage.getItem('isAdmin') === 'true') {
-      document.getElementById('adminLink').style.display = 'inline-block';
+      const adminLink = document.getElementById('adminLink');
+      if (adminLink) adminLink.style.display = 'inline-block';
     }
 
-    document.addEventListener('DOMContentLoaded', loadPublicCompanies);
+    // Charger les entreprises au chargement de la page
+    document.addEventListener('DOMContentLoaded', function() {
+      loadPublicCompanies();
+    });
   </script>
 </body>
 </html>
