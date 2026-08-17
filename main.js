@@ -1030,9 +1030,9 @@ function updateOfferComparisonChart(data) {
 
     // Définir les couleurs
     const stromColor = '#54e50d';
-    const gasColor = '#22328e';
+    const gasColor = '#a0a6cc';
     const stromColorRgba = 'rgba(84, 229, 13, 0.8)';
-    const gasColorRgba = 'rgba(34, 50, 142, 0.8)';
+    const gasColorRgba = 'rgba(133, 145, 214, 0.8)';
 
     offerComparisonChart = new Chart(ctx, {
         type: 'bar',
@@ -1174,11 +1174,11 @@ function updateOfferComparisonChart(data) {
                     const drawLogo = function() {
                         ctx.save();
                         // Fond pour le logo
-                        ctx.shadowColor = 'rgba(0,0,0,0.4)';
+                        ctx.shadowColor = 'rgba(216, 217, 220, 0.4)';
                         ctx.shadowBlur = 8;
                         ctx.beginPath();
                         ctx.roundRect(x - logoSize/2 - 4, logoY - logoSize/2 - 4, logoSize + 8, logoSize + 8, 6);
-                        ctx.fillStyle = 'rgba(0,0,0,0.6)';
+                        ctx.fillStyle = 'rgba(205, 205, 209, 0.6)';
                         ctx.fill();
                         ctx.shadowBlur = 0;
                         // Découpage en cercle pour le logo
