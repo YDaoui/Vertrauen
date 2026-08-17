@@ -16,9 +16,57 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js DataLabels Plugin pour afficher les valeurs sur les barres -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
     <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Styles supplémentaires pour le graphique des offres */
+        .chart-container {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .chart-container h3 {
+            color: #54e50d;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+        .chart-legend-custom {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .chart-legend-custom .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+        .chart-legend-custom .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        .chart-legend-custom .legend-color.strom {
+            background: #54e50d;
+        }
+        .chart-legend-custom .legend-color.gas {
+            background: #22328e;
+        }
+    </style>
 </head>
 
 <body class="dashboard-page">
@@ -92,6 +140,24 @@
                     <canvas id="gasVertragDonut"></canvas>
                     <div class="label">Gas Verträge</div>
                     <div class="number" id="gasVertragCount">0</div>
+                </div>
+            </div>
+
+            <!-- ===== NOUVEAU GRAPHIQUE COMPARATIF DES OFFRES ===== -->
+            <div class="chart-container">
+                <h3> Vergleich der Angebote (Strom &amp; Gas) nach Unternehmen</h3>
+                <div class="chart-wrapper">
+                    <canvas id="offerComparisonChart"></canvas>
+                </div>
+                <div class="chart-legend-custom">
+                    <div class="legend-item">
+                        <span class="legend-color strom"></span>
+                        <span>Strom (€/kWh)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color gas"></span>
+                        <span>Gas (€/kWh)</span>
+                    </div>
                 </div>
             </div>
         </div>

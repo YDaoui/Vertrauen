@@ -821,6 +821,9 @@ function initTawkTo() {
 // =====================================================================
 // ===== BLOC STATS : stat.html ========================================
 // =====================================================================
+// =====================================================================
+// ===== BLOC STATS : stat.html ========================================
+// =====================================================================
 function initStatsPage() {
     // Vérifier si on est sur la page stats
     if (!document.getElementById('emailDonut')) return;
@@ -838,6 +841,9 @@ function initStatsPage() {
         gasChart = null,
         stromVertragChart = null,
         gasVertragChart = null;
+    
+    // Variable pour le graphique de comparaison des offres
+    let offerComparisonChart = null;
 
     async function loadStats() {
         try {
@@ -854,6 +860,10 @@ function initStatsPage() {
             let totalStrom = 0;
             let totalGas = 0;
 
+            // Récupérer les données pour le graphique comparatif
+            const offersData = [];
+            const companyMap = {};
+
             offersSnap.forEach(doc => {
                 const data = doc.data();
                 if (data.type === 'strom' || data.type === 'both') {
@@ -862,7 +872,32 @@ function initStatsPage() {
                 if (data.type === 'gas' || data.type === 'both') {
                     totalGas++;
                 }
+
+                // Stocker les données pour le graphique comparatif
+                const companyId = data.companyId || 'unknown';
+                const price = parseFloat(data.price ? data.price.replace(/[^0-9.,]/g, '').replace(',', '.') : 0);
+                
+                if (!companyMap[companyId]) {
+                    companyMap[companyId] = {
+                        name: data.companyName || 'Unbekannt',
+                        logo: data.companyLogo || '',
+                        strom: null,
+                        gas: null
+                    };
+                }
+
+                if (data.type === 'strom' || data.type === 'both') {
+                    companyMap[companyId].strom = price;
+                }
+                if (data.type === 'gas' || data.type === 'both') {
+                    companyMap[companyId].gas = price;
+                }
             });
+
+            // Convertir en tableau pour le graphique
+            const chartData = Object.values(companyMap)
+                .filter(company => company.strom !== null || company.gas !== null)
+                .sort((a, b) => (a.strom || 0) - (b.strom || 0));
 
             // Pour les contrats, on n'a pas encore de données => 0
             const totalStromVertrag = 0;
@@ -883,13 +918,16 @@ function initStatsPage() {
             if (stromVertragEl) stromVertragEl.textContent = totalStromVertrag;
             if (gasVertragEl) gasVertragEl.textContent = totalGasVertrag;
 
-            // Mettre à jour les graphiques
+            // Mettre à jour les graphiques donut
             updateDonut('emailDonut', totalUsers, '#54e50d', '#6a7b91');
             updateDonut('companyDonut', totalCompanies, '#54e50d', '#6a7b91');
             updateDonut('stromDonut', totalStrom, '#54e50d', '#6a7b91');
             updateDonut('gasDonut', totalGas, '#54e50d', '#6a7b91');
             updateDonut('stromVertragDonut', totalStromVertrag, '#54e50d', '#6a7b91');
             updateDonut('gasVertragDonut', totalGasVertrag, '#54e50d', '#6a7b91');
+
+            // Mettre à jour le graphique comparatif des offres
+            updateOfferComparisonChart(chartData);
 
         } catch (error) {
             console.error('Fehler beim Laden der Statistiken:', error);
@@ -962,19 +1000,281 @@ function initStatsPage() {
         else if (canvasId === 'gasVertragDonut') { gasVertragChart = chart; }
     }
 
+// ===== NOUVEAU : Graphique comparatif des offres =====
+function updateOfferComparisonChart(data) {
+    const canvas = document.getElementById('offerComparisonChart');
+    if (!canvas) return;
+
+    // Détruire le graphique précédent
+    if (offerComparisonChart) {
+        offerComparisonChart.destroy();
+        offerComparisonChart = null;
+    }
+
+    if (data.length === 0) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#6a7b91';
+        ctx.font = '16px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Keine Angebote vorhanden', canvas.width / 2, canvas.height / 2);
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    
+    // Préparer les données
+    const labels = data.map(item => item.name);
+    const stromPrices = data.map(item => item.strom || 0);
+    const gasPrices = data.map(item => item.gas || 0);
+
+    // Définir les couleurs
+    const stromColor = '#54e50d';
+    const gasColor = '#22328e';
+    const stromColorRgba = 'rgba(84, 229, 13, 0.8)';
+    const gasColorRgba = 'rgba(34, 50, 142, 0.8)';
+
+    offerComparisonChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Strom (€/kWh)',
+                    data: stromPrices,
+                    backgroundColor: stromColorRgba,
+                    borderColor: stromColor,
+                    borderWidth: 2,
+                    borderRadius: 4,
+                    barPercentage: 0.35
+                },
+                {
+                    label: 'Gas (€/kWh)',
+                    data: gasPrices,
+                    backgroundColor: gasColorRgba,
+                    borderColor: gasColor,
+                    borderWidth: 2,
+                    borderRadius: 4,
+                    barPercentage: 0.35
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: '#ffffff',
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        },
+                        padding: 20,
+                        usePointStyle: true,
+                        pointStyle: 'circle',
+                        // Forcer les couleurs de la légende avec les couleurs exactes
+                        generateLabels: function(chart) {
+                            const data = chart.data;
+                            return data.datasets.map(function(dataset, i) {
+                                // Utiliser la couleur exacte pour la légende
+                                let color;
+                                if (i === 0) {
+                                    color = stromColor; // Vert pour Strom
+                                } else {
+                                    color = gasColor; // Bleu pour Gas
+                                }
+                                
+                                return {
+                                    text: dataset.label,
+                                    fillStyle: color,
+                                    strokeStyle: color,
+                                    pointStyle: 'circle',
+                                    hidden: !chart.isDatasetVisible(i),
+                                    index: i
+                                };
+                            });
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + ' €/kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    },
+                    ticks: {
+                        color: '#6a7b91',
+                        callback: function(value) {
+                            return value.toFixed(2) + ' €';
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#ffffff',
+                        maxRotation: 30,
+                        minRotation: 0,
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        }
+                    }
+                }
+            },
+            // Plugin pour afficher les valeurs sur les barres
+            plugins: [{
+                id: 'customLabels',
+                afterDraw: function(chart) {
+                    const ctx = chart.ctx;
+                    chart.data.datasets.forEach(function(dataset, i) {
+                        const meta = chart.getDatasetMeta(i);
+                        meta.data.forEach(function(bar, index) {
+                            const data = dataset.data[index];
+                            if (data > 0) {
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = 'bold 11px Arial';
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'bottom';
+                                const yPos = bar.y - 4;
+                                ctx.fillText(data.toFixed(2), bar.x, yPos);
+                            }
+                        });
+                    });
+                }
+            }]
+        },
+        // Plugin pour afficher les logos à droite du nom sur l'axe X
+        plugins: [{
+            id: 'logoLabels',
+            afterDraw: function(chart) {
+                const ctx = chart.ctx;
+                const xAxis = chart.scales.x;
+                const yAxis = chart.scales.y;
+                const logoSize = 20;
+                const spacing = 6;
+                
+                data.forEach((item, index) => {
+                    const x = xAxis.getPixelForValue(index);
+                    const labelText = item.name || 'Unbekannt';
+                    ctx.font = 'bold 12px Arial';
+                    const textWidth = ctx.measureText(labelText).width;
+                    const logoX = x + textWidth/2 + spacing + logoSize/2;
+                    const logoY = yAxis.bottom + 12;
+                    
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.src = item.logo || DEFAULT_LOGO;
+                    
+                    const drawLogo = function() {
+                        ctx.save();
+                        ctx.shadowColor = 'rgba(0,0,0,0.4)';
+                        ctx.shadowBlur = 6;
+                        ctx.beginPath();
+                        ctx.roundRect(logoX - logoSize/2 - 3, logoY - logoSize/2 - 3, logoSize + 6, logoSize + 6, 5);
+                        ctx.fillStyle = 'rgba(0,0,0,0.6)';
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        ctx.beginPath();
+                        ctx.arc(logoX, logoY, logoSize/2, 0, Math.PI * 2);
+                        ctx.clip();
+                        ctx.drawImage(img, logoX - logoSize/2, logoY - logoSize/2, logoSize, logoSize);
+                        ctx.restore();
+                    };
+                    
+                    if (img.complete && img.naturalWidth > 0) {
+                        drawLogo();
+                    } else {
+                        img.onload = drawLogo;
+                        img.onerror = function() {
+                            const defaultImg = new Image();
+                            defaultImg.src = DEFAULT_LOGO;
+                            defaultImg.onload = drawLogo;
+                        };
+                    }
+                });
+            }
+        }]
+    });
+}
+
+    function updateDonut(canvasId, value, color, bgColor) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        // Détruire le graphique précédent
+        if (canvasId === 'emailDonut' && emailChart) { emailChart.destroy(); }
+        else if (canvasId === 'companyDonut' && companyChart) { companyChart.destroy(); }
+        else if (canvasId === 'stromDonut' && stromChart) { stromChart.destroy(); }
+        else if (canvasId === 'gasDonut' && gasChart) { gasChart.destroy(); }
+        else if (canvasId === 'stromVertragDonut' && stromVertragChart) { stromVertragChart.destroy(); }
+        else if (canvasId === 'gasVertragDonut' && gasVertragChart) { gasVertragChart.destroy(); }
+
+        const displayValue = Math.min(value, 100);
+        const remaining = 100 - displayValue;
+
+        const chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['', ''],
+                datasets: [{
+                    data: [displayValue, remaining],
+                    backgroundColor: [color, bgColor],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: '70%',
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
+            },
+            plugins: [{
+                id: 'centerText',
+                beforeDraw: function(chart) {
+                    const { width, height, ctx } = chart;
+                    ctx.save();
+                    const text = value.toString();
+                    ctx.font = 'bold 26px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillStyle = '#ffffff';
+                    const centerX = width / 2;
+                    const centerY = height / 2;
+                    ctx.fillText(text, centerX, centerY);
+                    ctx.restore();
+                }
+            }]
+        });
+
+        if (canvasId === 'emailDonut') { emailChart = chart; }
+        else if (canvasId === 'companyDonut') { companyChart = chart; }
+        else if (canvasId === 'stromDonut') { stromChart = chart; }
+        else if (canvasId === 'gasDonut') { gasChart = chart; }
+        else if (canvasId === 'stromVertragDonut') { stromVertragChart = chart; }
+        else if (canvasId === 'gasVertragDonut') { gasVertragChart = chart; }
+    }
+
     loadStats();
 }
 
-// =====================================================================
-// ===== GESTION DES OFFRES (Angebote) - ADMIN =========================
-// =====================================================================
-// NOTE IMPORTANTE :
-// Un <select> HTML natif ne peut pas afficher d'image dans ses <option>.
-// On utilise donc un "combo" personnalisé (div + bouton) qui affiche
-// le logo ET le nom de chaque entreprise dans la liste déroulante.
-// Un <input type="hidden" id="offerCompany"> garde la valeur sélectionnée
-// pour ne rien casser dans le reste du code (offerForm.submit, etc.)
-// =====================================================================
+
 
 // Charger les entreprises dans le combo personnalisé (logo + nom)
 async function loadCompaniesForOfferSelect() {
@@ -1126,8 +1426,8 @@ function initOfferForm() {
             const editId = this.dataset.editId;
             const companyId = document.getElementById('offerCompany').value;
             const energyType = document.querySelector('input[name="offerEnergyType"]:checked');
-            const price = document.getElementById('offerPrice').value.trim();
-            const duration = document.getElementById('offerDuration').value.trim();
+            let price = document.getElementById('offerPrice').value.trim();
+            let duration = document.getElementById('offerDuration').value.trim();
             const msg = document.getElementById('offerMessage');
 
             if (!companyId) {
@@ -1152,6 +1452,17 @@ function initOfferForm() {
                 msg.textContent = 'Bitte geben Sie eine Laufzeit ein.';
                 msg.className = 'message error';
                 return;
+            }
+
+            // === AJOUT AUTOMATIQUE DES UNITÉS ===
+            // Ajouter "€/kWh" si pas déjà présent
+            if (!price.includes('€/kWh')) {
+                price = price.trim() + ' €/kWh';
+            }
+
+            // Ajouter "Monate" si pas déjà présent
+            if (!duration.includes('Monate')) {
+                duration = duration.trim() + ' Monate';
             }
 
             try {
@@ -1262,8 +1573,17 @@ window.editOffer = async function(id) {
             const radio = document.querySelector(`input[name="offerEnergyType"][value="${data.type}"]`);
             if (radio) radio.checked = true;
 
-            document.getElementById('offerPrice').value = data.price || '';
-            document.getElementById('offerDuration').value = data.duration || '';
+            // Nettoyer les champs pour l'édition : enlever les suffixes pour l'affichage
+            let priceValue = data.price || '';
+            let durationValue = data.duration || '';
+            
+            // Supprimer "€/kWh" du prix pour l'édition
+            priceValue = priceValue.replace(/\s*€\/kWh\s*$/, '');
+            // Supprimer "Monate" de la durée pour l'édition
+            durationValue = durationValue.replace(/\s*Monate\s*$/, '');
+
+            document.getElementById('offerPrice').value = priceValue;
+            document.getElementById('offerDuration').value = durationValue;
 
             document.getElementById('offerMessage').textContent = '✏️ Angebot wird bearbeitet...';
             document.getElementById('offerMessage').className = 'message';
