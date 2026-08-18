@@ -16,7 +16,11 @@
   <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
   <link rel="stylesheet" href="style.css" />
 
-  <!-- ===== Styles du combo personnalisé "Unternehmen" (logo + nom) ===== -->
+  <!-- Flatpickr CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+
+  <!-- ===== Styles du combo personnalisé ===== -->
   <style>
     .custom-select {
       position: relative;
@@ -130,6 +134,286 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    /* ===== STYLE DES CONTRATS ===== */
+    .contract-form-container {
+      display: none;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .contract-form-container.active {
+      display: block;
+    }
+
+    .contract-info-display {
+      background: rgba(84, 229, 13, 0.08);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 10px 0;
+      border-left: 3px solid #54e50d;
+    }
+
+    .contract-info-display .info-label {
+      color: #6a7b91;
+      font-size: 12px;
+    }
+
+    .contract-info-display .info-value {
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    /* ===== STYLE DES ITEMS CONTRATS (comme les offres) ===== */
+    .contract-item {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .contract-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(84, 229, 13, 0.2);
+    }
+
+    .contract-item .contract-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .contract-item .contract-info .contract-user {
+      color: #54e50d;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .contract-item .contract-info .contract-details {
+      color: #ffffff;
+      font-size: 14px;
+    }
+
+    .contract-item .contract-info .contract-dates {
+      color: #6a7b91;
+      font-size: 13px;
+    }
+
+    .contract-item .contract-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* ===== BOUTONS CONTRATS (même style que les offres) ===== */
+    .contract-item .contract-actions button {
+      padding: 6px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .contract-item .contract-actions .edit-btn {
+      background: rgba(84, 229, 13, 0.15);
+      color: #54e50d;
+      border: 1px solid rgba(84, 229, 13, 0.3);
+    }
+
+    .contract-item .contract-actions .edit-btn:hover {
+      background: rgba(84, 229, 13, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(84, 229, 13, 0.2);
+    }
+
+    .contract-item .contract-actions .delete-btn {
+      background: rgba(255, 107, 107, 0.15);
+      color: #ff6b6b;
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    .contract-item .contract-actions .delete-btn:hover {
+      background: rgba(255, 107, 107, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+    }
+
+    /* ===== RECHERCHE UTILISATEUR ===== */
+    .search-input {
+      position: relative;
+    }
+
+    .search-input input {
+      width: 100%;
+      padding: 10px 14px;
+      background: #1b1f27;
+      border: 1px solid #6a7b91;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 14px;
+      transition: border-color 0.15s ease;
+    }
+
+    .search-input input:focus {
+      border-color: #54e50d;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(84, 229, 13, 0.15);
+    }
+
+    .search-results {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      background: #1b1f27;
+      border: 1px solid #6a7b91;
+      border-radius: 8px;
+      z-index: 50;
+      display: none;
+    }
+
+    .search-results.show {
+      display: block;
+    }
+
+    .search-results .result-item {
+      padding: 8px 14px;
+      cursor: pointer;
+      color: #ffffff;
+      transition: background 0.1s ease;
+    }
+
+    .search-results .result-item:hover {
+      background: rgba(84, 229, 13, 0.12);
+    }
+
+    .search-results .result-item .result-email {
+      color: #6a7b91;
+      font-size: 12px;
+    }
+
+    /* ===== STYLE DES DATEPICKERS SUR LA MÊME LIGNE ===== */
+    .form-row-dates {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .form-row-dates .form-group {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    /* ===== STYLE FLATPICKR PERSONNALISE ===== */
+    .flatpickr-calendar {
+      background: #1b1f27 !important;
+      border: 1px solid #6a7b91 !important;
+      border-radius: 8px !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .flatpickr-calendar .flatpickr-month {
+      color: #ffffff !important;
+      background: #1b1f27 !important;
+    }
+
+    .flatpickr-calendar .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .flatpickr-calendar .flatpickr-current-month input.cur-year {
+      color: #ffffff !important;
+      background: #1b1f27 !important;
+    }
+
+    .flatpickr-calendar .flatpickr-weekdays {
+      background: #1b1f27 !important;
+    }
+
+    .flatpickr-calendar .flatpickr-weekday {
+      color: #54e50d !important;
+    }
+
+    .flatpickr-calendar .flatpickr-day {
+      color: #ffffff !important;
+      border-radius: 4px !important;
+    }
+
+    .flatpickr-calendar .flatpickr-day:hover {
+      background: rgba(84, 229, 13, 0.15) !important;
+      border-color: #54e50d !important;
+    }
+
+    .flatpickr-calendar .flatpickr-day.selected {
+      background: #54e50d !important;
+      border-color: #54e50d !important;
+      color: #1b1f27 !important;
+    }
+
+    .flatpickr-calendar .flatpickr-day.today {
+      border-color: #54e50d !important;
+    }
+
+    .flatpickr-calendar .flatpickr-day.inRange {
+      background: rgba(84, 229, 13, 0.2) !important;
+      border-color: rgba(84, 229, 13, 0.3) !important;
+    }
+
+    .flatpickr-calendar .flatpickr-day.prevMonthDay,
+    .flatpickr-calendar .flatpickr-day.nextMonthDay {
+      color: #6a7b91 !important;
+    }
+
+    .flatpickr-calendar .flatpickr-months .flatpickr-prev-month,
+    .flatpickr-calendar .flatpickr-months .flatpickr-next-month {
+      color: #6a7b91 !important;
+    }
+
+    .flatpickr-calendar .flatpickr-months .flatpickr-prev-month:hover,
+    .flatpickr-calendar .flatpickr-months .flatpickr-next-month:hover {
+      color: #54e50d !important;
+    }
+
+    .flatpickr-calendar .flatpickr-prev-month svg,
+    .flatpickr-calendar .flatpickr-next-month svg {
+      fill: #6a7b91 !important;
+    }
+
+    .flatpickr-calendar .flatpickr-prev-month:hover svg,
+    .flatpickr-calendar .flatpickr-next-month:hover svg {
+      fill: #54e50d !important;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .form-row-dates {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .contract-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .contract-item .contract-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
     }
   </style>
 </head>
@@ -268,7 +552,6 @@
         <div id="offerFormContainer" class="company-form-container" style="display:none;">
           <h2 style="color:#54e50d;">Neues Angebot</h2>
           <form id="offerForm">
-            <!-- Sélection de l'entreprise : combo personnalisé avec logo + nom -->
             <div class="form-row">
               <div class="form-group" style="flex: 1 1 100%;">
                 <label for="offerCompanyTrigger">Unternehmen *</label>
@@ -280,12 +563,10 @@
                     <p style="color:#6a7b91; padding:10px;">Lade Unternehmen...</p>
                   </div>
                 </div>
-                <!-- Valeur réelle envoyée au formulaire (synchronisée par main.js) -->
                 <input type="hidden" id="offerCompany" />
               </div>
             </div>
 
-            <!-- Type d'énergie -->
             <div class="form-row">
               <div class="form-group" style="flex: 1 1 100%;">
                 <label>Energietyp *</label>
@@ -300,7 +581,6 @@
               </div>
             </div>
 
-            <!-- Prix et durée -->
             <div class="form-row">
               <div class="form-group">
                 <label for="offerPrice">Preis *</label>
@@ -326,8 +606,93 @@
 
       <!-- ===== TAB: VERTRÄGE ===== -->
       <div id="tab-contracts" class="tab-content">
-        <h2 style="font-size:1.5rem; margin:20px 0 12px; color:#54e50d;">Verträge verwalten</h2>
-        <p style="color:#6a7b91;">Hier können Sie Verträge einsehen und verwalten. (In Entwicklung)</p>
+        <button id="toggleContractForm" class="add-company-btn" style="margin-top:20px;">➕ Vertrag hinzufügen</button>
+
+        <!-- Formulaire d'ajout de contrat -->
+        <div id="contractFormContainer" class="contract-form-container">
+          <h2 style="color:#54e50d;">Neuen Vertrag anlegen</h2>
+          <span id="editContractModeIndicator" class="edit-mode-indicator">✏️ Bearbeitungsmodus</span>
+          <form id="contractForm">
+            <input type="hidden" id="editContractId" />
+
+            <!-- Recherche utilisateur -->
+            <div class="form-row">
+              <div class="form-group" style="flex: 1 1 100%;">
+                <label for="contractUserSearch">Benutzer *</label>
+                <div class="search-input">
+                  <input type="text" id="contractUserSearch" placeholder="Benutzer suchen (Name oder E-Mail)..." autocomplete="off" />
+                  <div class="search-results" id="contractUserResults"></div>
+                </div>
+                <input type="hidden" id="contractUserId" />
+                <div id="contractUserSelected" style="display:none; margin-top:8px; padding:8px 12px; background:rgba(84,229,13,0.1); border-radius:6px; border-left:3px solid #54e50d;">
+                  <span style="color:#54e50d;">✓</span> <span id="contractUserSelectedName" style="color:#ffffff;"></span>
+                  <button type="button" id="contractUserClear" style="margin-left:12px; background:none; border:none; color:#ff6b6b; cursor:pointer;">✕</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Type d'énergie -->
+            <div class="form-row">
+              <div class="form-group" style="flex: 1 1 100%;">
+                <label>Energietyp *</label>
+                <div style="display:flex; gap:20px; margin-top:4px;">
+                  <label style="display:flex; align-items:center; gap:8px; color:#ffffff; cursor:pointer;">
+                    <input type="radio" name="contractEnergyType" value="strom" checked /> ⚡ Strom
+                  </label>
+                  <label style="display:flex; align-items:center; gap:8px; color:#ffffff; cursor:pointer;">
+                    <input type="radio" name="contractEnergyType" value="gas" /> 🔥 Gas
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sélection offre -->
+            <div class="form-row">
+              <div class="form-group" style="flex: 1 1 100%;">
+                <label for="contractOfferTrigger">Angebot *</label>
+                <div class="custom-select" id="contractOfferSelect">
+                  <button type="button" class="custom-select-trigger" id="contractOfferTrigger">
+                    <span class="custom-select-trigger-placeholder">-- Angebot auswählen --</span>
+                  </button>
+                  <div class="custom-select-panel" id="contractOfferPanel">
+                    <p style="color:#6a7b91; padding:10px;">Lade Angebote...</p>
+                  </div>
+                </div>
+                <input type="hidden" id="contractOfferId" />
+              </div>
+            </div>
+
+            <!-- Affichage des infos de l'offre sélectionnée -->
+            <div id="contractOfferInfo" style="display:none;">
+              <div class="contract-info-display">
+                <div><span class="info-label">Unternehmen</span> <span class="info-value" id="contractOfferCompanyName">-</span></div>
+                <div style="margin-top:4px;"><span class="info-label">Preis</span> <span class="info-value" id="contractOfferPrice">-</span></div>
+                <div style="margin-top:4px;"><span class="info-label">Laufzeit</span> <span class="info-value" id="contractOfferDuration">-</span></div>
+              </div>
+            </div>
+
+            <!-- Dates sur la même ligne -->
+            <div class="form-row-dates">
+              <div class="form-group">
+                <label for="contractDateFrom">Vertrag von *</label>
+                <input type="date" id="contractDateFrom" required />
+              </div>
+              <div class="form-group">
+                <label for="contractDateTo">Vertrag bis *</label>
+                <input type="date" id="contractDateTo" required />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-submit" id="submitContractBtn">Vertrag speichern</button>
+              <button type="button" id="cancelContractForm" class="btn-submit secondary">Abbrechen</button>
+            </div>
+            <div id="contractMessage" class="message"></div>
+          </form>
+        </div>
+
+        <h2 style="font-size:1.5rem; margin:20px 0 12px; color:#54e50d;">Vorhandene Verträge</h2>
+        <div id="contractList"><p style="color:#6a7b91;">Lade Verträge...</p></div>
       </div>
 
     </div>
@@ -343,6 +708,10 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <!-- Flatpickr JS -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/de.js"></script>
 
   <!-- ===== MAIN.JS ===== -->
   <script src="main.js"></script>

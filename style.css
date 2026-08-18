@@ -672,25 +672,6 @@ body.dashboard-page {
 .ueber-uns-box,
 .stat-box,
 .admin-box {
-    background-color: #243957;
-    border: 2px solid #54e50d;
-    border-radius: 16px;
-    padding: 40px 48px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-    max-width: 900px;
-    margin: 0 auto;
-    width: 100%;
-    color: #ffffff;
-}
-/* ============================================================
-   CARTES DASHBOARD – COULEURS IDENTIQUES AU HEADER
-   ============================================================ */
-.willkommen-box,
-.company-box,
-.ueber-uns-box,
-.stat-box,
-.admin-box {
     background-color: #0c2545;
     border: 2px solid #54e50d;
     border-radius: 16px;
@@ -1019,35 +1000,196 @@ body.dashboard-page {
     border-color: #54e50d;
 }
 
+/* ===== BOUTONS ÉDITER ET SUPPRIMER - STYLE UNIFIÉ ===== */
 .edit-btn {
-    background-color: #54e50d;
-    color: #0c2545;
-    border: none;
-    padding: 4px 16px;
-    border-radius: 20px;
+    background-color: rgba(84, 229, 13, 0.15);
+    color: #54e50d;
+    border: 1px solid rgba(84, 229, 13, 0.3);
+    padding: 6px 16px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: 0.2s;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 .edit-btn:hover {
-    background-color: #6a7b91;
-    color: #ffffff;
+    background-color: rgba(84, 229, 13, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(84, 229, 13, 0.2);
 }
 
 .delete-btn {
-    background-color: #6a7b91;
-    color: #ffffff;
-    border: none;
-    padding: 4px 16px;
-    border-radius: 20px;
+    background-color: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    padding: 6px 16px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 0.85rem;
-    transition: 0.2s;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 .delete-btn:hover {
-    background-color: #4a5b71;
+    background-color: rgba(255, 107, 107, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+}
+
+/* ===== STYLE DES ITEMS CONTRATS (comme les offres) ===== */
+.contract-item {
+    background-color: rgba(255, 255, 255, 0.06);
+    padding: 12px 18px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    border: 1px solid #6a7b91;
+    transition: border-color 0.2s, background-color 0.2s;
     color: #ffffff;
+}
+.contract-item:hover {
+    border-color: #54e50d;
+    background-color: rgba(255, 255, 255, 0.10);
+}
+.contract-item .contract-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1 1 60%;
+    min-width: 200px;
+}
+.contract-item .contract-info .contract-user {
+    color: #54e50d;
+    font-weight: 600;
+    font-size: 15px;
+}
+.contract-item .contract-info .contract-details {
+    color: #ffffff;
+    font-size: 14px;
+}
+.contract-item .contract-info .contract-dates {
+    color: #6a7b91;
+    font-size: 13px;
+}
+.contract-item .contract-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* ===== STYLE DES BOUTONS DANS LES CONTRATS ===== */
+.contract-item .contract-actions .edit-btn {
+    background-color: rgba(84, 229, 13, 0.15);
+    color: #54e50d;
+    border: 1px solid rgba(84, 229, 13, 0.3);
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.contract-item .contract-actions .edit-btn:hover {
+    background-color: rgba(84, 229, 13, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(84, 229, 13, 0.2);
+}
+
+.contract-item .contract-actions .delete-btn {
+    background-color: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.contract-item .contract-actions .delete-btn:hover {
+    background-color: rgba(255, 107, 107, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+}
+
+/* ===== FORMULAIRE CONTRATS ===== */
+.contract-form-container {
+    display: none;
+    background-color: rgba(255, 255, 255, 0.06);
+    padding: 20px 24px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    border-left: 4px solid #54e50d;
+    color: #ffffff;
+}
+.contract-form-container.active {
+    display: block;
+}
+.contract-form-container .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.contract-form-container .form-row-dates {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.contract-form-container .form-row-dates .form-group {
+    flex: 1;
+    min-width: 150px;
+}
+.contract-form-container .form-group {
+    flex: 1 1 200px;
+}
+.contract-form-container .form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #ffffff;
+}
+.contract-form-container .form-group input,
+.contract-form-container .form-group select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #6a7b91;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    transition: border-color 0.2s;
+}
+.contract-form-container .form-group input::placeholder {
+    color: #6a7b91;
+}
+.contract-form-container .form-group input:focus,
+.contract-form-container .form-group select:focus {
+    outline: none;
+    border-color: #54e50d;
+    box-shadow: 0 0 0 3px rgba(84, 229, 13, 0.2);
+}
+.contract-form-container .form-group select option {
+    background-color: #243957;
+    color: #ffffff;
+}
+
+.contract-info-display {
+    background: rgba(84, 229, 13, 0.08);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    border-left: 3px solid #54e50d;
+}
+.contract-info-display .info-label {
+    color: #6a7b91;
+    font-size: 12px;
+}
+.contract-info-display .info-value {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 15px;
 }
 
 .edit-form {
@@ -1100,27 +1242,6 @@ body.dashboard-page {
 }
 hr.admin-hr {
     margin: 30px 0;
-}
-
-.company-item .company-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
-    min-width: 200px;
-    color: #ffffff;
-}
-.company-item .company-info img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    border-radius: 4px;
-    background-color: #fff;
-}
-.company-item .company-actions {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
 }
 
 .company-form-container {
@@ -1228,8 +1349,6 @@ hr.admin-hr {
 .edit-mode-indicator.active {
     display: inline-block;
 }
-
-
 
 /* Conteneur principal du select personnalisé */
 .custom-select-wrapper {
@@ -1379,6 +1498,58 @@ hr.admin-hr {
 
 .custom-select-panel::-webkit-scrollbar-thumb:hover {
     background: #6a7b91;
+}
+
+/* ---------- RECHERCHE UTILISATEUR ---------- */
+.search-input {
+    position: relative;
+}
+.search-input input {
+    width: 100%;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #6a7b91;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 14px;
+    transition: border-color 0.15s ease;
+}
+.search-input input:focus {
+    border-color: #54e50d;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(84, 229, 13, 0.15);
+}
+.search-input input::placeholder {
+    color: #6a7b91;
+}
+.search-results {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background: #0c2545;
+    border: 1px solid #6a7b91;
+    border-radius: 8px;
+    z-index: 50;
+    display: none;
+}
+.search-results.show {
+    display: block;
+}
+.search-results .result-item {
+    padding: 8px 14px;
+    cursor: pointer;
+    color: #ffffff;
+    transition: background 0.1s ease;
+}
+.search-results .result-item:hover {
+    background: rgba(84, 229, 13, 0.12);
+}
+.search-results .result-item .result-email {
+    color: #6a7b91;
+    font-size: 12px;
 }
 
 /* ---------- HAMBURGER ---------- */
@@ -1580,6 +1751,11 @@ hr.admin-hr {
     .admin-box h1 {
         font-size: 1.6rem;
     }
+
+    .contract-form-container .form-row-dates {
+        flex-direction: column;
+        gap: 15px;
+    }
 }
 
 @media (max-width: 600px) {
@@ -1605,6 +1781,14 @@ hr.admin-hr {
     }
     .ueber-uns-box {
         padding: 20px !important;
+    }
+    .contract-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    .contract-item .contract-actions {
+        justify-content: flex-start;
     }
 }
 
@@ -1791,4 +1975,119 @@ hr.admin-hr {
     color: #6a7b91;
     font-size: 10px;
     text-align: center;
+}
+
+/* ===== STYLE FLATPICKR PERSONNALISE ===== */
+.flatpickr-calendar {
+    background: #1b1f27 !important;
+    border: 1px solid #6a7b91 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+.flatpickr-calendar .flatpickr-month {
+    color: #ffffff !important;
+    background: #1b1f27 !important;
+}
+
+.flatpickr-calendar .flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-calendar .flatpickr-current-month input.cur-year {
+    color: #ffffff !important;
+    background: #1b1f27 !important;
+}
+
+.flatpickr-calendar .flatpickr-weekdays {
+    background: #1b1f27 !important;
+}
+
+.flatpickr-calendar .flatpickr-weekday {
+    color: #54e50d !important;
+}
+
+.flatpickr-calendar .flatpickr-day {
+    color: #ffffff !important;
+    border-radius: 4px !important;
+}
+
+.flatpickr-calendar .flatpickr-day:hover {
+    background: rgba(84, 229, 13, 0.15) !important;
+    border-color: #54e50d !important;
+}
+
+.flatpickr-calendar .flatpickr-day.selected {
+    background: #54e50d !important;
+    border-color: #54e50d !important;
+    color: #1b1f27 !important;
+}
+
+.flatpickr-calendar .flatpickr-day.today {
+    border-color: #54e50d !important;
+}
+
+.flatpickr-calendar .flatpickr-day.inRange,
+.flatpickr-calendar .flatpickr-day.prevMonthDay.inRange,
+.flatpickr-calendar .flatpickr-day.nextMonthDay.inRange {
+    background: rgba(84, 229, 13, 0.2) !important;
+    border-color: rgba(84, 229, 13, 0.3) !important;
+}
+
+.flatpickr-calendar .flatpickr-day.flatpickr-disabled {
+    color: #6a7b91 !important;
+}
+
+.flatpickr-calendar .flatpickr-day.flatpickr-disabled:hover {
+    background: transparent !important;
+}
+
+.flatpickr-calendar .flatpickr-day.prevMonthDay,
+.flatpickr-calendar .flatpickr-day.nextMonthDay {
+    color: #6a7b91 !important;
+}
+
+.flatpickr-calendar .flatpickr-day.prevMonthDay:hover,
+.flatpickr-calendar .flatpickr-day.nextMonthDay:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.flatpickr-calendar .flatpickr-time {
+    border-top: 1px solid #6a7b91 !important;
+    background: #1b1f27 !important;
+}
+
+.flatpickr-calendar .flatpickr-time input,
+.flatpickr-calendar .flatpickr-time .flatpickr-am-pm {
+    color: #ffffff !important;
+}
+
+.flatpickr-calendar .flatpickr-time .flatpickr-am-pm:hover {
+    background: rgba(84, 229, 13, 0.15) !important;
+}
+
+.flatpickr-calendar .flatpickr-time input:hover,
+.flatpickr-calendar .flatpickr-time input:focus {
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.flatpickr-calendar .flatpickr-months .flatpickr-prev-month,
+.flatpickr-calendar .flatpickr-months .flatpickr-next-month {
+    color: #6a7b91 !important;
+}
+
+.flatpickr-calendar .flatpickr-months .flatpickr-prev-month:hover,
+.flatpickr-calendar .flatpickr-months .flatpickr-next-month:hover {
+    color: #54e50d !important;
+}
+
+.flatpickr-calendar .flatpickr-prev-month svg,
+.flatpickr-calendar .flatpickr-next-month svg {
+    fill: #6a7b91 !important;
+}
+
+.flatpickr-calendar .flatpickr-prev-month:hover svg,
+.flatpickr-calendar .flatpickr-next-month:hover svg {
+    fill: #54e50d !important;
+}
+
+.flatpickr-calendar .flatpickr-day.today:not(.selected) {
+    color: #54e50d !important;
 }

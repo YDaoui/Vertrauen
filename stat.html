@@ -22,7 +22,7 @@
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
     <link rel="stylesheet" href="style.css" />
     <style>
-        /* Styles supplémentaires pour le graphique des offres */
+        /* Styles supplémentaires pour les graphiques */
         .chart-container {
             margin-top: 40px;
             padding: 20px;
@@ -65,6 +65,12 @@
         }
         .chart-legend-custom .legend-color.gas {
             background: #a0a6cc;
+        }
+        .chart-legend-custom .legend-color.contract-strom {
+            background: #54e50d;
+        }
+        .chart-legend-custom .legend-color.contract-gas {
+            background: #4ecdc4;
         }
     </style>
 </head>
@@ -143,9 +149,9 @@
                 </div>
             </div>
 
-            <!-- ===== NOUVEAU GRAPHIQUE COMPARATIF DES OFFRES ===== -->
+            <!-- ===== GRAPHIQUE COMPARATIF DES OFFRES ===== -->
             <div class="chart-container">
-                <h3> Vergleich der Angebote (Strom &amp; Gas) nach Unternehmen</h3>
+                <h3>Vergleich der Angebote (Strom &amp; Gas) nach Unternehmen</h3>
                 <div class="chart-wrapper">
                     <canvas id="offerComparisonChart"></canvas>
                 </div>
@@ -160,6 +166,25 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ===== GRAPHIQUE COMPARATIF DES CONTRATS ===== -->
+            <div class="chart-container" style="margin-top: 20px;">
+                <h3> Anzahl der Verträge pro Unternehmen</h3>
+                <div class="chart-wrapper">
+                    <canvas id="contractComparisonChart"></canvas>
+                </div>
+                <div class="chart-legend-custom">
+                    <div class="legend-item">
+                        <span class="legend-color contract-strom"></span>
+                        <span>Strom Verträge</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color contract-gas"></span>
+                        <span>Gas Verträge</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
