@@ -661,6 +661,8 @@ function initAdminPage() {
 // =====================================================================
 // ===== BLOC 3 : company.html =========================================
 // =====================================================================
+// ===== BLOC 3 : company.html =========================================
+// =====================================================================
 function initCompanyPage() {
   const container = document.getElementById('companyListPublic');
   if (!container) return;
@@ -685,6 +687,7 @@ function initCompanyPage() {
         return;
       }
 
+      // Compter les contrats par entreprise (par nom)
       const contractCounts = {};
       contractsSnapshot.forEach(doc => {
         const data = doc.data();
@@ -706,7 +709,7 @@ function initCompanyPage() {
         const metaText = metaParts.join(' | ');
         
         const companyName = data.name || 'Unbekannt';
-        const adherents = contractCounts[companyName] || 0;
+        const vertraege = contractCounts[companyName] || 0;
 
         html += `
           <div class="company-item">
@@ -718,7 +721,7 @@ function initCompanyPage() {
               </div>
             </div>
             <div class="company-stats">
-              <span class="number">${adherents}</span> Adhérents
+              <span class="number">${vertraege}</span> Verträge
             </div>
           </div>
         `;
@@ -731,6 +734,7 @@ function initCompanyPage() {
     });
   }
 
+  // Écouter les changements en temps réel
   function setupRealTimeListeners() {
     if (typeof firebase === 'undefined' || !firebase.apps.length) {
       setTimeout(setupRealTimeListeners, 500);

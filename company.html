@@ -130,7 +130,7 @@
               const metaText = metaParts.join(' | ');
               
               const companyName = data.name || 'Unbekannt';
-              const adherents = contractCounts[companyName] || 0;
+              const vertraege = contractCounts[companyName] || 0;
 
               html += `
                 <div class="company-item">
@@ -142,7 +142,7 @@
                     </div>
                   </div>
                   <div class="company-stats">
-                    <span class="number">${adherents}</span> Adhérents
+                    <span class="number">${vertraege}</span> Verträge
                   </div>
                 </div>
               `;
