@@ -790,71 +790,72 @@ body.dashboard-page {
     font-size: 1.2rem;
 }
 
-/* ---------- STATISTIQUES ---------- */
-.stat-donuts {
+/* ============================================================
+   STATISTIQUES - UN SEUL CARREAU AVEC TOUS LES DONUTS EN LIGNE
+   ============================================================ */
+
+/* Le conteneur principal = UN SEUL CARREAU */
+.stat-donuts-row {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 14px;
+    padding: 20px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(6px);
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px 50px;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 30px;
+    width: 100%;
+    transition: all 0.3s ease;
 }
-.donut-wrapper {
+
+.stat-donuts-row:hover {
+    border-color: rgba(84, 229, 13, 0.3);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Chaque donut à l'intérieur du carreau */
+.stat-donuts-row .donut-wrapper {
     text-align: center;
-    max-width: 180px;
-    flex: 1 0 140px;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 200px;
+    padding: 8px 4px;
+    transition: all 0.3s ease;
 }
-.donut-wrapper .label {
-    font-weight: 600;
-    font-size: 1rem;
-    margin-top: 10px;
-    color: #ffffff;
+
+.stat-donuts-row .donut-wrapper:hover {
+    transform: translateY(-2px);
 }
-.donut-wrapper .number {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #54e50d;
-    margin-top: 2px;
-}
-.donut-wrapper canvas {
-    max-width: 140px;
-    max-height: 140px;
+
+/* Canvas du donut */
+.stat-donuts-row .donut-wrapper canvas {
+    width: 100px !important;
+    height: 100px !important;
     display: block;
     margin: 0 auto;
 }
 
-.stat-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin-bottom: 40px;
-    justify-content: center;
+/* Label sous le donut */
+.stat-donuts-row .donut-wrapper .label {
+    font-weight: 600;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 6px;
+    color: #6a7b91;
+    white-space: nowrap;
 }
-.stat-card {
-    background-color: rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    padding: 28px 30px;
-    text-align: center;
-    flex: 1 1 200px;
-    min-width: 150px;
-    border: 1px solid #6a7b91;
-    transition: 0.2s;
-    color: #ffffff;
+
+/* Chiffre sous le donut (optionnel, le chiffre est déjà dans le donut) */
+.stat-donuts-row .donut-wrapper .number {
+    display: none;
 }
-.stat-card:hover {
-    border-color: #54e50d;
-    box-shadow: 0 2px 12px rgba(84, 229, 13, 0.15);
-}
-.stat-card .number {
-    font-size: 3.2rem;
-    font-weight: 700;
-    color: #54e50d;
-    display: block;
-    margin-bottom: 6px;
-}
-.stat-card .label {
-    font-size: 1.1rem;
-    color: #ffffff;
-}
+
+
+
 .chart-container {
     background-color: rgba(255, 255, 255, 0.06);
     border-radius: 14px;
@@ -872,13 +873,152 @@ body.dashboard-page {
     color: #ffffff;
     margin-bottom: 20px;
 }
+
+/* AGRANDISSEMENT DES GRAPHIQUES */
 .chart-wrapper {
-    max-height: 280px;
-    max-width: 600px;
+    height: 260px;  /* Augmenté de 280px à 400px */
+    max-width: 100%;  /* Changé de 600px à 100% pour utiliser tout l'espace */
     margin: 0 auto;
+    width: 100%;
 }
 
-/* ---------- ADMIN ---------- */
+.chart-legend-custom {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.chart-legend-custom .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-size: 0.9rem;
+}
+
+.chart-legend-custom .legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.chart-legend-custom .legend-color.strom {
+    background: #54e50d;
+}
+
+.chart-legend-custom .legend-color.gas {
+    background: #a0a6cc;
+}
+
+.chart-legend-custom .legend-color.contract-strom {
+    background: #54e50d;
+}
+
+.chart-legend-custom .legend-color.contract-gas {
+    background: #4ecdc4;
+}
+
+
+
+@media (max-width: 360px) {
+    .stat-donuts-row .donut-wrapper {
+        max-width: 100px;   /* Augmenté de 65px à 80px */
+        min-width: 80px;   /* Augmenté de 50px à 60px */
+    }
+    .stat-donuts-row .donut-wrapper canvas {
+        width: 62px !important;   /* Augmenté de 35px à 42px */
+        height: 52px !important;  /* Augmenté de 35px à 42px */
+    }
+    .stat-donuts-row .donut-wrapper .label {
+        font-size: 6px;
+    }
+}
+/* ============================================================
+   RESPONSIVE - UN SEUL CARREAU
+   ============================================================ */
+
+@media (max-width: 1024px) {
+    .stat-donuts-row .donut-wrapper canvas {
+        width: 58px !important;
+        height: 58px !important;
+    }
+    .stat-donuts-row .donut-wrapper .label {
+        font-size: 8px;
+    }
+    .stat-donuts-row {
+        padding: 16px 12px;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stat-donuts-row {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 14px 10px;
+        gap: 8px 12px;
+    }
+    .stat-donuts-row .donut-wrapper {
+        flex: 0 0 auto;
+        max-width: 100px;
+        min-width: 70px;
+    }
+    .stat-donuts-row .donut-wrapper canvas {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    .stat-donuts-row .donut-wrapper .label {
+        font-size: 7px;
+        letter-spacing: 0.3px;
+        white-space: normal;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-donuts-row {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px 6px;
+        gap: 6px 8px;
+        border-radius: 10px;
+    }
+    .stat-donuts-row .donut-wrapper {
+        flex: 0 0 auto;
+        max-width: 80px;
+        min-width: 60px;
+        padding: 4px 2px;
+    }
+    .stat-donuts-row .donut-wrapper canvas {
+        width: 42px !important;
+        height: 42px !important;
+    }
+    .stat-donuts-row .donut-wrapper .label {
+        font-size: 6px;
+        letter-spacing: 0.2px;
+        margin-top: 3px;
+    }
+}
+
+@media (max-width: 360px) {
+    .stat-donuts-row .donut-wrapper {
+        max-width: 65px;
+        min-width: 50px;
+    }
+    .stat-donuts-row .donut-wrapper canvas {
+        width: 35px !important;
+        height: 35px !important;
+    }
+    .stat-donuts-row .donut-wrapper .label {
+        font-size: 5px;
+    }
+}
+
+/* ============================================================
+   ADMIN
+   ============================================================ */
+
 .tab-container {
     display: flex;
     gap: 20px;
@@ -1726,20 +1866,6 @@ hr.admin-hr {
         min-width: 120px;
     }
     
-    .stat-donuts {
-        gap: 20px 30px;
-    }
-    .donut-wrapper canvas {
-        max-width: 110px;
-        max-height: 110px;
-    }
-    .donut-wrapper .number {
-        font-size: 1.3rem;
-    }
-    .stat-box {
-        padding: 20px;
-    }
-    
     .tab-container {
         gap: 10px;
         flex-wrap: wrap;
@@ -1801,13 +1927,6 @@ hr.admin-hr {
     }
     .stat-box {
         padding: 16px;
-    }
-    .donut-wrapper canvas {
-        max-width: 90px;
-        max-height: 90px;
-    }
-    .donut-wrapper .label {
-        font-size: 0.85rem;
     }
     .datenschutz-card {
         padding: 18px 14px;

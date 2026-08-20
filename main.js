@@ -661,8 +661,6 @@ function initAdminPage() {
 // =====================================================================
 // ===== BLOC 3 : company.html =========================================
 // =====================================================================
-// ===== BLOC 3 : company.html =========================================
-// =====================================================================
 function initCompanyPage() {
   const container = document.getElementById('companyListPublic');
   if (!container) return;
@@ -687,7 +685,6 @@ function initCompanyPage() {
         return;
       }
 
-      // Compter les contrats par entreprise (par nom)
       const contractCounts = {};
       contractsSnapshot.forEach(doc => {
         const data = doc.data();
@@ -734,7 +731,6 @@ function initCompanyPage() {
     });
   }
 
-  // Écouter les changements en temps réel
   function setupRealTimeListeners() {
     if (typeof firebase === 'undefined' || !firebase.apps.length) {
       setTimeout(setupRealTimeListeners, 500);
@@ -960,7 +956,6 @@ function initStatsPage() {
                         strom: null,
                         gas: null
                     };
-                    // Stocker le logo pour les contrats
                     companyLogoMap[data.companyName || 'Unbekannt'] = data.companyLogo || '';
                 }
 
@@ -972,7 +967,6 @@ function initStatsPage() {
                 }
             });
 
-            // Compter les contrats par entreprise et stocker les logos
             contractsSnap.forEach(doc => {
                 const data = doc.data();
                 if (data.energyType === 'strom') {
@@ -984,7 +978,6 @@ function initStatsPage() {
                 const companyName = data.companyName || 'Unbekannt';
                 if (!contractCounts[companyName]) {
                     contractCounts[companyName] = { strom: 0, gas: 0 };
-                    // Récupérer le logo depuis companyMap ou depuis les données du contrat
                     const logo = data.companyLogo || '';
                     companyLogoMap[companyName] = logo;
                 }
@@ -995,7 +988,6 @@ function initStatsPage() {
                 }
             });
 
-            // Compléter les logos manquants depuis companyMap
             Object.keys(companyMap).forEach(key => {
                 const name = companyMap[key].name;
                 if (companyMap[key].logo && !companyLogoMap[name]) {
@@ -1007,7 +999,6 @@ function initStatsPage() {
                 .filter(company => company.strom !== null || company.gas !== null)
                 .sort((a, b) => (a.strom || 0) - (b.strom || 0));
 
-            // Préparer les données pour le graphique des contrats avec logos
             const contractChartData = Object.keys(contractCounts)
                 .filter(name => contractCounts[name].strom > 0 || contractCounts[name].gas > 0)
                 .sort((a, b) => {
@@ -1016,7 +1007,6 @@ function initStatsPage() {
                     return totalB - totalA;
                 });
 
-            // Créer un tableau avec les logos pour les contrats
             const contractDataWithLogos = contractChartData.map(name => ({
                 name: name,
                 logo: companyLogoMap[name] || DEFAULT_LOGO
@@ -1036,6 +1026,7 @@ function initStatsPage() {
             if (stromVertragEl) stromVertragEl.textContent = totalStromVertrag;
             if (gasVertragEl) gasVertragEl.textContent = totalGasVertrag;
 
+            // Mise à jour des donuts avec taille réduite pour une ligne
             updateDonut('emailDonut', totalUsers, '#54e50d', '#6a7b91');
             updateDonut('companyDonut', totalCompanies, '#54e50d', '#6a7b91');
             updateDonut('stromDonut', totalStrom, '#54e50d', '#6a7b91');
@@ -1061,6 +1052,8 @@ function initStatsPage() {
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
+        
+        // Nettoyer les anciens graphiques
         if (canvasId === 'emailDonut' && emailChart) { emailChart.destroy(); }
         else if (canvasId === 'companyDonut' && companyChart) { companyChart.destroy(); }
         else if (canvasId === 'stromDonut' && stromChart) { stromChart.destroy(); }
@@ -1068,6 +1061,7 @@ function initStatsPage() {
         else if (canvasId === 'stromVertragDonut' && stromVertragChart) { stromVertragChart.destroy(); }
         else if (canvasId === 'gasVertragDonut' && gasVertragChart) { gasVertragChart.destroy(); }
 
+        // Limiter la valeur à 100 pour l'affichage
         const displayValue = Math.min(value, 100);
         const remaining = 100 - displayValue;
 
@@ -1082,7 +1076,7 @@ function initStatsPage() {
                 }]
             },
             options: {
-                cutout: '70%',
+                cutout: '65%',
                 responsive: true,
                 maintainAspectRatio: true,
                 plugins: {
@@ -1096,7 +1090,7 @@ function initStatsPage() {
                     const { width, height, ctx } = chart;
                     ctx.save();
                     const text = value.toString();
-                    ctx.font = 'bold 26px Arial';
+                    ctx.font = 'bold 18px Arial';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillStyle = '#ffffff';
@@ -1108,6 +1102,7 @@ function initStatsPage() {
             }]
         });
 
+        // Stocker les références
         if (canvasId === 'emailDonut') { emailChart = chart; }
         else if (canvasId === 'companyDonut') { companyChart = chart; }
         else if (canvasId === 'stromDonut') { stromChart = chart; }

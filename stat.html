@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Statistik – Vertrauen Distributor</title>
+    
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -11,88 +13,39 @@
         gtag('js', new Date());
         gtag('config', 'G-EV3MLGBFYW');
     </script>
+    
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Chart.js DataLabels Plugin pour afficher les valeurs sur les barres -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="style.css" />
-    <style>
-        /* Styles supplémentaires pour les graphiques */
-        .chart-container {
-            margin-top: 40px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .chart-container h3 {
-            color: #54e50d;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-        }
-        .chart-wrapper {
-            position: relative;
-            height: 400px;
-            width: 100%;
-        }
-        .chart-legend-custom {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        .chart-legend-custom .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #ffffff;
-            font-size: 0.9rem;
-        }
-        .chart-legend-custom .legend-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-        }
-        .chart-legend-custom .legend-color.strom {
-            background: #54e50d;
-        }
-        .chart-legend-custom .legend-color.gas {
-            background: #a0a6cc;
-        }
-        .chart-legend-custom .legend-color.contract-strom {
-            background: #54e50d;
-        }
-        .chart-legend-custom .legend-color.contract-gas {
-            background: #4ecdc4;
-        }
-    </style>
 </head>
 
 <body class="dashboard-page">
+    
+    <!-- ===== HEADER ===== -->
     <header class="dashboard-header" id="dashboardHeader">
-        <!-- Logo à gauche -->
         <a href="index.html" class="logo-link">
             <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" />
         </a>
 
-        <!-- Message de bienvenue centré -->
         <span id="userNameDisplay" class="welcome-center"></span>
 
-        <!-- Hamburger (visible sur mobile) -->
         <button class="hamburger" id="hamburgerBtn" aria-label="Menü öffnen/schließen">
             <span></span>
             <span></span>
             <span></span>
         </button>
 
-        <!-- Navigation -->
         <nav class="dashboard-nav" id="mainNav">
             <a href="dashboard.html">Willkommen</a>
             <a href="stat.html" class="active">Statistik</a>
@@ -102,56 +55,64 @@
             <a href="#" id="logoutMobile" style="display:none;">Abmelden</a>
         </nav>
 
-        <!-- Bouton Login / Abmelden -->
         <a href="login.html" class="login-btn">Login</a>
     </header>
 
+    <!-- ===== MAIN CONTENT ===== -->
     <main class="dashboard-content">
         <div class="stat-box">
-            <h2>Übersicht</h2>
+            <h2> Übersicht</h2>
 
-            <div class="stat-donuts">
-                <!-- 1. Vertrauensvolle Kunden -->
+            <!-- ===== UN SEUL CARREAU AVEC TOUS LES DONUTS ===== -->
+            <div class="stat-donuts-row">
+                
+                <!-- 1. Vertrauenskunden -->
                 <div class="donut-wrapper">
                     <canvas id="emailDonut"></canvas>
-                    <div class="label">Vertrauenskunden</div>
+                    <div class="label"> Vertrauenskunden</div>
                     <div class="number" id="emailCount">0</div>
                 </div>
+                
                 <!-- 2. Unternehmen -->
                 <div class="donut-wrapper">
                     <canvas id="companyDonut"></canvas>
-                    <div class="label">Unternehmen</div>
+                    <div class="label"> Unternehmen</div>
                     <div class="number" id="companyCount">0</div>
                 </div>
+                
                 <!-- 3. Strom Angebote -->
                 <div class="donut-wrapper">
                     <canvas id="stromDonut"></canvas>
-                    <div class="label">Strom Angebote</div>
+                    <div class="label"> Strom Angebote</div>
                     <div class="number" id="stromCount">0</div>
                 </div>
+                
                 <!-- 4. Gas Angebote -->
                 <div class="donut-wrapper">
                     <canvas id="gasDonut"></canvas>
-                    <div class="label">Gas Angebote</div>
+                    <div class="label"> Gas Angebote</div>
                     <div class="number" id="gasCount">0</div>
                 </div>
+                
                 <!-- 5. Strom Verträge -->
                 <div class="donut-wrapper">
                     <canvas id="stromVertragDonut"></canvas>
-                    <div class="label">Strom Verträge</div>
+                    <div class="label"> Strom Verträge</div>
                     <div class="number" id="stromVertragCount">0</div>
                 </div>
+                
                 <!-- 6. Gas Verträge -->
                 <div class="donut-wrapper">
                     <canvas id="gasVertragDonut"></canvas>
-                    <div class="label">Gas Verträge</div>
+                    <div class="label"> Gas Verträge</div>
                     <div class="number" id="gasVertragCount">0</div>
                 </div>
+                
             </div>
 
             <!-- ===== GRAPHIQUE COMPARATIF DES OFFRES ===== -->
             <div class="chart-container">
-                <h3>Vergleich der Angebote (Strom &amp; Gas) nach Unternehmen</h3>
+                <h3> Vergleich der Angebote (Strom &amp; Gas) nach Unternehmen</h3>
                 <div class="chart-wrapper">
                     <canvas id="offerComparisonChart"></canvas>
                 </div>
@@ -168,7 +129,7 @@
             </div>
 
             <!-- ===== GRAPHIQUE COMPARATIF DES CONTRATS ===== -->
-            <div class="chart-container" style="margin-top: 20px;">
+            <div class="chart-container">
                 <h3> Anzahl der Verträge pro Unternehmen</h3>
                 <div class="chart-wrapper">
                     <canvas id="contractComparisonChart"></canvas>
@@ -188,6 +149,7 @@
         </div>
     </main>
 
+    <!-- ===== FOOTER ===== -->
     <footer class="dashboard-footer">
         <a href="datenschutz.html">Datenschutzerklärung</a>
         <span style="color:#6a7b91; margin:0 12px;">|</span>
@@ -196,18 +158,21 @@
 
     <!-- ===== MAIN.JS ===== -->
     <script src="main.js"></script>
-</body>
-    <!--Start of Tawk.to Script-->
+    
+    <!-- ===== Tawk.to Script ===== -->
     <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
     </script>
-    <!--End of Tawk.to Script-->
+    
+</body>
 </html>
