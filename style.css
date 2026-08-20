@@ -845,7 +845,7 @@ body.dashboard-page {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-top: 6px;
-    color: #6a7b91;
+    color: #54e50d !important; 
     white-space: nowrap;
 }
 
@@ -933,6 +933,7 @@ body.dashboard-page {
     }
     .stat-donuts-row .donut-wrapper .label {
         font-size: 6px;
+        color: #54e50d !important;  /* VERT */
     }
 }
 /* ============================================================
@@ -950,6 +951,7 @@ body.dashboard-page {
     .stat-donuts-row {
         padding: 16px 12px;
         gap: 6px;
+        color: #54e50d !important;  /* VERT */
     }
 }
 
