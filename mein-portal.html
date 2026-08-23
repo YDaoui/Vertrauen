@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Willkommen – Vertrauen Distributor</title>
+    <title>Mein Portal – Vertrauen Distributor</title>
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
@@ -19,44 +19,62 @@
 </head>
 <body class="dashboard-page">
     <header class="dashboard-header">
-        <!-- Logo à gauche -->
         <a href="index.html" class="logo-link">
             <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" />
         </a>
-
-        <!-- Message de bienvenue centré -->
         <span id="userNameDisplay" class="welcome-center"></span>
-
-        <!-- Hamburger (visible sur mobile) -->
         <button class="hamburger" id="hamburgerBtn" aria-label="Menü öffnen/schließen">
             <span></span>
             <span></span>
             <span></span>
         </button>
-
-        <!-- Navigation -->
         <nav class="dashboard-nav" id="mainNav">
-            <a href="dashboard.html" class="active">Willkommen</a>
-            <a href="mein-portal.html">Mein Portal</a>
+            <a href="dashboard.html">Willkommen</a>
+            <a href="mein-portal.html" class="active">Mein Portal</a>
             <a href="company.html">Company</a>
             <a href="ueber-uns.html">Über uns</a>
-
-            <!-- Lien de déconnexion pour mobile -->
             <a href="#" id="logoutMobile" style="display:none;">Abmelden</a>
         </nav>
-
         
     </header>
 
     <main class="dashboard-content">
-        <!-- Carte grise avec bordure rouge : UNIQUEMENT le message de bienvenue -->
         <div class="willkommen-box">
-            <h1>Willkommen im Dashboard!</h1>
+            <h1>Ihr persönliches Portal</h1>
             <p>
-                Hier finden Sie alle wichtigen Informationen auf einen Blick.<br />
-                Nutzen Sie das Menü oben, um zu <strong>Mein Portal</strong> (Ihre persönlichen
-                Vertrags- und Angebotsdaten), zu den Unternehmen oder zu weiteren Informationen zu gelangen.
+                Hier finden Sie alle Informationen zu Ihrem Vertrag und Angebot.
             </p>
+        </div>
+
+        <div class="portal-container">
+            <!-- Informations de contrat -->
+            <div class="portal-card">
+                <h2>Vertragsinformationen</h2>
+                <div id="contractInfo">
+                    <p style="text-align: center; color: #888;">Lade Informationen...</p>
+                </div>
+            </div>
+
+            <!-- Détails de l'offre -->
+            <div class="portal-card">
+                <h2>Angebotsdetails</h2>
+                <div id="offerDetails">
+                    <p style="text-align: center; color: #888;">Lade Angebotsdetails...</p>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="portal-card">
+                <h2>Aktionen</h2>
+                <div class="action-buttons">
+                    <button onclick="window.print()" class="action-btn">
+                        <span class="icon">🖨️</span> Vertrag herunterladen
+                    </button>
+                    <button onclick="window.location.href='mailto:support@vertrauen-distributor.de'" class="action-btn">
+                        <span class="icon">✉️</span> Support kontaktieren
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -66,7 +84,7 @@
         <span style="color:#888;">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
     </footer>
 
-    <!-- Toute la logique (auth, menu, affichage du nom, etc.) vit dans main.js -->
+    <!-- Toute la logique (auth, chargement des données, menu, etc.) vit dans main.js -->
     <script src="main.js"></script>
 </body>
 </html>
