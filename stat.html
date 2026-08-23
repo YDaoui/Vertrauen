@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Statistik – Vertrauen Distributor</title>
-    
-    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -13,26 +11,15 @@
         gtag('js', new Date());
         gtag('config', 'G-EV3MLGBFYW');
     </script>
-    
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-    
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
-    
-    <!-- Styles -->
     <link rel="stylesheet" href="style.css" />
 </head>
-
 <body class="dashboard-page">
-    
-    <!-- ===== HEADER ===== -->
     <header class="dashboard-header" id="dashboardHeader">
         <a href="index.html" class="logo-link">
             <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" />
@@ -47,72 +34,65 @@
         </button>
 
         <nav class="dashboard-nav" id="mainNav">
-            <a href="dashboard.html">Willkommen</a>
-            <a href="stat.html" class="active">Statistik</a>
-            <a href="company.html">Company</a>
-            <a href="ueber-uns.html">Über uns</a>
-            <a href="admin.html" id="adminLink">Admin</a>
+            <!-- Menu ADMIN -->
+            <div id="adminMenu" style="display:none;">
+                <a href="dashboard.html">Willkommen</a>
+                <a href="stat.html" class="active">Statistik</a>
+                <a href="company.html">Company</a>
+                <a href="ueber-uns.html">Über uns</a>
+                <a href="admin.html">Admin</a>
+            </div>
+            
+            <!-- Menu UTILISATEUR -->
+            <div id="userMenu" style="display:none;">
+                <a href="dashboard.html">Willkommen</a>
+                <a href="mein-portal.html">Mein Portal</a>
+                <a href="company.html">Company</a>
+                <a href="ueber-uns.html">Über uns</a>
+            </div>
+            
             <a href="#" id="logoutMobile" style="display:none;">Abmelden</a>
         </nav>
-
-        <a href="login.html" class="login-btn">Login</a>
     </header>
 
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="dashboard-content">
         <div class="stat-box">
-            <h2> Übersicht</h2>
-
-            <!-- ===== UN SEUL CARREAU AVEC TOUS LES DONUTS ===== -->
+            <h2>Übersicht</h2>
             <div class="stat-donuts-row">
-                
-                <!-- 1. Vertrauenskunden -->
                 <div class="donut-wrapper">
                     <canvas id="emailDonut"></canvas>
-                    <div class="label"> Vertrauenskunden</div>
+                    <div class="label">Vertrauenskunden</div>
                     <div class="number" id="emailCount">0</div>
                 </div>
-                
-                <!-- 2. Unternehmen -->
                 <div class="donut-wrapper">
                     <canvas id="companyDonut"></canvas>
-                    <div class="label"> Unternehmen</div>
+                    <div class="label">Unternehmen</div>
                     <div class="number" id="companyCount">0</div>
                 </div>
-                
-                <!-- 3. Strom Angebote -->
                 <div class="donut-wrapper">
                     <canvas id="stromDonut"></canvas>
-                    <div class="label"> Strom Angebote</div>
+                    <div class="label">Strom Angebote</div>
                     <div class="number" id="stromCount">0</div>
                 </div>
-                
-                <!-- 4. Gas Angebote -->
                 <div class="donut-wrapper">
                     <canvas id="gasDonut"></canvas>
-                    <div class="label"> Gas Angebote</div>
+                    <div class="label">Gas Angebote</div>
                     <div class="number" id="gasCount">0</div>
                 </div>
-                
-                <!-- 5. Strom Verträge -->
                 <div class="donut-wrapper">
                     <canvas id="stromVertragDonut"></canvas>
-                    <div class="label"> Strom Verträge</div>
+                    <div class="label">Strom Verträge</div>
                     <div class="number" id="stromVertragCount">0</div>
                 </div>
-                
-                <!-- 6. Gas Verträge -->
                 <div class="donut-wrapper">
                     <canvas id="gasVertragDonut"></canvas>
-                    <div class="label"> Gas Verträge</div>
+                    <div class="label">Gas Verträge</div>
                     <div class="number" id="gasVertragCount">0</div>
                 </div>
-                
             </div>
 
-            <!-- ===== GRAPHIQUE COMPARATIF DES OFFRES ===== -->
             <div class="chart-container">
-                <h3> Vergleich der Angebote (Strom &amp; Gas) nach Unternehmen</h3>
+                <h3>Vergleich der Angebote (Strom &amp; Gas) nach Unternehmen</h3>
                 <div class="chart-wrapper">
                     <canvas id="offerComparisonChart"></canvas>
                 </div>
@@ -128,9 +108,8 @@
                 </div>
             </div>
 
-            <!-- ===== GRAPHIQUE COMPARATIF DES CONTRATS ===== -->
             <div class="chart-container">
-                <h3> Anzahl der Verträge pro Unternehmen</h3>
+                <h3>Anzahl der Verträge pro Unternehmen</h3>
                 <div class="chart-wrapper">
                     <canvas id="contractComparisonChart"></canvas>
                 </div>
@@ -145,34 +124,15 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
-    <!-- ===== FOOTER ===== -->
     <footer class="dashboard-footer">
         <a href="datenschutz.html">Datenschutzerklärung</a>
         <span style="color:#6a7b91; margin:0 12px;">|</span>
         <span style="color:#6a7b91;">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
     </footer>
 
-    <!-- ===== MAIN.JS ===== -->
     <script src="main.js"></script>
-    
-    <!-- ===== Tawk.to Script ===== -->
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {},
-            Tawk_LoadStart = new Date();
-        (function() {
-            var s1 = document.createElement("script"),
-                s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
-    </script>
-    
 </body>
 </html>

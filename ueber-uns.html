@@ -36,15 +36,21 @@
 
         <!-- Navigation -->
         <nav class="dashboard-nav" id="mainNav">
+            <!-- Menu pour tous -->
             <a href="dashboard.html">Willkommen</a>
-            <a href="stat.html">Statistik</a>
+            
+            <!-- Lien Statistik pour ADMIN (daoui00yassine@gmail.com) -->
+            <a href="stat.html" id="statLink" style="display:none;">Statistik</a>
+            
+            <!-- Lien Mein Portal pour UTILISATEURS NORMALUX -->
+            <a href="mein-portal.html" id="portalLink">Mein Portal</a>
+            
             <a href="company.html">Company</a>
             <a href="ueber-uns.html" class="active">Über uns</a>
             <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
             <a href="#" id="logoutMobile" style="display:none;">Abmelden</a>
         </nav>
 
-        
     </header>
 
     <main class="dashboard-content">
@@ -74,7 +80,6 @@
         // ===== EFFET DE SCROLL SUR LE HEADER =====
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.getElementById('dashboardHeader');
-
             window.addEventListener('scroll', function() {
                 if (window.scrollY > 50) {
                     header.classList.add('scrolled');
@@ -97,11 +102,29 @@
             }
         });
 
-        // Afficher le lien Admin si l'utilisateur est admin
-        if (localStorage.getItem('isAdmin') === 'true') {
-            document.getElementById('adminLink').style.display = 'inline-block';
-        }
+        // ===== GESTION DU MENU SELON LE RÔLE =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const userEmail = localStorage.getItem('userEmail');
+            
+            const statLink = document.getElementById('statLink');
+            const portalLink = document.getElementById('portalLink');
+            const adminLink = document.getElementById('adminLink');
+            
+            if (userEmail === 'daoui00yassine@gmail.com') {
+                // ADMIN : afficher Statistik et Admin, cacher Mein Portal
+                if (statLink) statLink.style.display = 'inline-block';
+                if (portalLink) portalLink.style.display = 'none';
+                if (adminLink) adminLink.style.display = 'inline-block';
+            } else {
+                // UTILISATEUR NORMAL : afficher Mein Portal, cacher Statistik et Admin
+                if (statLink) statLink.style.display = 'none';
+                if (portalLink) portalLink.style.display = 'inline-block';
+                if (adminLink) adminLink.style.display = 'none';
+            }
+        });
     </script>
+
+    <!-- Toute la logique (auth, affichage du nom, etc.) vit dans main.js -->
     <script src="main.js"></script>
 </body>
 </html>

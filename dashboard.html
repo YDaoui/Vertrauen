@@ -36,26 +36,30 @@
 
         <!-- Navigation -->
         <nav class="dashboard-nav" id="mainNav">
+            <!-- Menu pour tous -->
             <a href="dashboard.html" class="active">Willkommen</a>
-            <a href="mein-portal.html">Mein Portal</a>
+            
+            <!-- Lien Statistik pour ADMIN (daoui00yassine@gmail.com) -->
+            <a href="stat.html" id="statLink" style="display:none;">Statistik</a>
+            
+            <!-- Lien Mein Portal pour UTILISATEURS NORMALUX -->
+            <a href="mein-portal.html" id="portalLink">Mein Portal</a>
+            
             <a href="company.html">Company</a>
             <a href="ueber-uns.html">Über uns</a>
-
-            <!-- Lien de déconnexion pour mobile -->
+            <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
             <a href="#" id="logoutMobile" style="display:none;">Abmelden</a>
         </nav>
 
-        
+     
     </header>
 
     <main class="dashboard-content">
-        <!-- Carte grise avec bordure rouge : UNIQUEMENT le message de bienvenue -->
         <div class="willkommen-box">
-            <h1>Willkommen im Dashboard!</h1>
-            <p>
+            <h1 id="welcomeTitle">Willkommen im Dashboard!</h1>
+            <p id="welcomeMessage">
                 Hier finden Sie alle wichtigen Informationen auf einen Blick.<br />
-                Nutzen Sie das Menü oben, um zu <strong>Mein Portal</strong> (Ihre persönlichen
-                Vertrags- und Angebotsdaten), zu den Unternehmen oder zu weiteren Informationen zu gelangen.
+                Nutzen Sie das Menü oben, um zu navigieren.
             </p>
         </div>
     </main>
@@ -66,7 +70,29 @@
         <span style="color:#888;">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
     </footer>
 
-    <!-- Toute la logique (auth, menu, affichage du nom, etc.) vit dans main.js -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userEmail = localStorage.getItem('userEmail');
+            
+            const statLink = document.getElementById('statLink');
+            const portalLink = document.getElementById('portalLink');
+            const adminLink = document.getElementById('adminLink');
+            
+            if (userEmail === 'daoui00yassine@gmail.com') {
+                // ADMIN : afficher Statistik et Admin, cacher Mein Portal
+                if (statLink) statLink.style.display = 'inline-block';
+                if (portalLink) portalLink.style.display = 'none';
+                if (adminLink) adminLink.style.display = 'inline-block';
+            } else {
+                // UTILISATEUR NORMAL : afficher Mein Portal, cacher Statistik et Admin
+                if (statLink) statLink.style.display = 'none';
+                if (portalLink) portalLink.style.display = 'inline-block';
+                if (adminLink) adminLink.style.display = 'none';
+            }
+        });
+    </script>
+
+    <!-- Toute la logique (auth, affichage du nom, etc.) vit dans main.js -->
     <script src="main.js"></script>
 </body>
 </html>

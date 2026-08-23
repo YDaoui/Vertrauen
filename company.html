@@ -14,7 +14,6 @@
     gtag('config', 'G-EV3MLGBFYW');
   </script>
   <link rel="stylesheet" href="style.css" />
-  <!-- Chart.js pour les graphiques -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="dashboard-page">
@@ -36,15 +35,21 @@
 
     <!-- Navigation -->
     <nav class="dashboard-nav" id="mainNav">
+      <!-- Menu pour tous -->
       <a href="dashboard.html">Willkommen</a>
-      <a href="stat.html">Statistik</a>
+      
+      <!-- Lien Statistik pour ADMIN (daoui00yassine@gmail.com) -->
+      <a href="stat.html" id="statLink" style="display:none;">Statistik</a>
+      
+      <!-- Lien Mein Portal pour UTILISATEURS NORMALUX -->
+      <a href="mein-portal.html" id="portalLink">Mein Portal</a>
+      
       <a href="company.html" class="active">Company</a>
       <a href="ueber-uns.html">Über uns</a>
       <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
       <a href="#" id="logoutMobile" style="display:none;">Abmelden</a>
     </nav>
 
-  
   </header>
 
   <main class="dashboard-content">
@@ -70,111 +75,40 @@
   <!-- main.js (UNIQUE fichier partagé) -->
   <script src="main.js"></script>
 
-  <!-- Script spécifique à la page company -->
+  <!-- Script d'initialisation -->
   <script>
-    // Afficher le lien Admin si l'utilisateur est admin
-    if (localStorage.getItem('isAdmin') === 'true') {
-      const adminLink = document.getElementById('adminLink');
-      if (adminLink) adminLink.style.display = 'inline-block';
-    }
-
-    // Initialiser la page company
     document.addEventListener('DOMContentLoaded', function() {
+      const userEmail = localStorage.getItem('userEmail');
+      
+      const statLink = document.getElementById('statLink');
+      const portalLink = document.getElementById('portalLink');
+      const adminLink = document.getElementById('adminLink');
+      
+      if (userEmail === 'daoui00yassine@gmail.com') {
+        // ADMIN : afficher Statistik et Admin, cacher Mein Portal
+        if (statLink) statLink.style.display = 'inline-block';
+        if (portalLink) portalLink.style.display = 'none';
+        if (adminLink) adminLink.style.display = 'inline-block';
+      } else {
+        // UTILISATEUR NORMAL : afficher Mein Portal, cacher Statistik et Admin
+        if (statLink) statLink.style.display = 'none';
+        if (portalLink) portalLink.style.display = 'inline-block';
+        if (adminLink) adminLink.style.display = 'none';
+      }
+      
+      // Mettre à jour le bouton login/logout
+      if (typeof updateLoginButton === 'function') {
+        updateLoginButton();
+      }
+      
+      // Mettre à jour l'affichage du nom
+      if (typeof updateUserDisplay === 'function') {
+        updateUserDisplay();
+      }
+      
+      // Initialiser la page company
       if (typeof initCompanyPage === 'function') {
         initCompanyPage();
-      } else {
-        console.warn('initCompanyPage non disponible, utilisation du fallback...');
-        // Fallback : charger les entreprises manuellement
-        function loadPublicCompanies() {
-          const container = document.getElementById('companyListPublic');
-          if (!container) return;
-          container.innerHTML = '<p style="color:#6a7b91;">Lade Unternehmen...</p>';
-
-          if (typeof firebase === 'undefined' || !firebase.apps.length) {
-            setTimeout(loadPublicCompanies, 500);
-            return;
-          }
-
-          const db = firebase.firestore();
-
-          Promise.all([
-            db.collection('companies').orderBy('createdAt', 'desc').get(),
-            db.collection('contracts').get()
-          ])
-          .then(([companiesSnapshot, contractsSnapshot]) => {
-            if (companiesSnapshot.empty) {
-              container.innerHTML = '<p style="color:#6a7b91;">Keine Unternehmen vorhanden.</p>';
-              return;
-            }
-
-            // Compter les contrats par entreprise
-            const contractCounts = {};
-            contractsSnapshot.forEach(doc => {
-              const data = doc.data();
-              const companyName = data.companyName || '';
-              if (companyName) {
-                contractCounts[companyName] = (contractCounts[companyName] || 0) + 1;
-              }
-            });
-
-            let html = '';
-            companiesSnapshot.forEach(doc => {
-              const data = doc.data();
-              const logoUrl = data.logo || 'Images/default_company.png';
-              let metaParts = [];
-              if (data.service) metaParts.push('Service: ' + data.service);
-              if (data.phone) metaParts.push('Tel: ' + data.phone);
-              if (data.commercial) metaParts.push('Commercial: ' + data.commercial);
-              if (data.created) metaParts.push('Erstellt: ' + data.created);
-              const metaText = metaParts.join(' | ');
-              
-              const companyName = data.name || 'Unbekannt';
-              const vertraege = contractCounts[companyName] || 0;
-
-              html += `
-                <div class="company-item">
-                  <div class="company-info">
-                    <img src="${logoUrl}" alt="${data.name || 'Logo'}" />
-                    <div class="company-details">
-                      <div class="name">${companyName}</div>
-                      <div class="meta">${metaText}</div>
-                    </div>
-                  </div>
-                  <div class="company-stats">
-                    <span class="number">${vertraege}</span> Verträge
-                  </div>
-                </div>
-              `;
-            });
-            container.innerHTML = html;
-          })
-          .catch(error => {
-            console.error('Fehler beim Laden der Unternehmen:', error);
-            container.innerHTML = '<p style="color:#ff6b6b;">Fehler beim Laden der Unternehmen.</p>';
-          });
-        }
-
-        loadPublicCompanies();
-
-        // Écouter les changements en temps réel
-        if (typeof firebase !== 'undefined' && firebase.apps.length) {
-          const db = firebase.firestore();
-          
-          db.collection('contracts').onSnapshot(function() {
-            console.log('Changement détecté dans les contrats, mise à jour...');
-            loadPublicCompanies();
-          });
-
-          db.collection('companies').onSnapshot(function() {
-            console.log('Changement détecté dans les entreprises, mise à jour...');
-            loadPublicCompanies();
-          });
-
-          db.collection('offers').onSnapshot(function() {
-            console.log('Changement détecté dans les offres, mise à jour...');
-            loadPublicCompanies();
-          });
-        }
       }
     });
   </script>
