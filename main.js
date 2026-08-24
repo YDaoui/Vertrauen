@@ -545,6 +545,271 @@ function loadPortalData(email) {
 }
 
 // ===== INITIALISATION DE MEIN PORTAL =====
+// =====================================================================
+// ===== BLOC 8 : MEIN PORTAL - GESTION DES CARTES ====================
+// =====================================================================
+
+// ===== TOGGLE CARTE =====
+function togglePortalCard(cardId) {
+    const card = document.getElementById(cardId);
+    if (!card) return;
+
+    const body = card.querySelector('.card-body');
+    const arrow = card.querySelector('.arrow');
+
+    if (body) {
+        body.classList.toggle('open');
+    }
+    if (arrow) {
+        arrow.classList.toggle('open');
+    }
+}
+
+// ===== CHARGER LES INFOS PERSONNELLES (AFFICHAGE AVEC ID) =====
+function loadPersonalInfo(email) {
+    if (typeof firebase === 'undefined' || !firebase.apps.length) {
+        setTimeout(function() { loadPersonalInfo(email); }, 300);
+        return;
+    }
+
+    const db = firebase.firestore();
+    db.collection('users').doc(email).get()
+        .then((doc) => {
+            if (doc.exists) {
+                const data = doc.data();
+                document.getElementById('displayAnrede').textContent = data.anrede || 'Nicht angegeben';
+                document.getElementById('displayVorname').textContent = data.vorname || 'Nicht angegeben';
+                document.getElementById('displayNachname').textContent = data.nachname || 'Nicht angegeben';
+                document.getElementById('displayEmail').textContent = email;
+                document.getElementById('displayTelefon').textContent = data.telefon || 'Nicht angegeben';
+                document.getElementById('displayFax').textContent = data.fax || 'Nicht angegeben';
+            }
+        })
+        .catch((error) => {
+            console.error('Fehler beim Laden:', error);
+        });
+}
+
+// ===== CHARGER LES DONNÉES DANS LE FORMULAIRE D'ÉDITION =====
+function loadPersonalDataToForm() {
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) return;
+
+    if (typeof firebase === 'undefined' || !firebase.apps.length) {
+        setTimeout(loadPersonalDataToForm, 300);
+        return;
+    }
+
+    const db = firebase.firestore();
+    db.collection('users').doc(userEmail).get()
+        .then((doc) => {
+            if (doc.exists) {
+                const data = doc.data();
+                document.getElementById('editPersonalAnrede').value = data.anrede || '';
+                document.getElementById('editPersonalVorname').value = data.vorname || '';
+                document.getElementById('editPersonalNachname').value = data.nachname || '';
+                document.getElementById('editPersonalTelefon').value = data.telefon || '';
+                document.getElementById('editPersonalFax').value = data.fax || '';
+            }
+        })
+        .catch((error) => {
+            console.error('Fehler beim Laden der Daten:', error);
+        });
+}
+
+// ===== CHARGER LES INFOS CONTRAT ET OFFRES =====
+function loadPortalData(email) {
+    const contractContainer = document.getElementById('contractInfo');
+    const offerContainer = document.getElementById('offerDetails');
+    const statusBadge = document.getElementById('contractStatusBadge');
+
+    if (!contractContainer || !offerContainer) return;
+
+    if (typeof firebase === 'undefined' || !firebase.apps.length) {
+        setTimeout(function() { loadPortalData(email); }, 300);
+        return;
+    }
+
+    const db = firebase.firestore();
+
+    db.collection('contracts')
+        .where('userId', '==', email)
+        .get()
+        .then((contractSnapshot) => {
+            if (contractSnapshot.empty) {
+                contractContainer.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #ff6b6b;">
+                        ⚠️ Kein Vertrag gefunden.
+                    </div>
+                `;
+                offerContainer.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #6a7b91;">
+                        Keine Angebote verfügbar.
+                    </div>
+                `;
+                if (statusBadge) statusBadge.style.display = 'none';
+                return;
+            }
+
+            let contractHtml = '';
+            let isActive = false;
+
+            contractSnapshot.forEach((contractDoc) => {
+                const contractData = contractDoc.data();
+                const statusText = contractData.status === 'active' ? '🟢 Aktiv' : '🔴 Beendet';
+                const statusClass = contractData.status === 'active' ? 'active' : 'expired';
+                
+                if (contractData.status === 'active') {
+                    isActive = true;
+                }
+
+                contractHtml = `
+                    <div class="contract-section">
+                        <div class="contract-header">
+                            <div>
+                                <strong style="color: #54e50d; font-size: 1.1rem;">${contractData.companyName || 'Unbekannt'}</strong>
+                                <span style="margin-left:12px; color:#ffffff;">${contractData.energyType === 'strom' ? '⚡ Strom' : '🔥 Gas'}</span>
+                            </div>
+                            <span class="contract-status ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="contract-details-grid">
+                            <div class="contract-detail-item">
+                                <span class="label">Preis</span>
+                                <span class="value">${contractData.price || 'N/A'}</span>
+                            </div>
+                            <div class="contract-detail-item">
+                                <span class="label">Laufzeit</span>
+                                <span class="value">${contractData.duration || 'N/A'}</span>
+                            </div>
+                            <div class="contract-detail-item">
+                                <span class="label">Vertragsbeginn</span>
+                                <span class="value">${contractData.dateFrom || 'N/A'}</span>
+                            </div>
+                            <div class="contract-detail-item">
+                                <span class="label">Vertragsende</span>
+                                <span class="value">${contractData.dateTo || 'N/A'}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (statusBadge) {
+                if (isActive) {
+                    statusBadge.style.display = 'inline-block';
+                    statusBadge.textContent = '🟢 Aktiv';
+                    statusBadge.style.background = 'rgba(84,229,13,0.15)';
+                    statusBadge.style.color = '#54e50d';
+                    statusBadge.style.border = '1px solid rgba(84,229,13,0.3)';
+                } else {
+                    statusBadge.style.display = 'inline-block';
+                    statusBadge.textContent = '🔴 Beendet';
+                    statusBadge.style.background = 'rgba(255,107,107,0.15)';
+                    statusBadge.style.color = '#ff6b6b';
+                    statusBadge.style.border = '1px solid rgba(255,107,107,0.3)';
+                }
+            }
+
+            contractContainer.innerHTML = contractHtml;
+
+            const offerPromises = [];
+            contractSnapshot.forEach((contractDoc) => {
+                const contractData = contractDoc.data();
+                if (contractData.offerId) {
+                    offerPromises.push(
+                        db.collection('offers').doc(contractData.offerId).get()
+                            .then((offerDoc) => {
+                                if (offerDoc.exists) {
+                                    const offerData = offerDoc.data();
+                                    const services = offerData.services || [];
+                                    return `
+                                        <div class="offer-item">
+                                            <div class="offer-info">
+                                                <div class="offer-name">${offerData.companyName || 'Unbekannt'}</div>
+                                                <div class="offer-details">
+                                                    ${offerData.type === 'strom' ? '⚡ Strom' : '🔥 Gas'}
+                                                    <span style="margin-left:12px; color:#54e50d;">💰 ${offerData.price || 'N/A'}</span>
+                                                    <span style="margin-left:12px; color:#6a7b91;">⏱ ${offerData.duration || 'N/A'}</span>
+                                                </div>
+                                                ${services.length > 0 ? `
+                                                    <div class="offer-meta">
+                                                        📋 ${services.join(' | ')}
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                            <div class="offer-actions">
+                                                <button class="print-btn" onclick="window.print()">🖨️ Drucken</button>
+                                                <button class="support-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✉️ Support</button>
+                                                <button class="edit-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✏️ Anfragen</button>
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                                return '';
+                            })
+                    );
+                }
+            });
+
+            Promise.all(offerPromises).then((offerItems) => {
+                const offersHtml = offerItems.filter(item => item).join('');
+                offerContainer.innerHTML = offersHtml || `
+                    <div style="text-align: center; padding: 20px; color: #6a7b91;">
+                        Keine Angebote verfügbar.
+                    </div>
+                `;
+            });
+
+        })
+        .catch((error) => {
+            console.error('Fehler beim Laden des Vertrags:', error);
+            contractContainer.innerHTML = `
+                <div style="text-align: center; padding: 20px; color: #ff6b6b;">
+                    ⚠️ Fehler beim Laden der Vertragsinformationen.
+                </div>
+            `;
+            offerContainer.innerHTML = `
+                <div style="text-align: center; padding: 20px; color: #ff6b6b;">
+                    ⚠️ Fehler beim Laden der Angebote.
+                </div>
+            `;
+            if (statusBadge) statusBadge.style.display = 'none';
+        });
+}
+
+// ===== FERMER LE FORMULAIRE D'ÉDITION =====
+function closeEditForm() {
+    const editForm = document.getElementById('personalEditForm');
+    const toggleBtn = document.getElementById('togglePersonalEdit');
+    const msg = document.getElementById('personalEditMessage');
+    
+    if (editForm) editForm.classList.remove('active');
+    if (toggleBtn) {
+        toggleBtn.classList.remove('hidden');
+        toggleBtn.textContent = '✏️ Bearbeiten';
+    }
+    if (msg) {
+        msg.textContent = '';
+        msg.className = 'message';
+    }
+}
+
+// ===== OUVRIR LE FORMULAIRE D'ÉDITION =====
+function openEditForm() {
+    const editForm = document.getElementById('personalEditForm');
+    const toggleBtn = document.getElementById('togglePersonalEdit');
+    const msg = document.getElementById('personalEditMessage');
+    
+    if (editForm) editForm.classList.add('active');
+    if (toggleBtn) toggleBtn.classList.add('hidden');
+    if (msg) {
+        msg.textContent = '';
+        msg.className = 'message';
+    }
+    loadPersonalDataToForm();
+}
+
+// ===== INITIALISATION DE MEIN PORTAL =====
 function initMeinPortalPage() {
     const contractInfoContainer = document.getElementById('contractInfo');
     const offerDetailsContainer = document.getElementById('offerDetails');
@@ -558,6 +823,7 @@ function initMeinPortalPage() {
         return;
     }
 
+    // Afficher le nom
     const nameSpan = document.getElementById('userNameDisplay');
     if (nameSpan) {
         const anrede = localStorage.getItem('userAnrede');
@@ -570,32 +836,35 @@ function initMeinPortalPage() {
         }
     }
 
-    loadPersonalInfo(userEmail);
-    loadPortalData(userEmail);
+    // Attendre que Firebase soit prêt
+    function waitForFirebaseAndLoad() {
+        if (typeof firebase !== 'undefined' && firebase.apps.length) {
+            loadPersonalInfo(userEmail);
+            loadPortalData(userEmail);
+        } else {
+            setTimeout(waitForFirebaseAndLoad, 300);
+        }
+    }
+    waitForFirebaseAndLoad();
 
     // ===== TOGGLE FORMULAIRE D'ÉDITION =====
     const toggleBtn = document.getElementById('togglePersonalEdit');
-    const editForm = document.getElementById('personalEditForm');
     const cancelBtn = document.getElementById('cancelPersonalEdit');
 
     if (toggleBtn) {
         toggleBtn.addEventListener('click', function() {
-            editForm.classList.toggle('active');
-            if (editForm.classList.contains('active')) {
-                this.textContent = '✖ Schließen';
-                loadPersonalDataToForm();
+            const editForm = document.getElementById('personalEditForm');
+            if (editForm && editForm.classList.contains('active')) {
+                closeEditForm();
             } else {
-                this.textContent = '✏️ Bearbeiten';
+                openEditForm();
             }
         });
     }
 
     if (cancelBtn) {
         cancelBtn.addEventListener('click', function() {
-            editForm.classList.remove('active');
-            if (toggleBtn) toggleBtn.textContent = '✏️ Bearbeiten';
-            document.getElementById('personalEditMessage').textContent = '';
-            document.getElementById('personalEditMessage').className = 'message';
+            closeEditForm();
         });
     }
 
@@ -639,11 +908,14 @@ function initMeinPortalPage() {
 
                 loadPersonalInfo(userEmail);
 
-                setTimeout(() => {
-                    editForm.classList.remove('active');
-                    if (toggleBtn) toggleBtn.textContent = '✏️ Bearbeiten';
-                    msg.textContent = '';
-                    msg.className = 'message';
+                const nameSpan = document.getElementById('userNameDisplay');
+                if (nameSpan && nachname) {
+                    const displayName = anrede ? anrede + ' ' + nachname : nachname;
+                    nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>, <span class="welcome-name">' + displayName + '</span>';
+                }
+
+                setTimeout(function() {
+                    closeEditForm();
                 }, 1500);
 
             } catch (error) {

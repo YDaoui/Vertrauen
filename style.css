@@ -2414,6 +2414,11 @@ hr.admin-hr {
 /* ============================================================
    FORMULAIRE D'ÉDITION PERSONNELLE
    ============================================================ */
+
+
+/* ============================================================
+   FORMULAIRE D'ÉDITION PERSONNELLE
+   ============================================================ */
 .edit-form-personal {
     display: none;
     margin-top: 16px;
@@ -2446,6 +2451,36 @@ hr.admin-hr {
     margin-bottom: 4px;
 }
 
+/* ============================================================
+   CHAMPS D'ÉDITION VISIBLES
+   ============================================================ */
+.edit-form-personal .form-group input,
+.edit-form-personal .form-group select {
+    width: 100%;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #6a7b91;
+    border-radius: 8px;
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+}
+
+.edit-form-personal .form-group input::placeholder {
+    color: #6a7b91 !important;
+}
+
+.edit-form-personal .form-group input:focus,
+.edit-form-personal .form-group select:focus {
+    outline: none;
+    border-color: #54e50d;
+    box-shadow: 0 0 0 3px rgba(84, 229, 13, 0.15);
+}
+
+.edit-form-personal .form-group select option {
+    background-color: #0c2545;
+    color: #ffffff !important;
+}
 
 
 /* ============================================================

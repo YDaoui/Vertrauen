@@ -16,6 +16,359 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <link rel="stylesheet" href="style.css" />
+    <style>
+        .portal-card .card-body {
+            padding: 0 24px 24px 24px;
+            display: none;
+        }
+        .portal-card .card-body.open {
+            display: block;
+        }
+        .edit-form-personal {
+            display: none !important;
+            margin-top: 16px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid #54e50d;
+        }
+        .edit-form-personal.active {
+            display: block !important;
+        }
+        .edit-form-personal .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .edit-form-personal .form-group {
+            flex: 1 1 200px;
+        }
+        .edit-form-personal .form-group label {
+            display: block;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+        .edit-form-personal .form-group input,
+        .edit-form-personal .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid #6a7b91;
+            border-radius: 8px;
+            color: #ffffff !important;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+        .edit-form-personal .form-group input:focus,
+        .edit-form-personal .form-group select:focus {
+            outline: none;
+            border-color: #54e50d;
+            box-shadow: 0 0 0 3px rgba(84, 229, 13, 0.15);
+        }
+        .edit-form-personal .form-group select option {
+            background-color: #0c2545;
+            color: #ffffff !important;
+        }
+        .edit-form-personal .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .edit-personal-btn {
+            background: rgba(84, 229, 13, 0.15);
+            color: #54e50d;
+            border: 1px solid rgba(84, 229, 13, 0.3);
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-top: 12px;
+            display: inline-block;
+        }
+        .edit-personal-btn:hover {
+            background: rgba(84, 229, 13, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(84, 229, 13, 0.2);
+        }
+        .edit-personal-btn.hidden {
+            display: none !important;
+        }
+        .info-grid .info-item .value {
+            color: #ffffff !important;
+        }
+        .message {
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        .message.success {
+            color: #54e50d;
+        }
+        .message.error {
+            color: #ff6b6b;
+        }
+        .offer-item {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+        .offer-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(84, 229, 13, 0.2);
+        }
+        .offer-item .offer-info {
+            flex: 1;
+            min-width: 200px;
+        }
+        .offer-item .offer-info .offer-name {
+            color: #54e50d;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .offer-item .offer-info .offer-details {
+            color: #ffffff;
+            font-size: 14px;
+            margin-top: 2px;
+        }
+        .offer-item .offer-info .offer-meta {
+            color: #6a7b91;
+            font-size: 13px;
+            margin-top: 2px;
+        }
+        .offer-item .offer-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .offer-item .offer-actions button {
+            padding: 6px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .offer-item .offer-actions .print-btn {
+            background: rgba(78, 205, 196, 0.15);
+            color: #4ecdc4;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+        .offer-item .offer-actions .print-btn:hover {
+            background: rgba(78, 205, 196, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
+        }
+        .offer-item .offer-actions .support-btn {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        .offer-item .offer-actions .support-btn:hover {
+            background: rgba(255, 193, 7, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+        }
+        .offer-item .offer-actions .edit-btn {
+            background: rgba(84, 229, 13, 0.15);
+            color: #54e50d;
+            border: 1px solid rgba(84, 229, 13, 0.3);
+        }
+        .offer-item .offer-actions .edit-btn:hover {
+            background: rgba(84, 229, 13, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(84, 229, 13, 0.2);
+        }
+        .contract-section .contract-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .contract-section .contract-status {
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .contract-section .contract-status.active {
+            background: rgba(84, 229, 13, 0.15);
+            color: #54e50d;
+            border: 1px solid rgba(84, 229, 13, 0.3);
+        }
+        .contract-section .contract-status.expired {
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+        .contract-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .contract-detail-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .contract-detail-item .label {
+            display: block;
+            font-size: 0.65rem;
+            color: #6a7b91;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        .contract-detail-item .value {
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .portal-card .card-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .contract-status-badge {
+            font-size: 0.7rem;
+            background: rgba(84, 229, 13, 0.15);
+            color: #54e50d;
+            padding: 2px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(84, 229, 13, 0.3);
+            margin-left: 8px;
+            display: none;
+        }
+        .btn-submit {
+            background-color: #54e50d;
+            color: #0c2545;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-submit:hover {
+            background-color: #6a7b91;
+            color: #ffffff;
+        }
+        .btn-submit.secondary {
+            background-color: #6a7b91;
+            color: #ffffff;
+        }
+        .btn-submit.secondary:hover {
+            background-color: #4a5b71;
+            color: #ffffff;
+        }
+        .willkommen-box {
+            background-color: #0c2545;
+            border: 2px solid #54e50d;
+            border-radius: 16px;
+            padding: 40px 48px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            color: #ffffff;
+        }
+        .willkommen-box h1 {
+            color: #54e50d;
+            border-bottom: 2px solid #97a3b3;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        .portal-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .portal-card {
+            background: rgba(12, 37, 69, 0.95);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(84, 229, 13, 0.2);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+        .portal-card:hover {
+            border-color: rgba(84, 229, 13, 0.5);
+            box-shadow: 0 4px 20px rgba(84, 229, 13, 0.1);
+        }
+        .portal-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            background: rgba(255, 255, 255, 0.02);
+            user-select: none;
+        }
+        .portal-card .card-header:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .portal-card .card-header h2 {
+            color: #54e50d;
+            font-size: 1.15rem;
+            margin: 0;
+        }
+        .portal-card .card-header .arrow {
+            font-size: 1.2rem;
+            color: #6a7b91;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+        .portal-card .card-header .arrow.open {
+            transform: rotate(180deg);
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .info-item {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.2s ease;
+        }
+        .info-item:hover {
+            border-color: rgba(84, 229, 13, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .info-item .label {
+            display: block;
+            font-size: 0.7rem;
+            color: #6a7b91;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        .info-item .value {
+            font-size: 1rem;
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body class="dashboard-page">
     <header class="dashboard-header" id="dashboardHeader">
@@ -54,9 +407,35 @@
                 </div>
                 <div class="card-body open" id="personalBody">
                     <div id="personalInfo">
-                        <p style="text-align: center; color: #6a7b91;">Lade Informationen...</p>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="label">Anrede</span>
+                                <span class="value" id="displayAnrede">Lade...</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Vorname</span>
+                                <span class="value" id="displayVorname">Lade...</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Nachname</span>
+                                <span class="value" id="displayNachname">Lade...</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">E-Mail</span>
+                                <span class="value" id="displayEmail">Lade...</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Telefon</span>
+                                <span class="value" id="displayTelefon">Lade...</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Fax</span>
+                                <span class="value" id="displayFax">Lade...</span>
+                            </div>
+                        </div>
                     </div>
-                    <button class="edit-personal-btn" id="togglePersonalEdit" style="margin-top:12px;">✏️ Bearbeiten</button>
+
+                    <button class="edit-personal-btn" id="togglePersonalEdit">✏️ Bearbeiten</button>
 
                     <div class="edit-form-personal" id="personalEditForm">
                         <h3 style="color: #54e50d; margin-bottom: 12px;">Persönliche Daten bearbeiten</h3>
@@ -100,12 +479,12 @@
                 </div>
             </div>
 
-            <!-- CARTE 2 : CONTRAT AVEC BOUTON AKTIV -->
+            <!-- CARTE 2 : CONTRAT - badge caché par défaut, géré par JS -->
             <div class="portal-card" id="contractCard">
                 <div class="card-header" onclick="togglePortalCard('contractCard')">
                     <h2>
                         📄 Vertragsinformationen
-                        <span class="contract-status-badge" id="contractStatusBadge" style="display:none; font-size:0.7rem; background:rgba(84,229,13,0.15); color:#54e50d; padding:2px 12px; border-radius:20px; border:1px solid rgba(84,229,13,0.3); margin-left:8px;">🟢 Aktiv</span>
+                        <span class="contract-status-badge" id="contractStatusBadge"></span>
                     </h2>
                     <span class="arrow" id="contractArrow">▼</span>
                 </div>
@@ -136,430 +515,6 @@
         <span style="color:#6a7b91; margin:0 12px;">|</span>
         <span style="color:#6a7b91;">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
     </footer>
-
-    <script>
-        // ===== TOGGLE CARTE =====
-        function togglePortalCard(cardId) {
-            const card = document.getElementById(cardId);
-            if (!card) return;
-
-            const body = card.querySelector('.card-body');
-            const arrow = card.querySelector('.arrow');
-
-            if (body) {
-                body.classList.toggle('open');
-            }
-            if (arrow) {
-                arrow.classList.toggle('open');
-            }
-        }
-
-        // ===== EFFET DE SCROLL SUR LE HEADER =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.getElementById('dashboardHeader');
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
-        });
-
-        // ===== HAMBURGER MENU =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburgerBtn = document.getElementById('hamburgerBtn');
-            const mainNav = document.getElementById('mainNav');
-
-            if (hamburgerBtn) {
-                hamburgerBtn.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    mainNav.classList.toggle('open');
-                });
-            }
-
-            mainNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function() {
-                    hamburgerBtn.classList.remove('active');
-                    mainNav.classList.remove('open');
-                });
-            });
-        });
-
-        // ===== GESTION DU MENU SELON LE RÔLE =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const userEmail = localStorage.getItem('userEmail');
-            
-            const statLink = document.getElementById('statLink');
-            const portalLink = document.getElementById('portalLink');
-            const adminLink = document.getElementById('adminLink');
-            const logoutMobile = document.getElementById('logoutMobile');
-            
-            if (userEmail === 'daoui00yassine@gmail.com') {
-                if (statLink) statLink.style.display = 'inline-block';
-                if (portalLink) portalLink.style.display = 'none';
-                if (adminLink) adminLink.style.display = 'inline-block';
-                if (logoutMobile) {
-                    logoutMobile.style.display = 'block';
-                    logoutMobile.textContent = 'Abmelden';
-                }
-            } else if (userEmail) {
-                if (statLink) statLink.style.display = 'none';
-                if (portalLink) portalLink.style.display = 'inline-block';
-                if (adminLink) adminLink.style.display = 'none';
-                if (logoutMobile) {
-                    logoutMobile.style.display = 'block';
-                    logoutMobile.textContent = 'Abmelden';
-                }
-            } else {
-                if (statLink) statLink.style.display = 'none';
-                if (portalLink) portalLink.style.display = 'none';
-                if (adminLink) adminLink.style.display = 'none';
-                if (logoutMobile) logoutMobile.style.display = 'none';
-            }
-        });
-
-        // ===== DÉCONNEXION =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const logoutMobile = document.getElementById('logoutMobile');
-            if (logoutMobile) {
-                logoutMobile.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    localStorage.removeItem('userEmail');
-                    localStorage.removeItem('isAdmin');
-                    localStorage.removeItem('userNachname');
-                    localStorage.removeItem('userAnrede');
-                    window.location.href = 'login.html';
-                });
-            }
-        });
-
-        // ===== CHARGER LES INFOS PERSONNELLES =====
-        function loadPersonalInfo(email) {
-            const container = document.getElementById('personalInfo');
-            if (!container) return;
-
-            const db = firebase.firestore();
-            db.collection('users').doc(email).get().then((doc) => {
-                if (doc.exists) {
-                    const data = doc.data();
-                    container.innerHTML = `
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <span class="label">Anrede</span>
-                                <span class="value">${data.anrede || 'Nicht angegeben'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="label">Vorname</span>
-                                <span class="value">${data.vorname || 'Nicht angegeben'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="label">Nachname</span>
-                                <span class="value">${data.nachname || 'Nicht angegeben'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="label">E-Mail</span>
-                                <span class="value">${email}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="label">Telefon</span>
-                                <span class="value">${data.telefon || 'Nicht angegeben'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="label">Fax</span>
-                                <span class="value">${data.fax || 'Nicht angegeben'}</span>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    container.innerHTML = '<p style="color: #ff6b6b;">Keine Benutzerinformationen gefunden.</p>';
-                }
-            }).catch((error) => {
-                console.error('Fehler beim Laden:', error);
-                container.innerHTML = '<p style="color: #ff6b6b;">Fehler beim Laden der Informationen.</p>';
-            });
-        }
-
-        // ===== CHARGER LES DONNÉES DANS LE FORMULAIRE =====
-        function loadPersonalDataToForm() {
-            const userEmail = localStorage.getItem('userEmail');
-            if (!userEmail) return;
-
-            const db = firebase.firestore();
-            db.collection('users').doc(userEmail).get().then((doc) => {
-                if (doc.exists) {
-                    const data = doc.data();
-                    document.getElementById('editPersonalAnrede').value = data.anrede || '';
-                    document.getElementById('editPersonalVorname').value = data.vorname || '';
-                    document.getElementById('editPersonalNachname').value = data.nachname || '';
-                    document.getElementById('editPersonalTelefon').value = data.telefon || '';
-                    document.getElementById('editPersonalFax').value = data.fax || '';
-                }
-            }).catch((error) => {
-                console.error('Fehler beim Laden der Daten:', error);
-            });
-        }
-
-        // ===== CHARGER LES INFOS CONTRAT ET OFFRES =====
-        function loadPortalData(email) {
-            const contractContainer = document.getElementById('contractInfo');
-            const offerContainer = document.getElementById('offerDetails');
-            const statusBadge = document.getElementById('contractStatusBadge');
-
-            if (!contractContainer || !offerContainer) return;
-
-            const db = firebase.firestore();
-
-            db.collection('contracts')
-                .where('userId', '==', email)
-                .get()
-                .then((contractSnapshot) => {
-                    if (contractSnapshot.empty) {
-                        contractContainer.innerHTML = `
-                            <div style="text-align: center; padding: 20px; color: #ff6b6b;">
-                                ⚠️ Kein Vertrag gefunden.
-                            </div>
-                        `;
-                        offerContainer.innerHTML = `
-                            <div style="text-align: center; padding: 20px; color: #6a7b91;">
-                                Keine Angebote verfügbar.
-                            </div>
-                        `;
-                        if (statusBadge) statusBadge.style.display = 'none';
-                        return;
-                    }
-
-                    let contractHtml = '';
-                    let isActive = false;
-
-                    contractSnapshot.forEach((contractDoc) => {
-                        const contractData = contractDoc.data();
-                        const statusText = contractData.status === 'active' ? '🟢 Aktiv' : '🔴 Beendet';
-                        const statusClass = contractData.status === 'active' ? 'active' : 'expired';
-                        
-                        if (contractData.status === 'active') {
-                            isActive = true;
-                        }
-
-                        contractHtml = `
-                            <div class="contract-section">
-                                <div class="contract-header">
-                                    <div>
-                                        <strong style="color: #54e50d; font-size: 1.1rem;">${contractData.companyName || 'Unbekannt'}</strong>
-                                        <span style="margin-left:12px; color:#ffffff;">${contractData.energyType === 'strom' ? '⚡ Strom' : '🔥 Gas'}</span>
-                                    </div>
-                                    <span class="contract-status ${statusClass}">${statusText}</span>
-                                </div>
-                                <div class="contract-details-grid">
-                                    <div class="contract-detail-item">
-                                        <span class="label">Preis</span>
-                                        <span class="value">${contractData.price || 'N/A'}</span>
-                                    </div>
-                                    <div class="contract-detail-item">
-                                        <span class="label">Laufzeit</span>
-                                        <span class="value">${contractData.duration || 'N/A'}</span>
-                                    </div>
-                                    <div class="contract-detail-item">
-                                        <span class="label">Vertragsbeginn</span>
-                                        <span class="value">${contractData.dateFrom || 'N/A'}</span>
-                                    </div>
-                                    <div class="contract-detail-item">
-                                        <span class="label">Vertragsende</span>
-                                        <span class="value">${contractData.dateTo || 'N/A'}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    // Afficher le badge "Aktiv" à côté du titre
-                    if (statusBadge) {
-                        if (isActive) {
-                            statusBadge.style.display = 'inline-block';
-                            statusBadge.textContent = '🟢 Aktiv';
-                        } else {
-                            statusBadge.style.display = 'inline-block';
-                            statusBadge.textContent = '🔴 Beendet';
-                            statusBadge.style.background = 'rgba(255,107,107,0.15)';
-                            statusBadge.style.color = '#ff6b6b';
-                            statusBadge.style.border = '1px solid rgba(255,107,107,0.3)';
-                        }
-                    }
-
-                    contractContainer.innerHTML = contractHtml;
-
-                    // Charger les offres liées
-                    const offerPromises = [];
-                    contractSnapshot.forEach((contractDoc) => {
-                        const contractData = contractDoc.data();
-                        if (contractData.offerId) {
-                            offerPromises.push(
-                                db.collection('offers').doc(contractData.offerId).get()
-                                    .then((offerDoc) => {
-                                        if (offerDoc.exists) {
-                                            const offerData = offerDoc.data();
-                                            const services = offerData.services || [];
-                                            return `
-                                                <div class="offer-item">
-                                                    <div class="offer-info">
-                                                        <div class="offer-name">${offerData.companyName || 'Unbekannt'}</div>
-                                                        <div class="offer-details">
-                                                            ${offerData.type === 'strom' ? '⚡ Strom' : '🔥 Gas'}
-                                                            <span style="margin-left:12px; color:#54e50d;">💰 ${offerData.price || 'N/A'}</span>
-                                                            <span style="margin-left:12px; color:#6a7b91;">⏱ ${offerData.duration || 'N/A'}</span>
-                                                        </div>
-                                                        ${services.length > 0 ? `
-                                                            <div class="offer-meta">
-                                                                📋 ${services.join(' | ')}
-                                                            </div>
-                                                        ` : ''}
-                                                    </div>
-                                                    <div class="offer-actions">
-                                                        <button class="print-btn" onclick="window.print()">🖨️ Drucken</button>
-                                                        <button class="support-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✉️ Support</button>
-                                                        <button class="edit-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✏️ Anfragen</button>
-                                                    </div>
-                                                </div>
-                                            `;
-                                        }
-                                        return '';
-                                    })
-                            );
-                        }
-                    });
-
-                    Promise.all(offerPromises).then((offerItems) => {
-                        const offersHtml = offerItems.filter(item => item).join('');
-                        offerContainer.innerHTML = offersHtml || `
-                            <div style="text-align: center; padding: 20px; color: #6a7b91;">
-                                Keine Angebote verfügbar.
-                            </div>
-                        `;
-                    });
-
-                })
-                .catch((error) => {
-                    console.error('Fehler beim Laden des Vertrags:', error);
-                    contractContainer.innerHTML = `
-                        <div style="text-align: center; padding: 20px; color: #ff6b6b;">
-                            ⚠️ Fehler beim Laden der Vertragsinformationen.
-                        </div>
-                    `;
-                    offerContainer.innerHTML = `
-                        <div style="text-align: center; padding: 20px; color: #ff6b6b;">
-                            ⚠️ Fehler beim Laden der Angebote.
-                        </div>
-                    `;
-                    if (statusBadge) statusBadge.style.display = 'none';
-                });
-        }
-
-        // ===== INITIALISATION =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const userEmail = localStorage.getItem('userEmail');
-
-            if (!userEmail) {
-                window.location.href = 'login.html';
-                return;
-            }
-
-            const nameSpan = document.getElementById('userNameDisplay');
-            if (nameSpan) {
-                const anrede = localStorage.getItem('userAnrede');
-                const nachname = localStorage.getItem('userNachname');
-                if (nachname) {
-                    const displayName = anrede ? anrede + ' ' + nachname : nachname;
-                    nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>, <span class="welcome-name">' + displayName + '</span>';
-                } else {
-                    nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>, <span class="welcome-name">' + userEmail + '</span>';
-                }
-            }
-
-            loadPersonalInfo(userEmail);
-            loadPortalData(userEmail);
-
-            // ===== TOGGLE FORMULAIRE D'ÉDITION =====
-            const toggleBtn = document.getElementById('togglePersonalEdit');
-            const editForm = document.getElementById('personalEditForm');
-            const cancelBtn = document.getElementById('cancelPersonalEdit');
-
-            if (toggleBtn) {
-                toggleBtn.addEventListener('click', function() {
-                    editForm.classList.toggle('active');
-                    if (editForm.classList.contains('active')) {
-                        this.textContent = '✖ Schließen';
-                        loadPersonalDataToForm();
-                    } else {
-                        this.textContent = '✏️ Bearbeiten';
-                    }
-                });
-            }
-
-            if (cancelBtn) {
-                cancelBtn.addEventListener('click', function() {
-                    editForm.classList.remove('active');
-                    if (toggleBtn) toggleBtn.textContent = '✏️ Bearbeiten';
-                    document.getElementById('personalEditMessage').textContent = '';
-                    document.getElementById('personalEditMessage').className = 'message';
-                });
-            }
-
-            // ===== SOUMETTRE LE FORMULAIRE D'ÉDITION =====
-            const form = document.getElementById('editPersonalForm');
-            const msg = document.getElementById('personalEditMessage');
-
-            if (form) {
-                form.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    const userEmail = localStorage.getItem('userEmail');
-                    if (!userEmail) {
-                        msg.textContent = '❌ Kein Benutzer angemeldet.';
-                        msg.className = 'message error';
-                        return;
-                    }
-
-                    const anrede = document.getElementById('editPersonalAnrede').value;
-                    const vorname = document.getElementById('editPersonalVorname').value.trim();
-                    const nachname = document.getElementById('editPersonalNachname').value.trim();
-                    const telefon = document.getElementById('editPersonalTelefon').value.trim();
-                    const fax = document.getElementById('editPersonalFax').value.trim();
-
-                    if (!vorname || !nachname) {
-                        msg.textContent = '❌ Bitte füllen Sie Vorname und Nachname aus.';
-                        msg.className = 'message error';
-                        return;
-                    }
-
-                    try {
-                        const db = firebase.firestore();
-                        await db.collection('users').doc(userEmail).update({
-                            anrede, vorname, nachname, telefon, fax
-                        });
-
-                        localStorage.setItem('userAnrede', anrede);
-                        localStorage.setItem('userNachname', nachname);
-
-                        msg.textContent = '✅ Persönliche Informationen erfolgreich aktualisiert!';
-                        msg.className = 'message success';
-
-                        loadPersonalInfo(userEmail);
-
-                        setTimeout(() => {
-                            editForm.classList.remove('active');
-                            if (toggleBtn) toggleBtn.textContent = '✏️ Bearbeiten';
-                            msg.textContent = '';
-                            msg.className = 'message';
-                        }, 1500);
-
-                    } catch (error) {
-                        console.error('Fehler beim Aktualisieren:', error);
-                        msg.textContent = '❌ Fehler beim Speichern: ' + error.message;
-                        msg.className = 'message error';
-                    }
-                });
-            }
-        });
-    </script>
 
     <script src="main.js"></script>
 </body>
