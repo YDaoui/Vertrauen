@@ -2173,10 +2173,6 @@ body.dashboard-page {
    BANDEAU RÉSEAUX SOCIAUX - TOP
    ============================================================ */
 
-/* ============================================================
-   BANDEAU RÉSEAUX SOCIAUX - TOP
-   ============================================================ */
-
 .social-top-bar {
     background: #d2dad4;
     border-bottom: 2px solid #0c2545;
@@ -2241,7 +2237,7 @@ body.dashboard-page {
     margin-left: 6px;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== RESPONSIVE BANDEAU ===== */
 @media (max-width: 600px) {
     .social-top-bar-content {
         padding: 0 12px;
@@ -2268,6 +2264,7 @@ body.dashboard-page {
         display: none;
     }
 }
+
 /* ============================================================
    MISC
    ============================================================ */
@@ -2298,10 +2295,12 @@ hr.admin-hr {
 }
 
 @media (max-width: 768px) {
+    /* ===== HAMBURGER - CORRECTION MOBILE ===== */
     .hamburger {
-        display: flex;
+        display: flex !important;
         order: 3;
         margin-left: auto;
+        z-index: 1002;
     }
 
     .dashboard-header {
@@ -2309,6 +2308,7 @@ hr.admin-hr {
         flex-wrap: nowrap;
         gap: 8px;
         justify-content: space-between;
+        top: 48px;
     }
 
     .dashboard-header .logo-link {
@@ -2338,20 +2338,21 @@ hr.admin-hr {
         top: 100%;
         left: 0;
         right: 0;
-        background-color: rgba(12, 37, 69, 0.92);
+        background-color: rgba(12, 37, 69, 0.95);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         flex-direction: column;
         align-items: center;
         padding: 20px 0;
         gap: 16px;
-        border-bottom: 3px solid #97a3b3;
+        border-bottom: 3px solid #54e50d;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         transform: translateY(-120%);
         transition: transform 0.3s ease;
         z-index: 999;
-        display: flex;
+        display: flex !important;
         margin: 0;
+        width: 100%;
     }
 
     .dashboard-nav.open {
@@ -2363,6 +2364,8 @@ hr.admin-hr {
         border-bottom: none;
         color: #ffffff;
         font-size: 1rem;
+        width: 100%;
+        text-align: center;
     }
 
     .dashboard-nav a::after {
@@ -2388,30 +2391,21 @@ hr.admin-hr {
         color: #54e50d;
     }
 
-    .dashboard-nav .login-btn-mobile {
+    /* Bouton logout mobile */
+    #logoutMobile {
         display: block !important;
-        background-color: #54e50d;
-        color: #0c2545 !important;
-        padding: 8px 28px;
-        border-radius: 30px;
-        font-weight: 600;
-        text-decoration: none;
         margin-top: 8px;
+        padding: 10px 20px;
+        background: rgba(255, 107, 107, 0.15);
+        color: #ff6b6b !important;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 107, 107, 0.3);
+        width: 80%;
+        text-align: center;
     }
 
-    .dashboard-nav .login-btn-mobile:hover {
-        background-color: #6a7b91;
-        color: #ffffff !important;
-    }
-
-    .dashboard-header.scrolled .dashboard-nav .login-btn-mobile {
-        background-color: #0c2545;
-        color: #ffffff !important;
-    }
-
-    .dashboard-header.scrolled .dashboard-nav .login-btn-mobile:hover {
-        background-color: #54e50d;
-        color: #0c2545 !important;
+    #logoutMobile:hover {
+        background: rgba(255, 107, 107, 0.3);
     }
 
     .dashboard-content {
