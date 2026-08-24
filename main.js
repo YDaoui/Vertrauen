@@ -47,10 +47,7 @@ async function getUser(email) {
 async function getUserContractInfo(email) {
   try {
     const doc = await db.collection('users').doc(email).get();
-    if (doc.exists) {
-      return doc.data();
-    }
-    return null;
+    return doc.exists ? doc.data() : null;
   } catch (error) {
     console.error('Erreur lors de la récupération des informations utilisateur:', error);
     return null;
@@ -334,9 +331,6 @@ function initMeinPortalPage() {
   const contractInfoContainer = document.getElementById('contractInfo');
   const offerDetailsContainer = document.getElementById('offerDetails');
 
-  // Ces éléments n'existent que sur mein-portal.html : sinon on ne fait rien,
-  // sans quoi la redirection ci-dessous se déclenche sur toutes les pages
-  // (y compris login.html elle-même => boucle de rechargement infinie).
   if (!contractInfoContainer || !offerDetailsContainer) return;
 
   const userEmail = localStorage.getItem('userEmail');
@@ -390,7 +384,6 @@ async function loadMeinPortalData(email) {
       }
     }
 
-    // Informations utilisateur
     if (userData) {
       contractInfoContainer.innerHTML = `
         <div class="info-grid">
@@ -455,7 +448,6 @@ async function loadMeinPortalData(email) {
         </div>
       `;
 
-      // Ajouter les infos contrat
       const existingHtml = contractInfoContainer.innerHTML;
       contractInfoContainer.innerHTML = existingHtml + contractHtml;
 
@@ -1280,35 +1272,40 @@ function initHamburger() {
   const hamburger = document.getElementById('hamburgerBtn');
   const nav = document.getElementById('mainNav');
 
+  // Si les éléments n'existent pas, on attend
   if (!hamburger || !nav) {
     setTimeout(initHamburger, 200);
     return;
   }
 
+  // Supprimer les anciens écouteurs en clonant
   const newHamburger = hamburger.cloneNode(true);
   hamburger.parentNode.replaceChild(newHamburger, hamburger);
-
-  const newNav = nav.cloneNode(true);
-  nav.parentNode.replaceChild(newNav, nav);
 
   const finalHamburger = document.getElementById('hamburgerBtn');
   const finalNav = document.getElementById('mainNav');
 
   if (!finalHamburger || !finalNav) return;
 
+  // Ouvrir/Fermer le menu au clic sur le hamburger
   finalHamburger.addEventListener('click', function(e) {
     e.stopPropagation();
     this.classList.toggle('active');
     finalNav.classList.toggle('open');
   });
 
+  // Fermer le menu quand on clique sur un lien DANS LE MENU
+  // Mais UNIQUEMENT si le menu est ouvert (donc sur mobile)
   finalNav.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', function() {
-      finalHamburger.classList.remove('active');
-      finalNav.classList.remove('open');
+      if (finalNav.classList.contains('open')) {
+        finalHamburger.classList.remove('active');
+        finalNav.classList.remove('open');
+      }
     });
   });
 
+  // Fermer le menu quand on clique en dehors (UNIQUEMENT si le menu est ouvert)
   document.addEventListener('click', function(e) {
     if (finalNav.classList.contains('open')) {
       if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
@@ -1320,7 +1317,7 @@ function initHamburger() {
 }
 
 // =====================================================================
-// ===== BLOC 7 : Chat Tawk.to ==========================================
+// ===== BLOC 7 : Chat Tawk.to =========================================
 // =====================================================================
 function initTawkTo() {
   document.querySelectorAll('script[src*="embed.tawk.to"]').forEach(s => s.remove());

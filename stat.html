@@ -34,23 +34,18 @@
         </button>
 
         <nav class="dashboard-nav" id="mainNav">
-            <!-- Menu ADMIN -->
-            <div id="adminMenu" style="display:none;">
-                <a href="dashboard.html">Willkommen</a>
-                <a href="stat.html" class="active">Statistik</a>
-                <a href="company.html">Company</a>
-                <a href="ueber-uns.html">Über uns</a>
-                <a href="admin.html">Admin</a>
-            </div>
+            <!-- Menu pour tous -->
+            <a href="dashboard.html">Willkommen</a>
             
-            <!-- Menu UTILISATEUR -->
-            <div id="userMenu" style="display:none;">
-                <a href="dashboard.html">Willkommen</a>
-                <a href="mein-portal.html">Mein Portal</a>
-                <a href="company.html">Company</a>
-                <a href="ueber-uns.html">Über uns</a>
-            </div>
+            <!-- Lien Statistik pour ADMIN (daoui00yassine@gmail.com) -->
+            <a href="stat.html" id="statLink" class="active">Statistik</a>
             
+            <!-- Lien Mein Portal pour UTILISATEURS NORMALUX -->
+            <a href="mein-portal.html" id="portalLink">Mein Portal</a>
+            
+            <a href="company.html">Company</a>
+            <a href="ueber-uns.html">Über uns</a>
+            <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
             <a href="#" id="logoutMobile" style="display:none;">Abmelden</a>
         </nav>
     </header>
@@ -132,6 +127,84 @@
         <span style="color:#6a7b91; margin:0 12px;">|</span>
         <span style="color:#6a7b91;">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
     </footer>
+
+    <script>
+        // ===== EFFET DE SCROLL SUR LE HEADER =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.getElementById('dashboardHeader');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        });
+
+        // ===== HAMBURGER MENU =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const mainNav = document.getElementById('mainNav');
+
+            if (hamburgerBtn) {
+                hamburgerBtn.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    mainNav.classList.toggle('open');
+                });
+            }
+        });
+
+        // ===== GESTION DU MENU SELON LE RÔLE =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const userEmail = localStorage.getItem('userEmail');
+            
+            const statLink = document.getElementById('statLink');
+            const portalLink = document.getElementById('portalLink');
+            const adminLink = document.getElementById('adminLink');
+            const logoutMobile = document.getElementById('logoutMobile');
+            
+            if (userEmail === 'daoui00yassine@gmail.com') {
+                // ADMIN : afficher Statistik et Admin, cacher Mein Portal
+                if (statLink) statLink.style.display = 'inline-block';
+                if (portalLink) portalLink.style.display = 'none';
+                if (adminLink) adminLink.style.display = 'inline-block';
+                if (logoutMobile) {
+                    logoutMobile.style.display = 'block';
+                    logoutMobile.textContent = 'Abmelden';
+                }
+            } else if (userEmail) {
+                // UTILISATEUR NORMAL : afficher Mein Portal, cacher Statistik et Admin
+                if (statLink) statLink.style.display = 'none';
+                if (portalLink) portalLink.style.display = 'inline-block';
+                if (adminLink) adminLink.style.display = 'none';
+                if (logoutMobile) {
+                    logoutMobile.style.display = 'block';
+                    logoutMobile.textContent = 'Abmelden';
+                }
+            } else {
+                // NON CONNECTÉ : cacher Statistik, Admin, Portal, Abmelden
+                if (statLink) statLink.style.display = 'none';
+                if (portalLink) portalLink.style.display = 'none';
+                if (adminLink) adminLink.style.display = 'none';
+                if (logoutMobile) logoutMobile.style.display = 'none';
+            }
+        });
+
+        // ===== DÉCONNEXION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoutMobile = document.getElementById('logoutMobile');
+            if (logoutMobile) {
+                logoutMobile.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('isAdmin');
+                    localStorage.removeItem('userNachname');
+                    localStorage.removeItem('userAnrede');
+                    window.location.href = 'login.html';
+                });
+            }
+        });
+    </script>
 
     <script src="main.js"></script>
 </body>
