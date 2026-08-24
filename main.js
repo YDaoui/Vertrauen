@@ -538,7 +538,7 @@ function loadPortalData(email) {
                                             <div class="offer-actions">
                                                 <button class="print-btn" onclick="window.print()">🖨️ Drucken</button>
                                                 <button class="support-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✉️ Support</button>
-                                                <button class="edit-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✏️ Anfragen</button>
+                                                <button class="edit-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✏️ kündigen</button>
                                             </div>
                                         </div>
                                     `;
