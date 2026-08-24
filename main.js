@@ -326,193 +326,334 @@ async function loadUserPortalInfo(email) {
   }
 }
 
-// ===== 6. MEIN PORTAL PAGE ===========================================
-function initMeinPortalPage() {
-  const contractInfoContainer = document.getElementById('contractInfo');
-  const offerDetailsContainer = document.getElementById('offerDetails');
+// =====================================================================
+// ===== BLOC 8 : MEIN PORTAL - GESTION DES CARTES ====================
+// =====================================================================
 
-  if (!contractInfoContainer || !offerDetailsContainer) return;
+// ===== TOGGLE CARTE =====
+function togglePortalCard(cardId) {
+    const card = document.getElementById(cardId);
+    if (!card) return;
 
-  const userEmail = localStorage.getItem('userEmail');
+    const body = card.querySelector('.card-body');
+    const arrow = card.querySelector('.arrow');
 
-  if (!userEmail) {
-    window.location.href = 'login.html';
-    return;
-  }
-
-  const nameSpan = document.getElementById('userNameDisplay');
-  if (nameSpan) {
-    const anrede = localStorage.getItem('userAnrede');
-    const nachname = localStorage.getItem('userNachname');
-    if (nachname) {
-      const displayName = anrede ? anrede + ' ' + nachname : nachname;
-      nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>, <span class="welcome-name">' + displayName + '</span>';
-    } else {
-      nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>, <span class="welcome-name">' + userEmail + '</span>';
+    if (body) {
+        body.classList.toggle('open');
     }
-  }
-
-  loadMeinPortalData(userEmail);
+    if (arrow) {
+        arrow.classList.toggle('open');
+    }
 }
 
-async function loadMeinPortalData(email) {
-  const contractInfoContainer = document.getElementById('contractInfo');
-  const offerDetailsContainer = document.getElementById('offerDetails');
+// ===== CHARGER LES INFOS PERSONNELLES =====
+function loadPersonalInfo(email) {
+    const container = document.getElementById('personalInfo');
+    if (!container) return;
 
-  if (!contractInfoContainer || !offerDetailsContainer) return;
-
-  try {
-    const userData = await getUserContractInfo(email);
-
-    const contractSnapshot = await db.collection('contracts')
-      .where('userId', '==', email)
-      .limit(1)
-      .get();
-
-    let contractData = null;
-    let offerData = null;
-
-    if (!contractSnapshot.empty) {
-      const contractDoc = contractSnapshot.docs[0];
-      contractData = contractDoc.data();
-
-      if (contractData.offerId) {
-        const offerDoc = await db.collection('offers').doc(contractData.offerId).get();
-        if (offerDoc.exists) {
-          offerData = offerDoc.data();
+    const db = firebase.firestore();
+    db.collection('users').doc(email).get().then((doc) => {
+        if (doc.exists) {
+            const data = doc.data();
+            container.innerHTML = `
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Anrede</span>
+                        <span class="value">${data.anrede || 'Nicht angegeben'}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Vorname</span>
+                        <span class="value">${data.vorname || 'Nicht angegeben'}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Nachname</span>
+                        <span class="value">${data.nachname || 'Nicht angegeben'}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">E-Mail</span>
+                        <span class="value">${email}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Telefon</span>
+                        <span class="value">${data.telefon || 'Nicht angegeben'}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Fax</span>
+                        <span class="value">${data.fax || 'Nicht angegeben'}</span>
+                    </div>
+                </div>
+            `;
+        } else {
+            container.innerHTML = '<p style="color: #ff6b6b;">Keine Benutzerinformationen gefunden.</p>';
         }
-      }
-    }
-
-    if (userData) {
-      contractInfoContainer.innerHTML = `
-        <div class="info-grid">
-          <div class="info-item full-width" style="background:rgba(84,229,13,0.1); border:1px solid rgba(84,229,13,0.3);">
-            <span class="info-label">👤 Benutzer</span>
-            <span class="info-value">${userData.anrede || ''} ${userData.vorname || ''} ${userData.nachname || ''}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">E-Mail</span>
-            <span class="info-value">${email}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Telefon</span>
-            <span class="info-value">${userData.telefon || 'Nicht angegeben'}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Fax</span>
-            <span class="info-value">${userData.fax || 'Nicht angegeben'}</span>
-          </div>
-        </div>
-      `;
-    }
-
-    if (contractData) {
-      const statusText = contractData.status === 'active' ? '🟢 Aktiv' : '🔴 Beendet';
-      const statusClass = contractData.status === 'active' ? 'status-active' : 'status-expired';
-
-      const contractHtml = `
-        <div class="info-grid">
-          <div class="info-item">
-            <span class="info-label">Vertragsnummer</span>
-            <span class="info-value">${contractData.contractNumber || 'N/A'}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Unternehmen</span>
-            <span class="info-value">${contractData.companyName || 'N/A'}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Energietyp</span>
-            <span class="info-value">${contractData.energyType === 'strom' ? '⚡ Strom' : '🔥 Gas'}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Preis</span>
-            <span class="info-value">${contractData.price || 'N/A'}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Laufzeit</span>
-            <span class="info-value">${contractData.duration || 'N/A'}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Vertragsbeginn</span>
-            <span class="info-value">${contractData.dateFrom || 'N/A'}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Vertragsende</span>
-            <span class="info-value">${contractData.dateTo || 'N/A'}</span>
-          </div>
-          <div class="info-item full-width">
-            <span class="info-label">Status</span>
-            <span class="info-value ${statusClass}">${statusText}</span>
-          </div>
-        </div>
-      `;
-
-      const existingHtml = contractInfoContainer.innerHTML;
-      contractInfoContainer.innerHTML = existingHtml + contractHtml;
-
-    } else {
-      contractInfoContainer.innerHTML += `
-        <p style="color: #ff6b6b; text-align: center; padding: 20px;">
-          ⚠️ Keine Vertragsinformationen gefunden.
-        </p>
-      `;
-    }
-
-    if (offerData) {
-      const services = offerData.services || [];
-
-      offerDetailsContainer.innerHTML = `
-        <div class="offer-details">
-          <div class="offer-item">
-            <span class="offer-label">Angebot</span>
-            <span class="offer-value">${offerData.companyName || 'N/A'}</span>
-          </div>
-          <div class="offer-item">
-            <span class="offer-label">Energietyp</span>
-            <span class="offer-value">${offerData.type === 'strom' ? '⚡ Strom' : '🔥 Gas'}</span>
-          </div>
-          <div class="offer-item">
-            <span class="offer-label">Preis</span>
-            <span class="offer-value price">${offerData.price || 'N/A'}</span>
-          </div>
-          <div class="offer-item">
-            <span class="offer-label">Laufzeit</span>
-            <span class="offer-value">${offerData.duration || 'N/A'}</span>
-          </div>
-          ${services.length > 0 ? `
-            <div class="offer-item">
-              <span class="offer-label">Leistungen</span>
-              <ul class="services-list">
-                ${services.map(service => `<li>${service}</li>`).join('')}
-              </ul>
-            </div>
-          ` : ''}
-        </div>
-      `;
-    } else {
-      offerDetailsContainer.innerHTML = `
-        <p style="color: #ff6b6b; text-align: center; padding: 20px;">
-          ⚠️ Keine Angebotsdetails gefunden.
-        </p>
-      `;
-    }
-
-  } catch (error) {
-    console.error('Fehler beim Laden des Portals:', error);
-    contractInfoContainer.innerHTML = `
-      <p style="color: #ff6b6b; text-align: center; padding: 20px;">
-        ⚠️ Fehler beim Laden der Daten.
-      </p>
-    `;
-    offerDetailsContainer.innerHTML = `
-      <p style="color: #ff6b6b; text-align: center; padding: 20px;">
-        ⚠️ Fehler beim Laden der Daten.
-      </p>
-    `;
-  }
+    }).catch((error) => {
+        console.error('Fehler beim Laden:', error);
+        container.innerHTML = '<p style="color: #ff6b6b;">Fehler beim Laden der Informationen.</p>';
+    });
 }
 
+// ===== CHARGER LES DONNÉES DANS LE FORMULAIRE D'ÉDITION =====
+function loadPersonalDataToForm() {
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) return;
+
+    const db = firebase.firestore();
+    db.collection('users').doc(userEmail).get().then((doc) => {
+        if (doc.exists) {
+            const data = doc.data();
+            document.getElementById('editPersonalAnrede').value = data.anrede || '';
+            document.getElementById('editPersonalVorname').value = data.vorname || '';
+            document.getElementById('editPersonalNachname').value = data.nachname || '';
+            document.getElementById('editPersonalTelefon').value = data.telefon || '';
+            document.getElementById('editPersonalFax').value = data.fax || '';
+        }
+    }).catch((error) => {
+        console.error('Fehler beim Laden der Daten:', error);
+    });
+}
+
+// ===== CHARGER LES INFOS CONTRAT ET OFFRES =====
+function loadPortalData(email) {
+    const contractContainer = document.getElementById('contractInfo');
+    const offerContainer = document.getElementById('offerDetails');
+
+    if (!contractContainer || !offerContainer) return;
+
+    const db = firebase.firestore();
+
+    db.collection('contracts')
+        .where('userId', '==', email)
+        .get()
+        .then((contractSnapshot) => {
+            if (contractSnapshot.empty) {
+                contractContainer.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #ff6b6b;">
+                        ⚠️ Kein Vertrag gefunden.
+                    </div>
+                `;
+                offerContainer.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #6a7b91;">
+                        Keine Angebote verfügbar.
+                    </div>
+                `;
+                return;
+            }
+
+            let contractHtml = '';
+
+            contractSnapshot.forEach((contractDoc) => {
+                const contractData = contractDoc.data();
+                const statusText = contractData.status === 'active' ? '🟢 Aktiv' : '🔴 Beendet';
+                const statusClass = contractData.status === 'active' ? 'active' : 'expired';
+
+                contractHtml = `
+                    <div class="contract-section">
+                        <div class="contract-header">
+                            <div>
+                                <strong style="color: #54e50d; font-size: 1.1rem;">${contractData.companyName || 'Unbekannt'}</strong>
+                                <span style="margin-left:12px; color:#ffffff;">${contractData.energyType === 'strom' ? '⚡ Strom' : '🔥 Gas'}</span>
+                            </div>
+                            <span class="contract-status ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="contract-details-grid">
+                            <div class="contract-detail-item">
+                                <span class="label">Preis</span>
+                                <span class="value">${contractData.price || 'N/A'}</span>
+                            </div>
+                            <div class="contract-detail-item">
+                                <span class="label">Laufzeit</span>
+                                <span class="value">${contractData.duration || 'N/A'}</span>
+                            </div>
+                            <div class="contract-detail-item">
+                                <span class="label">Vertragsbeginn</span>
+                                <span class="value">${contractData.dateFrom || 'N/A'}</span>
+                            </div>
+                            <div class="contract-detail-item">
+                                <span class="label">Vertragsende</span>
+                                <span class="value">${contractData.dateTo || 'N/A'}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            contractContainer.innerHTML = contractHtml;
+
+            // Charger les offres liées
+            const offerPromises = [];
+            contractSnapshot.forEach((contractDoc) => {
+                const contractData = contractDoc.data();
+                if (contractData.offerId) {
+                    offerPromises.push(
+                        db.collection('offers').doc(contractData.offerId).get()
+                            .then((offerDoc) => {
+                                if (offerDoc.exists) {
+                                    const offerData = offerDoc.data();
+                                    const services = offerData.services || [];
+                                    return `
+                                        <div class="offer-item">
+                                            <div class="offer-info">
+                                                <div class="offer-name">${offerData.companyName || 'Unbekannt'}</div>
+                                                <div class="offer-details">
+                                                    ${offerData.type === 'strom' ? '⚡ Strom' : '🔥 Gas'}
+                                                    <span style="margin-left:12px; color:#54e50d;">💰 ${offerData.price || 'N/A'}</span>
+                                                    <span style="margin-left:12px; color:#6a7b91;">⏱ ${offerData.duration || 'N/A'}</span>
+                                                </div>
+                                                ${services.length > 0 ? `
+                                                    <div class="offer-meta">
+                                                        📋 ${services.join(' | ')}
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                            <div class="offer-actions">
+                                                <button class="print-btn" onclick="window.print()">🖨️ Drucken</button>
+                                                <button class="support-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✉️ Support</button>
+                                                <button class="edit-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✏️ Anfragen</button>
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                                return '';
+                            })
+                    );
+                }
+            });
+
+            Promise.all(offerPromises).then((offerItems) => {
+                const offersHtml = offerItems.filter(item => item).join('');
+                offerContainer.innerHTML = offersHtml || `
+                    <div style="text-align: center; padding: 20px; color: #6a7b91;">
+                        Keine Angebote verfügbar.
+                    </div>
+                `;
+            });
+
+        })
+        .catch((error) => {
+            console.error('Fehler beim Laden des Vertrags:', error);
+            contractContainer.innerHTML = `
+                <div style="text-align: center; padding: 20px; color: #ff6b6b;">
+                    ⚠️ Fehler beim Laden der Vertragsinformationen.
+                </div>
+            `;
+            offerContainer.innerHTML = `
+                <div style="text-align: center; padding: 20px; color: #ff6b6b;">
+                    ⚠️ Fehler beim Laden der Angebote.
+                </div>
+            `;
+        });
+}
+
+// ===== INITIALISATION DE MEIN PORTAL =====
+function initMeinPortalPage() {
+    const contractInfoContainer = document.getElementById('contractInfo');
+    const offerDetailsContainer = document.getElementById('offerDetails');
+
+    if (!contractInfoContainer || !offerDetailsContainer) return;
+
+    const userEmail = localStorage.getItem('userEmail');
+
+    if (!userEmail) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    const nameSpan = document.getElementById('userNameDisplay');
+    if (nameSpan) {
+        const anrede = localStorage.getItem('userAnrede');
+        const nachname = localStorage.getItem('userNachname');
+        if (nachname) {
+            const displayName = anrede ? anrede + ' ' + nachname : nachname;
+            nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>, <span class="welcome-name">' + displayName + '</span>';
+        } else {
+            nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>, <span class="welcome-name">' + userEmail + '</span>';
+        }
+    }
+
+    loadPersonalInfo(userEmail);
+    loadPortalData(userEmail);
+
+    // ===== TOGGLE FORMULAIRE D'ÉDITION =====
+    const toggleBtn = document.getElementById('togglePersonalEdit');
+    const editForm = document.getElementById('personalEditForm');
+    const cancelBtn = document.getElementById('cancelPersonalEdit');
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+            editForm.classList.toggle('active');
+            if (editForm.classList.contains('active')) {
+                this.textContent = '✖ Schließen';
+                loadPersonalDataToForm();
+            } else {
+                this.textContent = '✏️ Bearbeiten';
+            }
+        });
+    }
+
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', function() {
+            editForm.classList.remove('active');
+            if (toggleBtn) toggleBtn.textContent = '✏️ Bearbeiten';
+            document.getElementById('personalEditMessage').textContent = '';
+            document.getElementById('personalEditMessage').className = 'message';
+        });
+    }
+
+    // ===== SOUMETTRE LE FORMULAIRE D'ÉDITION =====
+    const form = document.getElementById('editPersonalForm');
+    const msg = document.getElementById('personalEditMessage');
+
+    if (form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const userEmail = localStorage.getItem('userEmail');
+            if (!userEmail) {
+                msg.textContent = '❌ Kein Benutzer angemeldet.';
+                msg.className = 'message error';
+                return;
+            }
+
+            const anrede = document.getElementById('editPersonalAnrede').value;
+            const vorname = document.getElementById('editPersonalVorname').value.trim();
+            const nachname = document.getElementById('editPersonalNachname').value.trim();
+            const telefon = document.getElementById('editPersonalTelefon').value.trim();
+            const fax = document.getElementById('editPersonalFax').value.trim();
+
+            if (!vorname || !nachname) {
+                msg.textContent = '❌ Bitte füllen Sie Vorname und Nachname aus.';
+                msg.className = 'message error';
+                return;
+            }
+
+            try {
+                const db = firebase.firestore();
+                await db.collection('users').doc(userEmail).update({
+                    anrede, vorname, nachname, telefon, fax
+                });
+
+                localStorage.setItem('userAnrede', anrede);
+                localStorage.setItem('userNachname', nachname);
+
+                msg.textContent = '✅ Persönliche Informationen erfolgreich aktualisiert!';
+                msg.className = 'message success';
+
+                loadPersonalInfo(userEmail);
+
+                setTimeout(() => {
+                    editForm.classList.remove('active');
+                    if (toggleBtn) toggleBtn.textContent = '✏️ Bearbeiten';
+                    msg.textContent = '';
+                    msg.className = 'message';
+                }, 1500);
+
+            } catch (error) {
+                console.error('Fehler beim Aktualisieren:', error);
+                msg.textContent = '❌ Fehler beim Speichern: ' + error.message;
+                msg.className = 'message error';
+            }
+        });
+    }
+}
 // =====================================================================
 // ===== BLOC 1 : login.html ===========================================
 // =====================================================================

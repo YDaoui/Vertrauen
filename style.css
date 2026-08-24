@@ -2327,7 +2327,406 @@ hr.admin-hr {
     font-weight: 700;
     font-size: 1.2rem;
 }
+/* ============================================================
+   STYLES POUR MEIN-PORTAL - CARTES AVEC FLÈCHE
+   ============================================================ */
 
+/* Carte avec en-tête cliquable */
+.portal-card {
+    background: rgba(12, 37, 69, 0.95);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(84, 229, 13, 0.2);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.portal-card:hover {
+    border-color: rgba(84, 229, 13, 0.5);
+    box-shadow: 0 4px 20px rgba(84, 229, 13, 0.1);
+}
+
+.portal-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    background: rgba(255, 255, 255, 0.02);
+    user-select: none;
+}
+
+.portal-card .card-header:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.portal-card .card-header h2 {
+    color: #54e50d;
+    font-size: 1.15rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.portal-card .card-header .arrow {
+    font-size: 1.2rem;
+    color: #6a7b91;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.portal-card .card-header .arrow.open {
+    transform: rotate(180deg);
+}
+
+.portal-card .card-body {
+    padding: 0 24px 24px 24px;
+    display: none;
+}
+
+.portal-card .card-body.open {
+    display: block;
+}
+
+/* ============================================================
+   BOUTON ÉDITER PERSONNEL (style admin)
+   ============================================================ */
+.edit-personal-btn {
+    background: rgba(84, 229, 13, 0.15);
+    color: #54e50d;
+    border: 1px solid rgba(84, 229, 13, 0.3);
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.edit-personal-btn:hover {
+    background: rgba(84, 229, 13, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(84, 229, 13, 0.2);
+}
+
+/* ============================================================
+   FORMULAIRE D'ÉDITION PERSONNELLE
+   ============================================================ */
+.edit-form-personal {
+    display: none;
+    margin-top: 16px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border-left: 3px solid #54e50d;
+    color: #ffffff !important;
+}
+
+.edit-form-personal.active {
+    display: block;
+}
+
+.edit-form-personal .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.edit-form-personal .form-group {
+    flex: 1 1 200px;
+}
+
+.edit-form-personal .form-group label {
+    display: block;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+
+
+/* ============================================================
+   CORRECTION : CHAMPS D'ÉDITION VISIBLES
+   ============================================================ */
+   
+.edit-form-personal .form-group input,
+.edit-form-personal .form-group select {
+    width: 100%;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #6a7b91;
+    border-radius: 8px;
+    color: #eeebeb !important;  /* Texte en blanc */
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+}
+
+.edit-form-personal .form-group input::placeholder {
+    color: #6a7b91 !important;  /* Placeholder gris clair */
+}
+
+.edit-form-personal .form-group input:focus,
+.edit-form-personal .form-group select:focus {
+    outline: none;
+    border-color: #54e50d;
+    box-shadow: 0 0 0 3px rgba(84, 229, 13, 0.15);
+}
+
+.edit-form-personal .form-group select option {
+    background-color: #0c2545;
+    color: #ffffff !important;
+}
+
+.edit-form-personal .form-group label {
+    display: block;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+/* ============================================================
+   OFFRES DANS MEIN-PORTAL (style admin)
+   ============================================================ */
+.offer-item {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    transition: all 0.2s ease;
+}
+
+.offer-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(84, 229, 13, 0.2);
+}
+
+.offer-item .offer-info {
+    flex: 1;
+    min-width: 200px;
+}
+
+.offer-item .offer-info .offer-name {
+    color: #54e50d;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.offer-item .offer-info .offer-details {
+    color: #ffffff;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.offer-item .offer-info .offer-meta {
+    color: #6a7b91;
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+.offer-item .offer-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.offer-item .offer-actions button {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.offer-item .offer-actions .print-btn {
+    background: rgba(78, 205, 196, 0.15);
+    color: #4ecdc4;
+    border: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.offer-item .offer-actions .print-btn:hover {
+    background: rgba(78, 205, 196, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
+}
+
+.offer-item .offer-actions .support-btn {
+    background: rgba(255, 193, 7, 0.15);
+    color: #ffc107;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.offer-item .offer-actions .support-btn:hover {
+    background: rgba(255, 193, 7, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+}
+
+/* ============================================================
+   CONTRAT DANS MEIN-PORTAL
+   ============================================================ */
+.contract-section {
+    margin-top: 0;
+}
+
+.contract-section .contract-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.contract-section .contract-status {
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.contract-section .contract-status.active {
+    background: rgba(84, 229, 13, 0.15);
+    color: #54e50d;
+    border: 1px solid rgba(84, 229, 13, 0.3);
+}
+
+.contract-section .contract-status.expired {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.contract-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.contract-detail-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.contract-detail-item .label {
+    display: block;
+    font-size: 0.65rem;
+    color: #6a7b91;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.contract-detail-item .value {
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* ============================================================
+   BOUTONS DANS LES OFFRES (réutilise les styles admin)
+   ============================================================ */
+.offer-item .offer-actions .edit-btn {
+    background: rgba(84, 229, 13, 0.15);
+    color: #54e50d;
+    border: 1px solid rgba(84, 229, 13, 0.3);
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.offer-item .offer-actions .edit-btn:hover {
+    background: rgba(84, 229, 13, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(84, 229, 13, 0.2);
+}
+
+.offer-item .offer-actions .delete-btn {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.offer-item .offer-actions .delete-btn:hover {
+    background: rgba(255, 107, 107, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+}
+
+/* ============================================================
+   RESPONSIVE MEIN-PORTAL
+   ============================================================ */
+@media (max-width: 768px) {
+    .portal-card .card-header {
+        padding: 14px 16px;
+    }
+
+    .portal-card .card-body {
+        padding: 0 16px 16px 16px;
+    }
+
+    .contract-details-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .offer-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .offer-item .offer-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .portal-card .card-header h2 {
+        font-size: 1rem;
+    }
+
+    .contract-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edit-form-personal .form-row {
+        flex-direction: column;
+    }
+
+    .portal-card {
+        padding: 0;
+    }
+
+    .portal-card .card-header {
+        padding: 12px 14px;
+    }
+
+    .portal-card .card-body {
+        padding: 0 14px 14px 14px;
+    }
+}
 /* Liste des services */
 .services-list {
     list-style: none;
