@@ -413,11 +413,18 @@ function loadPersonalDataToForm() {
 }
 
 // ===== CHARGER LES INFOS CONTRAT ET OFFRES =====
+// ===== CHARGER LES INFOS CONTRAT ET OFFRES =====
 function loadPortalData(email) {
     const contractContainer = document.getElementById('contractInfo');
     const offerContainer = document.getElementById('offerDetails');
+    const statusBadge = document.getElementById('contractStatusBadge');
 
     if (!contractContainer || !offerContainer) return;
+
+    if (typeof firebase === 'undefined' || !firebase.apps.length) {
+        setTimeout(function() { loadPortalData(email); }, 300);
+        return;
+    }
 
     const db = firebase.firestore();
 
@@ -436,24 +443,29 @@ function loadPortalData(email) {
                         Keine Angebote verfügbar.
                     </div>
                 `;
+                if (statusBadge) statusBadge.style.display = 'none';
                 return;
             }
 
             let contractHtml = '';
+            let isActive = false;
 
             contractSnapshot.forEach((contractDoc) => {
                 const contractData = contractDoc.data();
-                const statusText = contractData.status === 'active' ? '🟢 Aktiv' : '🔴 Beendet';
-                const statusClass = contractData.status === 'active' ? 'active' : 'expired';
+                
+                if (contractData.status === 'active') {
+                    isActive = true;
+                }
 
+                // STATUT SUPPRIMÉ À CÔTÉ DU NOM DE LA COMPAGNIE
                 contractHtml = `
                     <div class="contract-section">
                         <div class="contract-header">
                             <div>
                                 <strong style="color: #54e50d; font-size: 1.1rem;">${contractData.companyName || 'Unbekannt'}</strong>
                                 <span style="margin-left:12px; color:#ffffff;">${contractData.energyType === 'strom' ? '⚡ Strom' : '🔥 Gas'}</span>
+                                <!-- PLUS DE STATUT ICI -->
                             </div>
-                            <span class="contract-status ${statusClass}">${statusText}</span>
                         </div>
                         <div class="contract-details-grid">
                             <div class="contract-detail-item">
@@ -477,9 +489,27 @@ function loadPortalData(email) {
                 `;
             });
 
+            // GARDER LE BADGE À CÔTÉ DU TITRE
+            if (statusBadge) {
+                if (isActive) {
+                    statusBadge.style.display = 'inline-block';
+                    statusBadge.textContent = '🟢 Aktiv';
+                    statusBadge.style.background = 'rgba(84,229,13,0.15)';
+                    statusBadge.style.color = '#54e50d';
+                    statusBadge.style.border = '1px solid rgba(84,229,13,0.3)';
+                } else {
+                    statusBadge.style.display = 'inline-block';
+                    statusBadge.textContent = '🔴 Beendet';
+                    statusBadge.style.background = 'rgba(255,107,107,0.15)';
+                    statusBadge.style.color = '#ff6b6b';
+                    statusBadge.style.border = '1px solid rgba(255,107,107,0.3)';
+                }
+            }
+
             contractContainer.innerHTML = contractHtml;
 
-            // Charger les offres liées
+            // ... le reste du code (offres) reste inchangé ...
+            
             const offerPromises = [];
             contractSnapshot.forEach((contractDoc) => {
                 const contractData = contractDoc.data();
@@ -541,14 +571,9 @@ function loadPortalData(email) {
                     ⚠️ Fehler beim Laden der Angebote.
                 </div>
             `;
+            if (statusBadge) statusBadge.style.display = 'none';
         });
 }
-
-// ===== INITIALISATION DE MEIN PORTAL =====
-// =====================================================================
-// ===== BLOC 8 : MEIN PORTAL - GESTION DES CARTES ====================
-// =====================================================================
-
 // ===== TOGGLE CARTE =====
 function togglePortalCard(cardId) {
     const card = document.getElementById(cardId);
@@ -740,7 +765,7 @@ function loadPortalData(email) {
                                             <div class="offer-actions">
                                                 <button class="print-btn" onclick="window.print()">🖨️ Drucken</button>
                                                 <button class="support-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✉️ Support</button>
-                                                <button class="edit-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✏️ Anfragen</button>
+                                                <button class="edit-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✏️ kündigen</button>
                                             </div>
                                         </div>
                                     `;
