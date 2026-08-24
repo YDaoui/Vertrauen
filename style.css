@@ -103,7 +103,7 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   BOUTONS
+   BOUTONS GÉNÉRAUX
    ============================================================ */
 .btn-login {
     background-color: #54e50d;
@@ -261,7 +261,7 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   CARTES
+   CARTES GÉNÉRALES
    ============================================================ */
 .impressum-card {
     background-color: rgba(200, 200, 200, 0.30);
@@ -471,7 +471,7 @@ body.dashboard-page {
    ============================================================ */
 .dashboard-header {
     position: fixed;
-    top: 0;
+    top: 48px;
     left: 0;
     right: 0;
     z-index: 1000;
@@ -684,7 +684,7 @@ body.dashboard-page {
 .dashboard-content {
     flex: 1;
     max-width: 1200px;
-    margin: 100px auto 40px;
+    margin: 148px auto 40px;
     padding: 0 40px 60px;
     width: 100%;
 }
@@ -742,7 +742,7 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   FORMULAIRES
+   FORMULAIRES LOGIN
    ============================================================ */
 .login-card .form-group {
     margin-bottom: 20px;
@@ -952,7 +952,7 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   CONTRACT ITEMS
+   CONTRACT ITEMS (Admin)
    ============================================================ */
 .contract-item {
     background-color: rgba(255, 255, 255, 0.06);
@@ -1651,7 +1651,6 @@ body.dashboard-page {
     font-size: 12px;
 }
 
-
 /* ============================================================
    SELECT WITH LOGO
    ============================================================ */
@@ -1717,7 +1716,572 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   RESPONSIVE
+   SPÉCIFIQUE ÜBER UNS
+   ============================================================ */
+.ueber-uns-box {
+    background-color: #243957 !important;
+    border: 2px solid #54e50d !important;
+    border-radius: 16px !important;
+    padding: 30px 40px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.ueber-uns-box:hover {
+    border-color: #6a7b91 !important;
+    box-shadow: 0 6px 30px rgba(84, 229, 13, 0.15) !important;
+}
+
+.ueber-uns-box h2 {
+    color: #54e50d;
+    border-bottom: 2px solid #97a3b3;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+}
+
+.ueber-uns-box p {
+    color: #ffffff;
+    line-height: 1.8;
+    font-size: 1.05rem;
+}
+
+.ueber-uns-box strong {
+    color: #54e50d;
+}
+
+/* ============================================================
+   SPÉCIFIQUE ADMIN - NOMS ENTREPRISES EN VERT
+   ============================================================ */
+#companyList .company-item .company-info .name,
+#companyList .company-item .company-info .comp-name,
+#companyList .company-item .company-info .company-name,
+#companyList .company-item .company-info > span:first-child,
+#companyList .company-item .company-info > div:first-child,
+#companyList .company-item .company-info .company-details .name,
+.admin-box .company-item .company-info .name,
+.admin-box .company-item .company-info .comp-name,
+.admin-box .company-item .company-info .company-name {
+    color: #54e50d !important;
+    font-weight: 700 !important;
+}
+
+/* ============================================================
+   STYLES POUR MEIN-PORTAL.HTML
+   ============================================================ */
+
+/* Conteneur principal du portail */
+.portal-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Carte avec en-tête cliquable */
+.portal-card {
+    background: rgba(12, 37, 69, 0.95);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(84, 229, 13, 0.2);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.portal-card:hover {
+    border-color: rgba(84, 229, 13, 0.5);
+    box-shadow: 0 4px 20px rgba(84, 229, 13, 0.1);
+}
+
+.portal-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    background: rgba(255, 255, 255, 0.02);
+    user-select: none;
+}
+
+.portal-card .card-header:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.portal-card .card-header h2 {
+    color: #54e50d;
+    font-size: 1.15rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.portal-card .card-header .arrow {
+    font-size: 1.2rem;
+    color: #6a7b91;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.portal-card .card-header .arrow.open {
+    transform: rotate(180deg);
+}
+
+.portal-card .card-body {
+    padding: 0 24px 24px 24px;
+    display: none;
+}
+
+.portal-card .card-body.open {
+    display: block;
+}
+
+/* ============================================================
+   BOUTON ÉDITER PERSONNEL
+   ============================================================ */
+.edit-personal-btn {
+    background: rgba(84, 229, 13, 0.15);
+    color: #54e50d;
+    border: 1px solid rgba(84, 229, 13, 0.3);
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.edit-personal-btn:hover {
+    background: rgba(84, 229, 13, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(84, 229, 13, 0.2);
+}
+
+.edit-personal-btn.hidden {
+    display: none !important;
+}
+
+/* ============================================================
+   FORMULAIRE D'ÉDITION PERSONNELLE
+   ============================================================ */
+.edit-form-personal {
+    display: none;
+    margin-top: 16px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border-left: 3px solid #54e50d;
+}
+
+.edit-form-personal.active {
+    display: block;
+}
+
+.edit-form-personal .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.edit-form-personal .form-group {
+    flex: 1 1 200px;
+}
+
+.edit-form-personal .form-group label {
+    display: block;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+.edit-form-personal .form-group input,
+.edit-form-personal .form-group select {
+    width: 100%;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #6a7b91;
+    border-radius: 8px;
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+}
+
+.edit-form-personal .form-group input::placeholder {
+    color: #6a7b91 !important;
+}
+
+.edit-form-personal .form-group input:focus,
+.edit-form-personal .form-group select:focus {
+    outline: none;
+    border-color: #54e50d;
+    box-shadow: 0 0 0 3px rgba(84, 229, 13, 0.15);
+    color: #ffffff !important;
+}
+
+.edit-form-personal .form-group select option {
+    background-color: #0c2545;
+    color: #ffffff !important;
+}
+
+.edit-form-personal .form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+/* ============================================================
+   OFFRES DANS MEIN-PORTAL
+   ============================================================ */
+.offer-item {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    transition: all 0.2s ease;
+}
+
+.offer-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(84, 229, 13, 0.2);
+}
+
+.offer-item .offer-info {
+    flex: 1;
+    min-width: 200px;
+}
+
+.offer-item .offer-info .offer-name {
+    color: #54e50d;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.offer-item .offer-info .offer-details {
+    color: #ffffff;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.offer-item .offer-info .offer-meta {
+    color: #6a7b91;
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+.offer-item .offer-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.offer-item .offer-actions button {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.offer-item .offer-actions .print-btn {
+    background: rgba(78, 205, 196, 0.15);
+    color: #4ecdc4;
+    border: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.offer-item .offer-actions .print-btn:hover {
+    background: rgba(78, 205, 196, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
+}
+
+.offer-item .offer-actions .support-btn {
+    background: rgba(255, 193, 7, 0.15);
+    color: #ffc107;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.offer-item .offer-actions .support-btn:hover {
+    background: rgba(255, 193, 7, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+}
+
+.offer-item .offer-actions .edit-btn {
+    background: rgba(84, 229, 13, 0.15);
+    color: #54e50d;
+    border: 1px solid rgba(84, 229, 13, 0.3);
+}
+
+.offer-item .offer-actions .edit-btn:hover {
+    background: rgba(84, 229, 13, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(84, 229, 13, 0.2);
+}
+
+.offer-item .offer-actions .delete-btn {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.offer-item .offer-actions .delete-btn:hover {
+    background: rgba(255, 107, 107, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+}
+
+/* ============================================================
+   CONTRAT DANS MEIN-PORTAL
+   ============================================================ */
+.contract-section {
+    margin-top: 0;
+}
+
+.contract-section .contract-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.contract-section .contract-status {
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.contract-section .contract-status.active {
+    background: rgba(84, 229, 13, 0.15);
+    color: #54e50d;
+    border: 1px solid rgba(84, 229, 13, 0.3);
+}
+
+.contract-section .contract-status.expired {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.contract-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.contract-detail-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.contract-detail-item .label {
+    display: block;
+    font-size: 0.65rem;
+    color: #6a7b91;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.contract-detail-item .value {
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* ============================================================
+   SERVICES LIST
+   ============================================================ */
+.services-list {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0 0;
+}
+
+.services-list li {
+    padding: 4px 0;
+    padding-left: 28px;
+    position: relative;
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+
+.services-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 4px;
+    color: #54e50d;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* ============================================================
+   ACTION BUTTONS
+   ============================================================ */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    flex: 1;
+    min-width: 180px;
+    padding: 12px 20px;
+    background: #54e50d;
+    color: #0c2545;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.action-btn:hover {
+    background: #6af52a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(84, 229, 13, 0.3);
+}
+
+.action-btn .icon {
+    font-size: 1.2rem;
+}
+
+/* ============================================================
+   BANDEAU RÉSEAUX SOCIAUX - TOP
+   ============================================================ */
+
+/* ============================================================
+   BANDEAU RÉSEAUX SOCIAUX - TOP
+   ============================================================ */
+
+.social-top-bar {
+    background: #d2dad4;
+    border-bottom: 2px solid #0c2545;
+    padding: 6px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.social-top-bar-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.social-icons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: #0c2545;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(12, 37, 69, 0.3);
+    text-decoration: none;
+}
+
+.social-icon:hover {
+    transform: translateY(-2px);
+    background: #54e50d;
+    border-color: #54e50d;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(84, 229, 13, 0.3);
+}
+
+.social-icon svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.social-label {
+    color: #0c2545;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.7;
+    margin-left: 6px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    .social-top-bar-content {
+        padding: 0 12px;
+        justify-content: center;
+    }
+
+    .social-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .social-icon svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    .social-label {
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .social-label {
+        display: none;
+    }
+}
+/* ============================================================
+   MISC
+   ============================================================ */
+hr.admin-hr {
+    margin: 30px 0;
+}
+
+.dashboard-footer .footer-separator {
+    color: #6a7b91;
+    margin: 0 4px;
+}
+
+/* ============================================================
+   RESPONSIVE GLOBAL
    ============================================================ */
 @media (max-width: 1024px) {
     .stat-donuts-row .donut-wrapper canvas {
@@ -1730,7 +2294,6 @@ body.dashboard-page {
     .stat-donuts-row {
         padding: 16px 12px;
         gap: 6px;
-        color: #54e50d !important;
     }
 }
 
@@ -1932,9 +2495,25 @@ body.dashboard-page {
         padding: 10px;
     }
 
-    .user-info-box {
-        padding: 15px;
-        margin: 10px;
+    .portal-card .card-header {
+        padding: 14px 16px;
+    }
+
+    .portal-card .card-body {
+        padding: 0 16px 16px 16px;
+    }
+
+    .contract-details-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .offer-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .offer-item .offer-actions {
+        justify-content: flex-start;
     }
 }
 
@@ -2019,6 +2598,25 @@ body.dashboard-page {
         font-size: 6px;
         letter-spacing: 0.2px;
         margin-top: 3px;
+    }
+
+    .portal-card .card-header h2 {
+        font-size: 1rem;
+    }
+    .contract-details-grid {
+        grid-template-columns: 1fr;
+    }
+    .edit-form-personal .form-row {
+        flex-direction: column;
+    }
+    .portal-card {
+        padding: 0;
+    }
+    .portal-card .card-header {
+        padding: 12px 14px;
+    }
+    .portal-card .card-body {
+        padding: 0 14px 14px 14px;
     }
 }
 
@@ -2108,801 +2706,5 @@ body.dashboard-page {
     }
     .stat-donuts-row .donut-wrapper .label {
         font-size: 5px;
-    }
-}
-
-/* ============================================================
-   SPÉCIFIQUE ÜBER UNS
-   ============================================================ */
-.ueber-uns-box {
-    background-color: #243957 !important;
-    border: 2px solid #54e50d !important;
-    border-radius: 16px !important;
-    padding: 30px 40px !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
-    max-width: 900px !important;
-    margin: 0 auto !important;
-    width: 100% !important;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.ueber-uns-box:hover {
-    border-color: #6a7b91 !important;
-    box-shadow: 0 6px 30px rgba(84, 229, 13, 0.15) !important;
-}
-
-.ueber-uns-box h2 {
-    color: #54e50d;
-    border-bottom: 2px solid #97a3b3;
-    padding-bottom: 12px;
-    margin-bottom: 24px;
-}
-
-.ueber-uns-box p {
-    color: #ffffff;
-    line-height: 1.8;
-    font-size: 1.05rem;
-}
-
-.ueber-uns-box strong {
-    color: #54e50d;
-}
-
-@media (max-width: 600px) {
-    .ueber-uns-box {
-        padding: 20px !important;
-    }
-    .ueber-uns-box h2 {
-        font-size: 1.5rem;
-    }
-    .ueber-uns-box p {
-        font-size: 0.95rem;
-    }
-}
-
-@media (max-width: 450px) {
-    .ueber-uns-box {
-        padding: 16px !important;
-    }
-    .ueber-uns-box h2 {
-        font-size: 1.3rem;
-    }
-    .ueber-uns-box p {
-        font-size: 0.9rem;
-    }
-}
-
-/* ============================================================
-   SPÉCIFIQUE ADMIN - NOMS ENTREPRISES EN VERT
-   ============================================================ */
-#companyList .company-item .company-info .name,
-#companyList .company-item .company-info .comp-name,
-#companyList .company-item .company-info .company-name,
-#companyList .company-item .company-info > span:first-child,
-#companyList .company-item .company-info > div:first-child,
-#companyList .company-item .company-info .company-details .name,
-.admin-box .company-item .company-info .name,
-.admin-box .company-item .company-info .comp-name,
-.admin-box .company-item .company-info .company-name {
-    color: #54e50d !important;
-    font-weight: 700 !important;
-}
-
-/* ============================================================
-   MISC
-   ============================================================ */
-hr.admin-hr {
-    margin: 30px 0;
-}
-
-.dashboard-footer .footer-separator {
-    color: #6a7b91;
-    margin: 0 4px;
-}
-/* ============================================================
-   STYLES POUR MEIN-PORTAL.HTML
-   ============================================================ */
-
-/* Conteneur principal du portail */
-.portal-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* Cartes du portail */
-.portal-card {
-    background: rgba(12, 37, 69, 0.95);
-    border-radius: 12px;
-    padding: 25px 30px;
-    margin-bottom: 25px;
-    border: 1px solid rgba(84, 229, 13, 0.2);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.portal-card:hover {
-    border-color: rgba(84, 229, 13, 0.5);
-    box-shadow: 0 4px 20px rgba(84, 229, 13, 0.1);
-}
-
-.portal-card h2 {
-    color: #54e50d;
-    margin-bottom: 20px;
-    font-size: 1.2rem;
-    border-bottom: 2px solid rgba(84, 229, 13, 0.2);
-    padding-bottom: 10px;
-}
-
-/* Grille d'informations */
-.info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.info-grid .info-item {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 12px 16px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: border-color 0.2s, background-color 0.2s;
-}
-
-.info-grid .info-item:hover {
-    border-color: rgba(84, 229, 13, 0.3);
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.info-grid .info-item.full-width {
-    grid-column: 1 / -1;
-}
-
-.info-grid .info-label {
-    display: block;
-    font-size: 0.7rem;
-    color: #6a7b91;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
-    font-weight: 600;
-}
-
-.info-grid .info-value {
-    font-size: 1rem;
-    color: #ffffff;
-    font-weight: 500;
-}
-
-.info-grid .info-value.price {
-    color: #54e50d;
-    font-weight: 700;
-    font-size: 1.1rem;
-}
-
-.info-grid .info-value.status-active {
-    color: #54e50d;
-}
-
-.info-grid .info-value.status-expired {
-    color: #ff6b6b;
-}
-
-/* Détails de l'offre */
-.offer-details {
-    display: grid;
-    gap: 12px;
-}
-
-.offer-item {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 12px 16px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: border-color 0.2s, background-color 0.2s;
-}
-
-.offer-item:hover {
-    border-color: rgba(84, 229, 13, 0.3);
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.offer-label {
-    display: block;
-    font-size: 0.7rem;
-    color: #6a7b91;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
-    font-weight: 600;
-}
-
-.offer-value {
-    font-size: 1rem;
-    color: #ffffff;
-    font-weight: 500;
-}
-
-.offer-value.price {
-    color: #54e50d;
-    font-weight: 700;
-    font-size: 1.2rem;
-}
-/* ============================================================
-   STYLES POUR MEIN-PORTAL - CARTES AVEC FLÈCHE
-   ============================================================ */
-
-/* Carte avec en-tête cliquable */
-.portal-card {
-    background: rgba(12, 37, 69, 0.95);
-    border-radius: 12px;
-    margin-bottom: 20px;
-    border: 1px solid rgba(84, 229, 13, 0.2);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden;
-}
-
-.portal-card:hover {
-    border-color: rgba(84, 229, 13, 0.5);
-    box-shadow: 0 4px 20px rgba(84, 229, 13, 0.1);
-}
-
-.portal-card .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 24px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    background: rgba(255, 255, 255, 0.02);
-    user-select: none;
-}
-
-.portal-card .card-header:hover {
-    background: rgba(255, 255, 255, 0.04);
-}
-
-.portal-card .card-header h2 {
-    color: #54e50d;
-    font-size: 1.15rem;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.portal-card .card-header .arrow {
-    font-size: 1.2rem;
-    color: #6a7b91;
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
-}
-
-.portal-card .card-header .arrow.open {
-    transform: rotate(180deg);
-}
-
-.portal-card .card-body {
-    padding: 0 24px 24px 24px;
-    display: none;
-}
-
-.portal-card .card-body.open {
-    display: block;
-}
-
-/* ============================================================
-   BOUTON ÉDITER PERSONNEL (style admin)
-   ============================================================ */
-.edit-personal-btn {
-    background: rgba(84, 229, 13, 0.15);
-    color: #54e50d;
-    border: 1px solid rgba(84, 229, 13, 0.3);
-    padding: 6px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.edit-personal-btn:hover {
-    background: rgba(84, 229, 13, 0.3);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(84, 229, 13, 0.2);
-}
-
-/* ============================================================
-   FORMULAIRE D'ÉDITION PERSONNELLE
-   ============================================================ */
-
-
-/* ============================================================
-   FORMULAIRE D'ÉDITION PERSONNELLE
-   ============================================================ */
-.edit-form-personal {
-    display: none;
-    margin-top: 16px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-    border-left: 3px solid #54e50d;
-    color: #ffffff !important;
-}
-
-.edit-form-personal.active {
-    display: block;
-}
-
-.edit-form-personal .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-
-.edit-form-personal .form-group {
-    flex: 1 1 200px;
-}
-
-.edit-form-personal .form-group label {
-    display: block;
-    color: #ffffff;
-    font-weight: 500;
-    font-size: 0.85rem;
-    margin-bottom: 4px;
-}
-
-/* ============================================================
-   CHAMPS D'ÉDITION VISIBLES
-   ============================================================ */
-.edit-form-personal .form-group input,
-.edit-form-personal .form-group select {
-    width: 100%;
-    padding: 10px 14px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid #6a7b91;
-    border-radius: 8px;
-    color: #ffffff !important;
-    font-size: 0.95rem;
-    transition: border-color 0.2s;
-}
-
-.edit-form-personal .form-group input::placeholder {
-    color: #6a7b91 !important;
-}
-
-.edit-form-personal .form-group input:focus,
-.edit-form-personal .form-group select:focus {
-    outline: none;
-    border-color: #54e50d;
-    box-shadow: 0 0 0 3px rgba(84, 229, 13, 0.15);
-}
-
-.edit-form-personal .form-group select option {
-    background-color: #0c2545;
-    color: #ffffff !important;
-}
-
-
-/* ============================================================
-   CORRECTION : CHAMPS D'ÉDITION VISIBLES
-   ============================================================ */
-   
-.edit-form-personal .form-group input,
-.edit-form-personal .form-group select {
-    width: 100%;
-    padding: 10px 14px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid #6a7b91;
-    border-radius: 8px;
-    color: #eeebeb !important;  /* Texte en blanc */
-    font-size: 0.95rem;
-    transition: border-color 0.2s;
-}
-
-.edit-form-personal .form-group input::placeholder {
-    color: #6a7b91 !important;  /* Placeholder gris clair */
-}
-
-.edit-form-personal .form-group input:focus,
-.edit-form-personal .form-group select:focus {
-    outline: none;
-    border-color: #54e50d;
-    box-shadow: 0 0 0 3px rgba(84, 229, 13, 0.15);
-}
-
-.edit-form-personal .form-group select option {
-    background-color: #0c2545;
-    color: #ffffff !important;
-}
-
-.edit-form-personal .form-group label {
-    display: block;
-    color: #ffffff;
-    font-weight: 500;
-    font-size: 0.85rem;
-    margin-bottom: 4px;
-}
-
-/* ============================================================
-   OFFRES DANS MEIN-PORTAL (style admin)
-   ============================================================ */
-.offer-item {
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 8px;
-    padding: 14px 18px;
-    margin-bottom: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    transition: all 0.2s ease;
-}
-
-.offer-item:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(84, 229, 13, 0.2);
-}
-
-.offer-item .offer-info {
-    flex: 1;
-    min-width: 200px;
-}
-
-.offer-item .offer-info .offer-name {
-    color: #54e50d;
-    font-weight: 600;
-    font-size: 15px;
-}
-
-.offer-item .offer-info .offer-details {
-    color: #ffffff;
-    font-size: 14px;
-    margin-top: 2px;
-}
-
-.offer-item .offer-info .offer-meta {
-    color: #6a7b91;
-    font-size: 13px;
-    margin-top: 2px;
-}
-
-.offer-item .offer-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.offer-item .offer-actions button {
-    padding: 6px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.offer-item .offer-actions .print-btn {
-    background: rgba(78, 205, 196, 0.15);
-    color: #4ecdc4;
-    border: 1px solid rgba(78, 205, 196, 0.3);
-}
-
-.offer-item .offer-actions .print-btn:hover {
-    background: rgba(78, 205, 196, 0.3);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
-}
-
-.offer-item .offer-actions .support-btn {
-    background: rgba(255, 193, 7, 0.15);
-    color: #ffc107;
-    border: 1px solid rgba(255, 193, 7, 0.3);
-}
-
-.offer-item .offer-actions .support-btn:hover {
-    background: rgba(255, 193, 7, 0.3);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
-}
-
-/* ============================================================
-   CONTRAT DANS MEIN-PORTAL
-   ============================================================ */
-.contract-section {
-    margin-top: 0;
-}
-
-.contract-section .contract-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.contract-section .contract-status {
-    padding: 4px 14px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.85rem;
-}
-
-.contract-section .contract-status.active {
-    background: rgba(84, 229, 13, 0.15);
-    color: #54e50d;
-    border: 1px solid rgba(84, 229, 13, 0.3);
-}
-
-.contract-section .contract-status.expired {
-    background: rgba(255, 107, 107, 0.15);
-    color: #ff6b6b;
-    border: 1px solid rgba(255, 107, 107, 0.3);
-}
-
-.contract-details-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    margin-top: 12px;
-}
-
-.contract-detail-item {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 10px 14px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.contract-detail-item .label {
-    display: block;
-    font-size: 0.65rem;
-    color: #6a7b91;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 600;
-}
-
-.contract-detail-item .value {
-    color: #ffffff;
-    font-weight: 500;
-    font-size: 0.95rem;
-}
-
-/* ============================================================
-   BOUTONS DANS LES OFFRES (réutilise les styles admin)
-   ============================================================ */
-.offer-item .offer-actions .edit-btn {
-    background: rgba(84, 229, 13, 0.15);
-    color: #54e50d;
-    border: 1px solid rgba(84, 229, 13, 0.3);
-    padding: 6px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.offer-item .offer-actions .edit-btn:hover {
-    background: rgba(84, 229, 13, 0.3);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(84, 229, 13, 0.2);
-}
-
-.offer-item .offer-actions .delete-btn {
-    background: rgba(255, 107, 107, 0.15);
-    color: #ff6b6b;
-    border: 1px solid rgba(255, 107, 107, 0.3);
-    padding: 6px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.offer-item .offer-actions .delete-btn:hover {
-    background: rgba(255, 107, 107, 0.3);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
-}
-
-/* ============================================================
-   RESPONSIVE MEIN-PORTAL
-   ============================================================ */
-@media (max-width: 768px) {
-    .portal-card .card-header {
-        padding: 14px 16px;
-    }
-
-    .portal-card .card-body {
-        padding: 0 16px 16px 16px;
-    }
-
-    .contract-details-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .offer-item {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .offer-item .offer-actions {
-        justify-content: flex-start;
-    }
-}
-
-@media (max-width: 480px) {
-    .portal-card .card-header h2 {
-        font-size: 1rem;
-    }
-
-    .contract-details-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .edit-form-personal .form-row {
-        flex-direction: column;
-    }
-
-    .portal-card {
-        padding: 0;
-    }
-
-    .portal-card .card-header {
-        padding: 12px 14px;
-    }
-
-    .portal-card .card-body {
-        padding: 0 14px 14px 14px;
-    }
-}
-/* Liste des services */
-.services-list {
-    list-style: none;
-    padding: 0;
-    margin: 5px 0 0 0;
-}
-
-.services-list li {
-    padding: 4px 0;
-    padding-left: 28px;
-    position: relative;
-    color: #ffffff;
-    font-size: 0.95rem;
-}
-
-.services-list li::before {
-    content: "✓";
-    position: absolute;
-    left: 4px;
-    color: #54e50d;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-/* Actions */
-.action-buttons {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.action-btn {
-    flex: 1;
-    min-width: 180px;
-    padding: 12px 20px;
-    background: #54e50d;
-    color: #0c2545;
-    border: none;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.action-btn:hover {
-    background: #6af52a;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(84, 229, 13, 0.3);
-}
-
-.action-btn .icon {
-    font-size: 1.2rem;
-}
-
-/* ============================================================
-   RESPONSIVE POUR MEIN-PORTAL
-   ============================================================ */
-
-@media (max-width: 768px) {
-    .portal-container {
-        padding: 10px;
-    }
-
-    .portal-card {
-        padding: 18px 20px;
-    }
-
-    .portal-card h2 {
-        font-size: 1rem;
-    }
-
-    .info-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-
-    .info-grid .info-item.full-width {
-        grid-column: 1;
-    }
-
-    .action-buttons {
-        flex-direction: column;
-    }
-
-    .action-btn {
-        min-width: unset;
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .portal-card {
-        padding: 14px 16px;
-        margin-bottom: 15px;
-    }
-
-    .portal-card h2 {
-        font-size: 0.9rem;
-        margin-bottom: 12px;
-    }
-
-    .info-grid .info-item {
-        padding: 10px 12px;
-    }
-
-    .info-grid .info-label {
-        font-size: 0.6rem;
-    }
-
-    .info-grid .info-value {
-        font-size: 0.85rem;
-    }
-
-    .offer-item {
-        padding: 10px 12px;
-    }
-
-    .offer-label {
-        font-size: 0.6rem;
-    }
-
-    .offer-value {
-        font-size: 0.85rem;
-    }
-
-    .offer-value.price {
-        font-size: 1rem;
-    }
-
-    .services-list li {
-        font-size: 0.85rem;
-        padding-left: 24px;
-    }
-
-    .action-btn {
-        padding: 10px 16px;
-        font-size: 0.85rem;
     }
 }
