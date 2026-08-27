@@ -85,13 +85,75 @@
     <!-- ===== FIN MENU PRINCIPAL ===== -->
 
     <main class="dashboard-content">
-        <div class="willkommen-box">
-            <h1 id="welcomeTitle">Willkommen im Dashboard!</h1>
-            <p id="welcomeMessage">
-                Hier finden Sie alle wichtigen Informationen auf einen Blick.<br />
-                Nutzen Sie das Menü oben, um zu navigieren.
-            </p>
+        
+    <div class="dashboard-layout">
+        <!-- PARTIE HAUTE - PLEINE LARGEUR -->
+        <div class="dashboard-top">
+            <div class="willkommen-box">
+                <h1>Vermittlung v. Energie-, Internet & Mobilfunktarifen</h1>
+                <p>Durch eine gezielte Vermittlung können Kunden nicht nur von attraktiven Tarifen profitieren, sondern auch von Sonderkonditionen und Rabatten, die speziell für Neukunden angeboten werden. Wir helfen bei der Auswahl der besten Strom-,Gas-,, Internet- und Mobilfunktarife.</p>
+                <p class="welcome-sub">Verwalten Sie Ihre Verträge, Angebote und Daten an einem zentralen Ort.</p>
+            </div>
         </div>
+
+        <!-- PARTIE BASSE - 3 CARTES CENTRÉES -->
+        <div class="dashboard-bottom">
+            <!-- CARTE 1 : Strom & Gas -->
+            <div class="dashboard-card">
+                <img src="Images/Dashbords/image1.jpg" alt="Strom & Gas" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">
+                        Strom &amp; Gas
+                        <span class="arabic">كهرباء وغاز</span>
+                    </div>
+                    <hr class="card-divider">
+                    <p class="card-text">
+                        Durch eine präzise Analyse des Energieverbrauchs können Verbraucher nicht nur die effizientesten Tarife auswählen, sondern auch von möglichen Einsparungen profitieren. Eine sorgfältige Bedarfsermittlung sorgt dafür, dass die gewählten Strom- und Gastarife optimal auf den persönlichen Bedarf abgestimmt sind, was langfristig zu einer Reduzierung der Energiekosten führen kann.
+                    </p>
+                    <div class="card-footer">
+                        <a href="#" class="btn-card">Kontaktieren Sie uns</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARTE 2 : Internet -->
+            <div class="dashboard-card">
+                <img src="Images/Dashbords/Image2.jpg" alt="Internet" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">
+                        Internet
+                        <span class="arabic">انترنت</span>
+                    </div>
+                    <hr class="card-divider">
+                    <p class="card-text">
+                        Bei der Auswahl eines Tarifs sollten nicht nur die monatlichen Kosten, sondern auch die Vertragsbedingungen, die Verfügbarkeit von Highspeed-Internet und eventuelle Zusatzleistungen berücksichtigt werden. Ein sorgfältiger Vergleich kann helfen, Geld zu sparen und sicherzustellen, dass Sie die bestmögliche Verbindung für Ihre Familien- und Arbeitsanforderungen erhalten.
+                    </p>
+                    <div class="card-footer">
+                        <a href="#" class="btn-card">Mehr erfahren</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARTE 3 : Mobilfunk -->
+            <div class="dashboard-card">
+                <img src="Images/Dashbords/image3.jpg" alt="Mobilfunk" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">
+                        Mobilfunk
+                        <span class="arabic">إتصالات</span>
+                    </div>
+                    <hr class="card-divider">
+                    <p class="card-text">
+                        Kunden schätzen die Freiheit, jederzeit ohne Limits mit Freunden und Familie zu kommunizieren sowie im Internet zu surfen, ohne sich Gedanken über zusätzliche Kosten machen zu müssen. Egal ob beim Streaming von Videos, beim Navigieren oder bei der Nutzung sozialer Medien - unbegrenzte Handytarife ermöglichen ein sorgenfreies Mobilvergnügen.
+                    </p>
+                    <div class="card-footer">
+                        <a href="#" class="btn-card">Angebote entdecken</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     </main>
 
     <footer class="dashboard-footer">
@@ -116,6 +178,19 @@
                 if (statLink) statLink.style.display = 'none';
                 if (portalLink) portalLink.style.display = 'inline-block';
                 if (adminLink) adminLink.style.display = 'none';
+            }
+
+            // Afficher le nom de l'utilisateur dans le titre
+            const userName = localStorage.getItem('userName') || 'Benutzer';
+            const welcomeSpan = document.getElementById('welcomeUserName');
+            if (welcomeSpan) {
+                welcomeSpan.textContent = userName;
+            }
+
+            // Afficher le nom dans le header
+            const nameDisplay = document.getElementById('userNameDisplay');
+            if (nameDisplay) {
+                nameDisplay.innerHTML = '<span class="welcome-text">Willkommen</span> <span class="welcome-name">' + userName + '</span>';
             }
         });
     </script>

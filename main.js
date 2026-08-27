@@ -2986,6 +2986,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
   }
+  
 
   initLoginPage();
   initAdminPage();
