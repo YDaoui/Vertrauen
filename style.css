@@ -495,7 +495,7 @@ body.dashboard-page {
     justify-content: space-between;
     padding: 12px 40px;
     background-color: #0c2545;
-    border-bottom: 3px solid #54e50d;
+    border-bottom: 3px solid #0c2545;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     flex-wrap: wrap;
     transition: all 0.4s ease;
