@@ -48,7 +48,7 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   LOGO - PAGE D'ACCUEIL
+   LOGO ANIMÉ - PAGE D'ACCUEIL
    ============================================================ */
 .logo-wrapper {
     margin: 20px 0;
@@ -68,11 +68,87 @@ body.dashboard-page {
     height: auto;
     display: block;
     filter: drop-shadow(0 4px 12px rgba(12, 37, 69, 0.2));
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    animation: float 3.5s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px) scale(1);
+        filter: drop-shadow(0 4px 12px rgba(12, 37, 69, 0.2));
+    }
+    50% {
+        transform: translateY(-10px) scale(1.02);
+        filter: drop-shadow(0 10px 30px rgba(84, 229, 13, 0.2));
+    }
+    100% {
+        transform: translateY(0px) scale(1);
+        filter: drop-shadow(0 4px 12px rgba(12, 37, 69, 0.2));
+    }
 }
 
 .logo-wrapper img:hover {
-    transform: scale(1.02);
+    animation-play-state: paused;
+    transform: scale(1.05) translateY(-5px);
+    filter: drop-shadow(0 12px 40px rgba(84, 229, 13, 0.3));
+}
+
+/* ============================================================
+   LOGO ANIMÉ - DASHBOARD HEADER
+   ============================================================ */
+.dashboard-header .logo-link img {
+    max-height: 50px;
+    width: auto;
+    display: block;
+    filter: none;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    animation: floatDashboard 3.5s ease-in-out infinite;
+}
+
+@keyframes floatDashboard {
+    0% {
+        transform: translateY(0px) scale(1);
+        filter: drop-shadow(0 2px 8px rgba(12, 37, 69, 0.15));
+    }
+    50% {
+        transform: translateY(-5px) scale(1.02);
+        filter: drop-shadow(0 6px 20px rgba(84, 229, 13, 0.2));
+    }
+    100% {
+        transform: translateY(0px) scale(1);
+        filter: drop-shadow(0 2px 8px rgba(12, 37, 69, 0.15));
+    }
+}
+
+.dashboard-header .logo-link img:hover {
+    animation-play-state: paused;
+    transform: scale(1.08) translateY(-3px);
+    filter: drop-shadow(0 8px 25px rgba(84, 229, 13, 0.3));
+}
+
+.dashboard-header.scrolled .logo-link img {
+    animation: floatDashboardScrolled 3.5s ease-in-out infinite;
+}
+
+@keyframes floatDashboardScrolled {
+    0% {
+        transform: translateY(0px) scale(1);
+        filter: drop-shadow(0 2px 8px rgba(12, 37, 69, 0.1));
+    }
+    50% {
+        transform: translateY(-5px) scale(1.02);
+        filter: drop-shadow(0 6px 20px rgba(84, 229, 13, 0.15));
+    }
+    100% {
+        transform: translateY(0px) scale(1);
+        filter: drop-shadow(0 2px 8px rgba(12, 37, 69, 0.1));
+    }
+}
+
+.dashboard-header.scrolled .logo-link img:hover {
+    animation-play-state: paused;
+    transform: scale(1.08) translateY(-3px);
+    filter: drop-shadow(0 8px 25px rgba(84, 229, 13, 0.25));
 }
 
 /* ============================================================
@@ -285,7 +361,7 @@ body.dashboard-page {
 .impressum-card h1 {
     font-size: 2.2rem;
     font-weight: 700;
-    color: #1A1A1A;
+    color: #54e50d;
     letter-spacing: 1px;
     margin-bottom: 28px;
     padding-bottom: 16px;
@@ -319,13 +395,13 @@ body.dashboard-page {
 }
 
 .impressum-card .value a {
-    color: #0c2545;
+    color: #54e50d;
     text-decoration: none;
     transition: color 0.2s;
 }
 
 .impressum-card .value a:hover {
-    color: #54e50d;
+    color: #FFFFFF;
     text-decoration: underline;
 }
 
@@ -350,7 +426,7 @@ body.dashboard-page {
 }
 
 .page-footer .footer-link {
-    color: #0c2545;
+    color: #54e50d;
     text-decoration: none;
     font-weight: 500;
     padding: 0 12px;
@@ -358,7 +434,7 @@ body.dashboard-page {
 }
 
 .page-footer .footer-link:hover {
-    color: #54e50d;
+    color: #FFFFFF;
     text-decoration: underline;
 }
 
@@ -517,7 +593,7 @@ body.dashboard-page {
 }
 
 .company-box .value a:hover {
-    color: #1a3d6a;
+    color: #FFFFFF;
     text-decoration: underline;
 }
 
@@ -572,7 +648,7 @@ body.dashboard-page {
 }
 
 .datenschutz-card .ds-text a:hover {
-    color: #1a3d6a;
+    color: #FFFFFF;
     text-decoration: underline;
 }
 
@@ -586,7 +662,7 @@ body.dashboard-page {
 }
 
 .datenschutz-card .back-link:hover {
-    color: #1a3d6a;
+    color: #FFFFFF;
     text-decoration: underline;
 }
 
@@ -718,18 +794,7 @@ body.dashboard-page {
     flex-shrink: 0;
 }
 
-.dashboard-header .logo-link img {
-    max-height: 50px;
-    width: auto;
-    display: block;
-    filter: none;
-    transition: filter 0.4s ease;
-}
-
-/* Le logo garde ses couleurs même en mode scrollé */
-.dashboard-header.scrolled .logo-link img {
-    filter: none;
-}
+/* Le logo du dashboard est maintenant animé plus haut dans le fichier */
 
 /* --- BOUTON DE CONNEXION DASHBOARD --- */
 .dashboard-header .login-btn {
