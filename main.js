@@ -2986,7 +2986,46 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
   }
-  
+  // =====================================================================
+// ===== BLOC 10 : SEKTOREN - GESTION DES SEGMENTS ====================
+// =====================================================================
+
+function initSektorenPage() {
+    const segments = document.querySelectorAll('.segment');
+    if (segments.length === 0) return;
+
+    let activeSegment = null;
+
+    segments.forEach(segment => {
+        segment.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            // Si le segment cliqué est déjà actif, on le désactive
+            if (this.classList.contains('active')) {
+                this.classList.remove('active');
+                activeSegment = null;
+                return;
+            }
+
+            // Retirer la classe active de tous les segments
+            segments.forEach(seg => seg.classList.remove('active'));
+            
+            // Ajouter la classe active au segment cliqué
+            this.classList.add('active');
+            activeSegment = this;
+        });
+    });
+
+    // Désactiver tous les segments en cliquant à l'extérieur
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.segment')) {
+            segments.forEach(seg => seg.classList.remove('active'));
+            activeSegment = null;
+        }
+    });
+    
+}
+
 
   initLoginPage();
   initAdminPage();
@@ -2999,5 +3038,6 @@ document.addEventListener('DOMContentLoaded', function() {
   initScrollHeader();
   initHamburger();
   initTawkTo();
-  initSocialScroll();  // <- AJOUT DE LA FONCTION
+  initSocialScroll(); 
+   initSektorenPage(); // <- AJOUT DE LA FONCTION
 });

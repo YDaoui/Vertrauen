@@ -48,7 +48,7 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   LOGO ANIMÉ - PAGE D'ACCUEIL
+   LOGO ANIMÉ - PAGE D'ACCUEIL (AGRANDI)
    ============================================================ */
 .logo-wrapper {
     margin: 20px 0;
@@ -63,7 +63,7 @@ body.dashboard-page {
 }
 
 .logo-wrapper img {
-    max-width: 320px;
+    max-width: 450px;  /* ← AGRANDI : 320px → 450px */
     width: 100%;
     height: auto;
     display: block;
@@ -94,10 +94,10 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   LOGO ANIMÉ - DASHBOARD HEADER
+   LOGO ANIMÉ - DASHBOARD HEADER (AGRANDI)
    ============================================================ */
 .dashboard-header .logo-link img {
-    max-height: 50px;
+    max-height: 75px;  /* ← AGRANDI : 50px → 75px */
     width: auto;
     display: block;
     filter: none;
@@ -2400,7 +2400,7 @@ hr.admin-hr {
 }
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE - VERSIONS MOBILES AVEC LOGO AGRANDI
    ============================================================ */
 
 /* --- Tablettes et petits écrans --- */
@@ -2468,7 +2468,7 @@ hr.admin-hr {
     }
 
     .dashboard-header .logo-link img {
-        max-height: 35px;
+        max-height: 55px;  /* ← AGRANDI : 35px → 55px */
     }
 
     .welcome-center {
@@ -2682,7 +2682,7 @@ hr.admin-hr {
         min-width: 100px;
     }
     .logo-wrapper img {
-        max-width: 220px;
+        max-width: 320px;  /* ← AGRANDI : 220px → 320px sur tablette */
     }
 }
 
@@ -2807,6 +2807,10 @@ hr.admin-hr {
     .dashboard-card .card-content .card-text {
         font-size: 0.88rem;
     }
+
+    .logo-wrapper img {
+        max-width: 280px;  /* ← AGRANDI : 170px → 280px sur mobile */
+    }
 }
 
 @media (max-width: 450px) {
@@ -2835,7 +2839,7 @@ hr.admin-hr {
         margin-bottom: 2px;
     }
     .logo-wrapper img {
-        max-width: 170px;
+        max-width: 250px;  /* ← AGRANDI : 170px → 250px */
     }
     .login-card .text-right {
         flex-direction: column;
@@ -2852,7 +2856,7 @@ hr.admin-hr {
         text-align: center;
     }
     .dashboard-header .logo-link img {
-        max-height: 30px;
+        max-height: 50px;  /* ← AGRANDI : 30px → 50px */
     }
     .stat-card .number {
         font-size: 2.4rem;
@@ -2888,6 +2892,9 @@ hr.admin-hr {
     .social-label {
         display: none;
     }
+    .logo-wrapper img {
+        max-width: 200px;  /* ← AGRANDI : taille minimale */
+    }
 }
 
 @media (max-width: 360px) {
@@ -2901,5 +2908,618 @@ hr.admin-hr {
     }
     .stat-donuts-row .donut-wrapper .label {
         font-size: 5px;
+    }
+    .logo-wrapper img {
+        max-width: 180px;
+    }
+    .dashboard-header .logo-link img {
+        max-height: 40px;
+    }
+}
+/* ============================================================
+   STYLES POUR LA PAGE SEKTOREN
+   ============================================================ */
+
+/* ============================================================
+   STYLES POUR LA PAGE SEKTOREN
+   ============================================================ */
+
+/* --- Réinitialisation pour la page --- */
+.sektoren-page {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    background: #0b1a2f;
+}
+
+/* --- Header transparent --- */
+.sektoren-page .dashboard-header {
+    position: fixed;
+    top: 44px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(11, 26, 47, 0.7);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 10px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.sektoren-page .dashboard-header .logo-link img {
+    max-height: 55px;
+    width: auto;
+    display: block;
+}
+
+.sektoren-page .dashboard-header .welcome-center {
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.sektoren-page .dashboard-header .welcome-center .welcome-text {
+    color: #54e50d;
+    font-weight: 600;
+}
+
+.sektoren-page .dashboard-header .welcome-center .welcome-name {
+    color: #ffffff;
+}
+
+.sektoren-page .dashboard-nav a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    padding: 6px 0 10px 0;
+    position: relative;
+    transition: color 0.25s ease;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.sektoren-page .dashboard-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #54e50d;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sektoren-page .dashboard-nav a:hover {
+    color: #54e50d;
+}
+
+.sektoren-page .dashboard-nav a:hover::after {
+    transform: scaleX(1);
+}
+
+.sektoren-page .dashboard-nav a.active {
+    color: #54e50d;
+}
+
+.sektoren-page .dashboard-nav a.active::after {
+    transform: scaleX(1);
+}
+
+.sektoren-page .hamburger span {
+    background-color: #ffffff;
+}
+
+/* --- CONTENEUR PRINCIPAL - PLEIN ÉCRAN --- */
+.sektoren-page .sektoren-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* --- CHAQUE SEGMENT --- */
+.sektoren-page .segment {
+    flex: 1;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+/* ANIMATION FLOTTANTE - LES IMAGES BOUGENT LENTEMENT */
+.sektoren-page .segment {
+    animation: floatImage 8s ease-in-out infinite;
+}
+
+.sektoren-page .segment:nth-child(1) {
+    animation-delay: 0s;
+}
+.sektoren-page .segment:nth-child(2) {
+    animation-delay: 2s;
+}
+.sektoren-page .segment:nth-child(3) {
+    animation-delay: 4s;
+}
+.sektoren-page .segment:nth-child(4) {
+    animation-delay: 6s;
+}
+
+@keyframes floatImage {
+    0% {
+        background-position: 45% center;
+    }
+    50% {
+        background-position: 55% center;
+    }
+    100% {
+        background-position: 45% center;
+    }
+}
+
+/* AU SURVOL - ACCÉLÉRATION DE L'ANIMATION */
+.sektoren-page .segment:hover {
+    animation-duration: 3s;
+}
+
+.sektoren-page .segment.active {
+    animation: none;
+    background-position: center !important;
+}
+
+/* BORDURE BLANCHE ENTRE LES SEGMENTS */
+.sektoren-page .segment:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.4);
+    z-index: 10;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+}
+
+/* OVERLAY SOMBRE */
+.sektoren-page .segment::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    transition: background 0.6s ease;
+    z-index: 2;
+}
+
+.sektoren-page .segment.active::before {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* CONTENU CENTRAL - ÉTAT INITIAL */
+.sektoren-page .segment-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 30px;
+    width: 100%;
+    height: 100%;
+    transition: all 0.6s ease;
+}
+
+/* MOT VERTICAL */
+.sektoren-page .segment-word {
+    font-size: 3.8rem;
+    font-weight: 300;
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    text-shadow: 0 4px 30px rgba(0,0,0,0.8);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transition: all 0.6s ease;
+    opacity: 1;
+    transform: scale(1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* LOGO VECTORIEL DANS CERCLE BLANC */
+.sektoren-page .segment-icon-wrapper {
+    width: 65px;
+    height: 65px;
+    margin-top: 18px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.6s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+
+.sektoren-page .segment-icon-wrapper svg {
+    width: 32px;
+    height: 32px;
+    fill: none;
+    stroke: #0c2545;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.sektoren-page .segment-icon-wrapper svg circle[fill] {
+    fill: #0c2545;
+    stroke: none;
+}
+
+/* TEXTE CACHÉ PAR DÉFAUT */
+.sektoren-page .segment-hidden-text {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 480px;
+    color: white;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    opacity: 0;
+    transition: all 0.6s ease;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.9);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    background: rgba(0,0,0,0.4);
+    padding: 18px 24px;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.08);
+    pointer-events: none;
+}
+
+.sektoren-page .segment-hidden-text p {
+    margin: 0 0 12px 0;
+}
+
+/* BOUTON DANS LE TEXTE */
+.sektoren-page .btn-segment {
+    display: inline-block;
+    background: #54e50d;
+    color: #0c2545;
+    padding: 8px 24px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sektoren-page .btn-segment:hover {
+    background: #0c2545;
+    color: #ffffff;
+    transform: scale(1.04);
+    box-shadow: 0 4px 20px rgba(84, 229, 13, 0.3);
+}
+
+/* ÉTAT ACTIF - AU CLICK - VECTOR + TITRE EN BAS SUR UNE LIGNE */
+.sektoren-page .segment.active {
+    flex: 3;
+}
+
+.sektoren-page .segment.active .segment-content {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 30px 40px 50px 40px;
+}
+
+/* VECTOR + TITRE SUR LA MÊME LIGNE EN BAS */
+.sektoren-page .segment.active .segment-top-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    order: 0;
+    margin-bottom: 10px;
+}
+
+.sektoren-page .segment.active .segment-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    margin-top: 0;
+    margin-bottom: 0;
+    order: 0;
+    flex-shrink: 0;
+}
+
+.sektoren-page .segment.active .segment-icon-wrapper svg {
+    width: 25px;
+    height: 25px;
+}
+
+.sektoren-page .segment.active .segment-word {
+    font-size: 2.2rem;
+    font-weight: 400;
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: 4px;
+    order: 1;
+}
+
+.sektoren-page .segment.active .segment-hidden-text {
+    opacity: 1;
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0;
+    order: 1;
+    text-align: left;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 16px 22px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    pointer-events: auto;
+}
+
+/* SEGMENTS NON ACTIFS */
+.sektoren-page .segment:not(.active) .segment-word {
+    font-size: 3rem;
+    letter-spacing: 10px;
+}
+
+.sektoren-page .segment:not(.active) .segment-icon-wrapper {
+    width: 55px;
+    height: 55px;
+    margin-top: 14px;
+}
+
+.sektoren-page .segment:not(.active) .segment-icon-wrapper svg {
+    width: 27px;
+    height: 27px;
+}
+
+/* FOOTER FIXE */
+.sektoren-page .dashboard-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(11, 26, 47, 0.85);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 12px 40px;
+    text-align: center;
+}
+
+.sektoren-page .dashboard-footer a {
+    color: #54e50d;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.sektoren-page .dashboard-footer a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.sektoren-page .dashboard-footer span {
+    color: #888;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .sektoren-page .dashboard-header {
+        top: 38px;
+        padding: 8px 20px;
+    }
+
+    .sektoren-page .sektoren-container {
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .sektoren-page .segment:not(:last-child)::after {
+        right: auto;
+        bottom: 0;
+        top: auto;
+        width: 100%;
+        height: 2px;
+    }
+
+    .sektoren-page .segment-word {
+        font-size: 2.5rem !important;
+        writing-mode: horizontal-tb !important;
+        letter-spacing: 8px !important;
+    }
+
+    .sektoren-page .segment.active .segment-word {
+        font-size: 2rem !important;
+        letter-spacing: 3px !important;
+        margin: 0 !important;
+    }
+
+    .sektoren-page .segment.active {
+        flex: 2;
+    }
+
+    .sektoren-page .segment.active .segment-content {
+        align-items: center;
+        justify-content: center;
+        padding: 20px 20px 35px 20px;
+        flex-direction: column;
+    }
+
+    .sektoren-page .segment.active .segment-top-row {
+        justify-content: center;
+        margin-bottom: 8px;
+    }
+
+    .sektoren-page .segment.active .segment-word {
+        margin: 0 0 0 12px !important;
+    }
+
+    .sektoren-page .segment.active .segment-hidden-text {
+        text-align: center;
+        padding: 14px 18px;
+        font-size: 0.9rem;
+    }
+
+    .sektoren-page .segment-icon-wrapper {
+        width: 45px !important;
+        height: 45px !important;
+    }
+
+    .sektoren-page .segment-icon-wrapper svg {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper {
+        width: 45px !important;
+        height: 45px !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper svg {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    @keyframes floatImage {
+        0% {
+            background-position: 40% center;
+        }
+        50% {
+            background-position: 60% center;
+        }
+        100% {
+            background-position: 40% center;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .sektoren-page .dashboard-header {
+        top: 34px;
+        padding: 6px 14px;
+    }
+
+    .sektoren-page .dashboard-header .logo-link img {
+        max-height: 40px;
+    }
+
+    .sektoren-page .dashboard-nav a {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .sektoren-page .dashboard-header {
+        top: 30px;
+        padding: 4px 10px;
+    }
+
+    .sektoren-page .dashboard-header .logo-link img {
+        max-height: 32px;
+    }
+
+    .sektoren-page .segment-word {
+        font-size: 2rem !important;
+        letter-spacing: 6px !important;
+    }
+
+    .sektoren-page .segment.active .segment-word {
+        font-size: 1.6rem !important;
+        letter-spacing: 2px !important;
+    }
+
+    .sektoren-page .segment-hidden-text {
+        font-size: 0.8rem !important;
+        padding: 12px 16px !important;
+    }
+
+    .sektoren-page .segment.active .segment-hidden-text {
+        font-size: 0.8rem !important;
+        padding: 12px 14px !important;
+    }
+
+    .sektoren-page .segment-icon-wrapper {
+        width: 38px !important;
+        height: 38px !important;
+        margin-top: 10px !important;
+    }
+
+    .sektoren-page .segment-icon-wrapper svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .sektoren-page .segment.active .segment-content {
+        padding: 15px 14px 25px 14px;
+    }
+
+    .sektoren-page .segment.active .segment-top-row {
+        gap: 10px;
+    }
+
+    .sektoren-page .dashboard-footer {
+        padding: 8px 16px;
+        font-size: 0.75rem;
+    }
+
+    .sektoren-page .btn-segment {
+        font-size: 0.75rem !important;
+        padding: 6px 16px !important;
+    }
+
+    @keyframes floatImage {
+        0% {
+            background-position: 30% center;
+        }
+        50% {
+            background-position: 70% center;
+        }
+        100% {
+            background-position: 30% center;
+        }
     }
 }
