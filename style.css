@@ -48,14 +48,14 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   LOGO ANIMÉ - PAGE D'ACCUEIL (AGRANDI)
+   LOGO ANIMÉ - PAGE D'ACCUEIL
    ============================================================ */
 .logo-wrapper {
     margin: 20px 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 20%;
 }
 
 .logo-wrapper a {
@@ -63,7 +63,7 @@ body.dashboard-page {
 }
 
 .logo-wrapper img {
-    max-width: 450px;  /* ← AGRANDI : 320px → 450px */
+    max-width: 450px;
     width: 100%;
     height: auto;
     display: block;
@@ -94,10 +94,10 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   LOGO ANIMÉ - DASHBOARD HEADER (AGRANDI)
+   LOGO ANIMÉ - DASHBOARD HEADER (TAILLE STANDARD)
    ============================================================ */
 .dashboard-header .logo-link img {
-    max-height: 75px;  /* ← AGRANDI : 50px → 75px */
+    max-height: 60px;
     width: auto;
     display: block;
     filter: none;
@@ -793,8 +793,6 @@ body.dashboard-page {
     align-items: center;
     flex-shrink: 0;
 }
-
-/* Le logo du dashboard est maintenant animé plus haut dans le fichier */
 
 /* --- BOUTON DE CONNEXION DASHBOARD --- */
 .dashboard-header .login-btn {
@@ -2400,7 +2398,7 @@ hr.admin-hr {
 }
 
 /* ============================================================
-   RESPONSIVE - VERSIONS MOBILES AVEC LOGO AGRANDI
+   RESPONSIVE - VERSIONS MOBILES
    ============================================================ */
 
 /* --- Tablettes et petits écrans --- */
@@ -2468,7 +2466,7 @@ hr.admin-hr {
     }
 
     .dashboard-header .logo-link img {
-        max-height: 55px;  /* ← AGRANDI : 35px → 55px */
+        max-height: 55px;
     }
 
     .welcome-center {
@@ -2682,7 +2680,7 @@ hr.admin-hr {
         min-width: 100px;
     }
     .logo-wrapper img {
-        max-width: 320px;  /* ← AGRANDI : 220px → 320px sur tablette */
+        max-width: 320px;
     }
 }
 
@@ -2809,7 +2807,7 @@ hr.admin-hr {
     }
 
     .logo-wrapper img {
-        max-width: 280px;  /* ← AGRANDI : 170px → 280px sur mobile */
+        max-width: 280px;
     }
 }
 
@@ -2839,7 +2837,7 @@ hr.admin-hr {
         margin-bottom: 2px;
     }
     .logo-wrapper img {
-        max-width: 250px;  /* ← AGRANDI : 170px → 250px */
+        max-width: 250px;
     }
     .login-card .text-right {
         flex-direction: column;
@@ -2856,7 +2854,7 @@ hr.admin-hr {
         text-align: center;
     }
     .dashboard-header .logo-link img {
-        max-height: 50px;  /* ← AGRANDI : 30px → 50px */
+        max-height: 50px;
     }
     .stat-card .number {
         font-size: 2.4rem;
@@ -2893,7 +2891,7 @@ hr.admin-hr {
         display: none;
     }
     .logo-wrapper img {
-        max-width: 200px;  /* ← AGRANDI : taille minimale */
+        max-width: 200px;
     }
 }
 
@@ -2916,9 +2914,6 @@ hr.admin-hr {
         max-height: 40px;
     }
 }
-/* ============================================================
-   STYLES POUR LA PAGE SEKTOREN
-   ============================================================ */
 
 /* ============================================================
    STYLES POUR LA PAGE SEKTOREN
@@ -2950,8 +2945,9 @@ hr.admin-hr {
     flex-wrap: wrap;
 }
 
+/* Taille standard du logo sur la page sektoren */
 .sektoren-page .dashboard-header .logo-link img {
-    max-height: 55px;
+    max-height: 60px;
     width: auto;
     display: block;
 }
@@ -3116,13 +3112,14 @@ hr.admin-hr {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     text-align: center;
     color: white;
     padding: 30px;
     width: 100%;
     height: 100%;
     transition: all 0.6s ease;
+    padding-bottom: 80px;
 }
 
 /* MOT VERTICAL */
@@ -3138,13 +3135,13 @@ hr.admin-hr {
     opacity: 1;
     transform: scale(1);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 20px;
 }
 
-/* LOGO VECTORIEL DANS CERCLE BLANC */
+/* LOGO VECTORIEL DANS CERCLE BLANC - ALIGNÉ EN BAS */
 .sektoren-page .segment-icon-wrapper {
     width: 65px;
     height: 65px;
-    margin-top: 18px;
     background: rgba(255, 255, 255, 0.92);
     border-radius: 50%;
     display: flex;
@@ -3152,6 +3149,7 @@ hr.admin-hr {
     justify-content: center;
     transition: all 0.6s ease;
     box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    flex-shrink: 0;
 }
 
 .sektoren-page .segment-icon-wrapper svg {
@@ -3167,6 +3165,19 @@ hr.admin-hr {
 .sektoren-page .segment-icon-wrapper svg circle[fill] {
     fill: #0c2545;
     stroke: none;
+}
+
+/* GROUPE VECTOR + TITRE - TOUJOURS EN BAS ET ALIGNÉ */
+.sektoren-page .segment-bottom-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.6s ease;
 }
 
 /* TEXTE CACHÉ PAR DÉFAUT */
@@ -3221,7 +3232,7 @@ hr.admin-hr {
     box-shadow: 0 4px 20px rgba(84, 229, 13, 0.3);
 }
 
-/* ÉTAT ACTIF - AU CLICK - VECTOR + TITRE EN BAS SUR UNE LIGNE */
+/* ÉTAT ACTIF - AU CLICK - VECTOR + TITRE EN BAS AVANT LE PARAGRAPHE */
 .sektoren-page .segment.active {
     flex: 3;
 }
@@ -3232,23 +3243,28 @@ hr.admin-hr {
     align-items: flex-end;
     justify-content: flex-start;
     padding: 30px 40px 50px 40px;
+    padding-bottom: 50px;
 }
 
-/* VECTOR + TITRE SUR LA MÊME LIGNE EN BAS */
-.sektoren-page .segment.active .segment-top-row {
+.sektoren-page .segment.active .segment-bottom-group {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 15px;
+    justify-content: flex-start;
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
     width: 100%;
     order: 0;
+    gap: 15px;
     margin-bottom: 10px;
 }
 
 .sektoren-page .segment.active .segment-icon-wrapper {
     width: 50px;
     height: 50px;
-    margin-top: 0;
-    margin-bottom: 0;
+    margin: 0;
     order: 0;
     flex-shrink: 0;
 }
@@ -3298,7 +3314,6 @@ hr.admin-hr {
 .sektoren-page .segment:not(.active) .segment-icon-wrapper {
     width: 55px;
     height: 55px;
-    margin-top: 14px;
 }
 
 .sektoren-page .segment:not(.active) .segment-icon-wrapper svg {
@@ -3336,7 +3351,7 @@ hr.admin-hr {
     color: #888;
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE - MOBILE AVEC SCROLL */
 @media (max-width: 992px) {
     .sektoren-page .dashboard-header {
         top: 38px;
@@ -3346,6 +3361,8 @@ hr.admin-hr {
     .sektoren-page .sektoren-container {
         flex-direction: column;
         height: 100vh;
+        overflow-y: auto;
+        position: relative;
     }
 
     .sektoren-page .segment:not(:last-child)::after {
@@ -3356,20 +3373,30 @@ hr.admin-hr {
         height: 2px;
     }
 
+    .sektoren-page .segment {
+        min-height: 300px;
+        flex: 0 0 auto;
+        width: 100%;
+        height: auto;
+    }
+
+    .sektoren-page .segment.active {
+        flex: 0 0 auto;
+        min-height: 500px;
+        height: auto;
+    }
+
     .sektoren-page .segment-word {
         font-size: 2.5rem !important;
         writing-mode: horizontal-tb !important;
         letter-spacing: 8px !important;
+        margin-bottom: 15px !important;
     }
 
     .sektoren-page .segment.active .segment-word {
         font-size: 2rem !important;
         letter-spacing: 3px !important;
         margin: 0 !important;
-    }
-
-    .sektoren-page .segment.active {
-        flex: 2;
     }
 
     .sektoren-page .segment.active .segment-content {
@@ -3379,9 +3406,11 @@ hr.admin-hr {
         flex-direction: column;
     }
 
-    .sektoren-page .segment.active .segment-top-row {
+    .sektoren-page .segment.active .segment-bottom-group {
         justify-content: center;
         margin-bottom: 8px;
+        flex-direction: row;
+        gap: 12px;
     }
 
     .sektoren-page .segment.active .segment-word {
@@ -3414,6 +3443,14 @@ hr.admin-hr {
         height: 22px !important;
     }
 
+    .sektoren-page .segment-bottom-group {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        padding: 10px 0;
+    }
+
     @keyframes floatImage {
         0% {
             background-position: 40% center;
@@ -3439,6 +3476,14 @@ hr.admin-hr {
 
     .sektoren-page .dashboard-nav a {
         font-size: 0.9rem;
+    }
+
+    .sektoren-page .segment {
+        min-height: 250px;
+    }
+
+    .sektoren-page .segment.active {
+        min-height: 400px;
     }
 }
 
@@ -3475,7 +3520,6 @@ hr.admin-hr {
     .sektoren-page .segment-icon-wrapper {
         width: 38px !important;
         height: 38px !important;
-        margin-top: 10px !important;
     }
 
     .sektoren-page .segment-icon-wrapper svg {
@@ -3497,7 +3541,7 @@ hr.admin-hr {
         padding: 15px 14px 25px 14px;
     }
 
-    .sektoren-page .segment.active .segment-top-row {
+    .sektoren-page .segment.active .segment-bottom-group {
         gap: 10px;
     }
 
@@ -3511,6 +3555,14 @@ hr.admin-hr {
         padding: 6px 16px !important;
     }
 
+    .sektoren-page .segment {
+        min-height: 200px;
+    }
+
+    .sektoren-page .segment.active {
+        min-height: 350px;
+    }
+
     @keyframes floatImage {
         0% {
             background-position: 30% center;
@@ -3521,5 +3573,61 @@ hr.admin-hr {
         100% {
             background-position: 30% center;
         }
+    }
+}
+
+/* Pour les très petits écrans */
+@media (max-width: 380px) {
+    .sektoren-page .segment {
+        min-height: 180px;
+    }
+
+    .sektoren-page .segment.active {
+        min-height: 300px;
+    }
+
+    .sektoren-page .segment-word {
+        font-size: 1.6rem !important;
+        letter-spacing: 4px !important;
+    }
+
+    .sektoren-page .segment.active .segment-word {
+        font-size: 1.4rem !important;
+        letter-spacing: 2px !important;
+    }
+
+    .sektoren-page .segment-icon-wrapper {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .sektoren-page .segment-icon-wrapper svg {
+        width: 15px !important;
+        height: 15px !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper svg {
+        width: 15px !important;
+        height: 15px !important;
+    }
+
+    .sektoren-page .segment-hidden-text {
+        font-size: 0.7rem !important;
+        padding: 10px 12px !important;
+    }
+
+    .sektoren-page .segment.active .segment-hidden-text {
+        font-size: 0.7rem !important;
+        padding: 10px 12px !important;
+    }
+
+    .sektoren-page .btn-segment {
+        font-size: 0.65rem !important;
+        padding: 4px 12px !important;
     }
 }
