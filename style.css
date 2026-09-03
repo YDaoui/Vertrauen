@@ -932,6 +932,7 @@ body.dashboard-page {
     cursor: pointer;
     padding: 0;
     flex-shrink: 0;
+    z-index: 1003;
 }
 
 .hamburger span {
@@ -2466,7 +2467,7 @@ hr.admin-hr {
         display: flex !important;
         order: 3;
         margin-left: auto;
-        z-index: 1002;
+        z-index: 1003;
     }
 
     .dashboard-header {
@@ -2501,47 +2502,49 @@ hr.admin-hr {
         display: none !important;
     }
 
-    /* MENU MOBILE - UNIFORMISÉ SUR TOUTES LES PAGES */
+    /* MENU MOBILE - FONCTIONNEL AVEC TOGGLE */
     .dashboard-nav {
-        position: absolute;
-        top: 100%;
+        position: fixed;
+        top: 0;
         left: 0;
         right: 0;
-        background-color: rgba(12, 37, 69, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        bottom: 0;
+        background-color: rgba(12, 37, 69, 0.97);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         flex-direction: column;
         align-items: center;
-        padding: 20px 0 30px 0;
-        gap: 16px;
-        border-bottom: 3px solid #54e50d;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        transform: translateY(0);
-        transition: transform 0.3s ease, opacity 0.3s ease;
-        z-index: 999;
+        justify-content: center;
+        padding: 60px 20px 40px;
+        gap: 20px;
+        border-bottom: none;
+        box-shadow: none;
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1002;
         display: flex !important;
         margin: 0;
         width: 100%;
+        height: 100vh;
         opacity: 1;
-        pointer-events: auto;
-        max-height: calc(100vh - 100px);
+        pointer-events: none;
         overflow-y: auto;
     }
 
-    .dashboard-nav.hidden {
-        transform: translateY(-120%);
-        opacity: 0;
-        pointer-events: none;
+    .dashboard-nav.open {
+        transform: translateX(0);
+        pointer-events: auto;
     }
 
     .dashboard-nav a {
-        padding: 10px 0;
+        padding: 14px 0;
         border-bottom: none;
         color: #FFFFFF;
-        font-size: 1.1rem;
+        font-size: 1.3rem;
         width: 100%;
         text-align: center;
-        transition: color 0.2s ease;
+        transition: color 0.2s ease, background 0.2s ease;
+        border-radius: 8px;
     }
 
     .dashboard-nav a::after {
@@ -2551,12 +2554,11 @@ hr.admin-hr {
     .dashboard-nav a:hover,
     .dashboard-nav a.active {
         color: #54e50d;
-        background: rgba(84, 229, 13, 0.08);
+        background: rgba(84, 229, 13, 0.1);
     }
 
     .dashboard-header.scrolled .dashboard-nav {
-        background-color: rgba(255, 255, 255, 0.95);
-        border-bottom-color: #1a3d6a;
+        background-color: rgba(255, 255, 255, 0.97);
     }
 
     .dashboard-header.scrolled .dashboard-nav a {
@@ -2571,15 +2573,16 @@ hr.admin-hr {
 
     #logoutMobile {
         display: block !important;
-        margin-top: 8px;
-        padding: 12px 20px;
+        margin-top: 10px;
+        padding: 14px 20px;
         background: rgba(255, 107, 107, 0.15);
         color: #ff6b6b !important;
         border-radius: 8px;
         border: 1px solid rgba(255, 107, 107, 0.3);
         width: 80%;
         text-align: center;
-        font-size: 1.05rem;
+        font-size: 1.1rem;
+        transition: all 0.2s ease;
     }
 
     #logoutMobile:hover {
