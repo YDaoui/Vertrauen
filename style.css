@@ -669,14 +669,13 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   BANDEAU RÉSEAUX SOCIAUX
+   BANDEAU RÉSEAUX SOCIAUX - POSITION RELATIVE (NON FIXE)
    ============================================================ */
 .social-top-bar {
     background: #E8ECF0;
     border-bottom: 2px solid #54e50d;
     padding: 6px 0;
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 1002;
     width: 100%;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -762,11 +761,11 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   EN-TÊTE DASHBOARD
+   EN-TÊTE DASHBOARD - POSITION RELATIVE (NON FIXE)
    ============================================================ */
 .dashboard-header {
-    position: sticky;
-    top: 44px;
+    position: relative;
+    top: 0;
     left: 0;
     right: 0;
     z-index: 1001;
@@ -932,7 +931,6 @@ body.dashboard-page {
     cursor: pointer;
     padding: 0;
     flex-shrink: 0;
-    z-index: 1003;
 }
 
 .hamburger span {
@@ -2467,7 +2465,7 @@ hr.admin-hr {
         display: flex !important;
         order: 3;
         margin-left: auto;
-        z-index: 1003;
+        z-index: 1002;
     }
 
     .dashboard-header {
@@ -2475,8 +2473,8 @@ hr.admin-hr {
         flex-wrap: nowrap;
         gap: 8px;
         justify-content: space-between;
-        position: sticky;
-        top: 44px;
+        position: relative;
+        top: 0;
         z-index: 1001;
     }
 
@@ -2502,30 +2500,29 @@ hr.admin-hr {
         display: none !important;
     }
 
-    /* MENU MOBILE - FONCTIONNEL AVEC TOGGLE */
+    /* MENU MOBILE - OCCUPE LA MOITIÉ DE LA PAGE */
     .dashboard-nav {
         position: fixed;
         top: 0;
-        left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(12, 37, 69, 0.97);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        width: 60%;
+        max-width: 400px;
+        background-color: rgba(12, 37, 69, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         flex-direction: column;
         align-items: center;
         justify-content: center;
         padding: 60px 20px 40px;
-        gap: 20px;
-        border-bottom: none;
-        box-shadow: none;
+        gap: 16px;
+        border-left: 3px solid #54e50d;
+        box-shadow: -8px 0 30px rgba(0, 0, 0, 0.3);
         transform: translateX(100%);
         transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 1002;
+        z-index: 999;
         display: flex !important;
         margin: 0;
-        width: 100%;
-        height: 100vh;
         opacity: 1;
         pointer-events: none;
         overflow-y: auto;
@@ -2537,10 +2534,10 @@ hr.admin-hr {
     }
 
     .dashboard-nav a {
-        padding: 14px 0;
+        padding: 12px 0;
         border-bottom: none;
         color: #FFFFFF;
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         width: 100%;
         text-align: center;
         transition: color 0.2s ease, background 0.2s ease;
@@ -2554,11 +2551,12 @@ hr.admin-hr {
     .dashboard-nav a:hover,
     .dashboard-nav a.active {
         color: #54e50d;
-        background: rgba(84, 229, 13, 0.1);
+        background: rgba(84, 229, 13, 0.08);
     }
 
     .dashboard-header.scrolled .dashboard-nav {
-        background-color: rgba(255, 255, 255, 0.97);
+        background-color: rgba(255, 255, 255, 0.95);
+        border-left-color: #1a3d6a;
     }
 
     .dashboard-header.scrolled .dashboard-nav a {
@@ -2573,20 +2571,38 @@ hr.admin-hr {
 
     #logoutMobile {
         display: block !important;
-        margin-top: 10px;
-        padding: 14px 20px;
+        margin-top: 8px;
+        padding: 12px 20px;
         background: rgba(255, 107, 107, 0.15);
         color: #ff6b6b !important;
         border-radius: 8px;
         border: 1px solid rgba(255, 107, 107, 0.3);
         width: 80%;
         text-align: center;
-        font-size: 1.1rem;
-        transition: all 0.2s ease;
+        font-size: 1.05rem;
     }
 
     #logoutMobile:hover {
         background: rgba(255, 107, 107, 0.3);
+    }
+
+    /* OVERLAY SOMBRE */
+    .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease;
+    }
+
+    .menu-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
     }
 
     .dashboard-content {
@@ -2917,6 +2933,11 @@ hr.admin-hr {
     .welcome-center {
         font-size: 0.75rem;
     }
+
+    /* Réduire la largeur du menu mobile sur très petits écrans */
+    .dashboard-nav {
+        width: 75%;
+    }
 }
 
 @media (max-width: 400px) {
@@ -2945,6 +2966,10 @@ hr.admin-hr {
     }
     .dashboard-header .logo-link img {
         max-height: 50px;
+    }
+
+    .dashboard-nav {
+        width: 80%;
     }
 }
 
