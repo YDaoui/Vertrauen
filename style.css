@@ -2466,7 +2466,7 @@ hr.admin-hr {
     }
 
     .dashboard-header .logo-link img {
-        max-height: 55px;
+        max-height: 70px;
     }
 
     .welcome-center {
@@ -2854,7 +2854,7 @@ hr.admin-hr {
         text-align: center;
     }
     .dashboard-header .logo-link img {
-        max-height: 50px;
+        max-height: 60px;
     }
     .stat-card .number {
         font-size: 2.4rem;
@@ -2911,7 +2911,7 @@ hr.admin-hr {
         max-width: 180px;
     }
     .dashboard-header .logo-link img {
-        max-height: 40px;
+        max-height: 55px;
     }
 }
 
@@ -2947,7 +2947,7 @@ hr.admin-hr {
 
 /* Taille standard du logo sur la page sektoren */
 .sektoren-page .dashboard-header .logo-link img {
-    max-height: 60px;
+    max-height: 70px;
     width: auto;
     display: block;
 }
@@ -3471,7 +3471,7 @@ hr.admin-hr {
     }
 
     .sektoren-page .dashboard-header .logo-link img {
-        max-height: 40px;
+        max-height: 60px;
     }
 
     .sektoren-page .dashboard-nav a {
@@ -3494,7 +3494,7 @@ hr.admin-hr {
     }
 
     .sektoren-page .dashboard-header .logo-link img {
-        max-height: 32px;
+        max-height: 50px;
     }
 
     .sektoren-page .segment-word {
@@ -3630,4 +3630,25 @@ hr.admin-hr {
         font-size: 0.65rem !important;
         padding: 4px 12px !important;
     }
+}
+
+/* ============================================================
+   LOGO - COULEUR UNIQUE AU SCROLL (GRIS)
+   ============================================================ */
+.dashboard-header.scrolled .logo-link img {
+    filter: grayscale(100%) brightness(0.4) !important;
+    animation-play-state: running !important;
+}
+
+.dashboard-header.scrolled .logo-link img:hover {
+    filter: grayscale(0%) brightness(1) !important;
+}
+
+/* Version pour la page sektoren */
+.sektoren-page .dashboard-header.scrolled .logo-link img {
+    filter: grayscale(100%) brightness(0.4) !important;
+}
+
+.sektoren-page .dashboard-header.scrolled .logo-link img:hover {
+    filter: grayscale(0%) brightness(1) !important;
 }
