@@ -2501,6 +2501,7 @@ hr.admin-hr {
         display: none !important;
     }
 
+    /* MENU MOBILE - UNIFORMISÉ SUR TOUTES LES PAGES */
     .dashboard-nav {
         position: absolute;
         top: 100%;
@@ -2534,12 +2535,13 @@ hr.admin-hr {
     }
 
     .dashboard-nav a {
-        padding: 8px 0;
+        padding: 10px 0;
         border-bottom: none;
         color: #FFFFFF;
-        font-size: 1rem;
+        font-size: 1.1rem;
         width: 100%;
         text-align: center;
+        transition: color 0.2s ease;
     }
 
     .dashboard-nav a::after {
@@ -2549,6 +2551,7 @@ hr.admin-hr {
     .dashboard-nav a:hover,
     .dashboard-nav a.active {
         color: #54e50d;
+        background: rgba(84, 229, 13, 0.08);
     }
 
     .dashboard-header.scrolled .dashboard-nav {
@@ -2563,18 +2566,20 @@ hr.admin-hr {
     .dashboard-header.scrolled .dashboard-nav a:hover,
     .dashboard-header.scrolled .dashboard-nav a.active {
         color: #54e50d;
+        background: rgba(84, 229, 13, 0.1);
     }
 
     #logoutMobile {
         display: block !important;
         margin-top: 8px;
-        padding: 10px 20px;
+        padding: 12px 20px;
         background: rgba(255, 107, 107, 0.15);
         color: #ff6b6b !important;
         border-radius: 8px;
         border: 1px solid rgba(255, 107, 107, 0.3);
         width: 80%;
         text-align: center;
+        font-size: 1.05rem;
     }
 
     #logoutMobile:hover {
