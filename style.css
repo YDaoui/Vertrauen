@@ -55,7 +55,7 @@ body.dashboard-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 20%;
+    width: 25%;
 }
 
 .logo-wrapper a {
@@ -94,7 +94,7 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   LOGO - TAILLE UNIQUE SUR TOUT LE SITE (COMME PAGE SEKTOREN)
+   LOGO - TAILLE UNIQUE SUR TOUT LE SITE
    ============================================================ */
 .dashboard-header .logo-link img,
 .sektoren-page .dashboard-header .logo-link img {
@@ -147,7 +147,8 @@ body.dashboard-page {
     }
 }
 
-.dashboard-header.scrolled .logo-link img:hover {
+.dashboard-header.scrolled .logo-link img:hover,
+.sektoren-page .dashboard-header.scrolled .logo-link img:hover {
     animation-play-state: paused;
     transform: scale(1.08) translateY(-3px);
     filter: drop-shadow(0 8px 25px rgba(84, 229, 13, 0.25));
@@ -669,13 +670,14 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   BANDEAU RÉSEAUX SOCIAUX - POSITION RELATIVE (NON FIXE)
+   BANDEAU RÉSEAUX SOCIAUX - FIXE EN HAUT
    ============================================================ */
 .social-top-bar {
     background: #E8ECF0;
     border-bottom: 2px solid #54e50d;
     padding: 6px 0;
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 1002;
     width: 100%;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -761,11 +763,42 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   EN-TÊTE DASHBOARD - POSITION RELATIVE (NON FIXE)
+   PAGE SEKTOREN - BARRE SOCIALE
+   ============================================================ */
+.sektoren-page .social-top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1002;
+    background: rgba(11, 26, 47, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sektoren-page .social-top-bar .social-icon {
+    color: #E8ECF0;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sektoren-page .social-top-bar .social-label {
+    color: #E8ECF0;
+}
+
+.sektoren-page .social-top-bar .social-icon:hover {
+    background: #54e50d;
+    border-color: #54e50d;
+    color: #0c2545;
+}
+
+/* ============================================================
+   EN-TÊTE DASHBOARD - FIXE EN DESSOUS DE LA BARRE SOCIALE
    ============================================================ */
 .dashboard-header {
-    position: relative;
-    top: 0;
+    position: sticky;
+    top: 44px;
     left: 0;
     right: 0;
     z-index: 1001;
@@ -878,7 +911,7 @@ body.dashboard-page {
     bottom: 0;
     width: 100%;
     height: 3px;
-    background-color: #1a3d6a;
+    background-color: #4c4d4e;
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -915,6 +948,115 @@ body.dashboard-page {
 
 .dashboard-nav .login-btn-mobile {
     display: none !important;
+}
+
+/* ============================================================
+   PAGE SEKTOREN - HEADER
+   ============================================================ */
+.sektoren-page .dashboard-header {
+    position: fixed;
+    top: 44px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(11, 26, 47, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.sektoren-page .dashboard-header .logo-link img {
+    max-height: 70px;
+    width: auto;
+    display: block;
+}
+
+.sektoren-page .dashboard-header .welcome-center {
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.sektoren-page .dashboard-header .welcome-center .welcome-text {
+    color: #54e50d;
+    font-weight: 600;
+}
+
+.sektoren-page .dashboard-header .welcome-center .welcome-name {
+    color: #ffffff;
+}
+
+.sektoren-page .dashboard-nav a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    padding: 6px 0 10px 0;
+    position: relative;
+    transition: color 0.25s ease;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.sektoren-page .dashboard-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #54e50d;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sektoren-page .dashboard-nav a:hover {
+    color: #54e50d;
+}
+
+.sektoren-page .dashboard-nav a:hover::after {
+    transform: scaleX(1);
+}
+
+.sektoren-page .dashboard-nav a.active {
+    color: #54e50d;
+}
+
+.sektoren-page .dashboard-nav a.active::after {
+    transform: scaleX(1);
+}
+
+.sektoren-page .hamburger span {
+    background-color: #ffffff;
+}
+
+.sektoren-page .dashboard-header.scrolled {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 3px solid #1a3d6a;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+}
+
+.sektoren-page .dashboard-header.scrolled .dashboard-nav a {
+    color: #0c2545;
+}
+
+.sektoren-page .dashboard-header.scrolled .dashboard-nav a:hover,
+.sektoren-page .dashboard-header.scrolled .dashboard-nav a.active {
+    color: #54e50d;
+}
+
+.sektoren-page .dashboard-header.scrolled .welcome-center {
+    color: #0c2545;
+}
+
+.sektoren-page .dashboard-header.scrolled .welcome-center .welcome-name {
+    color: #0c2545;
 }
 
 /* ============================================================
@@ -965,7 +1107,7 @@ body.dashboard-page {
     flex: 1;
     max-width: 1200px;
     margin: 0 auto 40px;
-    padding: 0 40px 60px;
+    padding: 20px 40px 60px;
     width: 100%;
 }
 
@@ -2461,21 +2603,30 @@ hr.admin-hr {
 
 /* --- Mobile (max 768px) --- */
 @media (max-width: 768px) {
+    /* BARRE SOCIALE SUR MOBILE - RESTE FIXE EN HAUT */
+    .social-top-bar {
+        position: sticky;
+        top: 0;
+        z-index: 1002;
+        padding: 4px 0;
+    }
+
+    /* HEADER SUR MOBILE - RESTE FIXE EN DESSOUS */
+    .dashboard-header {
+        position: sticky;
+        top: 34px;
+        z-index: 1001;
+        padding: 8px 12px;
+        flex-wrap: nowrap;
+        gap: 6px;
+        justify-content: space-between;
+    }
+
     .hamburger {
         display: flex !important;
         order: 3;
         margin-left: auto;
         z-index: 1002;
-    }
-
-    .dashboard-header {
-        padding: 10px 16px;
-        flex-wrap: nowrap;
-        gap: 8px;
-        justify-content: space-between;
-        position: relative;
-        top: 0;
-        z-index: 1001;
     }
 
     .dashboard-header .logo-link {
@@ -2484,7 +2635,7 @@ hr.admin-hr {
     }
 
     .dashboard-header .logo-link img {
-        max-height: 60px;
+        max-height: 50px;
     }
 
     .welcome-center {
@@ -2492,8 +2643,9 @@ hr.admin-hr {
         flex: 1;
         text-align: center;
         margin: 0 4px;
-        font-size: 0.85rem;
+        font-size: 0.75rem;
         white-space: normal;
+        min-width: 60px;
     }
 
     .dashboard-header .login-btn {
@@ -2605,8 +2757,16 @@ hr.admin-hr {
         pointer-events: auto;
     }
 
+    /* Ajustement du contenu pour ne pas être caché par les barres fixes */
     .dashboard-content {
-        padding: 0 20px 40px;
+        padding: 0 16px 40px;
+        padding-top: 80px;
+    }
+
+    .dashboard-top {
+        padding-top: 80px !important;
+        padding-left: calc(50vw - 50% + 12px);
+        padding-right: calc(50vw - 50% + 12px);
     }
 
     .willkommen-box,
@@ -2614,56 +2774,56 @@ hr.admin-hr {
     .ueber-uns-box,
     .stat-box,
     .admin-box {
-        padding: 24px 20px;
+        padding: 20px 16px;
     }
 
     .willkommen-box h1 {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
     }
 
     .company-box .label {
-        min-width: 120px;
+        min-width: 100px;
     }
 
     .tab-container {
-        gap: 10px;
+        gap: 8px;
         flex-wrap: wrap;
     }
 
     .tab-btn {
-        font-size: 1rem;
-        padding: 6px 12px;
+        font-size: 0.9rem;
+        padding: 4px 10px;
     }
 
     .admin-box h1 {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
     }
 
     .contract-form-container .form-row-dates {
         flex-direction: column;
-        gap: 15px;
+        gap: 12px;
     }
 
     .stat-donuts-row {
         flex-wrap: wrap;
         justify-content: center;
-        padding: 14px 10px;
-        gap: 8px 12px;
+        padding: 12px 8px;
+        gap: 6px 10px;
     }
 
     .stat-donuts-row .donut-wrapper {
         flex: 0 0 auto;
-        max-width: 100px;
-        min-width: 70px;
+        max-width: 80px;
+        min-width: 60px;
     }
 
     .stat-donuts-row .donut-wrapper canvas {
-        width: 50px !important;
-        height: 50px !important;
+        width: 45px !important;
+        height: 45px !important;
     }
 
     .stat-donuts-row .donut-wrapper .label {
-        font-size: 7px;
+        font-size: 6px;
         letter-spacing: 0.3px;
         white-space: normal;
     }
@@ -2686,11 +2846,11 @@ hr.admin-hr {
     }
 
     .portal-card .card-header {
-        padding: 14px 16px;
+        padding: 12px 14px;
     }
 
     .portal-card .card-body {
-        padding: 0 16px 16px 16px;
+        padding: 0 14px 14px 14px;
     }
 
     .contract-details-grid {
@@ -2705,162 +2865,174 @@ hr.admin-hr {
     .offer-item .offer-actions {
         justify-content: flex-start;
     }
+
+    /* PAGE SEKTOREN SUR MOBILE */
+    .sektoren-page .social-top-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1002;
+        padding: 3px 0;
+    }
+
+    .sektoren-page .dashboard-header {
+        position: fixed;
+        top: 30px;
+        left: 0;
+        right: 0;
+        z-index: 1001;
+        padding: 4px 10px;
+    }
+
+    .sektoren-page .dashboard-header .logo-link img {
+        max-height: 45px;
+    }
+
+    .sektoren-page .sektoren-container {
+        padding-top: 70px;
+    }
+
+    .sektoren-page .segment {
+        min-height: 200px;
+    }
+
+    .sektoren-page .segment.active {
+        min-height: 350px;
+    }
+
+    .sektoren-page .segment-word {
+        font-size: 2rem !important;
+        letter-spacing: 6px !important;
+    }
+
+    .sektoren-page .segment.active .segment-word {
+        font-size: 1.6rem !important;
+        letter-spacing: 2px !important;
+    }
+
+    .sektoren-page .segment-icon-wrapper {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .sektoren-page .segment-icon-wrapper svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .sektoren-page .segment-hidden-text {
+        font-size: 0.8rem !important;
+        padding: 12px 16px !important;
+    }
+
+    .sektoren-page .segment.active .segment-hidden-text {
+        font-size: 0.8rem !important;
+        padding: 12px 14px !important;
+    }
+
+    .sektoren-page .btn-segment {
+        font-size: 0.75rem !important;
+        padding: 6px 16px !important;
+    }
+
+    .sektoren-page .dashboard-footer {
+        padding: 8px 16px;
+        font-size: 0.75rem;
+    }
+
+    .sektoren-page .sektoren-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        position: relative;
+        padding-top: 70px;
+    }
+
+    .sektoren-page .segment:not(:last-child)::after {
+        right: auto;
+        bottom: 0;
+        top: auto;
+        width: 100%;
+        height: 2px;
+    }
+
+    .sektoren-page .segment {
+        flex: 0 0 auto;
+        width: 100%;
+        height: auto;
+        min-height: 200px;
+    }
+
+    .sektoren-page .segment.active {
+        flex: 0 0 auto;
+        min-height: 350px;
+        height: auto;
+    }
+
+    .sektoren-page .segment-word {
+        writing-mode: horizontal-tb !important;
+        margin-bottom: 15px !important;
+    }
+
+    .sektoren-page .segment.active .segment-content {
+        align-items: center;
+        justify-content: center;
+        padding: 15px 14px 25px 14px;
+        flex-direction: column;
+    }
+
+    .sektoren-page .segment.active .segment-bottom-group {
+        justify-content: center;
+        margin-bottom: 8px;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .sektoren-page .segment.active .segment-word {
+        margin: 0 0 0 10px !important;
+    }
+
+    .sektoren-page .segment.active .segment-hidden-text {
+        text-align: center;
+        padding: 12px 14px;
+        font-size: 0.8rem;
+    }
+
+    .sektoren-page .segment-bottom-group {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        padding: 10px 0;
+    }
+
+    @keyframes floatImage {
+        0% {
+            background-position: 40% center;
+        }
+        50% {
+            background-position: 60% center;
+        }
+        100% {
+            background-position: 40% center;
+        }
+    }
 }
 
 /* --- Petits écrans (max 700px) --- */
 @media (max-width: 700px) {
-    .top-bar {
-        padding: 10px 24px;
-    }
-    .btn-login {
-        padding: 8px 22px;
-        font-size: 0.9rem;
-    }
-    .impressum-card {
-        padding: 28px 22px;
-    }
-    .impressum-card h1 {
-        font-size: 1.7rem;
-    }
-    .impressum-card .block {
-        font-size: 0.95rem;
-    }
-    .impressum-card .label {
-        min-width: 100px;
-    }
-    .logo-wrapper img {
-        max-width: 320px;
-    }
-}
-
-/* --- Très petits écrans (max 600px) --- */
-@media (max-width: 600px) {
-    .company-item {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-    }
-    .company-item .company-info {
-        flex-wrap: wrap;
-    }
-    .company-item .company-stats {
-        align-self: flex-start;
-    }
-    .company-box {
-        padding: 20px !important;
-    }
-    .admin-box {
-        padding: 20px;
-    }
-    .company-item .company-actions {
-        justify-content: flex-end;
-    }
-    .ueber-uns-box {
-        padding: 20px !important;
-    }
-    .contract-item {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-    }
-    .contract-item .contract-actions {
-        justify-content: flex-start;
-    }
-
-    .social-top-bar-content {
-        padding: 0 12px;
-        justify-content: center;
-    }
-    .social-icon {
-        width: 28px;
-        height: 28px;
-    }
-    .social-icon svg {
-        width: 15px;
-        height: 15px;
-    }
-    .social-label {
-        font-size: 0.6rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .stat-donuts-row {
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 10px 6px;
-        gap: 6px 8px;
-        border-radius: 10px;
-    }
-    .stat-donuts-row .donut-wrapper {
-        flex: 0 0 auto;
-        max-width: 80px;
-        min-width: 60px;
-        padding: 4px 2px;
-    }
-    .stat-donuts-row .donut-wrapper canvas {
-        width: 42px !important;
-        height: 42px !important;
-    }
-    .stat-donuts-row .donut-wrapper .label {
-        font-size: 6px;
-        letter-spacing: 0.2px;
-        margin-top: 3px;
-    }
-
-    .portal-card .card-header h2 {
-        font-size: 1rem;
-    }
-    .contract-details-grid {
-        grid-template-columns: 1fr;
-    }
-    .edit-form-personal .form-row {
-        flex-direction: column;
-    }
-    .portal-card {
-        padding: 0;
-    }
-    .portal-card .card-header {
-        padding: 12px 14px;
-    }
-    .portal-card .card-body {
-        padding: 0 14px 14px 14px;
-    }
-
-    .dashboard-top {
-        padding: 20px 16px 18px;
-        padding-left: calc(50vw - 50% + 12px);
-        padding-right: calc(50vw - 50% + 12px);
-    }
-    .dashboard-top .willkommen-box h1 {
-        font-size: 1.6rem;
-    }
-    .dashboard-top .willkommen-box p {
-        font-size: 0.95rem;
-    }
-    .dashboard-bottom {
-        padding: 20px 12px 30px;
-        gap: 16px;
-    }
-    .dashboard-card .card-image {
-        height: 140px;
-    }
-    .dashboard-card .card-content {
-        padding: 16px 18px 18px;
-    }
-    .dashboard-card .card-content .card-title {
-        font-size: 1.2rem;
-    }
-    .dashboard-card .card-content .card-text {
-        font-size: 0.88rem;
-    }
-
-    .logo-wrapper img {
-        max-width: 280px;
-    }
-}
-
-@media (max-width: 450px) {
     .top-bar {
         padding: 8px 16px;
     }
@@ -2875,68 +3047,265 @@ hr.admin-hr {
         padding: 20px 16px;
     }
     .impressum-card h1 {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
     }
     .impressum-card .block {
-        font-size: 0.88rem;
-    }
-    .impressum-card .label {
-        display: block;
-        min-width: auto;
-        margin-bottom: 2px;
-    }
-    .logo-wrapper img {
-        max-width: 250px;
-    }
-    .login-card .text-right {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .login-card .btn-forgot {
-        text-align: center;
-    }
-    #forgot-form-container .text-right {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .btn-back {
-        text-align: center;
-    }
-    .dashboard-header .logo-link img {
-        max-height: 55px;
-    }
-    .stat-card .number {
-        font-size: 2.4rem;
-    }
-    .stat-box {
-        padding: 16px;
-    }
-    .datenschutz-card {
-        padding: 18px 14px;
-    }
-    .datenschutz-card h1 {
-        font-size: 1.4rem;
-    }
-    .datenschutz-card h2 {
-        font-size: 1.1rem;
-    }
-    .datenschutz-card .ds-text {
         font-size: 0.9rem;
     }
-    .admin-box h1 {
-        font-size: 1.3rem;
+    .impressum-card .label {
+        min-width: 80px;
     }
-    .tab-btn {
-        font-size: 0.85rem;
-        padding: 4px 10px;
-    }
-    .welcome-center {
-        font-size: 0.75rem;
+    .logo-wrapper img {
+        max-width: 280px;
     }
 
-    /* Réduire la largeur du menu mobile sur très petits écrans */
-    .dashboard-nav {
-        width: 75%;
+    .social-top-bar-content {
+        padding: 0 10px;
+        justify-content: center;
+    }
+    .social-icon {
+        width: 26px;
+        height: 26px;
+    }
+    .social-icon svg {
+        width: 14px;
+        height: 14px;
+    }
+    .social-label {
+        font-size: 0.55rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .company-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    .company-item .company-info {
+        flex-wrap: wrap;
+    }
+    .company-item .company-stats {
+        align-self: flex-start;
+    }
+    .company-box {
+        padding: 16px !important;
+    }
+    .admin-box {
+        padding: 16px;
+    }
+    .company-item .company-actions {
+        justify-content: flex-end;
+    }
+    .ueber-uns-box {
+        padding: 16px !important;
+    }
+    .contract-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    .contract-item .contract-actions {
+        justify-content: flex-start;
+    }
+
+    .dashboard-header {
+        padding: 6px 10px;
+    }
+    .dashboard-header .logo-link img {
+        max-height: 40px;
+    }
+    .welcome-center {
+        font-size: 0.65rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-donuts-row {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 8px 4px;
+        gap: 4px 6px;
+        border-radius: 10px;
+    }
+    .stat-donuts-row .donut-wrapper {
+        flex: 0 0 auto;
+        max-width: 65px;
+        min-width: 50px;
+        padding: 4px 2px;
+    }
+    .stat-donuts-row .donut-wrapper canvas {
+        width: 35px !important;
+        height: 35px !important;
+    }
+    .stat-donuts-row .donut-wrapper .label {
+        font-size: 5px;
+        letter-spacing: 0.2px;
+        margin-top: 2px;
+    }
+
+    .portal-card .card-header h2 {
+        font-size: 0.9rem;
+    }
+    .contract-details-grid {
+        grid-template-columns: 1fr;
+    }
+    .edit-form-personal .form-row {
+        flex-direction: column;
+    }
+    .portal-card {
+        padding: 0;
+    }
+    .portal-card .card-header {
+        padding: 10px 12px;
+    }
+    .portal-card .card-body {
+        padding: 0 12px 12px 12px;
+    }
+
+    .dashboard-top {
+        padding: 16px 12px 14px;
+        padding-left: calc(50vw - 50% + 10px);
+        padding-right: calc(50vw - 50% + 10px);
+    }
+    .dashboard-top .willkommen-box h1 {
+        font-size: 1.4rem;
+    }
+    .dashboard-top .willkommen-box p {
+        font-size: 0.85rem;
+    }
+    .dashboard-bottom {
+        padding: 16px 10px 24px;
+        gap: 12px;
+    }
+    .dashboard-card .card-image {
+        height: 120px;
+    }
+    .dashboard-card .card-content {
+        padding: 12px 14px 14px;
+    }
+    .dashboard-card .card-content .card-title {
+        font-size: 1.05rem;
+    }
+    .dashboard-card .card-content .card-text {
+        font-size: 0.8rem;
+    }
+
+    .logo-wrapper img {
+        max-width: 220px;
+    }
+
+    .dashboard-content {
+        padding-top: 70px;
+    }
+
+    .dashboard-top {
+        padding-top: 70px !important;
+    }
+
+    .social-top-bar {
+        padding: 2px 0;
+    }
+
+    .dashboard-header {
+        top: 28px;
+        padding: 4px 8px;
+    }
+
+    .dashboard-header .logo-link img {
+        max-height: 35px;
+    }
+
+    .welcome-center {
+        font-size: 0.6rem;
+        min-width: 40px;
+    }
+
+    .sektoren-page .social-top-bar {
+        padding: 2px 0;
+    }
+
+    .sektoren-page .dashboard-header {
+        top: 26px;
+        padding: 3px 8px;
+    }
+
+    .sektoren-page .dashboard-header .logo-link img {
+        max-height: 35px;
+    }
+
+    .sektoren-page .sektoren-container {
+        padding-top: 60px;
+    }
+
+    .sektoren-page .segment {
+        min-height: 150px;
+    }
+
+    .sektoren-page .segment.active {
+        min-height: 280px;
+    }
+
+    .sektoren-page .segment-word {
+        font-size: 1.5rem !important;
+        letter-spacing: 4px !important;
+    }
+
+    .sektoren-page .segment.active .segment-word {
+        font-size: 1.2rem !important;
+        letter-spacing: 2px !important;
+    }
+
+    .sektoren-page .segment-icon-wrapper {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .sektoren-page .segment-icon-wrapper svg {
+        width: 14px !important;
+        height: 14px !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper svg {
+        width: 14px !important;
+        height: 14px !important;
+    }
+
+    .sektoren-page .segment-hidden-text {
+        font-size: 0.7rem !important;
+        padding: 10px 12px !important;
+    }
+
+    .sektoren-page .segment.active .segment-hidden-text {
+        font-size: 0.7rem !important;
+        padding: 10px 12px !important;
+    }
+
+    .sektoren-page .btn-segment {
+        font-size: 0.65rem !important;
+        padding: 4px 12px !important;
+    }
+
+    @keyframes floatImage {
+        0% {
+            background-position: 30% center;
+        }
+        50% {
+            background-position: 70% center;
+        }
+        100% {
+            background-position: 30% center;
+        }
+    }
+
+    .sektoren-page .dashboard-footer {
+        padding: 6px 12px;
+        font-size: 0.65rem;
     }
 }
 
@@ -2945,36 +3314,39 @@ hr.admin-hr {
         display: none;
     }
     .logo-wrapper img {
-        max-width: 200px;
+        max-width: 180px;
+    }
+    .dashboard-nav {
+        width: 75%;
     }
 }
 
 @media (max-width: 360px) {
-    .stat-donuts-row .donut-wrapper {
-        max-width: 65px;
-        min-width: 50px;
-    }
-    .stat-donuts-row .donut-wrapper canvas {
-        width: 35px !important;
-        height: 35px !important;
-    }
-    .stat-donuts-row .donut-wrapper .label {
-        font-size: 5px;
-    }
     .logo-wrapper img {
-        max-width: 180px;
+        max-width: 150px;
     }
-    .dashboard-header .logo-link img {
-        max-height: 50px;
-    }
-
     .dashboard-nav {
         width: 80%;
+    }
+    .dashboard-header .logo-link img {
+        max-height: 30px;
+    }
+    .welcome-center {
+        font-size: 0.5rem;
+    }
+    .dashboard-content {
+        padding-top: 60px;
+    }
+    .dashboard-top {
+        padding-top: 60px !important;
+    }
+    .sektoren-page .sektoren-container {
+        padding-top: 50px;
     }
 }
 
 /* ============================================================
-   STYLES POUR LA PAGE SEKTOREN
+   STYLES POUR LA PAGE SEKTOREN - CONTENEUR PRINCIPAL
    ============================================================ */
 
 /* --- Réinitialisation pour la page --- */
@@ -2986,87 +3358,6 @@ hr.admin-hr {
     background: #0b1a2f;
 }
 
-/* --- Header transparent --- */
-.sektoren-page .dashboard-header {
-    position: fixed;
-    top: 44px;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: rgba(11, 26, 47, 0.7);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding: 10px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.sektoren-page .dashboard-header .logo-link img {
-    max-height: 70px;
-    width: auto;
-    display: block;
-}
-
-.sektoren-page .dashboard-header .welcome-center {
-    color: #ffffff;
-    font-weight: 500;
-    font-size: 0.95rem;
-}
-
-.sektoren-page .dashboard-header .welcome-center .welcome-text {
-    color: #54e50d;
-    font-weight: 600;
-}
-
-.sektoren-page .dashboard-header .welcome-center .welcome-name {
-    color: #ffffff;
-}
-
-.sektoren-page .dashboard-nav a {
-    color: rgba(255, 255, 255, 0.85);
-    text-decoration: none;
-    padding: 6px 0 10px 0;
-    position: relative;
-    transition: color 0.25s ease;
-    font-weight: 500;
-    font-size: 1rem;
-}
-
-.sektoren-page .dashboard-nav a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 3px;
-    background-color: #54e50d;
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.sektoren-page .dashboard-nav a:hover {
-    color: #54e50d;
-}
-
-.sektoren-page .dashboard-nav a:hover::after {
-    transform: scaleX(1);
-}
-
-.sektoren-page .dashboard-nav a.active {
-    color: #54e50d;
-}
-
-.sektoren-page .dashboard-nav a.active::after {
-    transform: scaleX(1);
-}
-
-.sektoren-page .hamburger span {
-    background-color: #ffffff;
-}
-
 /* --- CONTENEUR PRINCIPAL - PLEIN ÉCRAN --- */
 .sektoren-page .sektoren-container {
     display: flex;
@@ -3076,6 +3367,7 @@ hr.admin-hr {
     top: 0;
     left: 0;
     z-index: 1;
+    padding-top: 80px;
 }
 
 /* --- CHAQUE SEGMENT --- */
@@ -3406,285 +3698,4 @@ hr.admin-hr {
 
 .sektoren-page .dashboard-footer span {
     color: #888;
-}
-
-/* RESPONSIVE - MOBILE AVEC SCROLL */
-@media (max-width: 992px) {
-    .sektoren-page .dashboard-header {
-        top: 38px;
-        padding: 8px 20px;
-    }
-
-    .sektoren-page .sektoren-container {
-        flex-direction: column;
-        height: 100vh;
-        overflow-y: auto;
-        position: relative;
-    }
-
-    .sektoren-page .segment:not(:last-child)::after {
-        right: auto;
-        bottom: 0;
-        top: auto;
-        width: 100%;
-        height: 2px;
-    }
-
-    .sektoren-page .segment {
-        min-height: 300px;
-        flex: 0 0 auto;
-        width: 100%;
-        height: auto;
-    }
-
-    .sektoren-page .segment.active {
-        flex: 0 0 auto;
-        min-height: 500px;
-        height: auto;
-    }
-
-    .sektoren-page .segment-word {
-        font-size: 2.5rem !important;
-        writing-mode: horizontal-tb !important;
-        letter-spacing: 8px !important;
-        margin-bottom: 15px !important;
-    }
-
-    .sektoren-page .segment.active .segment-word {
-        font-size: 2rem !important;
-        letter-spacing: 3px !important;
-        margin: 0 !important;
-    }
-
-    .sektoren-page .segment.active .segment-content {
-        align-items: center;
-        justify-content: center;
-        padding: 20px 20px 35px 20px;
-        flex-direction: column;
-    }
-
-    .sektoren-page .segment.active .segment-bottom-group {
-        justify-content: center;
-        margin-bottom: 8px;
-        flex-direction: row;
-        gap: 12px;
-    }
-
-    .sektoren-page .segment.active .segment-word {
-        margin: 0 0 0 12px !important;
-    }
-
-    .sektoren-page .segment.active .segment-hidden-text {
-        text-align: center;
-        padding: 14px 18px;
-        font-size: 0.9rem;
-    }
-
-    .sektoren-page .segment-icon-wrapper {
-        width: 45px !important;
-        height: 45px !important;
-    }
-
-    .sektoren-page .segment-icon-wrapper svg {
-        width: 22px !important;
-        height: 22px !important;
-    }
-
-    .sektoren-page .segment.active .segment-icon-wrapper {
-        width: 45px !important;
-        height: 45px !important;
-    }
-
-    .sektoren-page .segment.active .segment-icon-wrapper svg {
-        width: 22px !important;
-        height: 22px !important;
-    }
-
-    .sektoren-page .segment-bottom-group {
-        position: relative;
-        bottom: auto;
-        left: auto;
-        transform: none;
-        padding: 10px 0;
-    }
-
-    @keyframes floatImage {
-        0% {
-            background-position: 40% center;
-        }
-        50% {
-            background-position: 60% center;
-        }
-        100% {
-            background-position: 40% center;
-        }
-    }
-}
-
-@media (max-width: 768px) {
-    .sektoren-page .dashboard-header {
-        top: 34px;
-        padding: 6px 14px;
-    }
-
-    .sektoren-page .dashboard-header .logo-link img {
-        max-height: 60px;
-    }
-
-    .sektoren-page .dashboard-nav a {
-        font-size: 0.9rem;
-    }
-
-    .sektoren-page .segment {
-        min-height: 250px;
-    }
-
-    .sektoren-page .segment.active {
-        min-height: 400px;
-    }
-}
-
-@media (max-width: 480px) {
-    .sektoren-page .dashboard-header {
-        top: 30px;
-        padding: 4px 10px;
-    }
-
-    .sektoren-page .dashboard-header .logo-link img {
-        max-height: 50px;
-    }
-
-    .sektoren-page .segment-word {
-        font-size: 2rem !important;
-        letter-spacing: 6px !important;
-    }
-
-    .sektoren-page .segment.active .segment-word {
-        font-size: 1.6rem !important;
-        letter-spacing: 2px !important;
-    }
-
-    .sektoren-page .segment-hidden-text {
-        font-size: 0.8rem !important;
-        padding: 12px 16px !important;
-    }
-
-    .sektoren-page .segment.active .segment-hidden-text {
-        font-size: 0.8rem !important;
-        padding: 12px 14px !important;
-    }
-
-    .sektoren-page .segment-icon-wrapper {
-        width: 38px !important;
-        height: 38px !important;
-    }
-
-    .sektoren-page .segment-icon-wrapper svg {
-        width: 18px !important;
-        height: 18px !important;
-    }
-
-    .sektoren-page .segment.active .segment-icon-wrapper {
-        width: 38px !important;
-        height: 38px !important;
-    }
-
-    .sektoren-page .segment.active .segment-icon-wrapper svg {
-        width: 18px !important;
-        height: 18px !important;
-    }
-
-    .sektoren-page .segment.active .segment-content {
-        padding: 15px 14px 25px 14px;
-    }
-
-    .sektoren-page .segment.active .segment-bottom-group {
-        gap: 10px;
-    }
-
-    .sektoren-page .dashboard-footer {
-        padding: 8px 16px;
-        font-size: 0.75rem;
-    }
-
-    .sektoren-page .btn-segment {
-        font-size: 0.75rem !important;
-        padding: 6px 16px !important;
-    }
-
-    .sektoren-page .segment {
-        min-height: 200px;
-    }
-
-    .sektoren-page .segment.active {
-        min-height: 350px;
-    }
-
-    @keyframes floatImage {
-        0% {
-            background-position: 30% center;
-        }
-        50% {
-            background-position: 70% center;
-        }
-        100% {
-            background-position: 30% center;
-        }
-    }
-}
-
-/* Pour les très petits écrans */
-@media (max-width: 380px) {
-    .sektoren-page .segment {
-        min-height: 180px;
-    }
-
-    .sektoren-page .segment.active {
-        min-height: 300px;
-    }
-
-    .sektoren-page .segment-word {
-        font-size: 1.6rem !important;
-        letter-spacing: 4px !important;
-    }
-
-    .sektoren-page .segment.active .segment-word {
-        font-size: 1.4rem !important;
-        letter-spacing: 2px !important;
-    }
-
-    .sektoren-page .segment-icon-wrapper {
-        width: 32px !important;
-        height: 32px !important;
-    }
-
-    .sektoren-page .segment-icon-wrapper svg {
-        width: 15px !important;
-        height: 15px !important;
-    }
-
-    .sektoren-page .segment.active .segment-icon-wrapper {
-        width: 32px !important;
-        height: 32px !important;
-    }
-
-    .sektoren-page .segment.active .segment-icon-wrapper svg {
-        width: 15px !important;
-        height: 15px !important;
-    }
-
-    .sektoren-page .segment-hidden-text {
-        font-size: 0.7rem !important;
-        padding: 10px 12px !important;
-    }
-
-    .sektoren-page .segment.active .segment-hidden-text {
-        font-size: 0.7rem !important;
-        padding: 10px 12px !important;
-    }
-
-    .sektoren-page .btn-segment {
-        font-size: 0.65rem !important;
-        padding: 4px 12px !important;
-    }
 }
