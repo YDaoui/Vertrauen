@@ -537,7 +537,7 @@ body.dashboard-page {
     top: 0;
     left: 0;
     z-index: 1;
-    padding-top: 80px;
+    padding-top: 40px; /* 60px − 20px */
 }
 
 /* --- Chaque segment --- */
@@ -870,7 +870,7 @@ body.dashboard-page {
     padding: 40px 20px 50px;
     max-width: 1100px;
     margin: 0 auto;
-    padding-top: 140px;
+    padding-top: 40px; /* 100px − 60px */
     width: 100%;
 }
 
@@ -1442,7 +1442,7 @@ body.dashboard-page {
     flex: 1;
     max-width: 1200px;
     margin: 0 auto 40px;
-    padding: 40px 40px 60px;
+    padding: 140px 40px 60px; /* INCHANGÉ */
     width: 100%;
 }
 
@@ -2419,9 +2419,6 @@ body.dashboard-page {
     transition: all 0.2s ease;
 }
 
-
-   
-
 .edit-personal-btn:hover {
     background: rgba(84, 229, 13, 0.3);
     transform: translateY(-1px);
@@ -2735,7 +2732,7 @@ hr.admin-hr {
     padding-right: calc(50vw - 50% + 20px);
     flex-shrink: 0;
     margin-top: 0;
-    padding-top: 130px;
+    padding-top: 90px; /* 110px − 20px */
 }
 
 .dashboard-top .willkommen-box {
@@ -2922,7 +2919,7 @@ hr.admin-hr {
         padding-left: calc(50vw - 50% + 16px);
         padding-right: calc(50vw - 50% + 16px);
         margin-top: 0;
-        padding-top: 130px;
+        padding-top: 90px; /* 110px − 20px */
     }
     .dashboard-top .willkommen-box h1 {
         font-size: 2rem;
@@ -3102,7 +3099,7 @@ hr.admin-hr {
     /* Ajustement du contenu pour commencer après le header */
     .dashboard-content {
         margin: 0 auto 40px;
-        padding: 40px 16px 40px;
+        padding: 140px 16px 40px; /* INCHANGÉ */
     }
 
     .dashboard-top {
@@ -3110,18 +3107,18 @@ hr.admin-hr {
         padding: 40px 16px 14px;
         padding-left: calc(50vw - 50% + 12px);
         padding-right: calc(50vw - 50% + 12px);
-        padding-top: 130px;
+        padding-top: 90px; /* 110px − 20px */
     }
 
     .main-content {
         margin: 0 auto;
         padding: 40px 16px 40px;
-        padding-top: 130px;
+        padding-top: 40px; /* 100px − 60px */
     }
 
     .login-page .main-content {
         margin: 0 auto;
-        padding-top: 130px;
+        padding-top: 40px; /* 100px − 60px */
     }
 
     .willkommen-box,
@@ -3246,7 +3243,7 @@ hr.admin-hr {
     }
 
     .sektoren-page .sektoren-container {
-        padding-top: 70px;
+        padding-top: 30px; /* 50px − 20px */
     }
 
     .sektoren-page .segment {
@@ -3313,7 +3310,7 @@ hr.admin-hr {
         min-height: 100vh;
         overflow-y: auto;
         position: relative;
-        padding-top: 70px;
+        padding-top: 30px; /* 50px − 20px */
     }
 
     .sektoren-page .segment:not(:last-child)::after {
@@ -3477,23 +3474,23 @@ hr.admin-hr {
     }
     .dashboard-content {
         margin: 0 auto 30px;
-        padding: 40px 12px 30px;
+        padding: 140px 12px 30px; /* INCHANGÉ */
     }
     .dashboard-top {
         margin-top: 0;
-        padding-top: 130px;
+        padding-top: 90px; /* 110px − 20px */
         padding: 40px 12px 10px;
         padding-left: calc(50vw - 50% + 10px);
         padding-right: calc(50vw - 50% + 10px);
     }
     .main-content {
         margin: 0 auto;
-        padding-top: 130px;
+        padding-top: 40px; /* 100px − 60px */
         padding: 40px 12px 30px;
     }
     .login-page .main-content {
         margin: 0 auto;
-        padding-top: 130px;
+        padding-top: 40px; /* 100px − 60px */
     }
 }
 
@@ -3545,7 +3542,7 @@ hr.admin-hr {
         padding-left: calc(50vw - 50% + 10px);
         padding-right: calc(50vw - 50% + 10px);
         margin-top: 0;
-        padding-top: 130px;
+        padding-top: 90px; /* 110px − 20px */
     }
     .dashboard-top .willkommen-box h1 {
         font-size: 1.4rem;
@@ -3576,18 +3573,18 @@ hr.admin-hr {
 
     .dashboard-content {
         margin: 0 auto 30px;
-        padding: 40px 12px 30px;
+        padding: 140px 12px 30px; /* INCHANGÉ */
     }
 
     .main-content {
         margin: 0 auto;
         padding: 40px 12px 30px;
-        padding-top: 130px;
+        padding-top: 40px; /* 100px − 60px */
     }
 
     .login-page .main-content {
         margin: 0 auto;
-        padding-top: 130px;
+        padding-top: 40px; /* 100px − 60px */
     }
 
     .dashboard-header {
@@ -3633,7 +3630,7 @@ hr.admin-hr {
     }
 
     .sektoren-page .sektoren-container {
-        padding-top: 55px;
+        padding-top: 15px; /* 35px − 20px */
     }
 
     .sektoren-page .segment {
@@ -3735,19 +3732,19 @@ hr.admin-hr {
     }
     .dashboard-content {
         margin: 0 auto 20px;
-        padding: 40px 12px 20px;
+        padding: 140px 12px 20px; /* INCHANGÉ */
     }
     .dashboard-top {
         margin-top: 0;
-        padding-top: 130px;
+        padding-top: 90px; /* 110px − 20px */
     }
     .main-content {
         margin: 0 auto;
-        padding-top: 130px;
+        padding-top: 40px; /* 100px − 60px */
     }
     .login-page .main-content {
         margin: 0 auto;
-        padding-top: 130px;
+        padding-top: 40px; /* 100px − 60px */
     }
 
     .dashboard-header {
@@ -3777,22 +3774,22 @@ hr.admin-hr {
     }
     .dashboard-content {
         margin: 0 auto 20px;
-        padding: 40px 12px 20px;
+        padding: 140px 12px 20px; /* INCHANGÉ */
     }
     .dashboard-top {
         margin-top: 0;
-        padding-top: 130px;
+        padding-top: 90px; /* 110px − 20px */
     }
     .main-content {
         margin: 0 auto;
-        padding-top: 130px;
+        padding-top: 40px; /* 100px − 60px */
     }
     .login-page .main-content {
         margin: 0 auto;
-        padding-top: 130px;
+        padding-top: 40px; /* 100px − 60px */
     }
     .sektoren-page .sektoren-container {
-        padding-top: 48px;
+        padding-top: 8px; /* 28px − 20px */
     }
 
     .dashboard-header {
