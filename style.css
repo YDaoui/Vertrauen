@@ -2262,7 +2262,7 @@ hr.admin-hr { margin: 30px 0; }
     }
     body.vertriebspartner-page .vp-form-section,
     body.salespromoter-page .vp-form-section {
-       margin-top: calc(100vh - 116px); /* 40px de moins */
+       margin-top: calc(100vh - 200px); /* 40px de moins */
     padding: 30px 10px 50px;
     }
     .vp-form-card .vp-title-1 { font-size: 1.7rem; }
@@ -2401,7 +2401,7 @@ hr.admin-hr { margin: 30px 0; }
     }
     body.vertriebspartner-page .vp-form-section,
     body.salespromoter-page .vp-form-section {
-        margin-top: calc(100vh - 128px); /* 40px de moins */
+        margin-top: calc(100vh - 200px); /* 40px de moins */
         padding: 40px 14px 60px;
     }
     .vp-form-card .vp-title-1 { font-size: 1.35rem; }
