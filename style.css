@@ -191,12 +191,8 @@ body.scrolled-page .social-top-bar {
     .btn-top-bar { font-size: 0.65rem; padding: 4px 12px; }
 }
 
-@media (max-width: 768px) {
-    .top-bar-buttons { display: none; }
-}
-
 /* ============================================================
-   HEADER DASHBOARD
+   HEADER DASHBOARD - HAUTEUR AJUSTÉE
    ============================================================ */
 .dashboard-header {
     position: fixed;
@@ -207,7 +203,8 @@ body.scrolled-page .social-top-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 40px;
+    padding: 6px 40px;
+    min-height: 54px;
     background-color: #0c2545;
     border-bottom: 3px solid #0c2545;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
@@ -228,6 +225,7 @@ body.scrolled-page .dashboard-header {
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
 }
 
+/* --- Logo FIXE (sans animation) --- */
 .dashboard-header .logo-link {
     display: flex;
     align-items: center;
@@ -235,48 +233,34 @@ body.scrolled-page .dashboard-header {
 }
 
 .dashboard-header .logo-link img {
-    max-height: 70px;
+    max-height: 42px;
     width: auto;
     display: block;
     filter: none;
-    transition: transform 0.3s ease, filter 0.4s ease;
-    animation: floatDashboard 3.5s ease-in-out infinite;
-}
-
-@keyframes floatDashboard {
-    0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 2px 8px rgba(12, 37, 69, 0.15)); }
-    50% { transform: translateY(-5px) scale(1.02); filter: drop-shadow(0 6px 20px rgba(84, 229, 13, 0.2)); }
-    100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 2px 8px rgba(12, 37, 69, 0.15)); }
+    transition: filter 0.4s ease;
 }
 
 .dashboard-header .logo-link img:hover {
-    animation-play-state: paused;
-    transform: scale(1.08) translateY(-3px);
-    filter: drop-shadow(0 8px 25px rgba(84, 229, 13, 0.3));
+    filter: drop-shadow(0 4px 15px rgba(84, 229, 13, 0.3));
 }
 
 .dashboard-header.scrolled .logo-link img {
-    animation: floatDashboardScrolled 3.5s ease-in-out infinite;
     filter: grayscale(100%) brightness(0.4) !important;
-}
-
-@keyframes floatDashboardScrolled {
-    0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 2px 8px rgba(12, 37, 69, 0.1)) grayscale(100%) brightness(0.4); }
-    50% { transform: translateY(-5px) scale(1.02); filter: drop-shadow(0 6px 20px rgba(84, 229, 13, 0.15)) grayscale(100%) brightness(0.4); }
-    100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 2px 8px rgba(12, 37, 69, 0.1)) grayscale(100%) brightness(0.4); }
 }
 
 .dashboard-header.scrolled .logo-link img:hover {
     filter: grayscale(0%) brightness(1) !important;
 }
 
+/* --- Bouton Login --- */
 .dashboard-header .login-btn {
     background-color: #54e50d;
     color: #0c2545 !important;
-    padding: 8px 28px;
+    padding: 6px 22px;
     border-radius: 30px;
     font-weight: 600;
     text-decoration: none;
+    font-size: 0.85rem;
     transition: all 0.2s;
 }
 
@@ -295,11 +279,12 @@ body.scrolled-page .dashboard-header {
     color: #0c2545 !important;
 }
 
+/* --- Texte de bienvenue --- */
 .welcome-center {
     flex: 1;
     text-align: center;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #FFFFFF;
     white-space: nowrap;
     overflow: hidden;
@@ -314,54 +299,21 @@ body.scrolled-page .dashboard-header {
 .dashboard-header.scrolled .welcome-center { color: #0c2545; }
 .dashboard-header.scrolled .welcome-center .welcome-name { color: #0c2545; }
 
-/* ============================================================
-   MENU HAMBURGER
-   ============================================================ */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 25px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    flex-shrink: 0;
-    z-index: 1002;
-}
-
-.hamburger span {
-    display: block;
-    width: 100%;
-    height: 3px;
-    background-color: #FFFFFF;
-    border-radius: 2px;
-    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.4s ease;
-}
-
-.dashboard-header.scrolled .hamburger span { background-color: #0c2545; }
-
-.hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-.hamburger.active span:nth-child(2) { opacity: 0; }
-.hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-/* ============================================================
-   NAVIGATION
-   ============================================================ */
+/* --- Navigation --- */
 .dashboard-nav {
     display: flex;
     gap: 28px;
     font-weight: 500;
-    font-size: 1.05rem;
+    font-size: 1rem;
     flex-wrap: wrap;
     position: relative;
+    align-items: center;
 }
 
 .dashboard-nav a {
     color: #FFFFFF;
     text-decoration: none;
-    padding: 6px 0 10px 0;
+    padding: 4px 0 6px 0;
     position: relative;
     transition: color 0.25s ease;
 }
@@ -392,10 +344,42 @@ body.scrolled-page .dashboard-header {
 .dashboard-nav .login-btn-mobile { display: none !important; }
 
 /* ============================================================
+   MENU HAMBURGER
+   ============================================================ */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    z-index: 1002;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #FFFFFF;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.4s ease;
+}
+
+.dashboard-header.scrolled .hamburger span { background-color: #0c2545; }
+
+.hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* ============================================================
    PAGE INDEX
    ============================================================ */
-body.dashboard-page { padding-top: 110px; transition: padding-top 0.4s ease; }
-body.dashboard-page.scrolled-page { padding-top: 66px; }
+body.dashboard-page { padding-top: 100px; transition: padding-top 0.4s ease; }
+body.dashboard-page.scrolled-page { padding-top: 56px; }
 
 .top-section {
     display: flex;
@@ -482,11 +466,11 @@ body.vertriebspartner-page::before,
 body.salespromoter-page::before {
     content: "";
     position: fixed;
-    top: 110px;
+    top: 100px;
     left: 0;
     right: 0;
     width: 100vw;
-    height: calc(100vh - 110px);
+    height: calc(100vh - 100px);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -507,11 +491,11 @@ body.vertriebspartner-page::after,
 body.salespromoter-page::after {
     content: "";
     position: fixed;
-    top: 110px;
+    top: 100px;
     left: 0;
     right: 0;
     width: 100vw;
-    height: calc(100vh - 110px);
+    height: calc(100vh - 100px);
     background: rgba(12, 37, 69, 0.05);
     z-index: 2;
     pointer-events: none;
@@ -523,8 +507,8 @@ body.vertriebspartner-page.scrolled-page::before,
 body.vertriebspartner-page.scrolled-page::after,
 body.salespromoter-page.scrolled-page::before,
 body.salespromoter-page.scrolled-page::after {
-    top: 66px;
-    height: calc(100vh - 66px);
+    top: 56px;
+    height: calc(100vh - 56px);
 }
 
 /* Bandeau social masqué au scroll */
@@ -557,11 +541,11 @@ body.salespromoter-page.scrolled-page .dashboard-header {
 
 body.vertriebspartner-page .dashboard-header.scrolled,
 body.salespromoter-page .dashboard-header.scrolled {
-    background-color: rgba(255, 255, 255, 0.6) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 3px solid #1a3d6a;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 3px solid #1a3d6a !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
 }
 
 body.vertriebspartner-page .dashboard-header.scrolled .dashboard-nav a,
@@ -586,7 +570,7 @@ body.salespromoter-page .vp-form-section {
     align-items: flex-start;
     box-sizing: border-box;
     transition: background 0.4s ease, margin-top 0.4s ease;
-    margin-top: calc(100vh - 110px);
+    margin-top: calc(100vh - 100px);
 }
 
 body.vertriebspartner-page .vp-form-section.scrolled,
@@ -819,14 +803,15 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 10px 40px;
+    padding: 6px 40px;
+    min-height: 54px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
 }
 
-.sektoren-page .dashboard-header .logo-link img { max-height: 70px; width: auto; display: block; }
+.sektoren-page .dashboard-header .logo-link img { max-height: 42px; width: auto; display: block; }
 
 .sektoren-page .dashboard-header .welcome-center {
     color: #ffffff;
@@ -840,7 +825,7 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
 .sektoren-page .dashboard-nav a {
     color: rgba(255, 255, 255, 0.85);
     text-decoration: none;
-    padding: 6px 0 10px 0;
+    padding: 4px 0 6px 0;
     position: relative;
     transition: color 0.25s ease;
     font-weight: 500;
@@ -1209,7 +1194,7 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     flex: 1;
     max-width: 1200px;
     margin: 0 auto 40px;
-    padding: 140px 40px 60px;
+    padding: 120px 40px 60px;
     width: 100%;
 }
 
@@ -2100,32 +2085,44 @@ hr.admin-hr { margin: 30px 0; }
         padding: 4px 0;
     }
 
+    /* Boutons du bandeau visibles sur mobile (empilés si besoin) */
+    .top-bar-buttons {
+        display: flex !important;
+        gap: 6px;
+        margin-left: auto;
+    }
+
+    .btn-top-bar {
+        font-size: 0.6rem;
+        padding: 3px 10px;
+        letter-spacing: 0.3px;
+    }
+
     /* Header */
     .dashboard-header {
         position: fixed;
-        top: 34px; left: 0; right: 0;
+        top: 40px; left: 0; right: 0;
         z-index: 1001;
-        padding: 12px 12px;
+        padding: 6px 10px;
         flex-wrap: nowrap;
         gap: 4px;
         justify-content: space-between;
-        min-height: 60px;
+        min-height: 48px;
     }
 
-    /* Hamburger VISIBLE sur toutes les pages */
     .hamburger {
         display: flex !important;
         order: 3;
         margin-left: auto;
         z-index: 1002;
-        width: 35px;
-        height: 30px;
+        width: 32px;
+        height: 26px;
     }
 
-    .hamburger span { height: 4px; }
+    .hamburger span { height: 3px; }
 
     .dashboard-header .logo-link { order: 0; flex-shrink: 0; }
-    .dashboard-header .logo-link img { max-height: 45px; }
+    .dashboard-header .logo-link img { max-height: 34px; }
 
     .welcome-center {
         order: 1;
@@ -2215,7 +2212,7 @@ hr.admin-hr { margin: 30px 0; }
 
     .menu-overlay.active { opacity: 1; pointer-events: auto; }
 
-    .dashboard-content { margin: 0 auto 40px; padding: 140px 16px 40px; }
+    .dashboard-content { margin: 0 auto 40px; padding: 110px 16px 40px; }
     .willkommen-box, .company-box, .ueber-uns-box, .stat-box, .admin-box { padding: 20px 16px; }
     .willkommen-box h1 { font-size: 1.8rem; }
     .tab-container { gap: 8px; flex-wrap: wrap; }
@@ -2241,8 +2238,8 @@ hr.admin-hr { margin: 30px 0; }
     .offer-item .offer-actions { justify-content: flex-start; }
 
     /* Page INDEX */
-    body.dashboard-page { padding-top: 95px; }
-    body.dashboard-page.scrolled-page { padding-top: 60px; }
+    body.dashboard-page { padding-top: 90px; }
+    body.dashboard-page.scrolled-page { padding-top: 50px; }
     .top-section { min-height: 55vh; }
     .bottom-section { min-height: 45vh; }
     .top-section img { max-width: 300px; max-height: 300px; }
@@ -2253,19 +2250,19 @@ hr.admin-hr { margin: 30px 0; }
     body.vertriebspartner-page::after,
     body.salespromoter-page::before,
     body.salespromoter-page::after {
-        top: 94px;
-        height: calc(100vh - 94px);
+        top: 88px;
+        height: calc(100vh - 88px);
     }
     body.vertriebspartner-page.scrolled-page::before,
     body.vertriebspartner-page.scrolled-page::after,
     body.salespromoter-page.scrolled-page::before,
     body.salespromoter-page.scrolled-page::after {
-        top: 60px;
-        height: calc(100vh - 60px);
+        top: 48px;
+        height: calc(100vh - 48px);
     }
     body.vertriebspartner-page .vp-form-section,
     body.salespromoter-page .vp-form-section {
-        margin-top: calc(100vh - 94px);
+        margin-top: calc(100vh - 88px);
         padding: 40px 14px 60px;
     }
     .vp-form-card .vp-title-1 { font-size: 1.7rem; }
@@ -2275,8 +2272,8 @@ hr.admin-hr { margin: 30px 0; }
 
     /* Page SEKTOREN */
     .sektoren-page .social-top-bar { padding: 3px 0; }
-    .sektoren-page .dashboard-header { top: 30px; padding: 10px 10px; min-height: 55px; }
-    .sektoren-page .dashboard-header .logo-link img { max-height: 40px; }
+    .sektoren-page .dashboard-header { top: 30px; padding: 6px 10px; min-height: 48px; }
+    .sektoren-page .dashboard-header .logo-link img { max-height: 34px; }
     .sektoren-page .sektoren-container {
         flex-direction: column;
         height: auto;
@@ -2334,13 +2331,11 @@ hr.admin-hr { margin: 30px 0; }
 }
 
 @media (max-width: 700px) {
-    .impressum-card { padding: 20px 16px; }
-    .impressum-card h1 { font-size: 1.5rem; }
-    .logo-wrapper img { max-width: 280px; }
-    .social-top-bar-content { padding: 0 10px; justify-content: center; }
-    .social-icon { width: 26px; height: 26px; }
-    .social-icon svg { width: 14px; height: 14px; }
-    .social-label { font-size: 0.55rem; }
+    .social-top-bar-content { padding: 0 8px; justify-content: space-between; }
+    .social-icon { width: 24px; height: 24px; }
+    .social-icon svg { width: 13px; height: 13px; }
+    .social-label { font-size: 0.5rem; margin-left: 4px; }
+    .btn-top-bar { font-size: 0.55rem; padding: 2px 8px; }
 }
 
 @media (max-width: 600px) {
@@ -2351,10 +2346,10 @@ hr.admin-hr { margin: 30px 0; }
     .company-box, .admin-box, .ueber-uns-box { padding: 16px !important; }
     .company-item .company-actions { justify-content: flex-end; }
     .contract-item .contract-actions { justify-content: flex-start; }
-    .dashboard-header { padding: 10px 8px; min-height: 55px; }
-    .dashboard-header .logo-link img { max-height: 35px; }
+    .dashboard-header { padding: 6px 8px; min-height: 46px; }
+    .dashboard-header .logo-link img { max-height: 30px; }
     .welcome-center { font-size: 0.6rem; }
-    .dashboard-content { padding: 140px 12px 30px; }
+    .dashboard-content { padding: 110px 12px 30px; }
 }
 
 @media (max-width: 480px) {
@@ -2370,20 +2365,22 @@ hr.admin-hr { margin: 30px 0; }
     .portal-card .card-header { padding: 10px 12px; }
     .portal-card .card-body { padding: 0 12px 12px 12px; }
 
-    .logo-wrapper img { max-width: 220px; }
-    .dashboard-content { padding: 140px 12px 20px; }
+    .dashboard-content { padding: 100px 12px 20px; }
 
-    .dashboard-header { top: 28px; padding: 10px 6px; min-height: 50px; }
-    .dashboard-header .logo-link img { max-height: 30px; }
+    .dashboard-header { top: 36px; padding: 5px 6px; min-height: 42px; }
+    .dashboard-header .logo-link img { max-height: 26px; }
     .welcome-center { font-size: 0.55rem; min-width: 40px; }
 
     .social-top-bar { padding: 2px 0; }
-    .hamburger { width: 30px; height: 25px; }
-    .hamburger span { height: 3px; }
+    .hamburger { width: 28px; height: 22px; }
+    .hamburger span { height: 2.5px; }
+
+    .social-icon { width: 22px; height: 22px; }
+    .social-icon svg { width: 12px; height: 12px; }
 
     /* Page INDEX */
-    body.dashboard-page { padding-top: 85px; }
-    body.dashboard-page.scrolled-page { padding-top: 50px; }
+    body.dashboard-page { padding-top: 80px; }
+    body.dashboard-page.scrolled-page { padding-top: 45px; }
     .top-section img { max-width: 220px; max-height: 220px; }
     .construction-message { font-size: 1rem; padding: 14px 18px; }
 
@@ -2392,19 +2389,19 @@ hr.admin-hr { margin: 30px 0; }
     body.vertriebspartner-page::after,
     body.salespromoter-page::before,
     body.salespromoter-page::after {
-        top: 78px;
-        height: calc(100vh - 78px);
+        top: 76px;
+        height: calc(100vh - 76px);
     }
     body.vertriebspartner-page.scrolled-page::before,
     body.vertriebspartner-page.scrolled-page::after,
     body.salespromoter-page.scrolled-page::before,
     body.salespromoter-page.scrolled-page::after {
-        top: 50px;
-        height: calc(100vh - 50px);
+        top: 42px;
+        height: calc(100vh - 42px);
     }
     body.vertriebspartner-page .vp-form-section,
     body.salespromoter-page .vp-form-section {
-        margin-top: calc(100vh - 78px);
+        margin-top: calc(100vh - 76px);
         padding: 30px 10px 50px;
     }
     .vp-form-card .vp-title-1 { font-size: 1.35rem; }
@@ -2415,8 +2412,8 @@ hr.admin-hr { margin: 30px 0; }
 
     /* Page SEKTOREN */
     .sektoren-page .social-top-bar { padding: 2px 0; }
-    .sektoren-page .dashboard-header { top: 26px; padding: 8px 8px; min-height: 45px; }
-    .sektoren-page .dashboard-header .logo-link img { max-height: 30px; }
+    .sektoren-page .dashboard-header { top: 26px; padding: 5px 8px; min-height: 42px; }
+    .sektoren-page .dashboard-header .logo-link img { max-height: 26px; }
     .sektoren-page .sektoren-container { padding-top: 15px; }
     .sektoren-page .segment { min-height: 150px; }
     .sektoren-page .segment.active { min-height: 280px; }
@@ -2431,29 +2428,33 @@ hr.admin-hr { margin: 30px 0; }
     .sektoren-page .btn-segment { font-size: 0.65rem !important; padding: 4px 12px !important; }
     .sektoren-page .dashboard-footer { padding: 6px 12px; font-size: 0.65rem; }
 
-    .dashboard-nav { width: 75%; padding: 90px 20px 30px; }
+    .dashboard-nav { width: 75%; padding: 80px 20px 30px; }
     .dashboard-nav a { font-size: 1rem; padding: 12px 0; }
     #logoutMobile { padding: 12px 20px; font-size: 0.9rem; }
 }
 
 @media (max-width: 400px) {
     .social-label { display: none; }
-    .logo-wrapper img { max-width: 180px; }
-    .dashboard-nav { width: 80%; padding: 80px 16px 20px; }
-    .dashboard-content { padding: 140px 12px 20px; }
-    .dashboard-header { min-height: 45px; padding: 8px 6px; }
+    .dashboard-nav { width: 80%; padding: 70px 16px 20px; }
+    .dashboard-content { padding: 100px 10px 20px; }
+    .dashboard-header { min-height: 40px; padding: 5px 6px; }
     .dashboard-nav a { font-size: 0.9rem; padding: 10px 0; }
+    .btn-top-bar { font-size: 0.5rem; padding: 2px 6px; }
+    .social-icon { width: 20px; height: 20px; }
+    .social-icon svg { width: 11px; height: 11px; }
 }
 
 @media (max-width: 360px) {
-    .logo-wrapper img { max-width: 150px; }
-    .dashboard-nav { width: 85%; padding: 70px 14px 16px; }
-    .dashboard-header .logo-link img { max-height: 25px; }
+    .dashboard-nav { width: 85%; padding: 60px 14px 16px; }
+    .dashboard-header .logo-link img { max-height: 22px; }
     .welcome-center { font-size: 0.5rem; }
-    .dashboard-content { padding: 140px 12px 20px; }
+    .dashboard-content { padding: 100px 10px 20px; }
     .sektoren-page .sektoren-container { padding-top: 8px; }
-    .dashboard-header { min-height: 40px; padding: 6px 4px; }
-    .hamburger { width: 25px; height: 20px; }
-    .hamburger span { height: 2.5px; }
+    .dashboard-header { min-height: 38px; padding: 4px 4px; }
+    .hamburger { width: 24px; height: 20px; }
+    .hamburger span { height: 2px; }
     .dashboard-nav a { font-size: 0.8rem; padding: 8px 0; }
+    .social-icon { width: 18px; height: 18px; }
+    .social-icon svg { width: 10px; height: 10px; }
+    .btn-top-bar { font-size: 0.45rem; padding: 2px 6px; }
 }
