@@ -1457,19 +1457,7 @@ function updateUserDisplay() {
 
 // =====================================================================
 // ===== BLOC 5 : Menu transparent au scroll ===========================
-// =====================================================================
-function initScrollHeader() {
-  const header = document.querySelector('.dashboard-header');
-  if (!header) return;
-  const threshold = 50;
-  window.addEventListener('scroll', function() {
-    if (window.scrollY > threshold) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  });
-}
+
 
 // =====================================================================
 // ===== BLOC 6 : Menu hamburger sur mobile ============================
@@ -2955,22 +2943,6 @@ window.deleteContract = async function(id) {
 };
 
 // =====================================================================
-// ===== BLOC 9 : Effet de scroll sur le bandeau social ===============
-// =====================================================================
-function initSocialScroll() {
-    const socialBar = document.querySelector('.social-top-bar');
-    if (!socialBar) return;
-    
-    const threshold = 50;
-    
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > threshold) {
-            socialBar.classList.add('scrolled');
-        } else {
-            socialBar.classList.remove('scrolled');
-        }
-    });
-}
 
 // =====================================================================
 // ===== INITIALISATION ================================================
@@ -3025,7 +2997,42 @@ function initSektorenPage() {
     });
     
 }
+// =====================================================================
+// ===== SCROLL UNIFIÉ : masque le bandeau social, garde le header =====
+// =====================================================================
+// ===== SCROLL : masque le bandeau social, garde le header nav ========
+// =====================================================================
+function initScrollBehavior() {
+  const socialBar   = document.querySelector('.social-top-bar');
+  const header      = document.getElementById('dashboardHeader')
+                      || document.querySelector('.dashboard-header');
+  const formSection = document.querySelector('.vp-form-section');
+  const body        = document.body;
 
+  const THRESHOLD = 50;
+  let ticking = false;
+
+  function apply() {
+    ticking = false;
+    const y = window.scrollY || window.pageYOffset
+              || document.documentElement.scrollTop || 0;
+    const scrolled = y > THRESHOLD;
+
+    body.classList.toggle('scrolled-page', scrolled);
+    if (socialBar)   socialBar.classList.toggle('hidden', scrolled);
+    if (header)    { header.classList.toggle('top-zero', scrolled);
+                     header.classList.toggle('scrolled', scrolled); }
+    if (formSection) formSection.classList.toggle('scrolled', scrolled);
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(apply); }
+  }, { passive: true });
+
+  window.addEventListener('resize', apply, { passive: true });
+  document.addEventListener('scroll', apply, { passive: true });
+  apply();
+}
 
   initLoginPage();
   initAdminPage();
@@ -3035,9 +3042,10 @@ function initSektorenPage() {
   updateLoginButton();
   updateUserDisplay();
   updateDashboardMenu();
-  initScrollHeader();
+  initScrollBehavior();
   initHamburger();
   initTawkTo();
-  initSocialScroll(); 
-   initSektorenPage(); // <- AJOUT DE LA FONCTION
+ 
+  initSektorenPage();
+
 });
