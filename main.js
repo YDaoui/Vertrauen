@@ -330,7 +330,6 @@ async function loadUserPortalInfo(email) {
 // ===== BLOC 8 : MEIN PORTAL - GESTION DES CARTES ====================
 // =====================================================================
 
-// ===== TOGGLE CARTE =====
 function togglePortalCard(cardId) {
     const card = document.getElementById(cardId);
     if (!card) return;
@@ -346,7 +345,6 @@ function togglePortalCard(cardId) {
     }
 }
 
-// ===== CHARGER LES INFOS PERSONNELLES =====
 function loadPersonalInfo(email) {
     const container = document.getElementById('personalInfo');
     if (!container) return;
@@ -392,7 +390,6 @@ function loadPersonalInfo(email) {
     });
 }
 
-// ===== CHARGER LES DONNÉES DANS LE FORMULAIRE D'ÉDITION =====
 function loadPersonalDataToForm() {
     const userEmail = localStorage.getItem('userEmail');
     if (!userEmail) return;
@@ -412,7 +409,6 @@ function loadPersonalDataToForm() {
     });
 }
 
-// ===== CHARGER LES INFOS CONTRAT ET OFFRES =====
 function loadPortalData(email) {
     const contractContainer = document.getElementById('contractInfo');
     const offerContainer = document.getElementById('offerDetails');
@@ -569,7 +565,6 @@ function loadPortalData(email) {
         });
 }
 
-// ===== FERMER LE FORMULAIRE D'ÉDITION =====
 function closeEditForm() {
     const editForm = document.getElementById('personalEditForm');
     const toggleBtn = document.getElementById('togglePersonalEdit');
@@ -586,7 +581,6 @@ function closeEditForm() {
     }
 }
 
-// ===== OUVRIR LE FORMULAIRE D'ÉDITION =====
 function openEditForm() {
     const editForm = document.getElementById('personalEditForm');
     const toggleBtn = document.getElementById('togglePersonalEdit');
@@ -601,7 +595,6 @@ function openEditForm() {
     loadPersonalDataToForm();
 }
 
-// ===== INITIALISATION DE MEIN PORTAL =====
 function initMeinPortalPage() {
     const contractInfoContainer = document.getElementById('contractInfo');
     const offerDetailsContainer = document.getElementById('offerDetails');
@@ -615,20 +608,13 @@ function initMeinPortalPage() {
         return;
     }
 
-    // Afficher le nom
-    const nameSpan = document.getElementById('userNameDisplay');
-    if (nameSpan) {
-        const anrede = localStorage.getItem('userAnrede');
-        const nachname = localStorage.getItem('userNachname');
-        if (nachname) {
-            const displayName = anrede ? anrede + ' ' + nachname : nachname;
-            nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>, <span class="welcome-name">' + displayName + '</span>';
-        } else {
-            nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>, <span class="welcome-name">' + userEmail + '</span>';
-        }
+    // Afficher le nom (sécurisé)
+    const userNameDisplay = document.getElementById('userNameDisplay');
+    if (userNameDisplay) {
+        const nomUtilisateur = localStorage.getItem('userNachname') || userEmail;
+        userNameDisplay.textContent = nomUtilisateur;
     }
 
-    // Attendre que Firebase soit prêt
     function waitForFirebaseAndLoad() {
         if (typeof firebase !== 'undefined' && firebase.apps.length) {
             loadPersonalInfo(userEmail);
@@ -639,7 +625,6 @@ function initMeinPortalPage() {
     }
     waitForFirebaseAndLoad();
 
-    // ===== TOGGLE FORMULAIRE D'ÉDITION =====
     const toggleBtn = document.getElementById('togglePersonalEdit');
     const cancelBtn = document.getElementById('cancelPersonalEdit');
 
@@ -660,7 +645,6 @@ function initMeinPortalPage() {
         });
     }
 
-    // ===== SOUMETTRE LE FORMULAIRE D'ÉDITION =====
     const form = document.getElementById('editPersonalForm');
     const msg = document.getElementById('personalEditMessage');
 
@@ -699,16 +683,6 @@ function initMeinPortalPage() {
                 msg.className = 'message success';
 
                 loadPersonalInfo(userEmail);
-
-                const nameSpan = document.getElementById('userNameDisplay');
-                if (nameSpan && nachname) {
-                    const displayName = anrede ? anrede + ' ' + nachname : nachname;
-                    nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>, <span class="welcome-name">' + displayName + '</span>';
-                }
-
-                setTimeout(function() {
-                    closeEditForm();
-                }, 1500);
 
             } catch (error) {
                 console.error('Fehler beim Aktualisieren:', error);
@@ -980,7 +954,6 @@ function initAdminPage() {
     });
   });
 
-  // ===== GESTION DES ENTREPRISES =====
   const formContainer = document.getElementById('companyFormContainer');
   const toggleBtn = document.getElementById('toggleCompanyForm');
   const cancelFormBtn = document.getElementById('cancelCompanyForm');
@@ -1173,7 +1146,6 @@ function initAdminPage() {
     }
   }
 
-  // ===== GESTION DES UTILISATEURS =====
   async function loadUsers() {
     const container = document.getElementById('userList');
     try {
@@ -1277,10 +1249,7 @@ function initAdminPage() {
     document.getElementById('editFormContainer').style.display = 'none';
   });
 
-  // ===== GESTION DES OFFRES (Angebote) =====
   initOfferForm();
-
-  // ===== GESTION DES CONTRATS =====
   initContractForm();
 
   loadCompaniesAdmin();
@@ -1371,21 +1340,18 @@ function initCompanyPage() {
     const db = firebase.firestore();
 
     db.collection('contracts').onSnapshot(function() {
-      console.log('Changement détecté dans les contrats, mise à jour des entreprises...');
       loadCompaniesPublic();
     }, function(error) {
       console.error('Erreur lors de l\'écoute des contrats:', error);
     });
 
     db.collection('companies').onSnapshot(function() {
-      console.log('Changement détecté dans les entreprises, mise à jour...');
       loadCompaniesPublic();
     }, function(error) {
       console.error('Erreur lors de l\'écoute des entreprises:', error);
     });
 
     db.collection('offers').onSnapshot(function() {
-      console.log('Changement détecté dans les offres, mise à jour...');
       loadCompaniesPublic();
     }, function(error) {
       console.error('Erreur lors de l\'écoute des offres:', error);
@@ -1397,7 +1363,7 @@ function initCompanyPage() {
 }
 
 // =====================================================================
-// ===== BLOC 4 : Gestion du bouton Login / Abmelden ===================
+// ===== BLOC 4 : Login / Abmelden =====================================
 // =====================================================================
 function updateLoginButton() {
   const loginBtn = document.querySelector('.login-btn');
@@ -1456,11 +1422,7 @@ function updateUserDisplay() {
 }
 
 // =====================================================================
-// ===== BLOC 5 : Menu transparent au scroll ===========================
-
-
-// =====================================================================
-// ===== BLOC 6 : Menu hamburger sur mobile ============================
+// ===== BLOC 6 : Menu hamburger =======================================
 // =====================================================================
 function initHamburger() {
   const hamburger = document.getElementById('hamburgerBtn');
@@ -1505,17 +1467,52 @@ function initHamburger() {
 }
 
 // =====================================================================
-// ===== BLOC 7 : Chat Tawk.to =========================================
+// ===== BLOC 7 : CHAT TAWK.TO — CHARGÉ SUR TOUTES LES PAGES ==========
 // =====================================================================
 function initTawkTo() {
+  // Supprime les anciens scripts Tawk.to pour éviter les doublons
   document.querySelectorAll('script[src*="embed.tawk.to"]').forEach(s => s.remove());
 
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
-  script.charset = 'UTF-8';
-  script.setAttribute('crossorigin', '*');
-  document.head.appendChild(script);
+  // Petit délai pour s'assurer que le DOM est prêt sur toutes les pages
+  setTimeout(() => {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
+    script.charset = 'UTF-8';
+    script.setAttribute('crossorigin', '*');
+    script.onload = () => console.log('✅ Tawk.to chargé sur :', window.location.pathname);
+    script.onerror = () => console.error('❌ Erreur chargement Tawk.to sur :', window.location.pathname);
+    document.head.appendChild(script);
+  }, 400);
+}
+
+// Force le chat sur Vertriebspartner et Sales Promoter
+function initChatOnAllPages() {
+  const path = window.location.pathname.toLowerCase();
+  const currentPage = path.split('/').pop() || 'index.html';
+
+  // ❌ Pas de chat sur l'index
+  if (currentPage === 'index.html' || currentPage === '' || currentPage === '/') {
+    console.log('🚫 Chat désactivé sur l\'index');
+    return;
+  }
+
+  // ✅ Chat sur toutes les autres pages
+  console.log('✅ Chat activé sur :', currentPage);
+  initTawkTo();
+}
+
+// =====================================================================
+// ===== BLOC 8 : BOUTONS TRANSPARENTS (VP + SP) =======================
+// =====================================================================
+function initTransparentButtons() {
+  document.querySelectorAll('.btn-top-bar').forEach(btn => {
+    const text = (btn.textContent || '').trim().toLowerCase();
+    if (text.includes('vertriebspartner') || text.includes('sales promoter')) {
+      btn.style.opacity = '0';
+      btn.style.pointerEvents = 'auto'; // reste cliquable ; mets 'none' pour désactiver
+    }
+  });
 }
 
 // =====================================================================
@@ -2943,25 +2940,8 @@ window.deleteContract = async function(id) {
 };
 
 // =====================================================================
-
-// =====================================================================
-// ===== INITIALISATION ================================================
-// =====================================================================
-document.addEventListener('DOMContentLoaded', function() {
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  const protectedPages = ['dashboard.html', 'admin.html', 'stat.html', 'mein-portal.html', 'portail.html'];
-
-  if (protectedPages.includes(currentPage)) {
-    const isLoggedIn = localStorage.getItem('userEmail') !== null;
-    if (!isLoggedIn && currentPage !== 'login.html') {
-      window.location.href = 'login.html';
-      return;
-    }
-  }
-  // =====================================================================
 // ===== BLOC 10 : SEKTOREN - GESTION DES SEGMENTS ====================
 // =====================================================================
-
 function initSektorenPage() {
     const segments = document.querySelectorAll('.segment');
     if (segments.length === 0) return;
@@ -2972,35 +2952,28 @@ function initSektorenPage() {
         segment.addEventListener('click', function(e) {
             e.stopPropagation();
             
-            // Si le segment cliqué est déjà actif, on le désactive
             if (this.classList.contains('active')) {
                 this.classList.remove('active');
                 activeSegment = null;
                 return;
             }
 
-            // Retirer la classe active de tous les segments
             segments.forEach(seg => seg.classList.remove('active'));
-            
-            // Ajouter la classe active au segment cliqué
             this.classList.add('active');
             activeSegment = this;
         });
     });
 
-    // Désactiver tous les segments en cliquant à l'extérieur
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.segment')) {
             segments.forEach(seg => seg.classList.remove('active'));
             activeSegment = null;
         }
     });
-    
 }
+
 // =====================================================================
-// ===== SCROLL UNIFIÉ : masque le bandeau social, garde le header =====
-// =====================================================================
-// ===== SCROLL : masque le bandeau social, garde le header nav ========
+// ===== SCROLL : masque le bandeau social, garde le header ===========
 // =====================================================================
 function initScrollBehavior() {
   const socialBar   = document.querySelector('.social-top-bar');
@@ -3034,6 +3007,21 @@ function initScrollBehavior() {
   apply();
 }
 
+// =====================================================================
+// ===== INITIALISATION ================================================
+// =====================================================================
+document.addEventListener('DOMContentLoaded', function() {
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  const protectedPages = ['dashboard.html', 'admin.html', 'stat.html', 'mein-portal.html', 'portail.html'];
+
+  if (protectedPages.includes(currentPage)) {
+    const isLoggedIn = localStorage.getItem('userEmail') !== null;
+    if (!isLoggedIn && currentPage !== 'login.html') {
+      window.location.href = 'login.html';
+      return;
+    }
+  }
+
   initLoginPage();
   initAdminPage();
   initCompanyPage();
@@ -3044,8 +3032,7 @@ function initScrollBehavior() {
   updateDashboardMenu();
   initScrollBehavior();
   initHamburger();
-  initTawkTo();
- 
+  initChatOnAllPages();     // ← Chat sur TOUTES les pages (VP + SP inclus)
   initSektorenPage();
-
+  initTransparentButtons(); // ← Boutons VP + SP transparents
 });
