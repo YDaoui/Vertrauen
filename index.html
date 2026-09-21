@@ -401,59 +401,70 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
     <!-- ===== JS ===== -->
     <script src="main.js"></script>
+<!-- ===== FIX SEGMENTS — FONCTIONNEMENT GARANTI ===== -->
+<script>
+(function () {
+    function initSegmentsIndex() {
+        const tabs = document.querySelectorAll('.home-segment-tab');
+        const details = document.querySelectorAll('.home-segment-detail');
 
-    <!-- JS spécifique : points lumineux sur les villes d'Allemagne -->
-    <script>
-        (function() {
-            function addGermanCitiesDots() {
-                const mapImg = document.querySelector('.de-map-img');
-                if (!mapImg) return;
+        if (!tabs.length || !details.length) {
+            console.warn('⚠️ Segments : onglets ou détails introuvables');
+            return;
+        }
 
-                const parent = mapImg.parentElement;
-                parent.style.position = 'relative';
+        console.log('✅ Segments index : ' + tabs.length + ' onglets, ' + details.length + ' détails');
 
-                // Coordonnées en % par rapport à l'image de la carte
-                const cities = [
-                    { name: 'Berlin',     x: 72, y: 30 },
-                    { name: 'Hamburg',    x: 53, y: 15 },
-                    { name: 'München',    x: 58, y: 78 },
-                    { name: 'Köln',       x: 30, y: 45 },
-                    { name: 'Frankfurt',  x: 40, y: 52 },
-                    { name: 'Stuttgart',  x: 44, y: 63 },
-                    { name: 'Düsseldorf', x: 28, y: 41 },
-                    { name: 'Dresden',    x: 81, y: 49 },
-                    { name: 'Hannover',   x: 46, y: 26 },
-                    { name: 'Nürnberg',   x: 58, y: 62 }
-                ];
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function () {
+                const segment = this.dataset.segment;
+                console.log('🔵 Clic sur segment :', segment);
 
-                cities.forEach(city => {
-                    const pulse = document.createElement('div');
-                    pulse.className = 'city-pulse';
-                    pulse.style.left = city.x + '%';
-                    pulse.style.top = city.y + '%';
-                    parent.appendChild(pulse);
+                // Onglets
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
 
-                    const dot = document.createElement('div');
-                    dot.className = 'city-point';
-                    dot.style.left = city.x + '%';
-                    dot.style.top = city.y + '%';
-                    parent.appendChild(dot);
-
-                    const label = document.createElement('div');
-                    label.className = 'city-name';
-                    label.style.left = city.x + '%';
-                    label.style.top = (city.y - 5) + '%';
-                    label.textContent = city.name;
-                    parent.appendChild(label);
+                // Détails
+                details.forEach(d => d.classList.remove('active'));
+                details.forEach(d => {
+                    if (d.dataset.segment === segment) {
+                        d.classList.add('active');
+                    }
                 });
-            }
 
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', addGermanCitiesDots);
-            } else {
-                addGermanCitiesDots();
-            }
-        })();
-    </script>
+                // Animation du donut
+                const activeDetail = document.querySelector('.home-segment-detail.active');
+                if (activeDetail) {
+                    const num = activeDetail.querySelector('.donut-num');
+                    if (num) {
+                        const target = parseInt(num.dataset.target, 10);
+                        if (!isNaN(target)) {
+                            num.textContent = '0';
+                            const duration = 1600;
+                            const start = performance.now();
+                            function step(now) {
+                                const progress = Math.min((now - start) / duration, 1);
+                                const eased = 1 - Math.pow(1 - progress, 3);
+                                const value = Math.floor(target * eased);
+                                num.textContent = value.toLocaleString('de-DE');
+                                if (progress < 1) requestAnimationFrame(step);
+                                else num.textContent = target.toLocaleString('de-DE');
+                            }
+                            requestAnimationFrame(step);
+                        }
+                    }
+                }
+            });
+        });
+    }
+
+    // Appel immédiat si DOM prêt, sinon après chargement
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSegmentsIndex);
+    } else {
+        initSegmentsIndex();
+    }
+})();
+</script>
 </body>
 </html>

@@ -338,12 +338,8 @@ function togglePortalCard(cardId) {
     const body = card.querySelector('.card-body');
     const arrow = card.querySelector('.arrow');
 
-    if (body) {
-        body.classList.toggle('open');
-    }
-    if (arrow) {
-        arrow.classList.toggle('open');
-    }
+    if (body) body.classList.toggle('open');
+    if (arrow) arrow.classList.toggle('open');
 }
 
 function loadPersonalInfo(email) {
@@ -449,9 +445,7 @@ function loadPortalData(email) {
             contractSnapshot.forEach((contractDoc) => {
                 const contractData = contractDoc.data();
                 
-                if (contractData.status === 'active') {
-                    isActive = true;
-                }
+                if (contractData.status === 'active') isActive = true;
 
                 contractHtml = `
                     <div class="contract-section">
@@ -876,16 +870,10 @@ function initLoginPage() {
       if (user && user.password === password) {
         localStorage.setItem('userEmail', email);
         localStorage.setItem('isAdmin', isAdmin(email) ? 'true' : 'false');
-        if (user.nachname) {
-          localStorage.setItem('userNachname', user.nachname);
-        } else {
-          localStorage.removeItem('userNachname');
-        }
-        if (user.anrede) {
-          localStorage.setItem('userAnrede', user.anrede);
-        } else {
-          localStorage.removeItem('userAnrede');
-        }
+        if (user.nachname) localStorage.setItem('userNachname', user.nachname);
+        else localStorage.removeItem('userNachname');
+        if (user.anrede) localStorage.setItem('userAnrede', user.anrede);
+        else localStorage.removeItem('userAnrede');
 
         loginMsg.textContent = 'Login erfolgreich! Weiterleitung ...';
         loginMsg.style.color = '#008000';
@@ -1467,7 +1455,7 @@ function initHamburger() {
 }
 
 // =====================================================================
-// ===== BLOC 7 : CHAT TAWK.TO — CHARGÉ SUR TOUTES LES PAGES ==========
+// ===== BLOC 7 : CHAT TAWK.TO =========================================
 // =====================================================================
 function initTawkTo() {
   document.querySelectorAll('script[src*="embed.tawk.to"]').forEach(s => s.remove());
@@ -1487,7 +1475,6 @@ function initTawkTo() {
 function initChatOnAllPages() {
   const path = window.location.pathname.toLowerCase();
   const currentPage = path.split('/').pop() || 'index.html';
-
   console.log('✅ Chat activé sur :', currentPage);
   initTawkTo();
 }
@@ -1532,12 +1519,8 @@ function initStatsPage() {
 
       offersSnap.forEach(doc => {
         const data = doc.data();
-        if (data.type === 'strom' || data.type === 'both') {
-          totalStrom++;
-        }
-        if (data.type === 'gas' || data.type === 'both') {
-          totalGas++;
-        }
+        if (data.type === 'strom' || data.type === 'both') totalStrom++;
+        if (data.type === 'gas' || data.type === 'both') totalGas++;
 
         const companyId = data.companyId || 'unknown';
         const price = parseFloat(data.price ? data.price.replace(/[^0-9.,]/g, '').replace(',', '.') : 0);
@@ -1552,33 +1535,22 @@ function initStatsPage() {
           companyLogoMap[data.companyName || 'Unbekannt'] = data.companyLogo || '';
         }
 
-        if (data.type === 'strom' || data.type === 'both') {
-          companyMap[companyId].strom = price;
-        }
-        if (data.type === 'gas' || data.type === 'both') {
-          companyMap[companyId].gas = price;
-        }
+        if (data.type === 'strom' || data.type === 'both') companyMap[companyId].strom = price;
+        if (data.type === 'gas' || data.type === 'both') companyMap[companyId].gas = price;
       });
 
       contractsSnap.forEach(doc => {
         const data = doc.data();
-        if (data.energyType === 'strom') {
-          totalStromVertrag++;
-        } else if (data.energyType === 'gas') {
-          totalGasVertrag++;
-        }
+        if (data.energyType === 'strom') totalStromVertrag++;
+        else if (data.energyType === 'gas') totalGasVertrag++;
 
         const companyName = data.companyName || 'Unbekannt';
         if (!contractCounts[companyName]) {
           contractCounts[companyName] = { strom: 0, gas: 0 };
-          const logo = data.companyLogo || '';
-          companyLogoMap[companyName] = logo;
+          companyLogoMap[companyName] = data.companyLogo || '';
         }
-        if (data.energyType === 'strom') {
-          contractCounts[companyName].strom++;
-        } else if (data.energyType === 'gas') {
-          contractCounts[companyName].gas++;
-        }
+        if (data.energyType === 'strom') contractCounts[companyName].strom++;
+        else if (data.energyType === 'gas') contractCounts[companyName].gas++;
       });
 
       Object.keys(companyMap).forEach(key => {
@@ -1645,12 +1617,12 @@ function initStatsPage() {
 
     const ctx = canvas.getContext('2d');
 
-    if (canvasId === 'emailDonut' && emailChart) { emailChart.destroy(); }
-    else if (canvasId === 'companyDonut' && companyChart) { companyChart.destroy(); }
-    else if (canvasId === 'stromDonut' && stromChart) { stromChart.destroy(); }
-    else if (canvasId === 'gasDonut' && gasChart) { gasChart.destroy(); }
-    else if (canvasId === 'stromVertragDonut' && stromVertragChart) { stromVertragChart.destroy(); }
-    else if (canvasId === 'gasVertragDonut' && gasVertragChart) { gasVertragChart.destroy(); }
+    if (canvasId === 'emailDonut' && emailChart) emailChart.destroy();
+    else if (canvasId === 'companyDonut' && companyChart) companyChart.destroy();
+    else if (canvasId === 'stromDonut' && stromChart) stromChart.destroy();
+    else if (canvasId === 'gasDonut' && gasChart) gasChart.destroy();
+    else if (canvasId === 'stromVertragDonut' && stromVertragChart) stromVertragChart.destroy();
+    else if (canvasId === 'gasVertragDonut' && gasVertragChart) gasVertragChart.destroy();
 
     const displayValue = Math.min(value, 100);
     const remaining = 100 - displayValue;
@@ -1684,20 +1656,18 @@ function initStatsPage() {
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillStyle = '#ffffff';
-          const centerX = width / 2;
-          const centerY = height / 2;
-          ctx.fillText(text, centerX, centerY);
+          ctx.fillText(text, width / 2, height / 2);
           ctx.restore();
         }
       }]
     });
 
-    if (canvasId === 'emailDonut') { emailChart = chart; }
-    else if (canvasId === 'companyDonut') { companyChart = chart; }
-    else if (canvasId === 'stromDonut') { stromChart = chart; }
-    else if (canvasId === 'gasDonut') { gasChart = chart; }
-    else if (canvasId === 'stromVertragDonut') { stromVertragChart = chart; }
-    else if (canvasId === 'gasVertragDonut') { gasVertragChart = chart; }
+    if (canvasId === 'emailDonut') emailChart = chart;
+    else if (canvasId === 'companyDonut') companyChart = chart;
+    else if (canvasId === 'stromDonut') stromChart = chart;
+    else if (canvasId === 'gasDonut') gasChart = chart;
+    else if (canvasId === 'stromVertragDonut') stromVertragChart = chart;
+    else if (canvasId === 'gasVertragDonut') gasVertragChart = chart;
   }
 
   function updateOfferComparisonChart(data) {
@@ -1791,9 +1761,7 @@ function initStatsPage() {
           x: {
             grid: { display: false },
             ticks: { display: false },
-            afterFit: function(scale) {
-              scale.height += 50;
-            }
+            afterFit: function(scale) { scale.height += 50; }
           }
         },
         plugins: [{
@@ -1809,8 +1777,7 @@ function initStatsPage() {
                   ctx.font = 'bold 11px Arial';
                   ctx.textAlign = 'center';
                   ctx.textBaseline = 'bottom';
-                  const yPos = bar.y - 4;
-                  ctx.fillText(data.toFixed(2), bar.x, yPos);
+                  ctx.fillText(data.toFixed(2), bar.x, bar.y - 4);
                 }
               });
             });
@@ -1828,7 +1795,6 @@ function initStatsPage() {
 
           data.forEach((item, index) => {
             const x = xAxis.getPixelForValue(index);
-
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.src = item.logo || DEFAULT_LOGO;
@@ -1853,9 +1819,8 @@ function initStatsPage() {
               ctx.restore();
             };
 
-            if (img.complete && img.naturalWidth > 0) {
-              drawLogo();
-            } else {
+            if (img.complete && img.naturalWidth > 0) drawLogo();
+            else {
               img.onload = drawLogo;
               img.onerror = function() {
                 const defaultImg = new Image();
@@ -1953,17 +1918,13 @@ function initStatsPage() {
             ticks: {
               color: '#6a7b91',
               stepSize: 1,
-              callback: function(value) {
-                return value + ' Verträge';
-              }
+              callback: function(value) { return value + ' Verträge'; }
             }
           },
           x: {
             grid: { display: false },
             ticks: { display: false },
-            afterFit: function(scale) {
-              scale.height += 50;
-            }
+            afterFit: function(scale) { scale.height += 50; }
           }
         },
         plugins: [{
@@ -1979,8 +1940,7 @@ function initStatsPage() {
                   ctx.font = 'bold 11px Arial';
                   ctx.textAlign = 'center';
                   ctx.textBaseline = 'bottom';
-                  const yPos = bar.y - 4;
-                  ctx.fillText(data, bar.x, yPos);
+                  ctx.fillText(data, bar.x, bar.y - 4);
                 }
               });
             });
@@ -1998,7 +1958,6 @@ function initStatsPage() {
 
           contractDataWithLogos.forEach((item, index) => {
             const x = xAxis.getPixelForValue(index);
-
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.src = item.logo || DEFAULT_LOGO;
@@ -2023,9 +1982,8 @@ function initStatsPage() {
               ctx.restore();
             };
 
-            if (img.complete && img.naturalWidth > 0) {
-              drawLogo();
-            } else {
+            if (img.complete && img.naturalWidth > 0) drawLogo();
+            else {
               img.onload = drawLogo;
               img.onerror = function() {
                 const defaultImg = new Image();
@@ -2182,9 +2140,7 @@ function initOfferForm() {
   if (cancelOfferBtn && offerFormContainer) {
     cancelOfferBtn.addEventListener('click', function() {
       offerFormContainer.style.display = 'none';
-      if (toggleOfferBtn) {
-        toggleOfferBtn.textContent = '➕ Angebot hinzufügen';
-      }
+      if (toggleOfferBtn) toggleOfferBtn.textContent = '➕ Angebot hinzufügen';
       if (offerMessage) {
         offerMessage.textContent = '';
         offerMessage.className = 'message';
@@ -2214,32 +2170,24 @@ function initOfferForm() {
         msg.className = 'message error';
         return;
       }
-
       if (!energyType) {
         msg.textContent = 'Bitte wählen Sie einen Energietyp.';
         msg.className = 'message error';
         return;
       }
-
       if (!price) {
         msg.textContent = 'Bitte geben Sie einen Preis ein.';
         msg.className = 'message error';
         return;
       }
-
       if (!duration) {
         msg.textContent = 'Bitte geben Sie eine Laufzeit ein.';
         msg.className = 'message error';
         return;
       }
 
-      if (!price.includes('€/kWh')) {
-        price = price.trim() + ' €/kWh';
-      }
-
-      if (!duration.includes('Monate')) {
-        duration = duration.trim() + ' Monate';
-      }
+      if (!price.includes('€/kWh')) price = price.trim() + ' €/kWh';
+      if (!duration.includes('Monate')) duration = duration.trim() + ' Monate';
 
       try {
         const companyDoc = await db.collection('companies').doc(companyId).get();
@@ -2670,9 +2618,7 @@ function initContractForm() {
   if (cancelContractBtn && contractFormContainer) {
     cancelContractBtn.addEventListener('click', function() {
       contractFormContainer.classList.remove('active');
-      if (toggleContractBtn) {
-        toggleContractBtn.textContent = '➕ Vertrag hinzufügen';
-      }
+      if (toggleContractBtn) toggleContractBtn.textContent = '➕ Vertrag hinzufügen';
       if (contractMessage) {
         contractMessage.textContent = '';
         contractMessage.className = 'message';
@@ -2681,9 +2627,7 @@ function initContractForm() {
         contractForm.reset();
         delete contractForm.dataset.editId;
       }
-      if (editContractModeIndicator) {
-        editContractModeIndicator.classList.remove('active');
-      }
+      if (editContractModeIndicator) editContractModeIndicator.classList.remove('active');
       document.getElementById('contractOfferInfo').style.display = 'none';
       document.getElementById('contractUserSelected').style.display = 'none';
       document.getElementById('contractUserId').value = '';
@@ -2709,25 +2653,21 @@ function initContractForm() {
         msg.className = 'message error';
         return;
       }
-
       if (!offerId) {
         msg.textContent = 'Bitte wählen Sie ein Angebot aus.';
         msg.className = 'message error';
         return;
       }
-
       if (!energyType) {
         msg.textContent = 'Bitte wählen Sie einen Energietyp.';
         msg.className = 'message error';
         return;
       }
-
       if (!dateFrom || !dateTo) {
         msg.textContent = 'Bitte geben Sie beide Daten ein.';
         msg.className = 'message error';
         return;
       }
-
       if (new Date(dateFrom) > new Date(dateTo)) {
         msg.textContent = 'Das Startdatum muss vor dem Enddatum liegen.';
         msg.className = 'message error';
@@ -2760,9 +2700,7 @@ function initContractForm() {
           await db.collection('contracts').doc(editId).update(contractData);
           msg.textContent = '✅ Vertrag erfolgreich aktualisiert!';
           delete contractForm.dataset.editId;
-          if (editContractModeIndicator) {
-            editContractModeIndicator.classList.remove('active');
-          }
+          if (editContractModeIndicator) editContractModeIndicator.classList.remove('active');
         } else {
           contractData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
           await db.collection('contracts').add(contractData);
@@ -2854,9 +2792,7 @@ window.editContract = async function(id) {
         formContainer.classList.add('active');
         toggleBtn.textContent = '✖ Vertrag schließen';
       }
-      if (editModeIndicator) {
-        editModeIndicator.classList.add('active');
-      }
+      if (editModeIndicator) editModeIndicator.classList.add('active');
 
       const userSearch = document.getElementById('contractUserSearch');
       const userHidden = document.getElementById('contractUserId');
@@ -2985,75 +2921,122 @@ function initScrollBehavior() {
 }
 
 // =====================================================================
-// ===== SCRIPTS SPÉCIFIQUES À LA PAGE INDEX ==========================
+// ===== CARTE D'ALLEMAGNE — POINTS SUR LES VILLES ====================
 // =====================================================================
+function addGermanCitiesDots() {
+  const mapImg = document.querySelector('.de-map-img');
+  if (!mapImg) return;
 
-// --- Compteurs animés (index) ---
-(function() {
-    function animateCounters() {
-        const counters = document.querySelectorAll('.donut-num[data-target]');
-        counters.forEach(el => {
-            const target = parseInt(el.dataset.target, 10);
-            if (isNaN(target)) return;
-            const duration = 1600;
-            const start = performance.now();
-            function step(now) {
-                const progress = Math.min((now - start) / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3);
-                const value = Math.floor(target * eased);
-                el.textContent = value.toLocaleString('de-DE');
-                if (progress < 1) requestAnimationFrame(step);
-                else el.textContent = target.toLocaleString('de-DE');
-            }
-            requestAnimationFrame(step);
-        });
-    }
-    document.addEventListener('DOMContentLoaded', animateCounters);
-    window.addEventListener('pageshow', animateCounters);
-})();
+  const parent = mapImg.parentElement;
+  parent.style.position = 'relative';
 
-// --- Segments cliquables (index) ---
-(function() {
-    function initSegments() {
-        const tabs = document.querySelectorAll('.home-segment-tab');
-        const details = document.querySelectorAll('.home-segment-detail');
-        if (!tabs.length || !details.length) return;
+  // Éviter les doublons si la fonction est appelée plusieurs fois
+  parent.querySelectorAll('.city-point, .city-pulse, .city-name').forEach(el => el.remove());
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const segment = tab.dataset.segment;
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                details.forEach(d => {
-                    d.classList.remove('active');
-                    if (d.dataset.segment === segment) d.classList.add('active');
-                });
+  const cities = [
+    { name: 'Berlin',     x: 72, y: 30 },
+    { name: 'Hamburg',    x: 53, y: 15 },
+    { name: 'München',    x: 58, y: 78 },
+    { name: 'Köln',       x: 30, y: 45 },
+    { name: 'Frankfurt',  x: 40, y: 52 },
+    { name: 'Stuttgart',  x: 44, y: 63 },
+    { name: 'Düsseldorf', x: 28, y: 41 },
+    { name: 'Dresden',    x: 81, y: 49 },
+    { name: 'Hannover',   x: 46, y: 26 },
+    { name: 'Nürnberg',   x: 58, y: 62 }
+  ];
 
-                const counters = document.querySelectorAll('.home-segment-detail.active .donut-num[data-target]');
-                counters.forEach(el => {
-                    const target = parseInt(el.dataset.target, 10);
-                    if (isNaN(target)) return;
-                    el.textContent = '0';
-                    const duration = 1600;
-                    const start = performance.now();
-                    function step(now) {
-                        const progress = Math.min((now - start) / duration, 1);
-                        const eased = 1 - Math.pow(1 - progress, 3);
-                        const value = Math.floor(target * eased);
-                        el.textContent = value.toLocaleString('de-DE');
-                        if (progress < 1) requestAnimationFrame(step);
-                        else el.textContent = target.toLocaleString('de-DE');
-                    }
-                    requestAnimationFrame(step);
-                });
-            });
-        });
-    }
-    document.addEventListener('DOMContentLoaded', initSegments);
-})();
+  cities.forEach(city => {
+    const pulse = document.createElement('div');
+    pulse.className = 'city-pulse';
+    pulse.style.left = city.x + '%';
+    pulse.style.top = city.y + '%';
+    parent.appendChild(pulse);
+
+    const dot = document.createElement('div');
+    dot.className = 'city-point';
+    dot.style.left = city.x + '%';
+    dot.style.top = city.y + '%';
+    parent.appendChild(dot);
+
+    const label = document.createElement('div');
+    label.className = 'city-name';
+    label.style.left = city.x + '%';
+    label.style.top = (city.y - 5) + '%';
+    label.textContent = city.name;
+    parent.appendChild(label);
+  });
+}
 
 // =====================================================================
-// ===== INITIALISATION ================================================
+// ===== SEGMENTS INDEX — ONGLETS STROM / GAS / INTERNET / VERSICHERUNG
+// =====================================================================
+function initSegments() {
+  const tabs = document.querySelectorAll('.home-segment-tab');
+  const details = document.querySelectorAll('.home-segment-detail');
+  if (!tabs.length || !details.length) return;
+
+  console.log('✅ initSegments : ' + tabs.length + ' onglets, ' + details.length + ' détails');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const segment = tab.dataset.segment;
+      console.log('🔵 Clic sur segment :', segment);
+
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      details.forEach(d => {
+        d.classList.remove('active');
+        if (d.dataset.segment === segment) d.classList.add('active');
+      });
+
+      // Anime les compteurs du segment actif
+      const counters = document.querySelectorAll('.home-segment-detail.active .donut-num[data-target]');
+      counters.forEach(el => {
+        const target = parseInt(el.dataset.target, 10);
+        if (isNaN(target)) return;
+        el.textContent = '0';
+        const duration = 1600;
+        const start = performance.now();
+        function step(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const value = Math.floor(target * eased);
+          el.textContent = value.toLocaleString('de-DE');
+          if (progress < 1) requestAnimationFrame(step);
+          else el.textContent = target.toLocaleString('de-DE');
+        }
+        requestAnimationFrame(step);
+      });
+    });
+  });
+}
+
+// =====================================================================
+// ===== COMPTEURS ANIMÉS (INDEX) =====================================
+// =====================================================================
+function animateCounters() {
+  const counters = document.querySelectorAll('.donut-num[data-target]');
+  counters.forEach(el => {
+    const target = parseInt(el.dataset.target, 10);
+    if (isNaN(target)) return;
+    const duration = 1600;
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = Math.floor(target * eased);
+      el.textContent = value.toLocaleString('de-DE');
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString('de-DE');
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+// =====================================================================
+// ===== INITIALISATION GLOBALE ========================================
 // =====================================================================
 document.addEventListener('DOMContentLoaded', function() {
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
@@ -3067,10 +3050,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-// =====================================================================
-// ===== CARTE D'ALLEMAGNE : Points lumineux sur les grandes villes ====
-
-document.addEventListener('DOMContentLoaded', addGermanCitiesDots);
   initLoginPage();
   initAdminPage();
   initCompanyPage();
@@ -3083,4 +3062,9 @@ document.addEventListener('DOMContentLoaded', addGermanCitiesDots);
   initHamburger();
   initChatOnAllPages();
   initSektorenPage();
+
+  // Index : compteurs + segments + carte
+  animateCounters();
+  initSegments();
+  addGermanCitiesDots();
 });

@@ -1655,3 +1655,43 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
 
     body.index-page.scrolled-page { padding-top: 55px !important; }
 }
+/* Remonter la carte d'Allemagne dans le hero */
+.home-hero-right {
+    align-self: flex-start !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+.home-hero-map {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    margin-top: 0 !important;
+    margin-bottom: auto !important;
+}
+/* ============================================================
+   HERO — Réduire l'espace entre titres/carte et les boutons
+   ============================================================ */
+
+/* 1. Le hero ne prend plus 60vh, mais s'adapte au contenu */
+.home-hero {
+    height: auto !important;
+    min-height: auto !important;
+    padding-bottom: 0 !important;
+}
+
+/* 2. L'inner ne s'étire plus */
+.home-hero-inner {
+    flex: none !important;
+    min-height: auto !important;
+}
+
+/* 3. La rangée titres+carte ne s'étire plus */
+.home-hero-row {
+    flex: none !important;
+    margin-bottom: 10px !important;
+}
+
+/* 4. Les boutons ne sont plus poussés en bas */
+.home-segments-row {
+    margin: 0 !important;
+}
