@@ -170,6 +170,81 @@
     setTimeout(addCitiesNow, 1500);
 })();
 </script>
+<script>
+(function () {
+    function fixHamburgerIndex() {
+        const hamburger = document.getElementById('hamburgerBtn');
+        const nav = document.getElementById('mainNav');
+        const overlay = document.getElementById('menuOverlay');
+
+        if (!hamburger || !nav) {
+            console.warn('⚠️ Hamburger introuvable sur index');
+            return;
+        }
+
+        // Cloner pour supprimer les anciens écouteurs
+        const newHamburger = hamburger.cloneNode(true);
+        hamburger.parentNode.replaceChild(newHamburger, hamburger);
+
+        const finalHamburger = document.getElementById('hamburgerBtn');
+        const finalNav = document.getElementById('mainNav');
+
+        finalHamburger.addEventListener('click', function (e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            finalNav.classList.toggle('open');
+            if (overlay) overlay.classList.toggle('active');
+        });
+
+        finalNav.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                finalHamburger.classList.remove('active');
+                finalNav.classList.remove('open');
+                if (overlay) overlay.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', function (e) {
+            if (finalNav.classList.contains('open')) {
+                if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
+                    finalHamburger.classList.remove('active');
+                    finalNav.classList.remove('open');
+                    if (overlay) overlay.classList.remove('active');
+                }
+            }
+        });
+
+        if (overlay) {
+            overlay.addEventListener('click', function () {
+                finalHamburger.classList.remove('active');
+                finalNav.classList.remove('open');
+                overlay.classList.remove('active');
+            });
+        }
+
+        console.log('✅ fixHamburgerIndex : hamburger activé sur index');
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fixHamburgerIndex);
+    } else {
+        fixHamburgerIndex();
+    }
+
+    setTimeout(fixHamburgerIndex, 800);
+})();
+</script>
+<script type="text/javascript">
+var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+(function(){
+  var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+  s1.async = true;
+  s1.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
+  s1.charset = 'UTF-8';
+  s1.setAttribute('crossorigin', '*');
+  s0.parentNode.insertBefore(s1, s0);
+})();
+</script>
 <body class="dashboard-page index-page">
 
     <!-- ===== BANDEAU RÉSEAUX SOCIAUX ===== -->
@@ -203,7 +278,7 @@
             </div>
         </div>
     </div>
-
+<div class="menu-overlay" id="menuOverlay"></div>
     <!-- ===== HEADER ===== -->
     <header class="dashboard-header" id="dashboardHeader">
         <a href="index.html" class="logo-link">

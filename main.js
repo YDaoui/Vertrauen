@@ -1454,16 +1454,6 @@ function initHamburger() {
   });
 }
 
-  document.addEventListener('click', function(e) {
-    if (finalNav.classList.contains('open')) {
-      if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
-        finalHamburger.classList.remove('active');
-        finalNav.classList.remove('open');
-      }
-    }
-  });
-}
-
 // =====================================================================
 // ===== BLOC 7 : CHAT TAWK.TO =========================================
 // =====================================================================

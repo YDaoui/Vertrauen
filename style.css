@@ -3897,3 +3897,19 @@ body.dashboard-page.scrolled-page .social-top-bar {
         padding: 10px 0 !important;
     }
 }
+/* ============================================================
+   FIX — LE HERO (CARRÉ BLEU) REMONTE ET SE COLLE AU HEADER
+   ============================================================ */
+.home-hero {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+.home-hero-inner {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+.home-hero-row {
+    padding-top: 20px !important;   /* petit espace interne, pas au-dessus */
+}
