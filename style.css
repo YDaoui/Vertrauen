@@ -3898,20 +3898,22 @@ body.dashboard-page.scrolled-page .social-top-bar {
     }
 }
 /* ============================================================
-   FIX MOBILE UNIQUEMENT — HERO COLLÉ AU HEADER SUR INDEX
+   FIX MOBILE — LE FOND BLEU REMONTE, PAS LE CONTENU
    ============================================================ */
 @media (max-width: 900px) {
 
+    /* Le fond bleu remonte pour coller au header */
     body.index-page.dashboard-page {
-        padding-top: 100px !important;   /* espace pour le header fixe */
+        padding-top: 90px !important;   /* espace pour le header fixe */
     }
 
     body.index-page.scrolled-page {
-        padding-top: 60px !important;
+        padding-top: 55px !important;
     }
 
+    /* Le hero lui-même remonte, mais on remet l'espace interne */
     .home-hero {
-        padding-top: 0 !important;
+        padding-top: 20px !important;   /* ✅ espace interne conservé */
         margin-top: 0 !important;
     }
 
@@ -3920,7 +3922,13 @@ body.dashboard-page.scrolled-page .social-top-bar {
         margin-top: 0 !important;
     }
 
+    /* Le contenu garde sa position */
     .home-hero-row {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    .home-hero-left {
         padding-top: 0 !important;
         margin-top: 0 !important;
     }
@@ -3929,10 +3937,73 @@ body.dashboard-page.scrolled-page .social-top-bar {
 @media (max-width: 480px) {
 
     body.index-page.dashboard-page {
-        padding-top: 90px !important;
+        padding-top: 80px !important;
     }
 
     body.index-page.scrolled-page {
-        padding-top: 55px !important;
+        padding-top: 50px !important;
+    }
+
+    .home-hero {
+        padding-top: 15px !important;
+    }
+}
+/* ============================================================
+   ✅ UNIFICATION — BARRE SOCIALE DISPARAÎT AU SCROLL PARTOUT
+   ============================================================ */
+
+/* 1. Le bandeau social disparaît au scroll sur TOUTES les pages */
+body.scrolled-page .social-top-bar,
+body .social-top-bar.hidden,
+body.index-page.scrolled-page .social-top-bar,
+body.index-page .social-top-bar.hidden,
+body.dashboard-page.scrolled-page .social-top-bar,
+body.vertriebspartner-page.scrolled-page .social-top-bar,
+body.salespromoter-page.scrolled-page .social-top-bar,
+body.sektoren-page.scrolled-page .social-top-bar {
+    transform: translateY(-110%) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    max-height: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    display: none !important;
+}
+
+/* 2. Le header (menu de navigation + logo) reste visible et remonte en haut */
+body.scrolled-page .dashboard-header,
+body.index-page.scrolled-page .dashboard-header,
+body.dashboard-page.scrolled-page .dashboard-header,
+body.vertriebspartner-page.scrolled-page .dashboard-header,
+body.salespromoter-page.scrolled-page .dashboard-header,
+body.sektoren-page.scrolled-page .dashboard-header {
+    top: 0 !important;
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 3px solid #1a3d6a !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* 3. Le padding du body s'adapte au scroll sur toutes les pages */
+body.scrolled-page,
+body.index-page.scrolled-page,
+body.dashboard-page.scrolled-page,
+body.vertriebspartner-page.scrolled-page,
+body.salespromoter-page.scrolled-page,
+body.sektoren-page.scrolled-page {
+    padding-top: 68px !important;
+}
+
+@media (max-width: 900px) {
+    body.scrolled-page,
+    body.index-page.scrolled-page,
+    body.dashboard-page.scrolled-page,
+    body.vertriebspartner-page.scrolled-page,
+    body.salespromoter-page.scrolled-page,
+    body.sektoren-page.scrolled-page {
+        padding-top: 56px !important;
     }
 }
