@@ -535,9 +535,6 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
 }
 
 /* ============================================================
-   LOGO GRIS À L'INTÉRIEUR DE LA CARTE
-   ============================================================ */
-/* ============================================================
    LOGO GRIS MINI À L'INTÉRIEUR DE LA CARTE
    ============================================================ */
 .home-hero-map .logo-over-map {
@@ -545,14 +542,13 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 40% !important;          /* ✅ logo mini */
-    max-width: 200px !important;    /* ✅ limite la taille */
+    width: 40% !important;
+    max-width: 200px !important;
     height: auto;
     pointer-events: none;
     z-index: 5;
     opacity: 0.65;
 
-    /* ✅ Gris + brillance */
     filter:
         brightness(0) saturate(100%)
         invert(75%) sepia(0%) saturate(0%) brightness(55%) contrast(90%)
@@ -570,6 +566,7 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
         drop-shadow(0 0 12px rgba(200, 200, 200, 0.8))
         drop-shadow(0 0 24px rgba(180, 180, 180, 0.5));
 }
+
 /* ============================================================
    VILLES EN BLEU — POINTS + PULSATIONS + LABELS
    ============================================================ */
@@ -1763,4 +1760,86 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     .dashboard-nav a { font-size: 1rem; padding: 12px 0; }
 
     body.index-page.scrolled-page { padding-top: 55px !important; }
+}
+
+/* ============================================================
+   ✅ AJUSTEMENTS MOBILE DEMANDÉS — TOUTES LES PAGES
+   ============================================================ */
+@media (max-width: 768px) {
+
+    /* --- 1. Icônes réseaux sociaux plus petites --- */
+    .social-icon {
+        width: 26px !important;
+        height: 26px !important;
+    }
+    .social-icon svg {
+        width: 13px !important;
+        height: 13px !important;
+    }
+    .social-icons {
+        gap: 6px !important;
+    }
+
+    /* --- 2. Boutons à droite plus HAUTS (hauteur augmentée) --- */
+    .btn-top-bar {
+        padding: 12px 22px !important;      /* ✅ plus haut */
+        font-size: 0.75rem !important;
+        letter-spacing: 0.4px !important;
+        border-radius: 26px !important;
+        line-height: 1.2 !important;
+    }
+    .top-bar-buttons {
+        gap: 8px !important;
+    }
+
+    /* --- 3. Logo du header un peu plus grand --- */
+    .dashboard-header .logo-link img {
+        max-height: 52px !important;
+        height: 52px !important;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .social-icon {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    .social-icon svg {
+        width: 12px !important;
+        height: 12px !important;
+    }
+
+    .btn-top-bar {
+        padding: 11px 16px !important;
+        font-size: 0.68rem !important;
+        border-radius: 24px !important;
+    }
+
+    .dashboard-header .logo-link img {
+        max-height: 50px !important;
+        height: 50px !important;
+    }
+}
+
+@media (max-width: 360px) {
+
+    .social-icon {
+        width: 22px !important;
+        height: 22px !important;
+    }
+    .social-icon svg {
+        width: 11px !important;
+        height: 11px !important;
+    }
+
+    .btn-top-bar {
+        padding: 10px 14px !important;
+        font-size: 0.62rem !important;
+    }
+
+    .dashboard-header .logo-link img {
+        max-height: 48px !important;
+        height: 48px !important;
+    }
 }
