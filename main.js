@@ -3067,6 +3067,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+// =====================================================================
+// ===== CARTE D'ALLEMAGNE : Points lumineux sur les grandes villes ====
 
 document.addEventListener('DOMContentLoaded', addGermanCitiesDots);
   initLoginPage();
