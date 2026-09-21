@@ -18,739 +18,167 @@
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
 
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- CSS spécifique carte Allemagne + hero -->
     <style>
         /* ============================================================
-           RESET & BASE
+           PAGE INDEX — HERO GAUCHE
            ============================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .home-hero-left {
+            flex: 1 1 55%;
+            transform: translateY(10%);   /* ✅ Descend le bloc gauche de 10% */
         }
 
-        body {
-            background-color: #F4F6F9;
-            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-            color: #2D2D2D;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* ============================================================
-           FONDS D'ÉCRAN
-           ============================================================ */
-        body.index-page,
-        body.login-page {
-            background-image: url('Images/Fond1.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-
-        body.dashboard-page {
-            background-color: #F4F6F9;
-            background-image: none !important;
-        }
-
-        /* ============================================================
-           BANDEAU RÉSEAUX SOCIAUX
-           ============================================================ */
-        .social-top-bar {
-            background: #E8ECF0;
-            border-bottom: 2px solid #54e50d;
-            padding: 6px 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1002;
-            width: 100%;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease, opacity 0.4s ease;
-        }
-
-        .social-top-bar.hidden,
-        body.scrolled-page .social-top-bar {
-            transform: translateY(-110%) !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-        }
-
-        .social-top-bar.scrolled {
-            background: #0c2545;
-            border-bottom: 2px solid #54e50d;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .social-top-bar-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-
-        .social-icons {
+        /* Label "Unsere Tätigkeitsbereiche" — MINIMISÉ */
+        .home-hero-label {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            margin: 0 0 4px;
         }
-
-        .social-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            color: #0c2545;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(12, 37, 69, 0.3);
-            text-decoration: none;
-        }
-
-        .social-top-bar.scrolled .social-icon {
-            color: #E8ECF0;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .social-icon:hover {
-            transform: translateY(-2px);
+        .home-hero-label .green-bar {
+            width: 24px;
+            height: 2px;
             background: #54e50d;
-            border-color: #54e50d;
-            color: #0c2545;
-            box-shadow: 0 4px 15px rgba(84, 229, 13, 0.3);
+            border-radius: 2px;
+            flex-shrink: 0;
         }
-
-        .social-top-bar.scrolled .social-icon:hover {
-            transform: translateY(-2px);
-            background: #54e50d;
-            border-color: #54e50d;
-            color: #0c2545;
-            box-shadow: 0 4px 15px rgba(84, 229, 13, 0.3);
-        }
-
-        .social-icon svg {
-            width: 18px;
-            height: 18px;
-            display: block;
-        }
-
-        .social-label {
-            color: #0c2545;
+        .home-hero-label span:not(.green-bar) {
+            color: #A0AAB5;
             font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            opacity: 0.7;
-            margin-left: 6px;
-            transition: color 0.4s ease;
+            letter-spacing: 1.5px;
         }
 
-        .social-top-bar.scrolled .social-label {
-            color: #E8ECF0;
-        }
-
-        /* ============================================================
-           BOUTONS VERTRIEBSPARTNER + SALES PROMOTER
-           ============================================================ */
-        .top-bar-buttons {
-            display: flex;
-            gap: 12px;
-            margin-left: auto;
-            align-items: center;
-        }
-
-        .btn-top-bar {
-            background-color: #54e50d !important;
-            color: #0c2545 !important;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 0.90rem;
-            font-weight: 600;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: 1px solid #54e50d !important;
-            transition: all 0.25s ease;
-            white-space: nowrap;
-            opacity: 1 !important;
-        }
-
-        .btn-top-bar:hover {
-            background-color: #0c2545 !important;
-            color: #54e50d !important;
-            border-color: #0c2545 !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(12, 37, 69, 0.3);
-        }
-
-        .btn-top-bar.active {
-            background-color: #54e50d !important;
-            color: #0c2545 !important;
-            border-color: #54e50d !important;
-            box-shadow: 0 4px 15px rgba(84, 229, 13, 0.35);
-        }
-
-        .social-top-bar.scrolled .btn-top-bar {
-            background-color: #54e50d !important;
-            color: #0c2545 !important;
-            border-color: #54e50d !important;
-        }
-
-        .social-top-bar.scrolled .btn-top-bar:hover {
-            background-color: #0c2545 !important;
-            color: #54e50d !important;
-            border-color: #0c2545 !important;
-        }
-
-        /* ============================================================
-           HEADER DASHBOARD
-           ============================================================ */
-        .dashboard-header {
-            position: fixed;
-            top: 44px;
-            left: 0;
-            right: 0;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 6px 40px;
-            min-height: 54px;
-            background-color: #0c2545;
-            border-bottom: 3px solid #0c2545;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-            flex-wrap: wrap;
-            transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, top 0.4s ease;
-        }
-
-        .dashboard-header.top-zero,
-        body.scrolled-page .dashboard-header {
-            top: 0 !important;
-        }
-
-        .dashboard-header.scrolled {
-            background-color: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 3px solid #1a3d6a;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        /* --- Logo --- */
-        .dashboard-header .logo-link {
-            display: flex;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .dashboard-header .logo-link img {
-            max-height: 56px;
-            width: auto;
-            display: block;
-            filter: none;
-            transition: filter 0.4s ease;
-        }
-
-        .dashboard-header .logo-link img:hover {
-            filter: drop-shadow(0 4px 15px rgba(84, 229, 13, 0.3));
-        }
-
-        .dashboard-header.scrolled .logo-link img {
-            filter: brightness(0) saturate(100%) invert(72%) sepia(96%) saturate(1352%) hue-rotate(53deg) brightness(103%) contrast(101%) !important;
-        }
-
-        .dashboard-header.scrolled .logo-link img:hover {
-            filter: brightness(0) saturate(100%) invert(72%) sepia(96%) saturate(1352%) hue-rotate(53deg) brightness(103%) contrast(101%) drop-shadow(0 4px 15px rgba(84, 229, 13, 0.4)) !important;
-        }
-
-        /* --- Texte de bienvenue --- */
-        .welcome-center {
-            flex: 1;
-            text-align: center;
-            font-weight: 500;
+        /* Paragraphe sous le titre */
+        .home-hero-left-p {
+            color: #A0AAB5;
             font-size: 0.95rem;
-            color: #FFFFFF;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin: 0 8px;
-            transition: color 0.4s ease;
-        }
-
-        .welcome-center .welcome-text { color: #54e50d; font-weight: 600; }
-        .welcome-center .welcome-name { color: #FFFFFF; font-weight: 500; }
-
-        .dashboard-header.scrolled .welcome-center { color: #0c2545; }
-        .dashboard-header.scrolled .welcome-center .welcome-name { color: #0c2545; }
-
-        /* ============================================================
-           NAVIGATION — LIENS AU MILIEU
-           FOND BLEU  : liens GRIS CLAIR → hover VERT
-           FOND BLANC : liens BLEU       → hover VERT
-           ============================================================ */
-        .dashboard-nav {
-            display: flex;
-            gap: 28px;
-            font-weight: 500;
-            font-size: 1rem;
-            flex-wrap: wrap;
-            position: relative;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            margin: 0 20px;
-        }
-
-        .dashboard-nav a {
-            color: #A0AAB5;
-            text-decoration: none;
-            padding: 4px 0 6px 0;
-            position: relative;
-            transition: color 0.25s ease;
-        }
-
-        .dashboard-nav a::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 3px;
-            background-color: #54e50d;
-            transform: scaleX(0);
-            transform-origin: left center;
-            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .dashboard-nav a:hover { color: #54e50d; }
-        .dashboard-nav a:hover::after { transform: scaleX(1); }
-        .dashboard-nav a.active { color: #54e50d; }
-        .dashboard-nav a.active::after { transform: scaleX(1); }
-
-        .dashboard-header.scrolled .dashboard-nav a { color: #0c2545; }
-        .dashboard-header.scrolled .dashboard-nav a:hover { color: #54e50d; }
-        .dashboard-header.scrolled .dashboard-nav a:hover::after { background-color: #54e50d; }
-        .dashboard-header.scrolled .dashboard-nav a.active { color: #54e50d; }
-        .dashboard-header.scrolled .dashboard-nav a::after { background-color: #54e50d; }
-
-        .dashboard-nav .login-btn-mobile { display: none !important; }
-
-        /* ============================================================
-           MENU HAMBURGER
-           ============================================================ */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            justify-content: space-around;
-            width: 30px;
-            height: 24px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            flex-shrink: 0;
-            z-index: 1002;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 100%;
-            height: 3px;
-            background-color: #54e50d;
-            border-radius: 2px;
-            transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.4s ease;
-        }
-
-        .dashboard-header.scrolled .hamburger span { background-color: #0c2545; }
-
-        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-        /* ============================================================
-           PAGE INDEX
-           ============================================================ */
-        body.dashboard-page { padding-top: 100px; transition: padding-top 0.4s ease; }
-        body.dashboard-page.scrolled-page { padding-top: 56px; }
-
-        /* ============================================================
-           HERO — 60vh de hauteur
-           ============================================================ */
-        .home-hero{
-            background: #0c2545;
-            width: 100%;
-            padding: 60px 40px 0;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            height: 60vh;
-            min-height: 480px;
-        }
-
-        .home-hero-inner{
-            max-width: 1400px;
-            width: 100%;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        /* ===== Bloc 2 colonnes : titre (gauche) + paragraphe (droite) ===== */
-        .home-hero-row{
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 60px;
-            width: 100%;
-            margin: 0 0 20px;
-        }
-
-        .home-hero-left{
-            flex: 1 1 55%;
-        }
-
-        /* "Nos domaines d'intervention" */
-        .home-hero-label{
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 0 0 8px;
-        }
-        .home-hero-label .green-bar{
-            width: 36px;
-            height: 3px;
-            background: #54e50d;
-            border-radius: 2px;
-            flex-shrink: 0;
-        }
-        .home-hero-label span:not(.green-bar){
-            color: #A0AAB5;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* "4 Sektoren" */
-        .home-hero-title{
-            color: #FFFFFF;
-            font-size: 4rem;
-            font-weight: 700;
-            letter-spacing: 5px;
-            margin: 0 0 14px;
-            text-align: left;
-            text-transform: uppercase;
-            line-height: 1.1;
-        }
-
-        /* "Unsere einzige Anforderung: Vertrauen" */
-        .home-title-row{
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            margin: 0;
-        }
-        .home-title-row h2{
-            color: #54e50d;
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin: 0;
-            line-height: 1.2;
-        }
-     
-
-        /* Colonne droite : paragraphe */
-        .home-hero-right{
-            flex: 1 1 45%;
-            max-width: 560px;
-            padding-top: 12px;
-        }
-        .home-hero-right p{
-            color: #A0AAB5;
-            font-size: 1rem;
-            line-height: 1.75;
-            margin: 0;
+            line-height: 1.7;
+            margin: 18px 0 0;
+            max-width: 620px;
             text-align: left;
         }
 
-        /* ===== 4 SEGMENTS collés en bas ===== */
-        .home-segments-row{
-            display: flex;
-            width: 100%;
-            margin: auto 0 0;
-            border-top: 1px solid rgba(160, 170, 181, 0.3);
-        }
-        .home-segment-tab{
-            flex: 1;
-            padding: 20px 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            border-right: 1px solid rgba(160, 170, 181, 0.3);
-            position: relative;
-        }
-        .home-segment-tab:last-child{ border-right: none; }
-        .home-segment-tab:hover{ background: rgba(255, 255, 255, 0.04); }
-        .home-segment-tab .tab-title{
-            color: #FFFFFF;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 0;
-        }
-        .home-segment-tab.active::after{
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 3px;
-            background: #54e50d;
-            border-radius: 3px;
-        }
-
-        /* ===== DÉTAIL SEGMENT (fond blanc) ===== */
-        .home-segment-detail{
-            background: #FFFFFF;
-            width: 100%;
-            padding: 50px 40px;
-            box-sizing: border-box;
-            display: none;
-        }
-        .home-segment-detail.active{
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-        @keyframes fadeIn{
-            from { opacity: 0; transform: translateY(8px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .home-segment-detail-inner{
-            display: flex;
-            align-items: center;
-            gap: 60px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .home-segment-detail-text{ flex: 1 1 60%; }
-        .home-segment-detail-header{
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-        .home-segment-detail-header .green-bar{
-            width: 40px;
-            height: 4px;
-            background: #54e50d;
-            border-radius: 2px;
-            flex-shrink: 0;
-        }
-        .home-segment-detail-header h3{
-            color: #0c2545;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin: 0;
-            letter-spacing: 1px;
-        }
-        .home-segment-detail-text p{
-            color: #4a5568;
-            font-size: 1rem;
-            line-height: 1.8;
-            margin: 0;
-        }
-        .home-segment-detail-chart{
+        /* ============================================================
+           PAGE INDEX — CARTE D'ALLEMAGNE
+           ============================================================ */
+        .home-hero-map {
             flex: 0 0 auto;
+            width: 400px;
+            max-width: 400px;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 10px;
-        }
-        .home-segment-detail-chart .donut-wrap{
+            justify-content: center;
+            padding: 0;
+            background: transparent;
             position: relative;
-            width: 140px;
-            height: 140px;
+             /* ✅ Descend la carte de 10% */
         }
-        .home-segment-detail-chart .donut-wrap svg{
+
+        .home-hero-map img.de-map-img {
             width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
+            height: auto;
+            max-height: 60vh;
+            display: block;
+            opacity: 0.85;                /* ✅ Carte un peu transparente */
+            filter: 
+                brightness(0) saturate(100%)
+                invert(72%) sepia(96%) saturate(1352%)
+                hue-rotate(53deg) brightness(103%) contrast(101%)
+                drop-shadow(0 8px 25px rgba(84, 229, 13, 0.4));
+            transition: filter 0.3s ease, transform 0.4s ease, opacity 0.3s ease;
         }
-        .home-segment-detail-chart .donut-track{
-            fill: none;
-            stroke: rgba(12, 37, 69, 0.1);
-            stroke-width: 8;
+
+        .home-hero-map img.de-map-img:hover {
+            transform: scale(1.03);
+            opacity: 1;                   /* ✅ Redevient opaque au survol */
         }
-        .home-segment-detail-chart .donut-value{
-            fill: none;
-            stroke: #54e50d;
-            stroke-width: 8;
-            stroke-linecap: round;
-            stroke-dasharray: 339.29;
-            stroke-dashoffset: 339.29;
-            animation: homeDraw 1.4s cubic-bezier(.3,.8,.3,1) .2s forwards;
-        }
-        .home-segment-detail-chart .donut-num{
+
+        /* Points lumineux sur les villes */
+        .city-point {
             position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 8px;
+            height: 8px;
+            margin-left: -4px;
+            margin-top: -4px;
+            border-radius: 50%;
+            background: #0c2545;
+            border: 2px solid #54e50d;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .city-pulse {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            margin-left: -7px;
+            margin-top: -7px;
+            border-radius: 50%;
+            background: rgba(84, 229, 13, 0.5);
+            z-index: 2;
+            pointer-events: none;
+            animation: cityPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes cityPulse {
+            0%, 100% { transform: scale(1);   opacity: 0.5; }
+            50%      { transform: scale(1.8); opacity: 0.15; }
+        }
+
+        .city-name {
+            position: absolute;
+            transform: translateX(-50%);
+            color: #ffffff;
+            font-size: 11px;
             font-weight: 700;
-            font-size: 1.5rem;
-            color: #0c2545;
-        }
-        .home-segment-detail-chart .donut-label{
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #54e50d;
-        }
-        @keyframes homeDraw{ to { stroke-dashoffset: var(--offset); } }
-
-        /* ===== RÉSEAUX SOCIAUX EN BAS ===== */
-        .home-follow{
-            background: #F4F6F9;
-            padding: 40px 20px;
-            text-align: center;
-        }
-        .home-follow h3{
-            color: #0c2545;
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin: 0 0 18px;
-        }
-        .home-follow .social-icons{
-            justify-content: center;
-            margin: 0 auto;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            white-space: nowrap;
+            z-index: 4;
+            pointer-events: none;
+            text-shadow: 
+                0 0 3px #0c2545, 
+                0 0 3px #0c2545,
+                0 0 3px #0c2545,
+                0 0 3px #0c2545;
         }
 
-        /* ===== PIED DE PAGE ===== */
-        .dashboard-footer {
-            background-color: #0c2545;
-            padding: 20px 40px;
-            text-align: center;
-            border-top: 3px solid #54e50d;
-            font-size: 0.95rem;
-            margin-top: auto;
-            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15);
-        }
-        .dashboard-footer span { color: #FFFFFF; }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 820px){
-            .home-hero{ height: auto; min-height: auto; padding: 40px 20px 0; }
-            .home-hero-row{ flex-direction: column; gap: 20px; }
-            .home-hero-title{ font-size: 2.4rem; letter-spacing: 2px; }
-            .home-title-row h2{ font-size: 1.6rem; }
-            .home-segments-row{ flex-wrap: wrap; }
-            .home-segment-tab{ flex: 1 1 50%; border-bottom: 1px solid rgba(160,170,181,0.3); }
-            .home-segment-tab:nth-child(2){ border-right: none; }
-            .home-segment-detail{ padding: 30px 20px; }
-            .home-segment-detail-inner{ flex-direction: column; gap: 30px; }
-            .home-segment-detail-header h3{ font-size: 1.4rem; }
-            .home-segment-detail-chart .donut-wrap{ width: 110px; height: 110px; }
-            .dashboard-header .logo-link img { max-height: 46px !important; }
-        }
-
-        @media (max-width: 768px) {
-            .social-top-bar { padding: 4px 0; }
-            .top-bar-buttons { gap: 6px; }
-            .btn-top-bar { font-size: 0.6rem; padding: 3px 10px; }
-            .dashboard-header { top: 40px; padding: 6px 10px; min-height: 48px; flex-wrap: nowrap; }
-            .hamburger { display: flex !important; order: 3; margin-left: auto; width: 32px; height: 26px; }
-            .dashboard-header .logo-link { order: 0; }
-            .dashboard-header .logo-link img { max-height: 34px; }
-            .welcome-center { order: 1; flex: 1; font-size: 0.7rem; }
-            .dashboard-nav {
-                position: fixed;
-                top: 0; right: 0; bottom: 0;
-                width: 70%; max-width: 400px;
-                background-color: rgba(12, 37, 69, 0.98);
-                backdrop-filter: blur(10px);
-                flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
-                padding: 100px 20px 40px;
-                gap: 20px;
-                border-left: 3px solid #54e50d;
-                box-shadow: -8px 0 30px rgba(0, 0, 0, 0.3);
-                transform: translateX(100%);
-                transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-                z-index: 999;
-                display: flex !important;
-                margin: 0;
-                opacity: 1;
-                pointer-events: none;
-                overflow-y: auto;
-                height: 100vh;
-                flex: none;
+        @media (max-width: 900px) {
+            .home-hero-map {
+                width: 300px;
+                max-width: 300px;
+                margin: 20px auto 0;
             }
-            .dashboard-nav.open { transform: translateX(0); pointer-events: auto; }
-            .dashboard-nav a {
-                padding: 14px 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                color: #FFFFFF;
-                font-size: 1.1rem;
-                width: 100%;
-                text-align: center;
-                border-radius: 8px;
-                display: block;
-            }
-            .dashboard-nav a::after { display: none; }
-            .dashboard-nav a:hover,
-            .dashboard-nav a.active { color: #54e50d; background: rgba(84, 229, 13, 0.1); }
-            .dashboard-header.scrolled .dashboard-nav { background-color: rgba(255, 255, 255, 0.98); border-left-color: #1a3d6a; }
-            .dashboard-header.scrolled .dashboard-nav a { color: #0c2545; border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
-            .dashboard-header.scrolled .dashboard-nav a:hover,
-            .dashboard-header.scrolled .dashboard-nav a.active { color: #54e50d; background: rgba(84, 229, 13, 0.1); }
-            body.dashboard-page { padding-top: 90px; }
-            body.dashboard-page.scrolled-page { padding-top: 50px; }
+            .home-hero-map img.de-map-img { max-height: 42vh; }
+            .city-name { font-size: 10px; }
+            .city-point { width: 7px; height: 7px; margin-left: -3.5px; margin-top: -3.5px; }
         }
 
         @media (max-width: 480px) {
-            .home-hero { padding: 30px 14px 0; }
-            .home-hero-title { font-size: 2rem; }
-            .home-title-row h2 { font-size: 1.3rem; }
-            .home-hero-right p { font-size: 0.85rem; }
-            .social-top-bar { padding: 2px 0; }
-            .btn-top-bar { font-size: 0.5rem; padding: 2px 8px; }
-            .dashboard-header { top: 36px; padding: 5px 6px; min-height: 42px; }
-            .dashboard-header .logo-link img { max-height: 28px; }
-            .dashboard-nav { width: 75%; padding: 80px 20px 30px; }
-            body.dashboard-page { padding-top: 80px; }
-            body.dashboard-page.scrolled-page { padding-top: 45px; }
-        }
-
-        /* ============================================================
-           BULLE CHAT TAWK.TO — CACHÉE SUR L'INDEX
-           ============================================================ */
-        body.index-page .tawk-min-container,
-        body.index-page iframe[title*="chat"],
-        body.index-page iframe[title*="Chat"],
-        body.index-page .widget-visible .tawk-min-container,
-        body.index-page #tawkchat-container,
-        body.index-page .tawk-chat-container {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-            width: 0 !important;
-            height: 0 !important;
+            .home-hero-map { width: 240px; max-width: 240px; }
+            .home-hero-map img.de-map-img { max-height: 34vh; }
+            .city-name { font-size: 9px; }
         }
     </style>
 </head>
+
+<!-- Tawk.to Chat -->
+<script type="text/javascript">
+var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+(function(){
+  var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+  s1.async = true;
+  s1.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
+  s1.charset = 'UTF-8';
+  s1.setAttribute('crossorigin', '*');
+  s0.parentNode.insertBefore(s1, s0);
+})();
+</script>
+
 <body class="dashboard-page index-page">
 
     <!-- ===== BANDEAU RÉSEAUX SOCIAUX ===== -->
@@ -784,9 +212,8 @@
             </div>
         </div>
     </div>
-    <!-- ===== FIN BANDEAU RÉSEAUX SOCIAUX ===== -->
 
-    <!-- ===== HEADER AVEC LOGO ET MENU ===== -->
+    <!-- ===== HEADER ===== -->
     <header class="dashboard-header" id="dashboardHeader">
         <a href="index.html" class="logo-link">
             <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" />
@@ -801,13 +228,10 @@
             <a href="nous-rejoindre.html">Kommen Sie zu uns</a>
         </nav>
     </header>
-    <!-- ===== FIN HEADER ===== -->
 
     <!-- ===== HERO ===== -->
     <section class="home-hero">
         <div class="home-hero-inner">
-
-            <!-- Bloc 2 colonnes : titre (gauche) + paragraphe (droite) -->
             <div class="home-hero-row">
 
                 <!-- COLONNE GAUCHE -->
@@ -816,9 +240,7 @@
                         <span class="green-bar"></span>
                         <span>Unsere Tätigkeitsbereiche</span>
                     </div>
-
                     <h1 class="home-hero-title">VIER Sektoren</h1>
-
                     <div class="home-title-row">
                         <h2>Unsere einzige Anforderung: Vertrauen</h2>
                         <div class="home-excellence-icon" aria-label="Exzellenz">
@@ -827,16 +249,11 @@
                                 <path d="M7 4h10v5a5 5 0 0 1-10 0V4z"/>
                                 <path d="M7 6H4a2 2 0 0 0 2 2h1"/>
                                 <path d="M17 6h3a2 2 0 0 1-2 2h-1"/>
-                                <path d="M12 14l-1.2 2.4L8 17l1.8 1.6L9.4 21 12 19.6 14.6 21l-.4-2.4L16 17l-2.8-.6L12 14z"
-                                      fill="#A0AAB5" stroke="none"/>
+                                <path d="M12 14l-1.2 2.4L8 17l1.8 1.6L9.4 21 12 19.6 14.6 21l-.4-2.4L16 17l-2.8-.6L12 14z" fill="#A0AAB5" stroke="none"/>
                             </svg>
                         </div>
                     </div>
-                </div>
-
-                <!-- COLONNE DROITE -->
-                <div class="home-hero-right">
-                    <p>
+                    <p class="home-hero-left-p">
                         Seit über 8 Jahren sind wir als Energie-Distributor tätig und haben uns durch Verlässlichkeit,
                         klare Kommunikation und persönliche Betreuung das Vertrauen unserer Kunden und Partner erarbeitet.
                         Ob Strom, Gas, Internet oder Versicherung – wir stehen für faire Tarife, transparente Beratung
@@ -844,29 +261,24 @@
                     </p>
                 </div>
 
+                <!-- COLONNE DROITE : CARTE D'ALLEMAGNE -->
+                <div class="home-hero-right home-hero-map">
+                    <img src="Images/Dashbords/de.svg" alt="Karte von Deutschland" class="de-map-img" />
+                </div>
+
             </div>
 
-            <!-- 4 segments collés en bas -->
+            <!-- ✅ SEGMENTS : Strom / Gas / Internet / Versicherung -->
             <div class="home-segments-row" id="segmentsRow">
-                <div class="home-segment-tab active" data-segment="strom">
-                    <div class="tab-title">Strom</div>
-                </div>
-                <div class="home-segment-tab" data-segment="gas">
-                    <div class="tab-title">Gas</div>
-                </div>
-                <div class="home-segment-tab" data-segment="internet">
-                    <div class="tab-title">Internet</div>
-                </div>
-                <div class="home-segment-tab" data-segment="versicherung">
-                    <div class="tab-title">Versicherung</div>
-                </div>
+                <div class="home-segment-tab active" data-segment="strom"><div class="tab-title">Strom</div></div>
+                <div class="home-segment-tab" data-segment="gas"><div class="tab-title">Gas</div></div>
+                <div class="home-segment-tab" data-segment="internet"><div class="tab-title">Internet</div></div>
+                <div class="home-segment-tab" data-segment="versicherung"><div class="tab-title">Versicherung</div></div>
             </div>
-
         </div>
     </section>
-    <!-- ===== FIN HERO ===== -->
 
-    <!-- ===== ZONE DE DÉTAIL DU SEGMENT (fond blanc) ===== -->
+    <!-- ===== DÉTAILS SEGMENTS ===== -->
     <section class="home-segment-detail active" id="segmentDetail-strom" data-segment="strom">
         <div class="home-segment-detail-inner">
             <div class="home-segment-detail-text">
@@ -874,11 +286,7 @@
                     <span class="green-bar"></span>
                     <h3>Strom</h3>
                 </div>
-                <p>
-                    Wir vermitteln Stromtarife renommierter Anbieter und begleiten jeden Vertriebspartner persönlich –
-                    von der Beratung bis zum Vertragsabschluss. Diese Erfahrung ist die Basis für das Vertrauen,
-                    das uns unsere Kunden entgegenbringen.
-                </p>
+                <p>Wir vermitteln Stromtarife renommierter Anbieter und begleiten jeden Vertriebspartner persönlich – von der Beratung bis zum Vertragsabschluss. Diese Erfahrung ist die Basis für das Vertrauen, das uns unsere Kunden entgegenbringen.</p>
             </div>
             <div class="home-segment-detail-chart">
                 <div class="donut-wrap">
@@ -900,11 +308,7 @@
                     <span class="green-bar"></span>
                     <h3>Gas</h3>
                 </div>
-                <p>
-                    Vom ersten Tag an setzen wir auf klare Beratung und faire Tarife im Gasvertrieb.
-                    Unsere Sales Promoter kennen den Markt genau und sorgen dafür,
-                    dass jede Familie das passende Angebot findet.
-                </p>
+                <p>Vom ersten Tag an setzen wir auf klare Beratung und faire Tarife im Gasvertrieb. Unsere Sales Promoter kennen den Markt genau und sorgen dafür, dass jede Familie das passende Angebot findet.</p>
             </div>
             <div class="home-segment-detail-chart">
                 <div class="donut-wrap">
@@ -926,11 +330,7 @@
                     <span class="green-bar"></span>
                     <h3>Internet</h3>
                 </div>
-                <p>
-                    Schnelles, zuverlässiges Internet ist heute Grundversorgung. Wir arbeiten seit Jahren
-                    mit etablierten Anbietern zusammen und helfen Haushalten und Firmen,
-                    den richtigen Anschluss zu finden.
-                </p>
+                <p>Schnelles, zuverlässiges Internet ist heute Grundversorgung. Wir arbeiten seit Jahren mit etablierten Anbietern zusammen und helfen Haushalten und Firmen, den richtigen Anschluss zu finden.</p>
             </div>
             <div class="home-segment-detail-chart">
                 <div class="donut-wrap">
@@ -952,10 +352,7 @@
                     <span class="green-bar"></span>
                     <h3>Versicherung</h3>
                 </div>
-                <p>
-                    Absicherung braucht Vertrauen. Unser Team begleitet Kunden bei der Wahl passender
-                    Versicherungslösungen – transparent, unabhängig und mit über acht Jahren Erfahrung im Vertrieb.
-                </p>
+                <p>Absicherung braucht Vertrauen. Unser Team begleitet Kunden bei der Wahl passender Versicherungslösungen – transparent, unabhängig und mit über acht Jahren Erfahrung im Vertrieb.</p>
             </div>
             <div class="home-segment-detail-chart">
                 <div class="donut-wrap">
@@ -969,9 +366,8 @@
             </div>
         </div>
     </section>
-    <!-- ===== FIN ZONE DÉTAIL ===== -->
 
-    <!-- ===== BANDEAU SUIVEZ-NOUS ===== -->
+    <!-- ===== SUIVEZ-NOUS ===== -->
     <section class="home-follow">
         <h3>Bleiben Sie mit uns in Verbindung</h3>
         <div class="social-icons">
@@ -997,151 +393,67 @@
             </a>
         </div>
     </section>
-    <!-- ===== FIN BANDEAU SUIVEZ-NOUS ===== -->
 
-    <!-- ===== PIED DE PAGE ===== -->
+    <!-- ===== FOOTER ===== -->
     <footer class="dashboard-footer">
         <span>© 2026 Vertrauen Distributor. Alle Rechte vorbehalten.</span>
     </footer>
-    <!-- ===== FIN PIED DE PAGE ===== -->
 
-    <!-- ===== SCRIPT : SCROLL HEADER ===== -->
-    <script>
-        (function() {
-            function applyScroll() {
-                const header = document.getElementById('dashboardHeader');
-                if (!header) return;
-                const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-                if (scrollY > 50) {
-                    header.classList.add('scrolled');
-                    document.body.classList.add('scrolled-page');
-                } else {
-                    header.classList.remove('scrolled');
-                    document.body.classList.remove('scrolled-page');
-                }
-            }
-            window.addEventListener('scroll', applyScroll, { passive: true });
-            document.addEventListener('DOMContentLoaded', applyScroll);
-            applyScroll();
-        })();
-    </script>
-
-    <!-- ===== SCRIPT : COMPTEURS ANIMÉS ===== -->
-    <script>
-        (function() {
-            function animateCounters() {
-                const counters = document.querySelectorAll('.donut-num[data-target]');
-                counters.forEach(el => {
-                    const target = parseInt(el.dataset.target, 10);
-                    if (isNaN(target)) return;
-                    const duration = 1600;
-                    const start = performance.now();
-                    function step(now) {
-                        const progress = Math.min((now - start) / duration, 1);
-                        const eased = 1 - Math.pow(1 - progress, 3);
-                        const value = Math.floor(target * eased);
-                        el.textContent = value.toLocaleString('de-DE');
-                        if (progress < 1) requestAnimationFrame(step);
-                        else el.textContent = target.toLocaleString('de-DE');
-                    }
-                    requestAnimationFrame(step);
-                });
-            }
-            document.addEventListener('DOMContentLoaded', animateCounters);
-            window.addEventListener('pageshow', animateCounters);
-        })();
-    </script>
-
-    <!-- ===== SCRIPT : SEGMENTS (CLIC) ===== -->
-    <script>
-        (function() {
-            function initSegments() {
-                const tabs = document.querySelectorAll('.home-segment-tab');
-                const details = document.querySelectorAll('.home-segment-detail');
-                if (!tabs.length || !details.length) return;
-
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', () => {
-                        const segment = tab.dataset.segment;
-
-                        tabs.forEach(t => t.classList.remove('active'));
-                        tab.classList.add('active');
-
-                        details.forEach(d => {
-                            d.classList.remove('active');
-                            if (d.dataset.segment === segment) {
-                                d.classList.add('active');
-                            }
-                        });
-
-                        const counters = document.querySelectorAll('.home-segment-detail.active .donut-num[data-target]');
-                        counters.forEach(el => {
-                            const target = parseInt(el.dataset.target, 10);
-                            if (isNaN(target)) return;
-                            el.textContent = '0';
-                            const duration = 1600;
-                            const start = performance.now();
-                            function step(now) {
-                                const progress = Math.min((now - start) / duration, 1);
-                                const eased = 1 - Math.pow(1 - progress, 3);
-                                const value = Math.floor(target * eased);
-                                el.textContent = value.toLocaleString('de-DE');
-                                if (progress < 1) requestAnimationFrame(step);
-                                else el.textContent = target.toLocaleString('de-DE');
-                            }
-                            requestAnimationFrame(step);
-                        });
-                    });
-                });
-            }
-            document.addEventListener('DOMContentLoaded', initSegments);
-        })();
-    </script>
-
-    <!-- ===== SCRIPT : MENU HAMBURGER ===== -->
-    <script>
-        (function() {
-            function initHamburger() {
-                const hamburger = document.getElementById('hamburgerBtn');
-                const nav = document.getElementById('mainNav');
-                if (!hamburger || !nav) { setTimeout(initHamburger, 200); return; }
-
-                const newHamburger = hamburger.cloneNode(true);
-                hamburger.parentNode.replaceChild(newHamburger, hamburger);
-
-                const finalHamburger = document.getElementById('hamburgerBtn');
-                const finalNav = document.getElementById('mainNav');
-                if (!finalHamburger || !finalNav) return;
-
-                finalHamburger.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    this.classList.toggle('active');
-                    finalNav.classList.toggle('open');
-                });
-
-                finalNav.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        if (finalNav.classList.contains('open')) {
-                            finalHamburger.classList.remove('active');
-                            finalNav.classList.remove('open');
-                        }
-                    });
-                });
-
-                document.addEventListener('click', function(e) {
-                    if (finalNav.classList.contains('open')) {
-                        if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
-                            finalHamburger.classList.remove('active');
-                            finalNav.classList.remove('open');
-                        }
-                    }
-                });
-            }
-            document.addEventListener('DOMContentLoaded', initHamburger);
-            initHamburger();
-        })();
-    </script>
-
+    <!-- ===== JS ===== -->
     <script src="main.js"></script>
+
+    <!-- JS spécifique : points lumineux sur les villes d'Allemagne -->
+    <script>
+        (function() {
+            function addGermanCitiesDots() {
+                const mapImg = document.querySelector('.de-map-img');
+                if (!mapImg) return;
+
+                const parent = mapImg.parentElement;
+                parent.style.position = 'relative';
+
+                // Coordonnées en % par rapport à l'image de la carte
+                const cities = [
+                    { name: 'Berlin',     x: 72, y: 30 },
+                    { name: 'Hamburg',    x: 53, y: 15 },
+                    { name: 'München',    x: 58, y: 78 },
+                    { name: 'Köln',       x: 30, y: 45 },
+                    { name: 'Frankfurt',  x: 40, y: 52 },
+                    { name: 'Stuttgart',  x: 44, y: 63 },
+                    { name: 'Düsseldorf', x: 28, y: 41 },
+                    { name: 'Dresden',    x: 81, y: 49 },
+                    { name: 'Hannover',   x: 46, y: 26 },
+                    { name: 'Nürnberg',   x: 58, y: 62 }
+                ];
+
+                cities.forEach(city => {
+                    const pulse = document.createElement('div');
+                    pulse.className = 'city-pulse';
+                    pulse.style.left = city.x + '%';
+                    pulse.style.top = city.y + '%';
+                    parent.appendChild(pulse);
+
+                    const dot = document.createElement('div');
+                    dot.className = 'city-point';
+                    dot.style.left = city.x + '%';
+                    dot.style.top = city.y + '%';
+                    parent.appendChild(dot);
+
+                    const label = document.createElement('div');
+                    label.className = 'city-name';
+                    label.style.left = city.x + '%';
+                    label.style.top = (city.y - 5) + '%';
+                    label.textContent = city.name;
+                    parent.appendChild(label);
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', addGermanCitiesDots);
+            } else {
+                addGermanCitiesDots();
+            }
+        })();
+    </script>
 </body>
 </html>

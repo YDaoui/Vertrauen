@@ -1,5 +1,6 @@
 // =====================================================================
 // main.js — Fichier JS UNIQUE partagé par toutes les pages
+// Version complète et corrigée
 // =====================================================================
 
 // ===== 1. FIREBASE INIT ==============================================
@@ -608,7 +609,6 @@ function initMeinPortalPage() {
         return;
     }
 
-    // Afficher le nom (sécurisé)
     const userNameDisplay = document.getElementById('userNameDisplay');
     if (userNameDisplay) {
         const nomUtilisateur = localStorage.getItem('userNachname') || userEmail;
@@ -1470,10 +1470,8 @@ function initHamburger() {
 // ===== BLOC 7 : CHAT TAWK.TO — CHARGÉ SUR TOUTES LES PAGES ==========
 // =====================================================================
 function initTawkTo() {
-  // Supprime les anciens scripts Tawk.to pour éviter les doublons
   document.querySelectorAll('script[src*="embed.tawk.to"]').forEach(s => s.remove());
 
-  // Petit délai pour s'assurer que le DOM est prêt sur toutes les pages
   setTimeout(() => {
     const script = document.createElement('script');
     script.async = true;
@@ -1486,33 +1484,12 @@ function initTawkTo() {
   }, 400);
 }
 
-// Force le chat sur Vertriebspartner et Sales Promoter
 function initChatOnAllPages() {
   const path = window.location.pathname.toLowerCase();
   const currentPage = path.split('/').pop() || 'index.html';
 
-  // ❌ Pas de chat sur l'index
-  if (currentPage === 'index.html' || currentPage === '' || currentPage === '/') {
-    console.log('🚫 Chat désactivé sur l\'index');
-    return;
-  }
-
-  // ✅ Chat sur toutes les autres pages
   console.log('✅ Chat activé sur :', currentPage);
   initTawkTo();
-}
-
-// =====================================================================
-// ===== BLOC 8 : BOUTONS TRANSPARENTS (VP + SP) =======================
-// =====================================================================
-function initTransparentButtons() {
-  document.querySelectorAll('.btn-top-bar').forEach(btn => {
-    const text = (btn.textContent || '').trim().toLowerCase();
-    if (text.includes('vertriebspartner') || text.includes('sales promoter')) {
-      btn.style.opacity = '0';
-      btn.style.pointerEvents = 'auto'; // reste cliquable ; mets 'none' pour désactiver
-    }
-  });
 }
 
 // =====================================================================
@@ -3008,6 +2985,74 @@ function initScrollBehavior() {
 }
 
 // =====================================================================
+// ===== SCRIPTS SPÉCIFIQUES À LA PAGE INDEX ==========================
+// =====================================================================
+
+// --- Compteurs animés (index) ---
+(function() {
+    function animateCounters() {
+        const counters = document.querySelectorAll('.donut-num[data-target]');
+        counters.forEach(el => {
+            const target = parseInt(el.dataset.target, 10);
+            if (isNaN(target)) return;
+            const duration = 1600;
+            const start = performance.now();
+            function step(now) {
+                const progress = Math.min((now - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const value = Math.floor(target * eased);
+                el.textContent = value.toLocaleString('de-DE');
+                if (progress < 1) requestAnimationFrame(step);
+                else el.textContent = target.toLocaleString('de-DE');
+            }
+            requestAnimationFrame(step);
+        });
+    }
+    document.addEventListener('DOMContentLoaded', animateCounters);
+    window.addEventListener('pageshow', animateCounters);
+})();
+
+// --- Segments cliquables (index) ---
+(function() {
+    function initSegments() {
+        const tabs = document.querySelectorAll('.home-segment-tab');
+        const details = document.querySelectorAll('.home-segment-detail');
+        if (!tabs.length || !details.length) return;
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const segment = tab.dataset.segment;
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                details.forEach(d => {
+                    d.classList.remove('active');
+                    if (d.dataset.segment === segment) d.classList.add('active');
+                });
+
+                const counters = document.querySelectorAll('.home-segment-detail.active .donut-num[data-target]');
+                counters.forEach(el => {
+                    const target = parseInt(el.dataset.target, 10);
+                    if (isNaN(target)) return;
+                    el.textContent = '0';
+                    const duration = 1600;
+                    const start = performance.now();
+                    function step(now) {
+                        const progress = Math.min((now - start) / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        const value = Math.floor(target * eased);
+                        el.textContent = value.toLocaleString('de-DE');
+                        if (progress < 1) requestAnimationFrame(step);
+                        else el.textContent = target.toLocaleString('de-DE');
+                    }
+                    requestAnimationFrame(step);
+                });
+            });
+        });
+    }
+    document.addEventListener('DOMContentLoaded', initSegments);
+})();
+
+// =====================================================================
 // ===== INITIALISATION ================================================
 // =====================================================================
 document.addEventListener('DOMContentLoaded', function() {
@@ -3022,6 +3067,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+
+document.addEventListener('DOMContentLoaded', addGermanCitiesDots);
   initLoginPage();
   initAdminPage();
   initCompanyPage();
@@ -3032,7 +3079,6 @@ document.addEventListener('DOMContentLoaded', function() {
   updateDashboardMenu();
   initScrollBehavior();
   initHamburger();
-  initChatOnAllPages();     // ← Chat sur TOUTES les pages (VP + SP inclus)
+  initChatOnAllPages();
   initSektorenPage();
-  initTransparentButtons(); // ← Boutons VP + SP transparents
 });

@@ -33,10 +33,10 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   BANDEAU RÉSEAUX SOCIAUX (identique sur TOUTES les pages)
+   BANDEAU RÉSEAUX SOCIAUX
    ============================================================ */
 .social-top-bar {
-    background: #E8ECF0;                  /* Fond gris clair sur toutes les pages */
+    background: #E8ECF0;
     border-bottom: 2px solid #54e50d;
     padding: 6px 0;
     position: fixed;
@@ -49,6 +49,7 @@ body.dashboard-page {
     transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease, opacity 0.4s ease;
 }
 
+/* La barre sociale disparaît au scroll (TOUTES les pages) */
 .social-top-bar.hidden,
 body.scrolled-page .social-top-bar {
     transform: translateY(-110%) !important;
@@ -137,7 +138,6 @@ body.scrolled-page .social-top-bar {
 
 /* ============================================================
    BOUTONS VERTRIEBSPARTNER + SALES PROMOTER
-   VERT PARTOUT + TEXTE BLEU + PAS DE TRANSPARENCE
    ============================================================ */
 .top-bar-buttons {
     display: flex;
@@ -147,8 +147,8 @@ body.scrolled-page .social-top-bar {
 }
 
 .btn-top-bar {
-    background-color: #54e50d !important;   /* VERT sur toutes les pages */
-    color: #0c2545 !important;              /* TEXTE BLEU */
+    background-color: #54e50d !important;
+    color: #0c2545 !important;
     padding: 8px 20px;
     border-radius: 30px;
     font-size: 0.90rem;
@@ -159,7 +159,7 @@ body.scrolled-page .social-top-bar {
     border: 1px solid #54e50d !important;
     transition: all 0.25s ease;
     white-space: nowrap;
-    opacity: 1 !important;                  /* Pas de transparence */
+    opacity: 1 !important;
 }
 
 .btn-top-bar:hover {
@@ -203,7 +203,7 @@ body.scrolled-page .social-top-bar {
     align-items: center;
     justify-content: space-between;
     padding: 6px 40px;
-    min-height: 54px;
+    min-height: 68px;
     background-color: #0c2545;
     border-bottom: 3px solid #0c2545;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
@@ -217,14 +217,14 @@ body.scrolled-page .dashboard-header {
 }
 
 .dashboard-header.scrolled {
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: rgba(255, 255, 255, 0.92) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 3px solid #1a3d6a;
+    border-bottom: 3px solid #1a3d6a !important;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* --- Logo --- */
+/* --- Logo UNIFIÉ 56px sur toutes les pages --- */
 .dashboard-header .logo-link {
     display: flex;
     align-items: center;
@@ -232,8 +232,9 @@ body.scrolled-page .dashboard-header {
 }
 
 .dashboard-header .logo-link img {
-    max-height: 42px;
-    width: auto;
+    max-height: 56px !important;
+    height: 56px !important;
+    width: auto !important;
     display: block;
     filter: none;
     transition: filter 0.4s ease;
@@ -243,7 +244,7 @@ body.scrolled-page .dashboard-header {
     filter: drop-shadow(0 4px 15px rgba(84, 229, 13, 0.3));
 }
 
-/* Logo au scroll : devient vert #54e50d */
+/* Logo au scroll : devient vert */
 .dashboard-header.scrolled .logo-link img {
     filter: brightness(0) saturate(100%) invert(72%) sepia(96%) saturate(1352%) hue-rotate(53deg) brightness(103%) contrast(101%) !important;
 }
@@ -300,12 +301,15 @@ body.scrolled-page .dashboard-header {
 .dashboard-header.scrolled .welcome-center .welcome-name { color: #0c2545; }
 
 /* ============================================================
-   NAVIGATION
-   BLEU PAR DÉFAUT → VERT/GRIS AU HOVER → VERT AU SCROLL
-/* ============================================================
-   NAVIGATION — LIENS AU MILIEU
-   FOND BLEU  : liens GRIS CLAIR → hover VERT
-   FOND BLANC : liens BLEU       → hover GRIS
+   NAVIGATION — STYLE UNIFIÉ SUR TOUTES LES PAGES
+   
+   FOND BLEU (défaut) :
+     - Repos : texte GRIS CLAIR, PAS de trait
+     - Hover : texte VERT + trait GRIS
+   
+   FOND BLANC (au scroll) :
+     - Repos : texte VERT + trait GRIS
+     - Hover : texte GRIS + trait VERT
    ============================================================ */
 .dashboard-nav {
     display: flex;
@@ -315,12 +319,12 @@ body.scrolled-page .dashboard-header {
     flex-wrap: wrap;
     position: relative;
     align-items: center;
-    justify-content: center;         /* ← liens AU MILIEU */
-    flex: 1;                          /* ← prend l'espace disponible */
+    justify-content: center;
+    flex: 1;
     margin: 0 20px;
 }
 
-/* Fond bleu (état par défaut) : liens GRIS CLAIR */
+/* Lien au REPOS (fond bleu) : GRIS CLAIR, pas de trait */
 .dashboard-nav a {
     color: #A0AAB5;
     text-decoration: none;
@@ -329,6 +333,7 @@ body.scrolled-page .dashboard-header {
     transition: color 0.25s ease;
 }
 
+/* Trait caché au repos */
 .dashboard-nav a::after {
     content: '';
     position: absolute;
@@ -336,50 +341,89 @@ body.scrolled-page .dashboard-header {
     bottom: 0;
     width: 100%;
     height: 3px;
-    background-color: #54e50d;
+    background-color: #888888;
     transform: scaleX(0);
     transform-origin: left center;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.3s ease, background-color 0.25s ease;
 }
 
+/* HOVER (fond bleu) : texte VERT + trait GRIS qui apparaît */
 .dashboard-nav a:hover {
-    color: #54e50d;                  /* VERT au hover */
+    color: #54e50d !important;
 }
 
 .dashboard-nav a:hover::after {
-    transform: scaleX(1);
+    transform: scaleX(1) !important;
+    background-color: #888888 !important;
 }
 
 .dashboard-nav a.active {
-    color: #54e50d;
+    color: #54e50d !important;
 }
 
 .dashboard-nav a.active::after {
-    transform: scaleX(1);
+    transform: scaleX(1) !important;
+    background-color: #888888 !important;
 }
 
-/* Fond blanc (au scroll) : liens BLEU */
-.dashboard-header.scrolled .dashboard-nav a {
-    color: #0c2545;
+/* ============================================================
+   FOND BLANC (au scroll) — mêmes règles pour TOUTES les pages
+   ============================================================ */
+
+/* Repos : texte VERT + trait GRIS visible */
+.dashboard-header.scrolled .dashboard-nav a,
+body.scrolled-page .dashboard-header .dashboard-nav a,
+.sektoren-page .dashboard-header.scrolled .dashboard-nav a,
+body.vertriebspartner-page .dashboard-header.scrolled .dashboard-nav a,
+body.salespromoter-page .dashboard-header.scrolled .dashboard-nav a {
+    color: #54e50d !important;
 }
 
-.dashboard-header.scrolled .dashboard-nav a:hover {
-    color: #54e50d;                  /* GRIS au hover */
+.dashboard-header.scrolled .dashboard-nav a::after,
+body.scrolled-page .dashboard-header .dashboard-nav a::after,
+.sektoren-page .dashboard-header.scrolled .dashboard-nav a::after,
+body.vertriebspartner-page .dashboard-header.scrolled .dashboard-nav a::after,
+body.salespromoter-page .dashboard-header.scrolled .dashboard-nav a::after {
+    background-color: #888888 !important;
+    transform: scaleX(1) !important;
 }
 
-.dashboard-header.scrolled .dashboard-nav a:hover::after {
-    background-color: #54e50d;
+/* Hover : texte GRIS + trait VERT */
+.dashboard-header.scrolled .dashboard-nav a:hover,
+body.scrolled-page .dashboard-header .dashboard-nav a:hover,
+.sektoren-page .dashboard-header.scrolled .dashboard-nav a:hover,
+body.vertriebspartner-page .dashboard-header.scrolled .dashboard-nav a:hover,
+body.salespromoter-page .dashboard-header.scrolled .dashboard-nav a:hover {
+    color: #888888 !important;
 }
 
-.dashboard-header.scrolled .dashboard-nav a.active {
-    color: #54e50d;
+.dashboard-header.scrolled .dashboard-nav a:hover::after,
+body.scrolled-page .dashboard-header .dashboard-nav a:hover::after,
+.sektoren-page .dashboard-header.scrolled .dashboard-nav a:hover::after,
+body.vertriebspartner-page .dashboard-header.scrolled .dashboard-nav a:hover::after,
+body.salespromoter-page .dashboard-header.scrolled .dashboard-nav a:hover::after {
+    background-color: #54e50d !important;
+    transform: scaleX(1) !important;
 }
 
-.dashboard-header.scrolled .dashboard-nav a::after {
-    background-color: #54e50d;
+/* Lien actif sur fond blanc : texte VERT + trait GRIS */
+.dashboard-header.scrolled .dashboard-nav a.active,
+.sektoren-page .dashboard-header.scrolled .dashboard-nav a.active,
+body.vertriebspartner-page .dashboard-header.scrolled .dashboard-nav a.active,
+body.salespromoter-page .dashboard-header.scrolled .dashboard-nav a.active {
+    color: #54e50d !important;
+}
+
+.dashboard-header.scrolled .dashboard-nav a.active::after,
+.sektoren-page .dashboard-header.scrolled .dashboard-nav a.active::after,
+body.vertriebspartner-page .dashboard-header.scrolled .dashboard-nav a.active::after,
+body.salespromoter-page .dashboard-header.scrolled .dashboard-nav a.active::after {
+    background-color: #888888 !important;
+    transform: scaleX(1) !important;
 }
 
 .dashboard-nav .login-btn-mobile { display: none !important; }
+
 /* ============================================================
    MENU HAMBURGER
    ============================================================ */
@@ -413,73 +457,290 @@ body.scrolled-page .dashboard-header {
 .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
 /* ============================================================
-   PAGE INDEX
+   PADDING BODY AU SCROLL
    ============================================================ */
-body.dashboard-page { padding-top: 100px; transition: padding-top 0.4s ease; }
-body.dashboard-page.scrolled-page { padding-top: 56px; }
+body.dashboard-page { padding-top: 112px; transition: padding-top 0.4s ease; }
+body.dashboard-page.scrolled-page { padding-top: 68px; }
+body.index-page.scrolled-page { padding-top: 68px !important; }
 
-.top-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* ============================================================
+   PAGE INDEX — HERO
+   ============================================================ */
+.home-hero {
     background: #0c2545;
-    min-height: 60vh;
     width: 100%;
-    padding: 40px 20px;
+    padding: 60px 40px 0;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 60vh;
+    min-height: 480px;
 }
 
-.top-section a {
+.home-hero-inner {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.home-hero-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 60px;
+    width: 100%;
+    margin: 0 0 20px;
+}
+
+.home-hero-left { flex: 1 1 55%; }
+
+.home-hero-label {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 12px;
+    margin: 0 0 8px;
+}
+
+.home-hero-label .green-bar {
+    width: 36px;
+    height: 3px;
+    background: #54e50d;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.home-hero-label span:not(.green-bar) {
+    color: #A0AAB5;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.home-hero-title {
+    color: #FFFFFF;
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    margin: 0 0 14px;
+    text-align: left;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.home-title-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin: 0;
+}
+
+.home-title-row h2 {
+    color: #54e50d;
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.home-hero-right {
+    flex: 1 1 45%;
+    max-width: 560px;
+    padding-top: 12px;
+}
+
+.home-hero-right p {
+    color: #A0AAB5;
+    font-size: 1rem;
+    line-height: 1.75;
+    margin: 0;
+    text-align: left;
+}
+
+/* ============================================================
+   PAGE INDEX — SEGMENTS
+   ============================================================ */
+.home-segments-row {
+    display: flex;
+    width: 100%;
+    margin: auto 0 0;
+    border-top: 1px solid rgba(160, 170, 181, 0.3);
+}
+
+.home-segment-tab {
+    flex: 1;
+    padding: 20px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    border-right: 1px solid rgba(160, 170, 181, 0.3);
+    position: relative;
+}
+
+.home-segment-tab:last-child { border-right: none; }
+.home-segment-tab:hover { background: rgba(255, 255, 255, 0.04); }
+
+.home-segment-tab .tab-title {
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.home-segment-tab.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: #4a5568;
+    border-radius: 3px;
+}
+
+/* ============================================================
+   PAGE INDEX — DÉTAIL SEGMENT
+   ============================================================ */
+.home-segment-detail {
+    background: #FFFFFF;
+    width: 100%;
+    padding: 50px 40px;
+    box-sizing: border-box;
+    display: none;
+}
+
+.home-segment-detail.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.home-segment-detail-inner {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.home-segment-detail-text { flex: 1 1 60%; }
+
+.home-segment-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.home-segment-detail-header .green-bar {
+    width: 40px;
+    height: 4px;
+    background: #54e50d;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.home-segment-detail-header h3 {
+    color: #0c2545;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.home-segment-detail-text p {
+    color: #4a5568;
+    font-size: 1rem;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.home-segment-detail-chart {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.home-segment-detail-chart .donut-wrap {
+    position: relative;
+    width: 140px;
+    height: 140px;
+}
+
+.home-segment-detail-chart .donut-wrap svg {
     width: 100%;
     height: 100%;
+    transform: rotate(-90deg);
 }
 
-.top-section img {
-    max-width: 420px;
-    max-height: 420px;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    display: block;
+.home-segment-detail-chart .donut-track {
+    fill: none;
+    stroke: rgba(12, 37, 69, 0.1);
+    stroke-width: 8;
 }
 
-.bottom-section {
+.home-segment-detail-chart .donut-value {
+    fill: none;
+    stroke: #54e50d;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 339.29;
+    stroke-dashoffset: 339.29;
+    animation: homeDraw 1.4s cubic-bezier(.3,.8,.3,1) .2s forwards;
+}
+
+.home-segment-detail-chart .donut-num {
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #ffffff;
-    min-height: 40vh;
-    width: 100%;
-    padding: 40px 20px;
-    box-sizing: border-box;
-}
-
-.construction-message {
-    text-align: center;
-    color: #0c2545;
-    font-size: 1.35rem;
-    line-height: 1.6;
-    max-width: 640px;
-    padding: 24px 32px;
-    background: rgba(12, 37, 69, 0.06);
-    border-left: 4px solid #54e50d;
-    border-radius: 10px;
-}
-
-.construction-message .highlight {
-    color: #0c2545;
     font-weight: 700;
-    display: block;
-    margin-bottom: 6px;
+    font-size: 1.5rem;
+    color: #0c2545;
 }
 
-.construction-message .sub {
-    display: block;
-    color: #6a7b91;
-    font-size: 1.05rem;
+.home-segment-detail-chart .donut-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #54e50d;
+}
+
+@keyframes homeDraw { to { stroke-dashoffset: var(--offset); } }
+
+/* ============================================================
+   PAGE INDEX — SUIVEZ-NOUS
+   ============================================================ */
+.home-follow {
+    background: #F4F6F9;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.home-follow h3 {
+    color: #0c2545;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 18px;
+}
+
+.home-follow .social-icons {
+    justify-content: center;
+    margin: 0 auto;
 }
 
 /* ============================================================
@@ -502,11 +763,11 @@ body.vertriebspartner-page::before,
 body.salespromoter-page::before {
     content: "";
     position: fixed;
-    top: 100px;
+    top: 112px;
     left: 0;
     right: 0;
     width: 100vw;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 112px);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -527,11 +788,11 @@ body.vertriebspartner-page::after,
 body.salespromoter-page::after {
     content: "";
     position: fixed;
-    top: 100px;
+    top: 112px;
     left: 0;
     right: 0;
     width: 100vw;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 112px);
     background: rgba(12, 37, 69, 0.05);
     z-index: 2;
     pointer-events: none;
@@ -542,8 +803,8 @@ body.vertriebspartner-page.scrolled-page::before,
 body.vertriebspartner-page.scrolled-page::after,
 body.salespromoter-page.scrolled-page::before,
 body.salespromoter-page.scrolled-page::after {
-    top: 56px;
-    height: calc(100vh - 56px);
+    top: 68px;
+    height: calc(100vh - 68px);
 }
 
 body.vertriebspartner-page .social-top-bar.hidden,
@@ -580,14 +841,6 @@ body.salespromoter-page .dashboard-header.scrolled {
     border-bottom: 3px solid #1a3d6a !important;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
 }
-
-body.vertriebspartner-page .dashboard-header.scrolled .dashboard-nav a,
-body.salespromoter-page .dashboard-header.scrolled .dashboard-nav a { color: #54e50d; }
-
-body.vertriebspartner-page .dashboard-header.scrolled .dashboard-nav a:hover,
-body.vertriebspartner-page .dashboard-header.scrolled .dashboard-nav a.active,
-body.salespromoter-page .dashboard-header.scrolled .dashboard-nav a:hover,
-body.salespromoter-page .dashboard-header.scrolled .dashboard-nav a.active { color: #888888; }
 
 body.vertriebspartner-page .vp-form-section,
 body.salespromoter-page .vp-form-section {
@@ -800,16 +1053,13 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     background: #0b1a2f;
 }
 
-/* ============================================================
-   SEKTOREN — BANDEAU SOCIAL BLANC (comme les autres pages)
-   ============================================================ */
 .sektoren-page .social-top-bar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1002;
-    background: #E8ECF0;                  /* Blanc/gris clair comme partout */
+    background: #E8ECF0;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     border-bottom: 2px solid #54e50d;
@@ -831,7 +1081,6 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     box-shadow: 0 4px 15px rgba(84, 229, 13, 0.3);
 }
 
-/* Au scroll : bandeau devient bleu foncé comme partout */
 .sektoren-page .social-top-bar.scrolled {
     background: #0c2545;
     backdrop-filter: none;
@@ -848,7 +1097,6 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
 
 .sektoren-page .social-top-bar.scrolled .social-label { color: #E8ECF0; }
 
-/* Header Sektoren : même fond que les autres pages */
 .sektoren-page .dashboard-header {
     position: fixed;
     top: 44px;
@@ -861,7 +1109,7 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     border-bottom: 3px solid #0c2545;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     padding: 6px 40px;
-    min-height: 54px;
+    min-height: 68px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -876,40 +1124,6 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Navigation Sektoren : mêmes règles que les autres pages */
-.sektoren-page .dashboard-nav a {
-    color: #0c2545;
-    text-decoration: none;
-    padding: 4px 0 6px 0;
-    position: relative;
-    transition: color 0.25s ease;
-    font-weight: 500;
-    font-size: 1rem;
-}
-
-.sektoren-page .dashboard-nav a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 3px;
-    background-color: #888888;
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.sektoren-page .dashboard-nav a:hover { color: #54e50d; }
-.sektoren-page .dashboard-nav a:hover::after { transform: scaleX(1); background-color: #54e50d; }
-.sektoren-page .dashboard-nav a.active { color: #54e50d; }
-.sektoren-page .dashboard-nav a.active::after { transform: scaleX(1); background-color: #54e50d; }
-
-.sektoren-page .hamburger span { background-color: #54e50d; }
-
-.sektoren-page .dashboard-header.scrolled .dashboard-nav a { color: #54e50d; }
-.sektoren-page .dashboard-header.scrolled .dashboard-nav a:hover,
-.sektoren-page .dashboard-header.scrolled .dashboard-nav a.active { color: #888888; }
 .sektoren-page .dashboard-header.scrolled .welcome-center { color: #0c2545; }
 .sektoren-page .dashboard-header.scrolled .welcome-center .welcome-name { color: #0c2545; }
 
@@ -1243,7 +1457,7 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     flex: 1;
     max-width: 1200px;
     margin: 0 auto 40px;
-    padding: 120px 40px 60px;
+    padding: 130px 40px 60px;
     width: 100%;
 }
 
@@ -2117,7 +2331,7 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
 hr.admin-hr { margin: 30px 0; }
 
 /* ============================================================
-   BULLE CHAT TAWK.TO — VISIBLE PARTOUT SAUF SUR L'INDEX
+   BULLE CHAT TAWK.TO — VISIBLE SUR TOUTES LES PAGES
    ============================================================ */
 .tawk-min-container,
 iframe[title*="chat"],
@@ -2132,26 +2346,47 @@ iframe[title*="Chat"],
     pointer-events: auto !important;
 }
 
-/* ❌ Cacher la bulle de chat UNIQUEMENT sur la page index */
-body.index-page .tawk-min-container,
-body.index-page iframe[title*="chat"],
-body.index-page iframe[title*="Chat"],
-body.index-page .widget-visible .tawk-min-container,
-body.index-page #tawkchat-container,
-body.index-page .tawk-chat-container {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    width: 0 !important;
-    height: 0 !important;
-}
-
-/* Éviter que les pseudo-éléments ::before/::after bloquent le chat */
 body.vertriebspartner-page::after,
 body.salespromoter-page::after,
 body.sektoren-page::after {
     pointer-events: none !important;
+}
+
+/* ============================================================
+   FIX SCROLL INDEX — Force la disparition de la barre sociale
+   ============================================================ */
+body.index-page.scrolled-page .social-top-bar,
+body.index-page .social-top-bar.hidden,
+body.dashboard-page.scrolled-page .social-top-bar,
+body.index-page.scrolled-page .social-top-bar.hidden {
+    transform: translateY(-110%) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    max-height: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    display: none !important;
+}
+
+body.index-page.scrolled-page .dashboard-header,
+body.index-page .dashboard-header.scrolled,
+body.index-page .dashboard-header.top-zero {
+    top: 0 !important;
+}
+
+body.index-page.scrolled-page .dashboard-header,
+body.index-page .dashboard-header.scrolled {
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 3px solid #1a3d6a !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+body.index-page.scrolled-page {
+    padding-top: 68px !important;
 }
 
 /* ============================================================
@@ -2191,7 +2426,7 @@ body.sektoren-page::after {
         flex-wrap: nowrap;
         gap: 4px;
         justify-content: space-between;
-        min-height: 48px;
+        min-height: 56px;
     }
 
     .hamburger {
@@ -2206,7 +2441,10 @@ body.sektoren-page::after {
     .hamburger span { height: 3px; }
 
     .dashboard-header .logo-link { order: 0; flex-shrink: 0; }
-    .dashboard-header .logo-link img { max-height: 34px; }
+    .dashboard-header .logo-link img {
+        max-height: 46px !important;
+        height: 46px !important;
+    }
 
     .welcome-center {
         order: 1;
@@ -2261,12 +2499,12 @@ body.sektoren-page::after {
 
     .dashboard-nav a::after { display: none; }
     .dashboard-nav a:hover,
-    .dashboard-nav a.active { color: #54e50d; background: rgba(84, 229, 13, 0.1); }
+    .dashboard-nav a.active { color: #888888 !important; background: rgba(136, 136, 136, 0.1); }
 
     .dashboard-header.scrolled .dashboard-nav { background-color: rgba(255, 255, 255, 0.98); border-left-color: #1a3d6a; }
-    .dashboard-header.scrolled .dashboard-nav a { color: #54e50d; border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+    .dashboard-header.scrolled .dashboard-nav a { color: #54e50d !important; border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
     .dashboard-header.scrolled .dashboard-nav a:hover,
-    .dashboard-header.scrolled .dashboard-nav a.active { color: #888888; background: rgba(136, 136, 136, 0.1); }
+    .dashboard-header.scrolled .dashboard-nav a.active { color: #888888 !important; background: rgba(136, 136, 136, 0.1); }
 
     #logoutMobile {
         display: block !important;
@@ -2295,7 +2533,7 @@ body.sektoren-page::after {
 
     .menu-overlay.active { opacity: 1; pointer-events: auto; }
 
-    .dashboard-content { margin: 0 auto 40px; padding: 110px 16px 40px; }
+    .dashboard-content { margin: 0 auto 40px; padding: 130px 16px 40px; }
     .willkommen-box, .company-box, .ueber-uns-box, .stat-box, .admin-box { padding: 20px 16px; }
     .willkommen-box h1 { font-size: 1.8rem; }
     .tab-container { gap: 8px; flex-wrap: wrap; }
@@ -2320,8 +2558,8 @@ body.sektoren-page::after {
     .offer-item { flex-direction: column; align-items: stretch; }
     .offer-item .offer-actions { justify-content: flex-start; }
 
-    body.dashboard-page { padding-top: 90px; }
-    body.dashboard-page.scrolled-page { padding-top: 50px; }
+    body.dashboard-page { padding-top: 100px; }
+    body.dashboard-page.scrolled-page { padding-top: 60px; }
     .top-section { min-height: 55vh; }
     .bottom-section { min-height: 45vh; }
     .top-section img { max-width: 300px; max-height: 300px; }
@@ -2331,15 +2569,15 @@ body.sektoren-page::after {
     body.vertriebspartner-page::after,
     body.salespromoter-page::before,
     body.salespromoter-page::after {
-        top: 88px;
-        height: calc(100vh - 88px);
+        top: 100px;
+        height: calc(100vh - 100px);
     }
     body.vertriebspartner-page.scrolled-page::before,
     body.vertriebspartner-page.scrolled-page::after,
     body.salespromoter-page.scrolled-page::before,
     body.salespromoter-page.scrolled-page::after {
-        top: 48px;
-        height: calc(100vh - 48px);
+        top: 60px;
+        height: calc(100vh - 60px);
     }
     body.vertriebspartner-page .vp-form-section,
     body.salespromoter-page .vp-form-section {
@@ -2352,8 +2590,11 @@ body.sektoren-page::after {
     .vp-form .btn-senden { max-width: 100%; }
 
     .sektoren-page .social-top-bar { padding: 3px 0; }
-    .sektoren-page .dashboard-header { top: 30px; padding: 6px 10px; min-height: 48px; }
-    .sektoren-page .dashboard-header .logo-link img { max-height: 34px; }
+    .sektoren-page .dashboard-header { top: 30px; padding: 6px 10px; min-height: 56px; }
+    .sektoren-page .dashboard-header .logo-link img {
+        max-height: 46px !important;
+        height: 46px !important;
+    }
     .sektoren-page .sektoren-container {
         flex-direction: column;
         height: auto;
@@ -2426,10 +2667,13 @@ body.sektoren-page::after {
     .company-box, .admin-box, .ueber-uns-box { padding: 16px !important; }
     .company-item .company-actions { justify-content: flex-end; }
     .contract-item .contract-actions { justify-content: flex-start; }
-    .dashboard-header { padding: 6px 8px; min-height: 46px; }
-    .dashboard-header .logo-link img { max-height: 30px; }
+    .dashboard-header { padding: 6px 8px; min-height: 52px; }
+    .dashboard-header .logo-link img {
+        max-height: 42px !important;
+        height: 42px !important;
+    }
     .welcome-center { font-size: 0.6rem; }
-    .dashboard-content { padding: 110px 12px 30px; }
+    .dashboard-content { padding: 130px 12px 30px; }
 }
 
 @media (max-width: 480px) {
@@ -2445,10 +2689,13 @@ body.sektoren-page::after {
     .portal-card .card-header { padding: 10px 12px; }
     .portal-card .card-body { padding: 0 12px 12px 12px; }
 
-    .dashboard-content { padding: 100px 12px 20px; }
+    .dashboard-content { padding: 120px 12px 20px; }
 
-    .dashboard-header { top: 36px; padding: 5px 6px; min-height: 42px; }
-    .dashboard-header .logo-link img { max-height: 26px; }
+    .dashboard-header { top: 36px; padding: 5px 6px; min-height: 46px; }
+    .dashboard-header .logo-link img {
+        max-height: 36px !important;
+        height: 36px !important;
+    }
     .welcome-center { font-size: 0.55rem; min-width: 40px; }
 
     .social-top-bar { padding: 2px 0; }
@@ -2458,8 +2705,8 @@ body.sektoren-page::after {
     .social-icon { width: 22px; height: 22px; }
     .social-icon svg { width: 12px; height: 12px; }
 
-    body.dashboard-page { padding-top: 80px; }
-    body.dashboard-page.scrolled-page { padding-top: 45px; }
+    body.dashboard-page { padding-top: 90px; }
+    body.dashboard-page.scrolled-page { padding-top: 55px; }
     .top-section img { max-width: 220px; max-height: 220px; }
     .construction-message { font-size: 1rem; padding: 14px 18px; }
 
@@ -2467,15 +2714,15 @@ body.sektoren-page::after {
     body.vertriebspartner-page::after,
     body.salespromoter-page::before,
     body.salespromoter-page::after {
-        top: 76px;
-        height: calc(100vh - 76px);
+        top: 88px;
+        height: calc(100vh - 88px);
     }
     body.vertriebspartner-page.scrolled-page::before,
     body.vertriebspartner-page.scrolled-page::after,
     body.salespromoter-page.scrolled-page::before,
     body.salespromoter-page.scrolled-page::after {
-        top: 42px;
-        height: calc(100vh - 42px);
+        top: 52px;
+        height: calc(100vh - 52px);
     }
     body.vertriebspartner-page .vp-form-section,
     body.salespromoter-page .vp-form-section {
@@ -2489,8 +2736,11 @@ body.sektoren-page::after {
     .vp-form .form-row { flex-direction: column; gap: 0; }
 
     .sektoren-page .social-top-bar { padding: 2px 0; }
-    .sektoren-page .dashboard-header { top: 26px; padding: 5px 8px; min-height: 42px; }
-    .sektoren-page .dashboard-header .logo-link img { max-height: 26px; }
+    .sektoren-page .dashboard-header { top: 26px; padding: 5px 8px; min-height: 46px; }
+    .sektoren-page .dashboard-header .logo-link img {
+        max-height: 36px !important;
+        height: 36px !important;
+    }
     .sektoren-page .sektoren-container { padding-top: 15px; }
     .sektoren-page .segment { min-height: 150px; }
     .sektoren-page .segment.active { min-height: 280px; }
@@ -2508,13 +2758,15 @@ body.sektoren-page::after {
     .dashboard-nav { width: 75%; padding: 80px 20px 30px; }
     .dashboard-nav a { font-size: 1rem; padding: 12px 0; }
     #logoutMobile { padding: 12px 20px; font-size: 0.9rem; }
+
+    body.index-page.scrolled-page { padding-top: 55px !important; }
 }
 
 @media (max-width: 400px) {
     .social-label { display: none; }
     .dashboard-nav { width: 80%; padding: 70px 16px 20px; }
-    .dashboard-content { padding: 100px 10px 20px; }
-    .dashboard-header { min-height: 40px; padding: 5px 6px; }
+    .dashboard-content { padding: 120px 10px 20px; }
+    .dashboard-header { min-height: 44px; padding: 5px 6px; }
     .dashboard-nav a { font-size: 0.9rem; padding: 10px 0; }
     .btn-top-bar { font-size: 0.5rem; padding: 2px 6px; }
     .social-icon { width: 20px; height: 20px; }
@@ -2523,11 +2775,14 @@ body.sektoren-page::after {
 
 @media (max-width: 360px) {
     .dashboard-nav { width: 85%; padding: 60px 14px 16px; }
-    .dashboard-header .logo-link img { max-height: 22px; }
+    .dashboard-header .logo-link img {
+        max-height: 32px !important;
+        height: 32px !important;
+    }
     .welcome-center { font-size: 0.5rem; }
-    .dashboard-content { padding: 100px 10px 20px; }
+    .dashboard-content { padding: 120px 10px 20px; }
     .sektoren-page .sektoren-container { padding-top: 8px; }
-    .dashboard-header { min-height: 38px; padding: 4px 4px; }
+    .dashboard-header { min-height: 40px; padding: 4px 4px; }
     .hamburger { width: 24px; height: 20px; }
     .hamburger span { height: 2px; }
     .dashboard-nav a { font-size: 0.8rem; padding: 8px 0; }
