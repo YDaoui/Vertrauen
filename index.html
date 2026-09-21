@@ -20,165 +20,156 @@
 
     <!-- CSS principal -->
     <link rel="stylesheet" href="style.css" />
-
-    <!-- CSS spécifique carte Allemagne + hero -->
-    <style>
-        /* ============================================================
-           PAGE INDEX — HERO GAUCHE
-           ============================================================ */
-        .home-hero-left {
-            flex: 1 1 55%;
-            transform: translateY(10%);   /* ✅ Descend le bloc gauche de 10% */
-        }
-
-        /* Label "Unsere Tätigkeitsbereiche" — MINIMISÉ */
-        .home-hero-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0 0 4px;
-        }
-        .home-hero-label .green-bar {
-            width: 24px;
-            height: 2px;
-            background: #54e50d;
-            border-radius: 2px;
-            flex-shrink: 0;
-        }
-        .home-hero-label span:not(.green-bar) {
-            color: #A0AAB5;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        /* Paragraphe sous le titre */
-        .home-hero-left-p {
-            color: #A0AAB5;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            margin: 18px 0 0;
-            max-width: 620px;
-            text-align: left;
-        }
-
-        /* ============================================================
-           PAGE INDEX — CARTE D'ALLEMAGNE
-           ============================================================ */
-        .home-hero-map {
-            flex: 0 0 auto;
-            width: 400px;
-            max-width: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            background: transparent;
-            position: relative;
-             /* ✅ Descend la carte de 10% */
-        }
-
-        .home-hero-map img.de-map-img {
-            width: 100%;
-            height: auto;
-            max-height: 60vh;
-            display: block;
-            opacity: 0.85;                /* ✅ Carte un peu transparente */
-            filter: 
-                brightness(0) saturate(100%)
-                invert(72%) sepia(96%) saturate(1352%)
-                hue-rotate(53deg) brightness(103%) contrast(101%)
-                drop-shadow(0 8px 25px rgba(84, 229, 13, 0.4));
-            transition: filter 0.3s ease, transform 0.4s ease, opacity 0.3s ease;
-        }
-
-        .home-hero-map img.de-map-img:hover {
-            transform: scale(1.03);
-            opacity: 1;                   /* ✅ Redevient opaque au survol */
-        }
-
-        /* Points lumineux sur les villes */
-        .city-point {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            margin-left: -4px;
-            margin-top: -4px;
-            border-radius: 50%;
-            background: #0c2545;
-            border: 2px solid #54e50d;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .city-pulse {
-            position: absolute;
-            width: 14px;
-            height: 14px;
-            margin-left: -7px;
-            margin-top: -7px;
-            border-radius: 50%;
-            background: rgba(84, 229, 13, 0.5);
-            z-index: 2;
-            pointer-events: none;
-            animation: cityPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes cityPulse {
-            0%, 100% { transform: scale(1);   opacity: 0.5; }
-            50%      { transform: scale(1.8); opacity: 0.15; }
-        }
-
-        .city-name {
-            position: absolute;
-            transform: translateX(-50%);
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: 700;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            white-space: nowrap;
-            z-index: 4;
-            pointer-events: none;
-            text-shadow: 
-                0 0 3px #0c2545, 
-                0 0 3px #0c2545,
-                0 0 3px #0c2545,
-                0 0 3px #0c2545;
-        }
-
-        @media (max-width: 900px) {
-            .home-hero-map {
-                width: 300px;
-                max-width: 300px;
-                margin: 20px auto 0;
-            }
-            .home-hero-map img.de-map-img { max-height: 42vh; }
-            .city-name { font-size: 10px; }
-            .city-point { width: 7px; height: 7px; margin-left: -3.5px; margin-top: -3.5px; }
-        }
-
-        @media (max-width: 480px) {
-            .home-hero-map { width: 240px; max-width: 240px; }
-            .home-hero-map img.de-map-img { max-height: 34vh; }
-            .city-name { font-size: 9px; }
-        }
-    </style>
 </head>
+<!-- ===== FIX SEGMENTS — SCROLL GARANTI ===== -->
+<script>
+(function () {
+    function initSegmentsScroll() {
+        const tabs = document.querySelectorAll('.home-segment-tab');
+        const details = document.querySelectorAll('.home-segment-detail');
 
-<!-- Tawk.to Chat -->
-<script type="text/javascript">
-var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-(function(){
-  var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-  s1.async = true;
-  s1.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
-  s1.charset = 'UTF-8';
-  s1.setAttribute('crossorigin', '*');
-  s0.parentNode.insertBefore(s1, s0);
+        if (!tabs.length || !details.length) {
+            console.warn('⚠️ Segments : onglets ou détails introuvables');
+            return;
+        }
+
+        console.log('✅ initSegmentsScroll : ' + tabs.length + ' onglets, ' + details.length + ' détails');
+
+        tabs.forEach(function (tab) {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const segment = this.getAttribute('data-segment');
+                console.log('🔵 Clic sur segment :', segment);
+
+                // Onglet actif
+                tabs.forEach(function (t) { t.classList.remove('active'); });
+                this.classList.add('active');
+
+                // Trouver la section cible
+                const targetSection = document.querySelector(
+                    '.home-segment-detail[data-segment="' + segment + '"]'
+                );
+
+                if (!targetSection) {
+                    console.warn('❌ Section introuvable pour :', segment);
+                    return;
+                }
+
+                // Animation donut
+                const num = targetSection.querySelector('.donut-num');
+                if (num) {
+                    const target = parseInt(num.getAttribute('data-target'), 10);
+                    if (!isNaN(target)) {
+                        num.textContent = '0';
+                        const duration = 1600;
+                        const start = performance.now();
+                        function step(now) {
+                            const progress = Math.min((now - start) / duration, 1);
+                            const eased = 1 - Math.pow(1 - progress, 3);
+                            const value = Math.floor(target * eased);
+                            num.textContent = value.toLocaleString('de-DE');
+                            if (progress < 1) requestAnimationFrame(step);
+                            else num.textContent = target.toLocaleString('de-DE');
+                        }
+                        requestAnimationFrame(step);
+                    }
+                }
+
+                // ✅ SCROLL MANUEL (fiable partout)
+                const header = document.getElementById('dashboardHeader');
+                const headerHeight = header ? header.offsetHeight : 68;
+                const extraOffset = 20;
+                const offset = headerHeight + extraOffset;
+
+                const rect = targetSection.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const targetY = rect.top + scrollTop - offset;
+
+                console.log('📏 Scroll vers Y =', targetY, '(header =', headerHeight, 'px)');
+
+                window.scrollTo({
+                    top: targetY,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    }
+
+    // Appel immédiat si DOM prêt, sinon après
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSegmentsScroll);
+    } else {
+        initSegmentsScroll();
+    }
+
+    // Sécurité : réessayer après 1 seconde si les éléments n'étaient pas prêts
+    setTimeout(initSegmentsScroll, 1000);
 })();
 </script>
+<!-- ===== FORCE L'AJOUT DES VILLES APRÈS CHARGEMENT DE LA CARTE ===== -->
+<script>
+(function () {
+    function addCitiesNow() {
+        const mapImg = document.querySelector('.de-map-img');
+        if (!mapImg) {
+            console.warn('⚠️ Carte introuvable');
+            return;
+        }
 
+        const parent = mapImg.parentElement;
+        parent.style.position = 'relative';
+
+        // Supprimer les anciens points
+        parent.querySelectorAll('.city-point, .city-pulse, .city-name').forEach(el => el.remove());
+
+        const cities = [
+            { name: 'Berlin',     x: 72, y: 30 },
+            { name: 'Hamburg',    x: 53, y: 15 },
+            { name: 'München',    x: 58, y: 78 },
+            { name: 'Köln',       x: 30, y: 45 },
+            { name: 'Frankfurt',  x: 40, y: 52 },
+            { name: 'Stuttgart',  x: 44, y: 63 },
+            { name: 'Düsseldorf', x: 28, y: 41 },
+            { name: 'Dresden',    x: 81, y: 49 },
+            { name: 'Hannover',   x: 46, y: 26 },
+            { name: 'Nürnberg',   x: 58, y: 62 }
+        ];
+
+        cities.forEach(function (city) {
+            const pulse = document.createElement('div');
+            pulse.className = 'city-pulse';
+            pulse.style.left = city.x + '%';
+            pulse.style.top  = city.y + '%';
+            parent.appendChild(pulse);
+
+            const dot = document.createElement('div');
+            dot.className = 'city-point';
+            dot.style.left = city.x + '%';
+            dot.style.top  = city.y + '%';
+            parent.appendChild(dot);
+
+            const label = document.createElement('div');
+            label.className = 'city-name';
+            label.style.left = city.x + '%';
+            label.style.top  = (city.y - 5) + '%';
+            label.textContent = city.name;
+            parent.appendChild(label);
+        });
+
+        console.log('✅ Villes ajoutées :', cities.length);
+    }
+
+    // Essayer après chargement complet
+    window.addEventListener('load', function () {
+        setTimeout(addCitiesNow, 300);
+    });
+
+    // Sécurité : réessayer après 1.5s
+    setTimeout(addCitiesNow, 1500);
+})();
+</script>
 <body class="dashboard-page index-page">
 
     <!-- ===== BANDEAU RÉSEAUX SOCIAUX ===== -->
@@ -234,7 +225,7 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         <div class="home-hero-inner">
             <div class="home-hero-row">
 
-                <!-- COLONNE GAUCHE -->
+                <!-- COLONNE GAUCHE : TITRES -->
                 <div class="home-hero-left">
                     <div class="home-hero-label">
                         <span class="green-bar"></span>
@@ -262,31 +253,79 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                 </div>
 
                 <!-- COLONNE DROITE : CARTE D'ALLEMAGNE -->
-                <div class="home-hero-right home-hero-map">
-                    <img src="Images/Dashbords/de.svg" alt="Karte von Deutschland" class="de-map-img" />
-                </div>
+                <!-- COLONNE DROITE : CARTE D'ALLEMAGNE + LOGO PAR-DESSUS -->
+<!-- COLONNE DROITE : CARTE D'ALLEMAGNE + LOGO PAR-DESSUS -->
+<div class="home-hero-right home-hero-map">
+    <img src="Images/Dashbords/de.svg" alt="Karte von Deutschland" class="de-map-img" />
+    <img src="Images/Vertrauen_Logo1.png" alt="Logo Vertrauen" class="logo-over-map" />
+</div>
 
             </div>
 
-            <!-- ✅ SEGMENTS : Strom / Gas / Internet / Versicherung -->
-            <div class="home-segments-row" id="segmentsRow">
-                <div class="home-segment-tab active" data-segment="strom"><div class="tab-title">Strom</div></div>
-                <div class="home-segment-tab" data-segment="gas"><div class="tab-title">Gas</div></div>
-                <div class="home-segment-tab" data-segment="internet"><div class="tab-title">Internet</div></div>
-                <div class="home-segment-tab" data-segment="versicherung"><div class="tab-title">Versicherung</div></div>
+            <!-- ✅ 4 BOUTONS ÉTIRÉS SUR TOUTE LA LARGEUR -->
+            <div class="home-segments-box">
+                <div class="home-segments-row" id="segmentsRow">
+
+                    <div class="home-segment-tab active" data-segment="strom">
+                        <div class="tab-title">Strom</div>
+                        <svg class="tab-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+
+                    <div class="home-segment-tab" data-segment="gas">
+                        <div class="tab-title">Gas</div>
+                        <svg class="tab-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+
+                    <div class="home-segment-tab" data-segment="internet">
+                        <div class="tab-title">Internet</div>
+                        <svg class="tab-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+
+                    <div class="home-segment-tab" data-segment="versicherung">
+                        <div class="tab-title">Versicherung</div>
+                        <svg class="tab-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- ✅ EN-TÊTE PERMANENT — SOUS LES BOUTONS -->
+    <div class="home-segments-header">
+        <h3>Unsere 4 Sektoren</h3>
+        <p>
+            Entdecken Sie unsere Tätigkeitsbereiche – Strom, Gas, Internet und Versicherung.
+            Klicken Sie auf einen Sektor, um mehr zu erfahren.
+        </p>
+    </div>
+
     <!-- ===== DÉTAILS SEGMENTS ===== -->
-    <section class="home-segment-detail active" id="segmentDetail-strom" data-segment="strom">
+
+    <!-- STROM -->
+    <section class="home-segment-detail" id="segmentDetail-strom" data-segment="strom">
         <div class="home-segment-detail-inner">
+            <div class="home-segment-detail-image">
+                <img src="Images/Dashbords/image1.jpg" alt="Strom" />
+            </div>
             <div class="home-segment-detail-text">
                 <div class="home-segment-detail-header">
                     <span class="green-bar"></span>
                     <h3>Strom</h3>
                 </div>
-                <p>Wir vermitteln Stromtarife renommierter Anbieter und begleiten jeden Vertriebspartner persönlich – von der Beratung bis zum Vertragsabschluss. Diese Erfahrung ist die Basis für das Vertrauen, das uns unsere Kunden entgegenbringen.</p>
+                <p>
+                    Wir vermitteln Stromtarife renommierter Anbieter und begleiten jeden Vertriebspartner
+                    persönlich – von der Beratung bis zum Vertragsabschluss. Diese Erfahrung ist die Basis
+                    für das Vertrauen, das uns unsere Kunden entgegenbringen.
+                </p>
             </div>
             <div class="home-segment-detail-chart">
                 <div class="donut-wrap">
@@ -301,14 +340,22 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         </div>
     </section>
 
+    <!-- GAS -->
     <section class="home-segment-detail" id="segmentDetail-gas" data-segment="gas">
         <div class="home-segment-detail-inner">
+            <div class="home-segment-detail-image">
+                <img src="Images/Dashbords/image2.jpg" alt="Gas" />
+            </div>
             <div class="home-segment-detail-text">
                 <div class="home-segment-detail-header">
                     <span class="green-bar"></span>
                     <h3>Gas</h3>
                 </div>
-                <p>Vom ersten Tag an setzen wir auf klare Beratung und faire Tarife im Gasvertrieb. Unsere Sales Promoter kennen den Markt genau und sorgen dafür, dass jede Familie das passende Angebot findet.</p>
+                <p>
+                    Vom ersten Tag an setzen wir auf klare Beratung und faire Tarife im Gasvertrieb.
+                    Unsere Sales Promoter kennen den Markt genau und sorgen dafür, dass jede Familie
+                    das passende Angebot findet.
+                </p>
             </div>
             <div class="home-segment-detail-chart">
                 <div class="donut-wrap">
@@ -323,14 +370,22 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         </div>
     </section>
 
+    <!-- INTERNET -->
     <section class="home-segment-detail" id="segmentDetail-internet" data-segment="internet">
         <div class="home-segment-detail-inner">
+            <div class="home-segment-detail-image">
+                <img src="Images/Dashbords/image3.jpg" alt="Internet" />
+            </div>
             <div class="home-segment-detail-text">
                 <div class="home-segment-detail-header">
                     <span class="green-bar"></span>
                     <h3>Internet</h3>
                 </div>
-                <p>Schnelles, zuverlässiges Internet ist heute Grundversorgung. Wir arbeiten seit Jahren mit etablierten Anbietern zusammen und helfen Haushalten und Firmen, den richtigen Anschluss zu finden.</p>
+                <p>
+                    Schnelles, zuverlässiges Internet ist heute Grundversorgung. Wir arbeiten seit Jahren
+                    mit etablierten Anbietern zusammen und helfen Haushalten und Firmen, den richtigen
+                    Anschluss zu finden.
+                </p>
             </div>
             <div class="home-segment-detail-chart">
                 <div class="donut-wrap">
@@ -345,14 +400,22 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         </div>
     </section>
 
+    <!-- VERSICHERUNG -->
     <section class="home-segment-detail" id="segmentDetail-versicherung" data-segment="versicherung">
         <div class="home-segment-detail-inner">
+            <div class="home-segment-detail-image">
+                <img src="Images/Dashbords/image4.jpg" alt="Versicherung" />
+            </div>
             <div class="home-segment-detail-text">
                 <div class="home-segment-detail-header">
                     <span class="green-bar"></span>
                     <h3>Versicherung</h3>
                 </div>
-                <p>Absicherung braucht Vertrauen. Unser Team begleitet Kunden bei der Wahl passender Versicherungslösungen – transparent, unabhängig und mit über acht Jahren Erfahrung im Vertrieb.</p>
+                <p>
+                    Absicherung braucht Vertrauen. Unser Team begleitet Kunden bei der Wahl passender
+                    Versicherungslösungen – transparent, unabhängig und mit über acht Jahren Erfahrung
+                    im Vertrieb.
+                </p>
             </div>
             <div class="home-segment-detail-chart">
                 <div class="donut-wrap">
@@ -401,70 +464,5 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
     <!-- ===== JS ===== -->
     <script src="main.js"></script>
-<!-- ===== FIX SEGMENTS — FONCTIONNEMENT GARANTI ===== -->
-<script>
-(function () {
-    function initSegmentsIndex() {
-        const tabs = document.querySelectorAll('.home-segment-tab');
-        const details = document.querySelectorAll('.home-segment-detail');
-
-        if (!tabs.length || !details.length) {
-            console.warn('⚠️ Segments : onglets ou détails introuvables');
-            return;
-        }
-
-        console.log('✅ Segments index : ' + tabs.length + ' onglets, ' + details.length + ' détails');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function () {
-                const segment = this.dataset.segment;
-                console.log('🔵 Clic sur segment :', segment);
-
-                // Onglets
-                tabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-
-                // Détails
-                details.forEach(d => d.classList.remove('active'));
-                details.forEach(d => {
-                    if (d.dataset.segment === segment) {
-                        d.classList.add('active');
-                    }
-                });
-
-                // Animation du donut
-                const activeDetail = document.querySelector('.home-segment-detail.active');
-                if (activeDetail) {
-                    const num = activeDetail.querySelector('.donut-num');
-                    if (num) {
-                        const target = parseInt(num.dataset.target, 10);
-                        if (!isNaN(target)) {
-                            num.textContent = '0';
-                            const duration = 1600;
-                            const start = performance.now();
-                            function step(now) {
-                                const progress = Math.min((now - start) / duration, 1);
-                                const eased = 1 - Math.pow(1 - progress, 3);
-                                const value = Math.floor(target * eased);
-                                num.textContent = value.toLocaleString('de-DE');
-                                if (progress < 1) requestAnimationFrame(step);
-                                else num.textContent = target.toLocaleString('de-DE');
-                            }
-                            requestAnimationFrame(step);
-                        }
-                    }
-                }
-            });
-        });
-    }
-
-    // Appel immédiat si DOM prêt, sinon après chargement
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initSegmentsIndex);
-    } else {
-        initSegmentsIndex();
-    }
-})();
-</script>
 </body>
 </html>

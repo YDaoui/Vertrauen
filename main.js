@@ -2925,12 +2925,15 @@ function initScrollBehavior() {
 // =====================================================================
 function addGermanCitiesDots() {
   const mapImg = document.querySelector('.de-map-img');
-  if (!mapImg) return;
+  if (!mapImg) {
+    console.warn('⚠️ addGermanCitiesDots : image carte introuvable');
+    return;
+  }
 
   const parent = mapImg.parentElement;
   parent.style.position = 'relative';
 
-  // Éviter les doublons si la fonction est appelée plusieurs fois
+  // Nettoyer les anciens points
   parent.querySelectorAll('.city-point, .city-pulse, .city-name').forEach(el => el.remove());
 
   const cities = [
@@ -2966,49 +2969,68 @@ function addGermanCitiesDots() {
     label.textContent = city.name;
     parent.appendChild(label);
   });
+
+  console.log('✅ addGermanCitiesDots : ' + cities.length + ' villes ajoutées');
 }
 
+// ✅ Attendre le chargement de l'image avant d'ajouter les points
+window.addEventListener('load', function () {
+  setTimeout(addGermanCitiesDots, 200);
+});
+
+// ✅ Rappel de sécurité après 1 seconde
+setTimeout(addGermanCitiesDots, 1000);
 // =====================================================================
-// ===== SEGMENTS INDEX — ONGLETS STROM / GAS / INTERNET / VERSICHERUNG
+// ===== SEGMENTS INDEX — CLIC + SCROLL FLUIDE + DONUTS ===============
 // =====================================================================
-function initSegments() {
+function initSegmentsIndex() {
   const tabs = document.querySelectorAll('.home-segment-tab');
   const details = document.querySelectorAll('.home-segment-detail');
   if (!tabs.length || !details.length) return;
 
-  console.log('✅ initSegments : ' + tabs.length + ' onglets, ' + details.length + ' détails');
+  console.log('✅ Segments index : ' + tabs.length + ' onglets, ' + details.length + ' détails');
 
   tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const segment = tab.dataset.segment;
+    tab.addEventListener('click', function () {
+      const segment = this.dataset.segment;
       console.log('🔵 Clic sur segment :', segment);
 
       tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
+      this.classList.add('active');
 
-      details.forEach(d => {
-        d.classList.remove('active');
-        if (d.dataset.segment === segment) d.classList.add('active');
-      });
+      const targetSection = document.querySelector(
+        '.home-segment-detail[data-segment="' + segment + '"]'
+      );
 
-      // Anime les compteurs du segment actif
-      const counters = document.querySelectorAll('.home-segment-detail.active .donut-num[data-target]');
-      counters.forEach(el => {
-        const target = parseInt(el.dataset.target, 10);
-        if (isNaN(target)) return;
-        el.textContent = '0';
-        const duration = 1600;
-        const start = performance.now();
-        function step(now) {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const value = Math.floor(target * eased);
-          el.textContent = value.toLocaleString('de-DE');
-          if (progress < 1) requestAnimationFrame(step);
-          else el.textContent = target.toLocaleString('de-DE');
+      if (targetSection) {
+        // Animation donut
+        const num = targetSection.querySelector('.donut-num');
+        if (num) {
+          const target = parseInt(num.dataset.target, 10);
+          if (!isNaN(target)) {
+            num.textContent = '0';
+            const duration = 1600;
+            const start = performance.now();
+            function step(now) {
+              const progress = Math.min((now - start) / duration, 1);
+              const eased = 1 - Math.pow(1 - progress, 3);
+              const value = Math.floor(target * eased);
+              num.textContent = value.toLocaleString('de-DE');
+              if (progress < 1) requestAnimationFrame(step);
+              else num.textContent = target.toLocaleString('de-DE');
+            }
+            requestAnimationFrame(step);
+          }
         }
-        requestAnimationFrame(step);
-      });
+
+        // ✅ Scroll natif + scroll-margin-top gère l'offset
+        targetSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+
+        console.log('📏 Scroll vers :', targetSection.id);
+      }
     });
   });
 }
@@ -3065,6 +3087,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Index : compteurs + segments + carte
   animateCounters();
-  initSegments();
+  initSegmentsIndex();
   addGermanCitiesDots();
 });

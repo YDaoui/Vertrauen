@@ -397,7 +397,7 @@ body.dashboard-page.scrolled-page { padding-top: 68px; }
 body.index-page.scrolled-page { padding-top: 68px !important; }
 
 /* ============================================================
-   PAGE INDEX — HERO (TITRES À GAUCHE EN HAUT, CARTE EN BAS À DROITE)
+   PAGE INDEX — HERO
    ============================================================ */
 .home-hero {
     background: #0c2545;
@@ -406,7 +406,8 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    min-height: 700px;
+    height: auto !important;
+    min-height: auto !important;
 }
 
 .home-hero-inner {
@@ -415,8 +416,7 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    flex: 1;
-    min-height: 600px;
+    flex: none !important;
 }
 
 .home-hero-row {
@@ -425,14 +425,13 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
     align-items: flex-start;
     gap: 60px;
     width: 100%;
-    flex: 1;
-    margin: 0 0 20px;
+    margin: 0 0 20px !important;
+    flex: none !important;
 }
 
-/* --- Colonne gauche : titres en haut à gauche --- */
 .home-hero-left {
     flex: 1 1 55%;
-    align-self: flex-start;
+    align-self: flex-start !important;
     transform: none !important;
     margin-top: 0 !important;
 }
@@ -495,25 +494,25 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
     text-align: left;
 }
 
-/* --- Colonne droite : carte d'Allemagne en bas à droite --- */
 .home-hero-right {
     flex: 0 0 auto;
-    align-self: flex-end;
+    align-self: flex-start !important;
     max-width: 560px;
-    padding-top: 12px;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
 }
 
 .home-hero-map {
     width: 400px;
     max-width: 400px;
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
     padding: 0;
     background: transparent;
     position: relative;
     transform: none !important;
-    margin-top: auto !important;
+    margin: 0 !important;
 }
 
 .home-hero-map img.de-map-img {
@@ -535,32 +534,75 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
     opacity: 1;
 }
 
-/* Points lumineux sur les villes */
+/* ============================================================
+   LOGO GRIS À L'INTÉRIEUR DE LA CARTE
+   ============================================================ */
+/* ============================================================
+   LOGO GRIS MINI À L'INTÉRIEUR DE LA CARTE
+   ============================================================ */
+.home-hero-map .logo-over-map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40% !important;          /* ✅ logo mini */
+    max-width: 200px !important;    /* ✅ limite la taille */
+    height: auto;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0.65;
+
+    /* ✅ Gris + brillance */
+    filter:
+        brightness(0) saturate(100%)
+        invert(75%) sepia(0%) saturate(0%) brightness(55%) contrast(90%)
+        drop-shadow(0 0 8px rgba(180, 180, 180, 0.6))
+        drop-shadow(0 0 16px rgba(160, 160, 160, 0.3));
+
+    transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+.home-hero-map .logo-over-map:hover {
+    opacity: 1;
+    filter:
+        brightness(0) saturate(500%)
+        invert(80%) sepia(0%) saturate(0%) brightness(125%) contrast(95%)
+        drop-shadow(0 0 12px rgba(200, 200, 200, 0.8))
+        drop-shadow(0 0 24px rgba(180, 180, 180, 0.5));
+}
+/* ============================================================
+   VILLES EN BLEU — POINTS + PULSATIONS + LABELS
+   ============================================================ */
 .city-point {
     position: absolute;
-    width: 8px; height: 8px;
-    margin-left: -4px; margin-top: -4px;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    margin-top: -5px;
     border-radius: 50%;
     background: #0c2545;
-    border: 2px solid #54e50d;
-    z-index: 3;
+    border: 2px solid #ffffff;
+    z-index: 6;
     pointer-events: none;
+    box-shadow: 0 0 8px rgba(79, 168, 255, 0.9);
 }
 
 .city-pulse {
     position: absolute;
-    width: 14px; height: 14px;
-    margin-left: -7px; margin-top: -7px;
+    width: 18px;
+    height: 18px;
+    margin-left: -9px;
+    margin-top: -9px;
     border-radius: 50%;
-    background: rgba(84, 229, 13, 0.5);
-    z-index: 2;
+    background: rgba(79, 168, 255, 0.6);
+    z-index: 5;
     pointer-events: none;
     animation: cityPulse 2s ease-in-out infinite;
 }
 
 @keyframes cityPulse {
-    0%, 100% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.8); opacity: 0.15; }
+    0%, 100% { transform: scale(1);   opacity: 0.6; }
+    50%      { transform: scale(2);   opacity: 0.1; }
 }
 
 .city-name {
@@ -571,97 +613,169 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
     font-weight: 700;
     font-family: 'Segoe UI', Arial, sans-serif;
     white-space: nowrap;
-    z-index: 4;
+    z-index: 7;
     pointer-events: none;
     text-shadow:
-        0 0 3px #0c2545,
-        0 0 3px #0c2545,
-        0 0 3px #0c2545,
-        0 0 3px #0c2545;
+        0 0 4px #4fa8ff,
+        0 0 4px #0c2545,
+        0 0 4px #0c2545,
+        0 0 4px #0c2545;
 }
 
 /* ============================================================
-   PAGE INDEX — SEGMENTS (4 BOUTONS)
+   4 BOUTONS ÉTIRÉS SUR TOUTE LA LARGEUR — FOND TRANSPARENT
    ============================================================ */
+.home-segments-box {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 30px 0 0 !important;
+    max-width: 100% !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
 .home-segments-row {
     display: flex !important;
     width: 100% !important;
-    margin: auto 0 0 !important;
-    border-top: 1px solid rgba(160, 170, 181, 0.3) !important;
-    background: transparent;
+    margin: 0 !important;
+    border-top: 1px solid rgba(160, 170, 181, 0.25) !important;
 }
 
 .home-segment-tab {
-    flex: 1 !important;
-    padding: 20px 12px !important;
+    flex: 1 1 25% !important;
+    padding: 22px 12px !important;
     text-align: center !important;
     cursor: pointer !important;
     transition: background 0.3s ease !important;
-    border-right: 1px solid rgba(160, 170, 181, 0.3) !important;
+    border-right: 1px solid rgba(160, 170, 181, 0.25) !important;
     position: relative !important;
-    background: transparent;
+    background: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 .home-segment-tab:last-child { border-right: none !important; }
-.home-segment-tab:hover { background: rgba(255, 255, 255, 0.04) !important; }
+.home-segment-tab:hover { background: rgba(255, 255, 255, 0.06) !important; }
 
 .home-segment-tab .tab-title {
     color: #FFFFFF !important;
-    font-size: 0.95rem !important;
-    font-weight: 600 !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
     text-transform: uppercase !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 2px !important;
     margin: 0 !important;
+    text-align: center !important;
+}
+
+.home-segment-tab .tab-arrow {
+    position: absolute;
+    left: 14px;
+    bottom: 12px;
+    width: 14px;
+    height: 14px;
+    color: #54e50d;
+    opacity: 0.85;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.home-segment-tab:hover .tab-arrow {
+    transform: translateX(4px);
+    opacity: 1;
 }
 
 .home-segment-tab.active::after {
     content: "" !important;
     position: absolute !important;
     bottom: 0 !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    width: 40px !important;
+    left: 0 !important;
+    width: 100% !important;
     height: 3px !important;
     background: #54e50d !important;
-    border-radius: 3px !important;
+    border-radius: 0 !important;
 }
 
 /* ============================================================
-   PAGE INDEX — DÉTAIL SEGMENT
+   EN-TÊTE PERMANENT — SOUS LES BOUTONS
+   ============================================================ */
+.home-segments-header {
+    text-align: center;
+    margin: 40px auto 30px;
+    max-width: 900px;
+    padding: 0 20px;
+}
+
+.home-segments-header h3 {
+    color: #54e50d;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.home-segments-header p {
+    color: #4a5568;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0 auto;
+    max-width: 760px;
+}
+
+/* ============================================================
+   DÉTAIL SEGMENT — FOND BLEU TRANSPARENT + MARGES 5 CM
    ============================================================ */
 .home-segment-detail {
-    background: #FFFFFF;
-    width: 100%;
-    padding: 50px 40px;
+    background: rgba(12, 37, 69, 0.55);
+    width: calc(100% - 10cm);
+    margin: 30px 5cm;
+    padding: 40px 30px;
     box-sizing: border-box;
-    display: none;
-}
-
-.home-segment-detail.active {
     display: block;
-    animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+    border-radius: 16px;
+    border: 1px solid rgba(84, 229, 13, 0.25);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    scroll-margin-top: 130px;
 }
 
 .home-segment-detail-inner {
     display: flex;
     align-items: center;
-    gap: 60px;
-    max-width: 1100px;
+    justify-content: space-between;
+    gap: 40px;
+    max-width: 1200px;
     margin: 0 auto;
+    flex-wrap: wrap;
 }
 
-.home-segment-detail-text { flex: 1 1 60%; }
+.home-segment-detail-image {
+    flex: 0 0 280px;
+    max-width: 280px;
+}
+
+.home-segment-detail-image img {
+    width: 100%;
+    height: auto;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.home-segment-detail-text {
+    flex: 1 1 400px;
+    min-width: 260px;
+}
 
 .home-segment-detail-header {
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .home-segment-detail-header .green-bar {
@@ -673,16 +787,16 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
 }
 
 .home-segment-detail-header h3 {
-    color: #0c2545;
-    font-size: 1.8rem;
+    color: #FFFFFF;
+    font-size: 1.7rem;
     font-weight: 700;
     margin: 0;
     letter-spacing: 1px;
 }
 
 .home-segment-detail-text p {
-    color: #4a5568;
-    font-size: 1rem;
+    color: #A0AAB5;
+    font-size: 0.98rem;
     line-height: 1.8;
     margin: 0;
 }
@@ -709,7 +823,7 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
 
 .home-segment-detail-chart .donut-track {
     fill: none;
-    stroke: rgba(12, 37, 69, 0.1);
+    stroke: rgba(255, 255, 255, 0.15);
     stroke-width: 8;
 }
 
@@ -731,7 +845,7 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
     justify-content: center;
     font-weight: 700;
     font-size: 1.5rem;
-    color: #0c2545;
+    color: #FFFFFF;
 }
 
 .home-segment-detail-chart .donut-label {
@@ -1476,44 +1590,40 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
    ============================================================ */
 @media (max-width: 900px) {
     /* --- Hero --- */
-    .home-hero {
-        min-height: auto !important;
-        padding: 40px 20px 0 !important;
-    }
-    .home-hero-inner { min-height: auto !important; }
-    .home-hero-row {
-        flex-direction: column !important;
-        gap: 20px !important;
-    }
-    .home-hero-left {
-        flex: 1 1 100% !important;
-        transform: none !important;
-    }
-    .home-hero-right {
-        align-self: flex-end !important;
-        max-width: 100% !important;
-    }
+    .home-hero { padding: 40px 20px 0 !important; }
+    .home-hero-row { flex-direction: column !important; gap: 20px !important; }
+    .home-hero-left { flex: 1 1 100% !important; align-self: flex-start !important; }
+    .home-hero-right { align-self: flex-end !important; max-width: 100% !important; width: 100% !important; }
     .home-hero-map {
         width: 300px !important;
         max-width: 300px !important;
         margin: 20px 0 0 auto !important;
-        transform: none !important;
+        align-self: flex-end !important;
+        justify-content: flex-end !important;
     }
     .home-hero-map img.de-map-img { max-height: 42vh !important; }
-
+    .home-hero-map .logo-over-map { width: 60% !important; max-width: 180px !important; }
     .home-hero-title { font-size: 2.5rem !important; letter-spacing: 3px !important; }
     .home-title-row h2 { font-size: 1.8rem !important; }
     .home-hero-left-p { font-size: 0.9rem !important; }
 
     /* --- Segments --- */
-    .home-segments-row {
-        flex-wrap: wrap !important;
-    }
-    .home-segment-tab {
-        flex: 1 1 50% !important;
-        border-bottom: 1px solid rgba(160, 170, 181, 0.3) !important;
-    }
+    .home-segments-row { flex-wrap: wrap !important; }
+    .home-segment-tab { flex: 1 1 50% !important; border-bottom: 1px solid rgba(160, 170, 181, 0.3) !important; }
     .home-segment-tab:nth-child(2) { border-right: none !important; }
+
+    .home-segments-header h3 { font-size: 1.2rem; }
+    .home-segments-header p { font-size: 0.9rem; }
+
+    /* --- Sections --- */
+    .home-segment-detail {
+        width: calc(100% - 30px);
+        margin: 20px 15px;
+        padding: 30px 20px;
+        scroll-margin-top: 90px;
+    }
+    .home-segment-detail-inner { flex-direction: column; align-items: center; text-align: center; }
+    .home-segment-detail-header { justify-content: center; }
 
     /* --- Header --- */
     .dashboard-header {
@@ -1525,10 +1635,7 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     }
     .hamburger { display: flex !important; order: 3; margin-left: auto; }
     .dashboard-header .logo-link { order: 0; }
-    .dashboard-header .logo-link img {
-        max-height: 46px !important;
-        height: 46px !important;
-    }
+    .dashboard-header .logo-link img { max-height: 46px !important; height: 46px !important; }
     .welcome-center {
         order: 1;
         flex: 1;
@@ -1579,12 +1686,6 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     .dashboard-header.scrolled .dashboard-nav a { color: #54e50d !important; }
     .dashboard-header.scrolled .dashboard-nav a:hover,
     .dashboard-header.scrolled .dashboard-nav a.active { color: #888888 !important; }
-
-    /* --- Sections --- */
-    .home-segment-detail { padding: 30px 20px; }
-    .home-segment-detail-inner { flex-direction: column; gap: 30px; }
-    .home-segment-detail-text { flex: 1 1 100%; }
-    .home-segment-detail-chart { flex: 0 0 auto; }
 
     /* --- Sektoren --- */
     .sektoren-page .dashboard-header { top: 30px; padding: 6px 10px; min-height: 56px; }
@@ -1642,9 +1743,17 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     .home-hero-left-p { font-size: 0.8rem !important; }
     .home-hero-map { width: 240px !important; max-width: 240px !important; }
     .home-hero-map img.de-map-img { max-height: 34vh !important; }
+    .home-hero-map .logo-over-map { width: 60% !important; max-width: 140px !important; }
     .city-name { font-size: 9px !important; }
-    .city-point { width: 6px !important; height: 6px !important; margin-left: -3px !important; margin-top: -3px !important; }
-    .city-pulse { width: 10px !important; height: 10px !important; margin-left: -5px !important; margin-top: -5px !important; }
+    .city-point { width: 8px !important; height: 8px !important; margin-left: -4px !important; margin-top: -4px !important; }
+    .city-pulse { width: 14px !important; height: 14px !important; margin-left: -7px !important; margin-top: -7px !important; }
+
+    .home-segment-detail {
+        width: calc(100% - 20px);
+        margin: 15px 10px;
+        padding: 20px 14px;
+        scroll-margin-top: 80px;
+    }
 
     .dashboard-header { padding: 5px 6px; min-height: 46px; }
     .dashboard-header .logo-link img { max-height: 36px !important; height: 36px !important; }
@@ -1654,44 +1763,4 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     .dashboard-nav a { font-size: 1rem; padding: 12px 0; }
 
     body.index-page.scrolled-page { padding-top: 55px !important; }
-}
-/* Remonter la carte d'Allemagne dans le hero */
-.home-hero-right {
-    align-self: flex-start !important;
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-}
-
-.home-hero-map {
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
-    margin-top: 0 !important;
-    margin-bottom: auto !important;
-}
-/* ============================================================
-   HERO — Réduire l'espace entre titres/carte et les boutons
-   ============================================================ */
-
-/* 1. Le hero ne prend plus 60vh, mais s'adapte au contenu */
-.home-hero {
-    height: auto !important;
-    min-height: auto !important;
-    padding-bottom: 0 !important;
-}
-
-/* 2. L'inner ne s'étire plus */
-.home-hero-inner {
-    flex: none !important;
-    min-height: auto !important;
-}
-
-/* 3. La rangée titres+carte ne s'étire plus */
-.home-hero-row {
-    flex: none !important;
-    margin-bottom: 10px !important;
-}
-
-/* 4. Les boutons ne sont plus poussés en bas */
-.home-segments-row {
-    margin: 0 !important;
 }
