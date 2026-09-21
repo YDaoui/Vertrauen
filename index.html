@@ -18,8 +18,152 @@
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
 
-    <!-- CSS -->
+    <!-- CSS principal -->
     <link rel="stylesheet" href="style.css" />
+
+    <!-- CSS spécifique carte Allemagne + hero -->
+    <style>
+        /* ============================================================
+           PAGE INDEX — HERO GAUCHE
+           ============================================================ */
+        .home-hero-left {
+            flex: 1 1 55%;
+            transform: translateY(10%);   /* ✅ Descend le bloc gauche de 10% */
+        }
+
+        /* Label "Unsere Tätigkeitsbereiche" — MINIMISÉ */
+        .home-hero-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 0 4px;
+        }
+        .home-hero-label .green-bar {
+            width: 24px;
+            height: 2px;
+            background: #54e50d;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        .home-hero-label span:not(.green-bar) {
+            color: #A0AAB5;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Paragraphe sous le titre */
+        .home-hero-left-p {
+            color: #A0AAB5;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin: 18px 0 0;
+            max-width: 620px;
+            text-align: left;
+        }
+
+        /* ============================================================
+           PAGE INDEX — CARTE D'ALLEMAGNE
+           ============================================================ */
+        .home-hero-map {
+            flex: 0 0 auto;
+            width: 400px;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            background: transparent;
+            position: relative;
+             /* ✅ Descend la carte de 10% */
+        }
+
+        .home-hero-map img.de-map-img {
+            width: 100%;
+            height: auto;
+            max-height: 60vh;
+            display: block;
+            opacity: 0.85;                /* ✅ Carte un peu transparente */
+            filter: 
+                brightness(0) saturate(100%)
+                invert(72%) sepia(96%) saturate(1352%)
+                hue-rotate(53deg) brightness(103%) contrast(101%)
+                drop-shadow(0 8px 25px rgba(84, 229, 13, 0.4));
+            transition: filter 0.3s ease, transform 0.4s ease, opacity 0.3s ease;
+        }
+
+        .home-hero-map img.de-map-img:hover {
+            transform: scale(1.03);
+            opacity: 1;                   /* ✅ Redevient opaque au survol */
+        }
+
+        /* Points lumineux sur les villes */
+        .city-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            margin-left: -4px;
+            margin-top: -4px;
+            border-radius: 50%;
+            background: #0c2545;
+            border: 2px solid #54e50d;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .city-pulse {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            margin-left: -7px;
+            margin-top: -7px;
+            border-radius: 50%;
+            background: rgba(84, 229, 13, 0.5);
+            z-index: 2;
+            pointer-events: none;
+            animation: cityPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes cityPulse {
+            0%, 100% { transform: scale(1);   opacity: 0.5; }
+            50%      { transform: scale(1.8); opacity: 0.15; }
+        }
+
+        .city-name {
+            position: absolute;
+            transform: translateX(-50%);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            white-space: nowrap;
+            z-index: 4;
+            pointer-events: none;
+            text-shadow: 
+                0 0 3px #0c2545, 
+                0 0 3px #0c2545,
+                0 0 3px #0c2545,
+                0 0 3px #0c2545;
+        }
+
+        @media (max-width: 900px) {
+            .home-hero-map {
+                width: 300px;
+                max-width: 300px;
+                margin: 20px auto 0;
+            }
+            .home-hero-map img.de-map-img { max-height: 42vh; }
+            .city-name { font-size: 10px; }
+            .city-point { width: 7px; height: 7px; margin-left: -3.5px; margin-top: -3.5px; }
+        }
+
+        @media (max-width: 480px) {
+            .home-hero-map { width: 240px; max-width: 240px; }
+            .home-hero-map img.de-map-img { max-height: 34vh; }
+            .city-name { font-size: 9px; }
+        }
+    </style>
 </head>
 
 <!-- Tawk.to Chat -->
@@ -124,20 +268,12 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
             </div>
 
-            <!-- LES 4 SEGMENTS -->
+            <!-- ✅ SEGMENTS : Strom / Gas / Internet / Versicherung -->
             <div class="home-segments-row" id="segmentsRow">
-                <div class="home-segment-tab active" data-segment="strom">
-                    <div class="tab-title">Strom</div>
-                </div>
-                <div class="home-segment-tab" data-segment="gas">
-                    <div class="tab-title">Gas</div>
-                </div>
-                <div class="home-segment-tab" data-segment="internet">
-                    <div class="tab-title">Internet</div>
-                </div>
-                <div class="home-segment-tab" data-segment="versicherung">
-                    <div class="tab-title">Versicherung</div>
-                </div>
+                <div class="home-segment-tab active" data-segment="strom"><div class="tab-title">Strom</div></div>
+                <div class="home-segment-tab" data-segment="gas"><div class="tab-title">Gas</div></div>
+                <div class="home-segment-tab" data-segment="internet"><div class="tab-title">Internet</div></div>
+                <div class="home-segment-tab" data-segment="versicherung"><div class="tab-title">Versicherung</div></div>
             </div>
         </div>
     </section>
@@ -265,5 +401,59 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
     <!-- ===== JS ===== -->
     <script src="main.js"></script>
+
+    <!-- JS spécifique : points lumineux sur les villes d'Allemagne -->
+    <script>
+        (function() {
+            function addGermanCitiesDots() {
+                const mapImg = document.querySelector('.de-map-img');
+                if (!mapImg) return;
+
+                const parent = mapImg.parentElement;
+                parent.style.position = 'relative';
+
+                // Coordonnées en % par rapport à l'image de la carte
+                const cities = [
+                    { name: 'Berlin',     x: 72, y: 30 },
+                    { name: 'Hamburg',    x: 53, y: 15 },
+                    { name: 'München',    x: 58, y: 78 },
+                    { name: 'Köln',       x: 30, y: 45 },
+                    { name: 'Frankfurt',  x: 40, y: 52 },
+                    { name: 'Stuttgart',  x: 44, y: 63 },
+                    { name: 'Düsseldorf', x: 28, y: 41 },
+                    { name: 'Dresden',    x: 81, y: 49 },
+                    { name: 'Hannover',   x: 46, y: 26 },
+                    { name: 'Nürnberg',   x: 58, y: 62 }
+                ];
+
+                cities.forEach(city => {
+                    const pulse = document.createElement('div');
+                    pulse.className = 'city-pulse';
+                    pulse.style.left = city.x + '%';
+                    pulse.style.top = city.y + '%';
+                    parent.appendChild(pulse);
+
+                    const dot = document.createElement('div');
+                    dot.className = 'city-point';
+                    dot.style.left = city.x + '%';
+                    dot.style.top = city.y + '%';
+                    parent.appendChild(dot);
+
+                    const label = document.createElement('div');
+                    label.className = 'city-name';
+                    label.style.left = city.x + '%';
+                    label.style.top = (city.y - 5) + '%';
+                    label.textContent = city.name;
+                    parent.appendChild(label);
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', addGermanCitiesDots);
+            } else {
+                addGermanCitiesDots();
+            }
+        })();
+    </script>
 </body>
 </html>
