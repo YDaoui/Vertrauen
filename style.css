@@ -3898,18 +3898,41 @@ body.dashboard-page.scrolled-page .social-top-bar {
     }
 }
 /* ============================================================
-   FIX — LE HERO (CARRÉ BLEU) REMONTE ET SE COLLE AU HEADER
+   FIX MOBILE UNIQUEMENT — HERO COLLÉ AU HEADER SUR INDEX
    ============================================================ */
-.home-hero {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
+@media (max-width: 900px) {
+
+    body.index-page.dashboard-page {
+        padding-top: 100px !important;   /* espace pour le header fixe */
+    }
+
+    body.index-page.scrolled-page {
+        padding-top: 60px !important;
+    }
+
+    .home-hero {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    .home-hero-inner {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    .home-hero-row {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
 }
 
-.home-hero-inner {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-}
+@media (max-width: 480px) {
 
-.home-hero-row {
-    padding-top: 10px !important;   /* petit espace interne, pas au-dessus */
+    body.index-page.dashboard-page {
+        padding-top: 90px !important;
+    }
+
+    body.index-page.scrolled-page {
+        padding-top: 55px !important;
+    }
 }
