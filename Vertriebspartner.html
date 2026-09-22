@@ -58,7 +58,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                         <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
                     </svg>
                 </a>
-                
             </div>
             <!-- BOUTONS -->
             <div class="top-bar-buttons">
@@ -80,12 +79,12 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         <nav class="dashboard-nav" id="mainNav">
             <a href="sektoren.html">Sektoren</a>
             <a href="ueber-uns.html">Über uns</a>
-           
         </nav>
     </header>
     <!-- ===== FIN HEADER DASHBOARD ===== -->
 
     <div class="vp-hero-fixed"></div>
+
     <!-- ===== FORMULAIRE EN DESSOUS - FOND BLEU ===== -->
     <section class="vp-form-section" id="vpFormSection">
         <div class="vp-form-card">
@@ -183,89 +182,226 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             </form>
         </div>
     </section>
-   
-<script>
-    // ===== SCROLL : CACHER BANDEAU SOCIAL + CHANGER COULEUR HEADER =====
-    (function() {
-        function applyScroll() {
-            const socialBar = document.querySelector('.social-top-bar');
-            const header = document.querySelector('.dashboard-header');
-            const body = document.body;
-            const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
-            if (scrollY > 50) {
-                if (socialBar) socialBar.classList.add('hidden');
-                if (header) {
-                    header.classList.add('scrolled');
-                    header.classList.add('top-zero');
+    <!-- ===== SECTION "SUIVEZ-NOUS" ===== -->
+    <section class="home-follow">
+        <h3>Bleiben Sie mit uns in Verbindung</h3>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+            </a>
+            <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
+                </svg>
+            </a>
+            <a href="https://twitter.com/votrecompte" target="_blank" class="social-icon twitter" aria-label="Twitter">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </a>
+            <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER PRINCIPAL ===== -->
+    <footer class="vd-footer">
+
+        <!-- PARTIE HAUTE : TITRES + BOUTON -->
+        <div class="vd-footer-top">
+            <div class="vd-footer-top-inner">
+                <div class="vd-footer-titles">
+                    <div class="vd-footer-label">
+                        <span class="green-bar"></span>
+                        <span class="vd-footer-label-text">Folgen Sie unserem Aufbau</span>
+                    </div>
+                    <h2 class="vd-footer-title-white">Ihr nächster Beitrag</h2>
+                    <h3 class="vd-footer-title-green">Sprechen wir darüber</h3>
+                </div>
+                <div class="vd-footer-cta">
+                    <a href="kontakt.html" class="vd-footer-btn">
+                        Mit unserem Team sprechen
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PARTIE BASSE : 4 COLONNES -->
+        <div class="vd-footer-bottom">
+            <div class="vd-footer-bottom-inner">
+
+                <!-- COLONNE 1 : LOGO + ADRESSE + RÉSEAUX -->
+                <div class="vd-footer-col vd-footer-col-brand">
+                    <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" class="vd-footer-logo" />
+                    <p class="vd-footer-address">
+                        Vertrauen Distributor Vertriebs GmbH<br />
+                        Musterstraße 12<br />
+                        10115 Berlin, Deutschland
+                    </p>
+                    <p class="vd-footer-follow-label">Folgen Sie uns</p>
+                    <div class="vd-footer-social">
+                        <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/dl.companie/" target="_blank" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
+                            </svg>
+                        </a>
+                        <a href="https://twitter.com/votrecompte" target="_blank" aria-label="Twitter">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@votrecompte" target="_blank" aria-label="TikTok">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- COLONNE 2 : SEKTOREN -->
+                <div class="vd-footer-col">
+                    <h4 class="vd-footer-heading">Unsere Sektoren</h4>
+                    <ul class="vd-footer-list">
+                        <li><a href="sektoren.html#strom">Strom</a></li>
+                        <li><a href="sektoren.html#gas">Gas</a></li>
+                        <li><a href="sektoren.html#internet">Internet</a></li>
+                        <li><a href="sektoren.html#versicherung">Versicherung</a></li>
+                    </ul>
+                </div>
+
+                <!-- COLONNE 3 : LIENS -->
+                <div class="vd-footer-col">
+                    <h4 class="vd-footer-heading">Mehr erfahren</h4>
+                    <ul class="vd-footer-list">
+                        <li><a href="ueber-uns.html">Über uns</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                        <li><a href="news.html">Unsere Projekte</a></li>
+                        <li><a href="index.html">Unsere Geschichte</a></li>
+                    </ul>
+                </div>
+
+                <!-- COLONNE 4 : BÜROS -->
+                <div class="vd-footer-col">
+                    <h4 class="vd-footer-heading">Wo sind unsere Büros</h4>
+                    <ul class="vd-footer-list vd-footer-cities">
+                        <li><span class="vd-city-dot"></span>Berlin</li>
+                        <li><span class="vd-city-dot"></span>Hamburg</li>
+                        <li><span class="vd-city-dot"></span>München</li>
+                        <li><span class="vd-city-dot"></span>Köln</li>
+                        <li><span class="vd-city-dot"></span>Frankfurt</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- BARRE COPYRIGHT -->
+        <div class="vd-footer-copyright">
+            <a href="datenschutz.html">Datenschutzerklärung</a>
+            <span class="vd-footer-sep">|</span>
+            <span class="vd-footer-copy">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
+        </div>
+
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // ===== SCROLL : CACHER BANDEAU SOCIAL + CHANGER COULEUR HEADER =====
+        (function() {
+            function applyScroll() {
+                const socialBar = document.querySelector('.social-top-bar');
+                const header = document.querySelector('.dashboard-header');
+                const body = document.body;
+                const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollY > 50) {
+                    if (socialBar) socialBar.classList.add('hidden');
+                    if (header) {
+                        header.classList.add('scrolled');
+                        header.classList.add('top-zero');
+                    }
+                    if (body) body.classList.add('scrolled-page');
+                } else {
+                    if (socialBar) socialBar.classList.remove('hidden');
+                    if (header) {
+                        header.classList.remove('scrolled');
+                        header.classList.remove('top-zero');
+                    }
+                    if (body) body.classList.remove('scrolled-page');
                 }
-                if (body) body.classList.add('scrolled-page');
-            } else {
-                if (socialBar) socialBar.classList.remove('hidden');
-                if (header) {
-                    header.classList.remove('scrolled');
-                    header.classList.remove('top-zero');
+            }
+            window.addEventListener('scroll', applyScroll, { passive: true });
+            document.addEventListener('DOMContentLoaded', applyScroll);
+            applyScroll();
+        })();
+    </script>
+
+    <script>
+        // ===== MENU HAMBURGER =====
+        (function() {
+            function initHamburger() {
+                const hamburger = document.getElementById('hamburgerBtn');
+                const nav = document.getElementById('mainNav');
+
+                if (!hamburger || !nav) {
+                    setTimeout(initHamburger, 200);
+                    return;
                 }
-                if (body) body.classList.remove('scrolled-page');
-            }
-        }
-        window.addEventListener('scroll', applyScroll, { passive: true });
-        document.addEventListener('DOMContentLoaded', applyScroll);
-        applyScroll();
-    })();
-</script>
-<script>
-    // ===== MENU HAMBURGER =====
-    (function() {
-        function initHamburger() {
-            const hamburger = document.getElementById('hamburgerBtn');
-            const nav = document.getElementById('mainNav');
 
-            if (!hamburger || !nav) {
-                setTimeout(initHamburger, 200);
-                return;
-            }
+                const newHamburger = hamburger.cloneNode(true);
+                hamburger.parentNode.replaceChild(newHamburger, hamburger);
 
-            // Supprimer les anciens listeners en clonant
-            const newHamburger = hamburger.cloneNode(true);
-            hamburger.parentNode.replaceChild(newHamburger, hamburger);
+                const finalHamburger = document.getElementById('hamburgerBtn');
+                const finalNav = document.getElementById('mainNav');
 
-            const finalHamburger = document.getElementById('hamburgerBtn');
-            const finalNav = document.getElementById('mainNav');
+                if (!finalHamburger || !finalNav) return;
 
-            if (!finalHamburger || !finalNav) return;
+                finalHamburger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    this.classList.toggle('active');
+                    finalNav.classList.toggle('open');
+                });
 
-            finalHamburger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-                finalNav.classList.toggle('open');
-            });
+                finalNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (finalNav.classList.contains('open')) {
+                            finalHamburger.classList.remove('active');
+                            finalNav.classList.remove('open');
+                        }
+                    });
+                });
 
-            // Fermer le menu si on clique sur un lien
-            finalNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function() {
+                document.addEventListener('click', function(e) {
                     if (finalNav.classList.contains('open')) {
-                        finalHamburger.classList.remove('active');
-                        finalNav.classList.remove('open');
+                        if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
+                            finalHamburger.classList.remove('active');
+                            finalNav.classList.remove('open');
+                        }
                     }
                 });
-            });
+            }
 
-            // Fermer le menu si on clique ailleurs
-            document.addEventListener('click', function(e) {
-                if (finalNav.classList.contains('open')) {
-                    if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
-                        finalHamburger.classList.remove('active');
-                        finalNav.classList.remove('open');
-                    }
-                }
-            });
-        }
+            document.addEventListener('DOMContentLoaded', initHamburger);
+            initHamburger();
+        })();
+    </script>
 
-        document.addEventListener('DOMContentLoaded', initHamburger);
-        initHamburger();
-    })();
-</script>
     <script src="main.js"></script>
 </body>
 </html>

@@ -138,25 +138,7 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         });
 
         // ===== GESTION DU MENU SELON LE RÔLE =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const userEmail = localStorage.getItem('userEmail');
-            
-            const statLink = document.getElementById('statLink');
-            const portalLink = document.getElementById('portalLink');
-            const adminLink = document.getElementById('adminLink');
-            
-            if (userEmail === 'daoui00yassine@gmail.com') {
-                // ADMIN : afficher Statistik et Admin, cacher Mein Portal
-                if (statLink) statLink.style.display = 'inline-block';
-                if (portalLink) portalLink.style.display = 'none';
-                if (adminLink) adminLink.style.display = 'inline-block';
-            } else {
-                // UTILISATEUR NORMAL : afficher Mein Portal, cacher Statistik et Admin
-                if (statLink) statLink.style.display = 'none';
-                if (portalLink) portalLink.style.display = 'inline-block';
-                if (adminLink) adminLink.style.display = 'none';
-            }
-        });
+        
     </script>
 
     <!-- Toute la logique (auth, affichage du nom, etc.) vit dans main.js -->
