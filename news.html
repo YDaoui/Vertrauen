@@ -224,4 +224,34 @@
     </script>
 
 </body>
+<script>
+    // ===== SCROLL : CACHER BANDEAU SOCIAL + CHANGER COULEUR HEADER =====
+    (function() {
+        function applyScroll() {
+            const socialBar = document.querySelector('.social-top-bar');
+            const header = document.querySelector('.dashboard-header');
+            const body = document.body;
+            const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollY > 50) {
+                if (socialBar) socialBar.classList.add('hidden');
+                if (header) {
+                    header.classList.add('scrolled');
+                    header.classList.add('top-zero');
+                }
+                if (body) body.classList.add('scrolled-page');
+            } else {
+                if (socialBar) socialBar.classList.remove('hidden');
+                if (header) {
+                    header.classList.remove('scrolled');
+                    header.classList.remove('top-zero');
+                }
+                if (body) body.classList.remove('scrolled-page');
+            }
+        }
+        window.addEventListener('scroll', applyScroll, { passive: true });
+        document.addEventListener('DOMContentLoaded', applyScroll);
+        applyScroll();
+    })();
+</script>
 </html>
