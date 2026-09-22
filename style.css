@@ -3136,3 +3136,106 @@ body.sektoren-page.scrolled-page {
         margin-top: 20px !important;
     }
 }
+/* ============================================================
+   ✅ INDEX — ORDRE MOBILE : Titres → Vidéo → Map → Paragraphe
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    /* 1. Le parent devient un flex column */
+    .home-hero-row {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+
+    /* 2. On retire la grille de la colonne gauche
+       → ses enfants deviennent des frères directs de .home-hero-right */
+    .home-hero-left {
+        display: contents !important;
+    }
+
+    /* 3. Ordre d'affichage sur mobile */
+    .home-hero-label    { order: 1 !important; }
+    .home-hero-title    { order: 2 !important; }
+    .home-title-row     { order: 3 !important; }
+
+    /* ✅ 4. Vidéo — adaptée mobile */
+    .home-hero-right,
+    .home-hero-video {
+        order: 4 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 15px 0 !important;
+        align-self: stretch !important;
+        justify-content: center !important;
+        display: flex !important;
+    }
+
+    .home-hero-video .hero-video {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 50vh !important;
+        height: auto !important;
+        border-radius: 12px !important;
+        object-fit: cover !important;
+    }
+
+    /* ✅ 5. Carte Map — après la vidéo */
+    .home-hero-map-left {
+        order: 5 !important;
+        max-width: 220px !important;
+        width: 220px !important;
+        margin: 10px auto !important;
+        align-self: center !important;
+        justify-self: center !important;
+        position: relative;
+    }
+
+    .home-hero-map-left img.de-map-img {
+        max-height: 26vh !important;
+        width: 100% !important;
+    }
+
+    .home-hero-map-left .logo-over-map {
+        max-width: 80px !important;
+    }
+
+    /* ✅ 6. Paragraphe — à la fin */
+    .home-hero-left-p {
+        order: 6 !important;
+        margin-top: 10px !important;
+        font-size: 0.8rem !important;
+        line-height: 1.55 !important;
+        text-align: left;
+    }
+}
+
+/* ============================================================
+   ✅ PETIT MOBILE (max 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+
+    .home-hero-video .hero-video {
+        max-height: 42vh !important;
+        border-radius: 10px !important;
+    }
+
+    .home-hero-map-left {
+        max-width: 180px !important;
+        width: 180px !important;
+    }
+
+    .home-hero-map-left img.de-map-img {
+        max-height: 22vh !important;
+    }
+
+    .home-hero-map-left .logo-over-map {
+        max-width: 60px !important;
+    }
+
+    .home-hero-left-p {
+        font-size: 0.75rem !important;
+        line-height: 1.5 !important;
+    }
+}
