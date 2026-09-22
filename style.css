@@ -791,9 +791,17 @@ body.index-page.scrolled-page { padding-top: 68px !important; }
     letter-spacing: 1px;
 }
 
+/* ============================================================
+ 
+
+
+ color: #0c2545 !important;
+    border-color: #54e50d !important;
+ 
+   ============================================================ */
 .home-segment-detail-text p {
-    color: #A0AAB5;
-    font-size: 0.98rem;
+    color: #FFFFFF;
+    font-size: 1 rem;
     line-height: 1.8;
     margin: 0;
 }
@@ -3904,7 +3912,7 @@ body.dashboard-page.scrolled-page .social-top-bar {
 
     /* Le fond bleu remonte pour coller au header */
     body.index-page.dashboard-page {
-        padding-top: 90px !important;   /* espace pour le header fixe */
+        padding-top: 100px !important;   /* espace pour le header fixe */
     }
 
     body.index-page.scrolled-page {
@@ -3948,6 +3956,30 @@ body.dashboard-page.scrolled-page .social-top-bar {
         padding-top: 15px !important;
     }
 }
+/* ============================================================
+   ✅ UNIFICATION — BARRE SOCIALE DISPARAÎT AU SCROLL PARTOUT
+   ============================================================ */
+
+/* 1. Le bandeau social disparaît au scroll sur TOUTES les pages */
+body.scrolled-page .social-top-bar,
+body .social-top-bar.hidden,
+body.index-page.scrolled-page .social-top-bar,
+body.index-page .social-top-bar.hidden,
+body.dashboard-page.scrolled-page .social-top-bar,
+body.vertriebspartner-page.scrolled-page .social-top-bar,
+body.salespromoter-page.scrolled-page .social-top-bar,
+body.sektoren-page.scrolled-page .social-top-bar {
+    transform: translateY(-110%) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    max-height: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    display: none !important;
+}
+
 /* ============================================================
    ✅ UNIFICATION — BARRE SOCIALE DISPARAÎT AU SCROLL PARTOUT
    ============================================================ */

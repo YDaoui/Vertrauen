@@ -288,10 +288,10 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             <span></span><span></span><span></span>
         </button>
         <nav class="dashboard-nav" id="mainNav">
-            <a href="notre-histoire.html">Unsere Geschichte</a>
+            <a href="index.html">Unsere Geschichte</a>
             <a href="sektoren.html">Unsere Sektoren</a>
             <a href="nos-projets.html">Unsere Projekte</a>
-            <a href="nous-rejoindre.html">Kommen Sie zu uns</a>
+            <a href="ueber-uns.html">Über uns</a>
         </nav>
     </header>
 
@@ -540,4 +540,35 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     <!-- ===== JS ===== -->
     <script src="main.js"></script>
 </body>
+  
+<script>
+    // ===== SCROLL : CACHER BANDEAU SOCIAL + CHANGER COULEUR HEADER =====
+    (function() {
+        function applyScroll() {
+            const socialBar = document.querySelector('.social-top-bar');
+            const header = document.querySelector('.dashboard-header');
+            const body = document.body;
+            const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollY > 50) {
+                if (socialBar) socialBar.classList.add('hidden');
+                if (header) {
+                    header.classList.add('scrolled');
+                    header.classList.add('top-zero');
+                }
+                if (body) body.classList.add('scrolled-page');
+            } else {
+                if (socialBar) socialBar.classList.remove('hidden');
+                if (header) {
+                    header.classList.remove('scrolled');
+                    header.classList.remove('top-zero');
+                }
+                if (body) body.classList.remove('scrolled-page');
+            }
+        }
+        window.addEventListener('scroll', applyScroll, { passive: true });
+        document.addEventListener('DOMContentLoaded', applyScroll);
+        applyScroll();
+    })();
+</script>
 </html>
