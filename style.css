@@ -30,7 +30,7 @@ body.dashboard-page {
 }
 
 /* ============================================================
-   ✅ BARRE DE SCROLL VERTE (Chrome, Edge, Safari)
+   ✅ BARRE DE SCROLL VERTE
    ============================================================ */
 ::-webkit-scrollbar {
     width: 12px;
@@ -55,7 +55,6 @@ body.dashboard-page {
     background: #0c2545;
 }
 
-/* ✅ BARRE DE SCROLL VERTE (Firefox) */
 html {
     scrollbar-width: thin;
     scrollbar-color: #54e50d #0c2545;
@@ -1251,7 +1250,6 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
 .sektoren-page .dashboard-header.scrolled .welcome-center { color: #0c2545; }
 .sektoren-page .dashboard-header.scrolled .welcome-center .welcome-name { color: #0c2545; }
 
-/* Conteneur Sektoren — corrigé pour scroll */
 .sektoren-page .sektoren-container {
     display: flex;
     width: 100%;
@@ -1459,7 +1457,6 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     pointer-events: auto;
 }
 
-/* Ancien footer sektoren — neutralisé */
 .sektoren-page .dashboard-footer {
     position: static !important;
     background: transparent !important;
@@ -1739,7 +1736,6 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     text-align: left;
 }
 
-/* ✅ LOGO CARRÉ 120×120 — REMONTÉ */
 .vd-footer-col-brand .vd-footer-logo {
     width: 120px;
     height: 120px;
@@ -1753,7 +1749,6 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     filter: brightness(0) invert(1);
 }
 
-/* ✅ ADRESSE — REMONTÉE */
 .vd-footer-address {
     color: #A0AAB5;
     font-size: 0.85rem;
@@ -1856,7 +1851,6 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     box-shadow: 0 0 6px rgba(84, 229, 13, 0.6);
 }
 
-/* ✅ BARRE COPYRIGHT — COLLÉE AU-DESSUS */
 .vd-footer-copyright {
     border-top: 1px solid rgba(160, 170, 181, 0.2);
     padding: 15px 40px 20px;
@@ -1886,7 +1880,6 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     color: #888;
 }
 
-/* Fix Vertriebspartner + SalesPromoter — z-index */
 body.vertriebspartner-page .home-follow,
 body.salespromoter-page .home-follow,
 body.vertriebspartner-page .vd-footer,
@@ -1933,7 +1926,7 @@ body.news-page.scrolled-page {
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
-    background: rgba(12, 37, 69, 0.55) !important;   /* ✅ bleu transparent */
+    background: rgba(12, 37, 69, 0.55) !important;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     border: 1px solid rgba(84, 229, 13, 0.25);
@@ -1957,7 +1950,6 @@ body.news-page.scrolled-page {
     display: flex;
 }
 
-/* --- Image --- */
 .news-slide-image {
     flex: 1 1 65% !important;
     display: flex;
@@ -1975,13 +1967,12 @@ body.news-page.scrolled-page {
     display: block;
 }
 
-/* --- Texte --- */
 .news-slide-text {
     flex: 1 1 35% !important;
     padding: 40px 50px !important;
     text-align: left;
     color: #FFFFFF;
-    background: rgba(12, 37, 69, 0.35) !important;   /* ✅ bleu transparent */
+    background: rgba(12, 37, 69, 0.35) !important;
 }
 
 .news-slide-text h3 {
@@ -1999,7 +1990,6 @@ body.news-page.scrolled-page {
     margin: 0;
 }
 
-/* Flèches */
 .news-arrow {
     position: absolute;
     top: 50%;
@@ -2031,7 +2021,6 @@ body.news-page.scrolled-page {
 .news-prev { left: 16px; }
 .news-next { right: 16px; }
 
-/* Points */
 .news-dots {
     position: absolute;
     bottom: 18px;
@@ -2063,8 +2052,12 @@ body.news-page.scrolled-page {
     background: rgba(84, 229, 13, 0.7);
 }
 
-/* Responsive News */
+/* ============================================================
+   ✅ RESPONSIVE — TABLETTE (max 900px)
+   ============================================================ */
 @media (max-width: 900px) {
+
+    /* --- NEWS : image en haut, texte en bas --- */
     body.news-page { padding-top: 100px !important; }
     body.news-page.scrolled-page { padding-top: 56px !important; }
 
@@ -2084,7 +2077,7 @@ body.news-page.scrolled-page {
     }
 
     .news-slide-image {
-        flex: 0 0 auto;
+        flex: 0 0 auto !important;
         width: 100%;
         padding: 15px;
     }
@@ -2096,7 +2089,7 @@ body.news-page.scrolled-page {
     }
 
     .news-slide-text {
-        flex: 0 0 auto;
+        flex: 0 0 auto !important;
         width: 100%;
         padding: 20px !important;
         text-align: center !important;
@@ -2109,34 +2102,7 @@ body.news-page.scrolled-page {
     .news-arrow svg { width: 16px; height: 16px; }
     .news-prev { left: 10px; }
     .news-next { right: 10px; }
-}
 
-@media (max-width: 480px) {
-    body.news-page { padding-top: 80px !important; }
-    body.news-page.scrolled-page { padding-top: 50px !important; }
-
-    .news-page .news-content {
-        padding: 60px 10px 20px !important;
-    }
-
-    .news-page .news-carousel {
-        width: 100% !important;
-        border-radius: 12px;
-    }
-
-    .news-slide-image { padding: 10px; }
-    .news-slide-text { padding: 15px !important; }
-    .news-slide-text h3 { font-size: 1.1rem; }
-    .news-slide-text p { font-size: 0.85rem; }
-
-    .news-arrow { width: 32px; height: 32px; }
-    .news-dot { width: 10px; height: 10px; }
-}
-
-/* ============================================================
-   RESPONSIVE — MOBILE (max 900px)
-   ============================================================ */
-@media (max-width: 900px) {
     /* --- Hero --- */
     .home-hero { padding: 40px 20px 0 !important; }
     .home-hero-row { flex-direction: column !important; gap: 20px !important; }
@@ -2332,6 +2298,31 @@ body.news-page.scrolled-page {
         text-align: center;
     }
 
+    /* --- ✅ VERTRIEBSPARTNER + SALESPROMOTER — Formulaire remonté --- */
+    body.vertriebspartner-page .vp-form-section,
+    body.salespromoter-page .vp-form-section {
+        margin-top: calc(100vh - 260px) !important;   /* ✅ remonte de 60px */
+        padding: 40px 20px 60px !important;
+    }
+
+    body.vertriebspartner-page .vp-form-card .vp-title-1,
+    body.salespromoter-page .vp-form-card .vp-title-1 {
+        font-size: 1.9rem !important;
+    }
+
+    body.vertriebspartner-page .vp-form-card .vp-title-2,
+    body.salespromoter-page .vp-form-card .vp-title-2 {
+        font-size: 1rem !important;
+        margin-bottom: 20px !important;
+    }
+
+    body.vertriebspartner-page .vp-form-card h3,
+    body.salespromoter-page .vp-form-card h3 {
+        font-size: 1rem !important;
+        margin-bottom: 20px !important;
+        padding-bottom: 12px !important;
+    }
+
     /* --- Footer tablette --- */
     .home-follow { padding: 30px 20px 15px; }
     .vd-footer-top { padding: 40px 20px; }
@@ -2370,34 +2361,10 @@ body.news-page.scrolled-page {
 }
 
 /* ============================================================
-   RESPONSIVE — MOBILE (max 768px)
-   ============================================================ */
-@media (max-width: 768px) {
-    .social-icon { width: 26px !important; height: 26px !important; }
-    .social-icon svg { width: 13px !important; height: 13px !important; }
-    .social-icons { gap: 6px !important; }
-
-    .btn-top-bar {
-        padding: 12px 22px !important;
-        font-size: 0.75rem !important;
-        letter-spacing: 0.4px !important;
-        border-radius: 26px !important;
-        line-height: 1.2 !important;
-    }
-    .top-bar-buttons { gap: 8px !important; }
-
-    .dashboard-header .logo-link img {
-        max-height: 52px !important;
-        height: 52px !important;
-    }
-
-    .home-segments-box { transform: translateY(-10px) !important; }
-}
-
-/* ============================================================
-   RESPONSIVE — MOBILE (max 480px)
+   ✅ RESPONSIVE — PETIT MOBILE (max 480px)
    ============================================================ */
 @media (max-width: 480px) {
+    /* --- Hero --- */
     .home-hero-title { font-size: 1.8rem !important; letter-spacing: 2px !important; }
     .home-title-row h2 { font-size: 1.3rem !important; }
     .home-hero-left-p { font-size: 0.8rem !important; }
@@ -2415,6 +2382,7 @@ body.news-page.scrolled-page {
         scroll-margin-top: 80px;
     }
 
+    /* --- Header --- */
     .dashboard-header { padding: 5px 6px; min-height: 46px; }
     .dashboard-header .logo-link img { max-height: 36px !important; height: 36px !important; }
     .welcome-center { font-size: 0.55rem; }
@@ -2422,8 +2390,7 @@ body.news-page.scrolled-page {
     .dashboard-nav { width: 75%; padding: 80px 20px 30px; }
     .dashboard-nav a { font-size: 1rem; padding: 12px 0; }
 
-    body.index-page.scrolled-page { padding-top: 55px !important; }
-
+    /* --- Bandeau social --- */
     .social-icon { width: 24px !important; height: 24px !important; }
     .social-icon svg { width: 12px !important; height: 12px !important; }
 
@@ -2436,6 +2403,74 @@ body.news-page.scrolled-page {
     .dashboard-header .logo-link img { max-height: 50px !important; height: 50px !important; }
 
     .home-segments-box { transform: translateY(-10px) !important; }
+
+    /* --- NEWS mobile : contenu remonté + image + texte empilés --- */
+    body.news-page { padding-top: 80px !important; }
+    body.news-page.scrolled-page { padding-top: 50px !important; }
+
+    .news-page .news-content {
+        padding: 50px 10px 20px !important;
+    }
+
+    .news-page .news-carousel {
+        width: 100% !important;
+        border-radius: 12px;
+    }
+
+    .news-slide { min-height: auto; }
+
+    .news-slide-image {
+        padding: 10px;
+    }
+
+    .news-slide-image img {
+        max-height: 50vh !important;
+    }
+
+    .news-slide-text {
+        padding: 15px !important;
+    }
+
+    .news-slide-text h3 { font-size: 1.1rem; }
+    .news-slide-text p { font-size: 0.85rem; }
+
+    .news-arrow { width: 32px; height: 32px; }
+    .news-dot { width: 10px; height: 10px; }
+
+    /* --- ✅ INDEX mobile : contenu descendu un peu --- */
+    body.index-page.dashboard-page {
+        padding-top: 90px !important;   /* ✅ était 80px → 90px (contenu descendu) */
+    }
+
+    body.index-page.scrolled-page {
+        padding-top: 60px !important;   /* ✅ était 50px → 60px */
+    }
+
+    .home-hero {
+        padding-top: 25px !important;   /* ✅ était 15px → 25px (contenu descendu) */
+    }
+
+    /* --- ✅ VERTRIEBSPARTNER + SALESPROMOTER mobile : formulaire remonté --- */
+    body.vertriebspartner-page .vp-form-section,
+    body.salespromoter-page .vp-form-section {
+        margin-top: calc(100vh - 320px) !important;   /* ✅ remonte de 120px */
+        padding: 30px 15px 40px !important;
+    }
+
+    body.vertriebspartner-page .vp-form-card .vp-title-1,
+    body.salespromoter-page .vp-form-card .vp-title-1 {
+        font-size: 1.6rem !important;
+    }
+
+    body.vertriebspartner-page .vp-form-card .vp-title-2,
+    body.salespromoter-page .vp-form-card .vp-title-2 {
+        font-size: 0.9rem !important;
+    }
+
+    body.vertriebspartner-page .vp-form-card h3,
+    body.salespromoter-page .vp-form-card h3 {
+        font-size: 0.95rem !important;
+    }
 
     /* --- Footer mobile --- */
     .home-follow { padding: 25px 15px 12px !important; }
@@ -2487,7 +2522,7 @@ body.news-page.scrolled-page {
 }
 
 /* ============================================================
-   RESPONSIVE — TRÈS PETIT MOBILE (max 360px)
+   ✅ RESPONSIVE — TRÈS PETIT MOBILE (max 360px)
    ============================================================ */
 @media (max-width: 360px) {
     .social-icon { width: 22px !important; height: 22px !important; }
@@ -2502,25 +2537,6 @@ body.news-page.scrolled-page {
 }
 
 /* ============================================================
-   FIX MOBILE — ESPACE HEADER SUR INDEX
-   ============================================================ */
-@media (max-width: 900px) {
-    body.index-page.dashboard-page { padding-top: 100px !important; }
-    body.index-page.scrolled-page { padding-top: 55px !important; }
-
-    .home-hero { padding-top: 20px !important; margin-top: 0 !important; }
-    .home-hero-inner { padding-top: 0 !important; margin-top: 0 !important; }
-    .home-hero-row { padding-top: 0 !important; margin-top: 0 !important; }
-    .home-hero-left { padding-top: 0 !important; margin-top: 0 !important; }
-}
-
-@media (max-width: 480px) {
-    body.index-page.dashboard-page { padding-top: 80px !important; }
-    body.index-page.scrolled-page { padding-top: 50px !important; }
-    .home-hero { padding-top: 15px !important; }
-}
-
-/* ============================================================
    ✅ UNIFICATION — BANDEAU SOCIAL DISPARAÎT AU SCROLL PARTOUT
    ============================================================ */
 body.scrolled-page .social-top-bar,
@@ -2530,7 +2546,8 @@ body.index-page .social-top-bar.hidden,
 body.dashboard-page.scrolled-page .social-top-bar,
 body.vertriebspartner-page.scrolled-page .social-top-bar,
 body.salespromoter-page.scrolled-page .social-top-bar,
-body.sektoren-page.scrolled-page .social-top-bar {
+body.sektoren-page.scrolled-page .social-top-bar,
+body.news-page.scrolled-page .social-top-bar {
     transform: translateY(-110%) !important;
     opacity: 0 !important;
     visibility: hidden !important;
@@ -2547,7 +2564,8 @@ body.index-page.scrolled-page .dashboard-header,
 body.dashboard-page.scrolled-page .dashboard-header,
 body.vertriebspartner-page.scrolled-page .dashboard-header,
 body.salespromoter-page.scrolled-page .dashboard-header,
-body.sektoren-page.scrolled-page .dashboard-header {
+body.sektoren-page.scrolled-page .dashboard-header,
+body.news-page.scrolled-page .dashboard-header {
     top: 0 !important;
     background-color: rgba(255, 255, 255, 0.92) !important;
     backdrop-filter: blur(12px) !important;
@@ -2561,7 +2579,8 @@ body.index-page.scrolled-page,
 body.dashboard-page.scrolled-page,
 body.vertriebspartner-page.scrolled-page,
 body.salespromoter-page.scrolled-page,
-body.sektoren-page.scrolled-page {
+body.sektoren-page.scrolled-page,
+body.news-page.scrolled-page {
     padding-top: 68px !important;
 }
 
@@ -2571,13 +2590,14 @@ body.sektoren-page.scrolled-page {
     body.dashboard-page.scrolled-page,
     body.vertriebspartner-page.scrolled-page,
     body.salespromoter-page.scrolled-page,
-    body.sektoren-page.scrolled-page {
+    body.sektoren-page.scrolled-page,
+    body.news-page.scrolled-page {
         padding-top: 56px !important;
     }
 }
 
 /* ============================================================
-   FIX SEKTOREN PAGE — SCROLL + FOOTER VISIBLE
+   ✅ FIX SEKTOREN PAGE — SCROLL + FOOTER VISIBLE
    ============================================================ */
 body.sektoren-page {
     overflow-x: hidden !important;
