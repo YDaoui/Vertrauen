@@ -4039,3 +4039,168 @@ body.sektoren-page.scrolled-page {
         padding-top: 56px !important;
     }
 }
+/* ============================================================
+   PAGE NEWS — CARROUSEL AUTOMATIQUE
+   ============================================================ */
+.news-page {
+    background: #0c2545;
+    min-height: 100vh;
+}
+
+.news-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 140px 20px 60px;
+    text-align: center;
+}
+
+.news-title {
+    color: #54e50d;
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin: 0 0 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.news-subtitle {
+    color: #A0AAB5;
+    font-size: 1rem;
+    margin: 0 0 40px;
+}
+
+.news-carousel {
+    position: relative;
+    width: 70%;                    /* ✅ 70% de la largeur sur desktop */
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+    background: #0b1a2f;
+}
+
+.news-slides {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 700 / 1117;      /* ✅ ratio des images (700×1117) */
+    background: #0b1a2f;
+}
+
+.news-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.news-slide.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.news-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Flèches */
+.news-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(84, 229, 13, 0.85);
+    color: #0c2545;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.news-arrow:hover {
+    background: #54e50d;
+    transform: translateY(-50%) scale(1.08);
+}
+
+.news-arrow svg {
+    width: 20px;
+    height: 20px;
+}
+
+.news-prev { left: 16px; }
+.news-next { right: 16px; }
+
+/* Points */
+.news-dots {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+}
+
+.news-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: 2px solid #ffffff;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.news-dot.active {
+    background: #54e50d;
+    border-color: #54e50d;
+    transform: scale(1.2);
+}
+
+.news-dot:hover {
+    background: rgba(84, 229, 13, 0.7);
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+@media (max-width: 900px) {
+    .news-content { padding: 120px 15px 40px; }
+    .news-title { font-size: 1.8rem; }
+    .news-subtitle { font-size: 0.9rem; }
+
+    .news-carousel {
+        width: 95% !important;     /* ✅ plus large sur mobile */
+        max-width: 100% !important;
+    }
+
+    .news-arrow { width: 38px; height: 38px; }
+    .news-arrow svg { width: 16px; height: 16px; }
+    .news-prev { left: 10px; }
+    .news-next { right: 10px; }
+}
+
+@media (max-width: 480px) {
+    .news-content { padding: 100px 10px 30px; }
+    .news-title { font-size: 1.4rem; }
+
+    .news-carousel {
+        width: 100% !important;    /* ✅ pleine largeur sur petit mobile */
+        border-radius: 12px;
+    }
+
+    .news-arrow { width: 32px; height: 32px; }
+    .news-dot { width: 10px; height: 10px; }
+}
