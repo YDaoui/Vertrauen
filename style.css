@@ -920,16 +920,27 @@ body.salespromoter-page {
     overflow-x: hidden;
 }
 
-body.vertriebspartner-page .vp-hero-fixed,
-body.salespromoter-page .vp-hero-fixed { display: none !important; }
-
+/* ✅ FIX IPHONE — On cache les pseudo-éléments qui buguent */
 body.vertriebspartner-page::before,
-body.salespromoter-page::before {
-    content: "";
+body.vertriebspartner-page::after,
+body.salespromoter-page::before,
+body.salespromoter-page::after {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+}
+
+/* ✅ FIX IPHONE — On active le <div class="vp-hero-fixed"> */
+body.vertriebspartner-page .vp-hero-fixed,
+body.salespromoter-page .vp-hero-fixed {
+    display: block !important;
     position: fixed;
-    top: 112px; left: 0; right: 0;
-    width: 100vw;
+    top: 112px;
+    left: 0;
+    right: 0;
+    width: 100%;
     height: calc(100vh - 112px);
+    height: calc(100dvh - 112px);   /* ✅ dvh pour Safari iOS */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -938,35 +949,33 @@ body.salespromoter-page::before {
     transition: top 0.4s ease, height 0.4s ease;
 }
 
-body.vertriebspartner-page::before {
+body.vertriebspartner-page .vp-hero-fixed {
     background-image: url('Images/Dashbords/Vertriebspartner_image.jpg');
 }
 
-body.salespromoter-page::before {
+body.salespromoter-page .vp-hero-fixed {
     background-image: url('Images/Dashbords/sales_image.jpg');
 }
 
-body.vertriebspartner-page::after,
-body.salespromoter-page::after {
+/* Overlay bleu transparent */
+body.vertriebspartner-page .vp-hero-fixed::after,
+body.salespromoter-page .vp-hero-fixed::after {
     content: "";
-    position: fixed;
-    top: 112px; left: 0; right: 0;
-    width: 100vw;
-    height: calc(100vh - 112px);
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(12, 37, 69, 0.05);
-    z-index: 2;
     pointer-events: none;
-    transition: top 0.4s ease, height 0.4s ease;
 }
 
-body.vertriebspartner-page.scrolled-page::before,
-body.vertriebspartner-page.scrolled-page::after,
-body.salespromoter-page.scrolled-page::before,
-body.salespromoter-page.scrolled-page::after {
+/* Adaptation au scroll */
+body.vertriebspartner-page.scrolled-page .vp-hero-fixed,
+body.salespromoter-page.scrolled-page .vp-hero-fixed {
     top: 68px;
     height: calc(100vh - 68px);
+    height: calc(100dvh - 68px);
 }
 
+/* Header transparent sur ces pages */
 body.vertriebspartner-page .dashboard-header,
 body.salespromoter-page .dashboard-header {
     background-color: rgba(12, 37, 69, 0.6) !important;
@@ -983,6 +992,7 @@ body.salespromoter-page .dashboard-header.scrolled {
     border-bottom: 3px solid #1a3d6a !important;
 }
 
+/* Section formulaire */
 body.vertriebspartner-page .vp-form-section,
 body.salespromoter-page .vp-form-section {
     position: relative;
@@ -1894,7 +1904,7 @@ body.salespromoter-page .home-follow {
 }
 
 /* ============================================================
-   ✅ PAGE NEWS — CARROUSEL (VERSION UNIQUE)
+   ✅ PAGE NEWS — CARROUSEL
    ============================================================ */
 body.news-page {
     padding-top: 112px !important;
@@ -2250,9 +2260,14 @@ body.news-page.scrolled-page {
     }
     .menu-overlay.active { opacity: 1; pointer-events: auto; }
 
-    /* --- Sektoren --- */
-    .sektoren-page .dashboard-header { top: 30px; padding: 6px 10px; min-height: 56px; }
+    /* --- ✅ SEKTOREN mobile : menu descendu un peu --- */
+    .sektoren-page .dashboard-header {
+        top: 55px !important;   /* ✅ descendu de 30px → 55px */
+        padding: 6px 10px;
+        min-height: 56px;
+    }
     .sektoren-page .dashboard-header .logo-link img { max-height: 46px !important; height: 46px !important; }
+
     .sektoren-page .sektoren-container {
         flex-direction: column !important;
         height: auto !important;
@@ -2298,10 +2313,10 @@ body.news-page.scrolled-page {
         text-align: center;
     }
 
-    /* --- ✅ VERTRIEBSPARTNER + SALESPROMOTER — Formulaire remonté --- */
+    /* --- VERTRIEBSPARTNER + SALESPROMOTER — Formulaire remonté --- */
     body.vertriebspartner-page .vp-form-section,
     body.salespromoter-page .vp-form-section {
-        margin-top: calc(100vh - 260px) !important;   /* ✅ remonte de 60px */
+        margin-top: calc(100vh - 260px) !important;
         padding: 40px 20px 60px !important;
     }
 
@@ -2321,6 +2336,21 @@ body.news-page.scrolled-page {
         font-size: 1rem !important;
         margin-bottom: 20px !important;
         padding-bottom: 12px !important;
+    }
+
+    /* --- Image de fond VP / SP (tablette) --- */
+    body.vertriebspartner-page .vp-hero-fixed,
+    body.salespromoter-page .vp-hero-fixed {
+        top: 100px;
+        height: calc(100vh - 100px);
+        height: calc(100dvh - 100px);
+    }
+
+    body.vertriebspartner-page.scrolled-page .vp-hero-fixed,
+    body.salespromoter-page.scrolled-page .vp-hero-fixed {
+        top: 56px;
+        height: calc(100vh - 56px);
+        height: calc(100dvh - 56px);
     }
 
     /* --- Footer tablette --- */
@@ -2404,7 +2434,7 @@ body.news-page.scrolled-page {
 
     .home-segments-box { transform: translateY(-10px) !important; }
 
-    /* --- NEWS mobile : contenu remonté + image + texte empilés --- */
+    /* --- NEWS mobile --- */
     body.news-page { padding-top: 80px !important; }
     body.news-page.scrolled-page { padding-top: 50px !important; }
 
@@ -2418,19 +2448,9 @@ body.news-page.scrolled-page {
     }
 
     .news-slide { min-height: auto; }
-
-    .news-slide-image {
-        padding: 10px;
-    }
-
-    .news-slide-image img {
-        max-height: 50vh !important;
-    }
-
-    .news-slide-text {
-        padding: 15px !important;
-    }
-
+    .news-slide-image { padding: 10px; }
+    .news-slide-image img { max-height: 50vh !important; }
+    .news-slide-text { padding: 15px !important; }
     .news-slide-text h3 { font-size: 1.1rem; }
     .news-slide-text p { font-size: 0.85rem; }
 
@@ -2439,21 +2459,24 @@ body.news-page.scrolled-page {
 
     /* --- ✅ INDEX mobile : contenu descendu un peu --- */
     body.index-page.dashboard-page {
-        padding-top: 90px !important;   /* ✅ était 80px → 90px (contenu descendu) */
+        padding-top: 90px !important;
     }
-
     body.index-page.scrolled-page {
-        padding-top: 60px !important;   /* ✅ était 50px → 60px */
+        padding-top: 60px !important;
+    }
+    .home-hero {
+        padding-top: 25px !important;
     }
 
-    .home-hero {
-        padding-top: 25px !important;   /* ✅ était 15px → 25px (contenu descendu) */
+    /* --- ✅ SEKTOREN mobile : menu encore descendu --- */
+    .sektoren-page .dashboard-header {
+        top: 65px !important;   /* ✅ descendu de 55px → 65px sur petit mobile */
     }
 
     /* --- ✅ VERTRIEBSPARTNER + SALESPROMOTER mobile : formulaire remonté --- */
     body.vertriebspartner-page .vp-form-section,
     body.salespromoter-page .vp-form-section {
-        margin-top: calc(100vh - 320px) !important;   /* ✅ remonte de 120px */
+        margin-top: calc(100vh - 320px) !important;
         padding: 30px 15px 40px !important;
     }
 
@@ -2470,6 +2493,21 @@ body.news-page.scrolled-page {
     body.vertriebspartner-page .vp-form-card h3,
     body.salespromoter-page .vp-form-card h3 {
         font-size: 0.95rem !important;
+    }
+
+    /* --- Image fond VP / SP mobile --- */
+    body.vertriebspartner-page .vp-hero-fixed,
+    body.salespromoter-page .vp-hero-fixed {
+        top: 80px;
+        height: calc(100vh - 80px);
+        height: calc(100dvh - 80px);
+    }
+
+    body.vertriebspartner-page.scrolled-page .vp-hero-fixed,
+    body.salespromoter-page.scrolled-page .vp-hero-fixed {
+        top: 50px;
+        height: calc(100vh - 50px);
+        height: calc(100dvh - 50px);
     }
 
     /* --- Footer mobile --- */
@@ -2594,6 +2632,11 @@ body.news-page.scrolled-page {
     body.news-page.scrolled-page {
         padding-top: 56px !important;
     }
+
+    /* Sektoren scrolled — on garde le menu descendu */
+    body.sektoren-page.scrolled-page .dashboard-header {
+        top: 0 !important;
+    }
 }
 
 /* ============================================================
@@ -2619,6 +2662,11 @@ body.sektoren-page.scrolled-page {
 }
 
 @media (max-width: 900px) {
-    body.sektoren-page { padding-top: 100px !important; }
+    body.sektoren-page { padding-top: 145px !important; }   /* ✅ +45px pour menu descendu */
+    body.sektoren-page.scrolled-page { padding-top: 56px !important; }
+}
+
+@media (max-width: 480px) {
+    body.sektoren-page { padding-top: 155px !important; }   /* ✅ +55px sur petit mobile */
     body.sektoren-page.scrolled-page { padding-top: 56px !important; }
 }
