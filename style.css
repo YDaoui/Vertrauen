@@ -30,6 +30,38 @@ body.dashboard-page {
 }
 
 /* ============================================================
+   ✅ BARRE DE SCROLL VERTE (Chrome, Edge, Safari)
+   ============================================================ */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0c2545;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #54e50d;
+    border-radius: 6px;
+    border: 2px solid #0c2545;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6aff1f;
+}
+
+::-webkit-scrollbar-corner {
+    background: #0c2545;
+}
+
+/* ✅ BARRE DE SCROLL VERTE (Firefox) */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #54e50d #0c2545;
+}
+
+/* ============================================================
    BANDEAU RÉSEAUX SOCIAUX
    ============================================================ */
 .social-top-bar {
@@ -1575,7 +1607,6 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
 /* ============================================================
    ✅✅✅ FOOTER UNIFIÉ — TOUTES LES PAGES
    ============================================================ */
-
 .vd-footer {
     background: #0c2545;
     color: #FFFFFF;
@@ -1714,8 +1745,8 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     height: 120px;
     object-fit: contain;
     display: block;
-    margin-top: -20px;         /* remonte le logo */
-    margin-bottom: 10px;       /* réduit l'espace sous le logo */
+    margin-top: -20px;
+    margin-bottom: 10px;
     padding: 8px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
@@ -1727,7 +1758,7 @@ body.salespromoter-page .vp-form-section.scrolled { background: #0c2545; }
     color: #A0AAB5;
     font-size: 0.85rem;
     line-height: 1.7;
-    margin-top: -10px;         /* remonte l'adresse */
+    margin-top: -10px;
     margin-bottom: 15px;
 }
 
@@ -1870,7 +1901,240 @@ body.salespromoter-page .home-follow {
 }
 
 /* ============================================================
-   RESPONSIVE — MOBILE IDENTIQUE AU BUREAU
+   ✅ PAGE NEWS — CARROUSEL (VERSION UNIQUE)
+   ============================================================ */
+body.news-page {
+    padding-top: 112px !important;
+    background: #0c2545;
+}
+
+body.news-page.scrolled-page {
+    padding-top: 68px !important;
+}
+
+.news-page {
+    background: #0c2545;
+    min-height: 100vh;
+}
+
+.news-content {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 80px 40px 40px !important;
+    text-align: center;
+}
+
+.news-carousel {
+    position: relative;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+    background: rgba(12, 37, 69, 0.55) !important;   /* ✅ bleu transparent */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(84, 229, 13, 0.25);
+}
+
+.news-slides {
+    position: relative;
+    width: 100%;
+}
+
+.news-slide {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    width: 100% !important;
+    min-height: 480px;
+}
+
+.news-slide.active {
+    display: flex;
+}
+
+/* --- Image --- */
+.news-slide-image {
+    flex: 1 1 65% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.news-slide-image img {
+    width: 100%;
+    height: auto;
+    max-height: 70vh !important;
+    object-fit: contain;
+    border-radius: 12px;
+    display: block;
+}
+
+/* --- Texte --- */
+.news-slide-text {
+    flex: 1 1 35% !important;
+    padding: 40px 50px !important;
+    text-align: left;
+    color: #FFFFFF;
+    background: rgba(12, 37, 69, 0.35) !important;   /* ✅ bleu transparent */
+}
+
+.news-slide-text h3 {
+    color: #54e50d;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 16px;
+    line-height: 1.3;
+}
+
+.news-slide-text p {
+    color: #A0AAB5;
+    font-size: 1rem;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* Flèches */
+.news-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(84, 229, 13, 0.85);
+    color: #0c2545;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.news-arrow:hover {
+    background: #54e50d;
+    transform: translateY(-50%) scale(1.08);
+}
+
+.news-arrow svg {
+    width: 20px;
+    height: 20px;
+}
+
+.news-prev { left: 16px; }
+.news-next { right: 16px; }
+
+/* Points */
+.news-dots {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+}
+
+.news-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: 2px solid #ffffff;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.news-dot.active {
+    background: #54e50d;
+    border-color: #54e50d;
+    transform: scale(1.2);
+}
+
+.news-dot:hover {
+    background: rgba(84, 229, 13, 0.7);
+}
+
+/* Responsive News */
+@media (max-width: 900px) {
+    body.news-page { padding-top: 100px !important; }
+    body.news-page.scrolled-page { padding-top: 56px !important; }
+
+    .news-page .news-content {
+        padding: 70px 15px 30px !important;
+    }
+
+    .news-page .news-carousel {
+        width: 95% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+    }
+
+    .news-slide {
+        flex-direction: column !important;
+        min-height: auto;
+    }
+
+    .news-slide-image {
+        flex: 0 0 auto;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .news-slide-image img {
+        max-height: 60vh !important;
+        width: 100%;
+        object-fit: contain;
+    }
+
+    .news-slide-text {
+        flex: 0 0 auto;
+        width: 100%;
+        padding: 20px !important;
+        text-align: center !important;
+    }
+
+    .news-slide-text h3 { font-size: 1.3rem; }
+    .news-slide-text p { font-size: 0.9rem; }
+
+    .news-arrow { width: 38px; height: 38px; }
+    .news-arrow svg { width: 16px; height: 16px; }
+    .news-prev { left: 10px; }
+    .news-next { right: 10px; }
+}
+
+@media (max-width: 480px) {
+    body.news-page { padding-top: 80px !important; }
+    body.news-page.scrolled-page { padding-top: 50px !important; }
+
+    .news-page .news-content {
+        padding: 60px 10px 20px !important;
+    }
+
+    .news-page .news-carousel {
+        width: 100% !important;
+        border-radius: 12px;
+    }
+
+    .news-slide-image { padding: 10px; }
+    .news-slide-text { padding: 15px !important; }
+    .news-slide-text h3 { font-size: 1.1rem; }
+    .news-slide-text p { font-size: 0.85rem; }
+
+    .news-arrow { width: 32px; height: 32px; }
+    .news-dot { width: 10px; height: 10px; }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE (max 900px)
    ============================================================ */
 @media (max-width: 900px) {
     /* --- Hero --- */
@@ -1930,378 +2194,6 @@ body.salespromoter-page .home-follow {
         min-width: 50px;
     }
     .dashboard-header .login-btn { display: none !important; }
-
-    .dashboard-nav {
-        position: fixed;
-        top: 0; right: 0; bottom: 0;
-        width: 70%;
-        max-width: 400px;
-        background-color: rgba(12, 37, 69, 0.98);
-        backdrop-filter: blur(10px);
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 100px 20px 40px;
-        gap: 20px;
-        border-left: 3px solid #54e50d;
-        transform: translateX(100%);
-        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 999;
-        display: flex !important;
-        margin: 0;
-        pointer-events: none;
-        overflow-y: auto;
-        height: 100vh;
-    }
-    .dashboard-nav.open { transform: translateX(0); pointer-events: auto; }
-    .dashboard-nav a {
-        padding: 14px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        color: #FFFFFF;
-        font-size: 1.1rem;
-        width: 100%;
-        text-align: center;
-        border-radius: 8px;
-        display: block;
-    }
-    .dashboard-nav a::after { display: none; }
-
-    .dashboard-header.scrolled .dashboard-nav { background-color: rgba(255, 255, 255, 0.98); border-left-color: #1a3d6a; }
-    .dashboard-header.scrolled .dashboard-nav a { color: #54e50d !important; }
-    .dashboard-header.scrolled .dashboard-nav a:hover,
-    .dashboard-header.scrolled .dashboard-nav a.active { color: #888888 !important; }
-
-    /* --- Sektoren --- */
-    .sektoren-page .dashboard-header { top: 30px; padding: 6px 10px; min-height: 56px; }
-    .sektoren-page .dashboard-header .logo-link img { max-height: 46px !important; height: 46px !important; }
-    .sektoren-page .sektoren-container {
-        flex-direction: column !important;
-        height: auto !important;
-        min-height: auto !important;
-        overflow-y: auto;
-        position: relative;
-        padding-top: 0 !important;
-    }
-    .sektoren-page .segment { flex: 0 0 auto; width: 100%; height: auto; min-height: 200px; }
-    .sektoren-page .segment.active { flex: 0 0 auto; min-height: 350px; height: auto; }
-    .sektoren-page .segment:not(:last-child)::after {
-        right: auto; bottom: 0; top: auto;
-        width: 100%; height: 2px;
-    }
-    .sektoren-page .segment-word {
-        writing-mode: horizontal-tb !important;
-        font-size: 2rem !important;
-        letter-spacing: 6px !important;
-        margin-bottom: 15px !important;
-    }
-    .sektoren-page .segment.active .segment-word {
-        font-size: 1.6rem !important;
-        letter-spacing: 2px !important;
-    }
-    .sektoren-page .segment-icon-wrapper { width: 38px !important; height: 38px !important; }
-    .sektoren-page .segment-icon-wrapper svg { width: 18px !important; height: 18px !important; }
-    .sektoren-page .segment.active .segment-content {
-        align-items: center;
-        justify-content: center;
-        padding: 15px 14px 25px 14px;
-        flex-direction: column;
-    }
-    .sektoren-page .segment.active .segment-bottom-group {
-        justify-content: center;
-        margin-bottom: 8px;
-        flex-direction: row;
-        gap: 10px;
-    }
-    .sektoren-page .segment-hidden-text { font-size: 0.8rem !important; padding: 12px 16px !important; }
-    .sektoren-page .segment.active .segment-hidden-text {
-        font-size: 0.8rem !important;
-        padding: 12px 14px !important;
-        text-align: center;
-    }
-}
-
-@media (max-width: 768px) {
-    .social-icon { width: 26px !important; height: 26px !important; }
-    .social-icon svg { width: 13px !important; height: 13px !important; }
-    .social-icons { gap: 6px !important; }
-
-    .btn-top-bar {
-        padding: 12px 22px !important;
-        font-size: 0.75rem !important;
-        letter-spacing: 0.4px !important;
-        border-radius: 26px !important;
-        line-height: 1.2 !important;
-    }
-    .top-bar-buttons { gap: 8px !important; }
-
-    .dashboard-header .logo-link img {
-        max-height: 52px !important;
-        height: 52px !important;
-    }
-
-    .home-segments-box { transform: translateY(-10px) !important; }
-}
-
-@media (max-width: 480px) {
-    .home-hero-title { font-size: 1.8rem !important; letter-spacing: 2px !important; }
-    .home-title-row h2 { font-size: 1.3rem !important; }
-    .home-hero-left-p { font-size: 0.8rem !important; }
-    .home-hero-map { width: 240px !important; max-width: 240px !important; }
-    .home-hero-map img.de-map-img { max-height: 34vh !important; }
-    .home-hero-map .logo-over-map { width: 60% !important; max-width: 140px !important; }
-    .city-name { font-size: 9px !important; }
-    .city-point { width: 8px !important; height: 8px !important; margin-left: -4px !important; margin-top: -4px !important; }
-    .city-pulse { width: 14px !important; height: 14px !important; margin-left: -7px !important; margin-top: -7px !important; }
-
-    .home-segment-detail {
-        width: calc(100% - 20px);
-        margin: 15px 10px;
-        padding: 20px 14px;
-        scroll-margin-top: 80px;
-    }
-
-    .dashboard-header { padding: 5px 6px; min-height: 46px; }
-    .dashboard-header .logo-link img { max-height: 36px !important; height: 36px !important; }
-    .welcome-center { font-size: 0.55rem; }
-
-    .dashboard-nav { width: 75%; padding: 80px 20px 30px; }
-    .dashboard-nav a { font-size: 1rem; padding: 12px 0; }
-
-    body.index-page.scrolled-page { padding-top: 55px !important; }
-
-    .social-icon { width: 24px !important; height: 24px !important; }
-    .social-icon svg { width: 12px !important; height: 12px !important; }
-
-    .btn-top-bar {
-        padding: 11px 16px !important;
-        font-size: 0.68rem !important;
-        border-radius: 24px !important;
-    }
-
-    .dashboard-header .logo-link img { max-height: 50px !important; height: 50px !important; }
-
-    .home-segments-box { transform: translateY(-10px) !important; }
-
-    /* --- Footer mobile --- */
-    .home-follow { padding: 25px 15px 12px !important; }
-    .home-follow h3 { font-size: 1rem; }
-
-    .vd-footer-top { padding: 30px 15px; }
-    .vd-footer-label-text { font-size: 0.65rem; letter-spacing: 1px; }
-    .vd-footer-title-white { font-size: 1.8rem; letter-spacing: 2px; }
-    .vd-footer-title-green { font-size: 1.3rem; }
-
-    .vd-footer-btn {
-        font-size: 0.82rem;
-        padding: 12px 20px;
-        letter-spacing: 0.5px;
-    }
-
-    .vd-footer-bottom { padding: 30px 15px 12px; }
-    .vd-footer-bottom-inner {
-        grid-template-columns: 1fr;
-        gap: 25px;
-        text-align: center;
-    }
-
-    .vd-footer-col {
-        text-align: center;
-        align-items: center;
-    }
-
-    .vd-footer-col-brand .vd-footer-logo {
-        width: 90px !important;
-        height: 90px !important;
-        margin: 0 auto 10px;
-    }
-
-    .vd-footer-address { margin-top: 0 !important; }
-
-    .vd-footer-heading { text-align: center; width: 100%; }
-    .vd-footer-list { align-items: center; text-align: center; }
-    .vd-footer-cities li { justify-content: center; }
-    .vd-footer-social { justify-content: center; }
-
-    .vd-footer-copyright {
-        font-size: 0.72rem;
-        line-height: 1.6;
-        padding: 10px 15px 15px;
-    }
-
-    .vd-footer-sep { margin: 0 6px; }
-}
-
-@media (max-width: 900px) {
-    /* Footer tablette */
-    .home-follow { padding: 30px 20px 15px; }
-    .vd-footer-top { padding: 40px 20px; }
-    .vd-footer-top-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 25px;
-    }
-    .vd-footer-titles {
-        flex: 1 1 100%;
-        width: 100%;
-        text-align: left;
-    }
-    .vd-footer-label-text { font-size: 0.65rem; letter-spacing: 1px; }
-    .vd-footer-title-white { font-size: 2.5rem; letter-spacing: 3px; }
-    .vd-footer-title-green { font-size: 1.8rem; }
-    .vd-footer-cta { width: 100%; }
-    .vd-footer-btn { width: 100%; justify-content: center; padding: 14px 24px; }
-
-    .vd-footer-bottom { padding: 40px 20px 15px; }
-    .vd-footer-bottom-inner { grid-template-columns: 1fr 1fr; gap: 30px; }
-    .vd-footer-col-brand {
-        grid-column: 1 / -1;
-        text-align: center;
-        align-items: center;
-    }
-    .vd-footer-col-brand .vd-footer-logo {
-        margin: -15px auto 8px;
-        width: 100px;
-        height: 100px;
-    }
-    .vd-footer-address { margin-top: -8px; margin-bottom: 12px; }
-    .vd-footer-social { justify-content: center; }
-
-    .vd-footer-copyright { padding: 12px 20px 15px; font-size: 0.75rem; }
-}
-
-/* ============================================================
-   FIX MOBILE — ESPACE HEADER SUR INDEX
-   ============================================================ */
-@media (max-width: 900px) {
-    body.index-page.dashboard-page { padding-top: 100px !important; }
-    body.index-page.scrolled-page { padding-top: 55px !important; }
-
-    .home-hero { padding-top: 20px !important; margin-top: 0 !important; }
-    .home-hero-inner { padding-top: 0 !important; margin-top: 0 !important; }
-    .home-hero-row { padding-top: 0 !important; margin-top: 0 !important; }
-    .home-hero-left { padding-top: 0 !important; margin-top: 0 !important; }
-}
-
-@media (max-width: 480px) {
-    body.index-page.dashboard-page { padding-top: 80px !important; }
-    body.index-page.scrolled-page { padding-top: 50px !important; }
-    .home-hero { padding-top: 15px !important; }
-}
-
-/* ============================================================
-   ✅ UNIFICATION — BANDEAU SOCIAL DISPARAÎT AU SCROLL PARTOUT
-   ============================================================ */
-body.scrolled-page .social-top-bar,
-body .social-top-bar.hidden,
-body.index-page.scrolled-page .social-top-bar,
-body.index-page .social-top-bar.hidden,
-body.dashboard-page.scrolled-page .social-top-bar,
-body.vertriebspartner-page.scrolled-page .social-top-bar,
-body.salespromoter-page.scrolled-page .social-top-bar,
-body.sektoren-page.scrolled-page .social-top-bar {
-    transform: translateY(-110%) !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    max-height: 0 !important;
-    height: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    display: none !important;
-}
-
-/* Header remonte au scroll sur toutes les pages */
-body.scrolled-page .dashboard-header,
-body.index-page.scrolled-page .dashboard-header,
-body.dashboard-page.scrolled-page .dashboard-header,
-body.vertriebspartner-page.scrolled-page .dashboard-header,
-body.salespromoter-page.scrolled-page .dashboard-header,
-body.sektoren-page.scrolled-page .dashboard-header {
-    top: 0 !important;
-    background-color: rgba(255, 255, 255, 0.92) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border-bottom: 3px solid #1a3d6a !important;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
-}
-
-body.scrolled-page,
-body.index-page.scrolled-page,
-body.dashboard-page.scrolled-page,
-body.vertriebspartner-page.scrolled-page,
-body.salespromoter-page.scrolled-page,
-body.sektoren-page.scrolled-page {
-    padding-top: 68px !important;
-}
-
-@media (max-width: 900px) {
-    body.scrolled-page,
-    body.index-page.scrolled-page,
-    body.dashboard-page.scrolled-page,
-    body.vertriebspartner-page.scrolled-page,
-    body.salespromoter-page.scrolled-page,
-    body.sektoren-page.scrolled-page {
-        padding-top: 56px !important;
-    }
-}
-
-/* ============================================================
-   FIX SEKTOREN PAGE — SCROLL + FOOTER VISIBLE
-   ============================================================ */
-body.sektoren-page {
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    height: auto !important;
-    min-height: 100vh !important;
-    padding-top: 112px !important;
-}
-
-body.sektoren-page.scrolled-page {
-    padding-top: 68px !important;
-}
-
-.sektoren-page .home-follow,
-.sektoren-page .vd-footer {
-    position: relative !important;
-    z-index: 30 !important;
-    width: 100% !important;
-}
-
-@media (max-width: 900px) {
-    body.sektoren-page { padding-top: 100px !important; }
-    body.sektoren-page.scrolled-page { padding-top: 56px !important; }
-}
-
-/* ============================================================
-   MENU HAMBURGER MOBILE — FONCTIONNEL
-   ============================================================ */
-@media (max-width: 900px) {
-    .hamburger {
-        display: flex !important;
-        order: 3;
-        margin-left: auto;
-        z-index: 1002;
-        width: 32px;
-        height: 26px;
-        flex-direction: column;
-        justify-content: space-around;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-    }
-    .hamburger span {
-        display: block;
-        width: 100%;
-        height: 3px;
-        background-color: #54e50d;
-        border-radius: 2px;
-        transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.4s ease;
-    }
-    .dashboard-header.scrolled .hamburger span { background-color: #0c2545; }
-    .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
     .dashboard-nav {
         position: fixed;
@@ -2391,14 +2283,212 @@ body.sektoren-page.scrolled-page {
         transition: opacity 0.35s ease;
     }
     .menu-overlay.active { opacity: 1; pointer-events: auto; }
+
+    /* --- Sektoren --- */
+    .sektoren-page .dashboard-header { top: 30px; padding: 6px 10px; min-height: 56px; }
+    .sektoren-page .dashboard-header .logo-link img { max-height: 46px !important; height: 46px !important; }
+    .sektoren-page .sektoren-container {
+        flex-direction: column !important;
+        height: auto !important;
+        min-height: auto !important;
+        overflow-y: auto;
+        position: relative;
+        padding-top: 0 !important;
+    }
+    .sektoren-page .segment { flex: 0 0 auto; width: 100%; height: auto; min-height: 200px; }
+    .sektoren-page .segment.active { flex: 0 0 auto; min-height: 350px; height: auto; }
+    .sektoren-page .segment:not(:last-child)::after {
+        right: auto; bottom: 0; top: auto;
+        width: 100%; height: 2px;
+    }
+    .sektoren-page .segment-word {
+        writing-mode: horizontal-tb !important;
+        font-size: 2rem !important;
+        letter-spacing: 6px !important;
+        margin-bottom: 15px !important;
+    }
+    .sektoren-page .segment.active .segment-word {
+        font-size: 1.6rem !important;
+        letter-spacing: 2px !important;
+    }
+    .sektoren-page .segment-icon-wrapper { width: 38px !important; height: 38px !important; }
+    .sektoren-page .segment-icon-wrapper svg { width: 18px !important; height: 18px !important; }
+    .sektoren-page .segment.active .segment-content {
+        align-items: center;
+        justify-content: center;
+        padding: 15px 14px 25px 14px;
+        flex-direction: column;
+    }
+    .sektoren-page .segment.active .segment-bottom-group {
+        justify-content: center;
+        margin-bottom: 8px;
+        flex-direction: row;
+        gap: 10px;
+    }
+    .sektoren-page .segment-hidden-text { font-size: 0.8rem !important; padding: 12px 16px !important; }
+    .sektoren-page .segment.active .segment-hidden-text {
+        font-size: 0.8rem !important;
+        padding: 12px 14px !important;
+        text-align: center;
+    }
+
+    /* --- Footer tablette --- */
+    .home-follow { padding: 30px 20px 15px; }
+    .vd-footer-top { padding: 40px 20px; }
+    .vd-footer-top-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+    }
+    .vd-footer-titles {
+        flex: 1 1 100%;
+        width: 100%;
+        text-align: left;
+    }
+    .vd-footer-label-text { font-size: 0.65rem; letter-spacing: 1px; }
+    .vd-footer-title-white { font-size: 2.5rem; letter-spacing: 3px; }
+    .vd-footer-title-green { font-size: 1.8rem; }
+    .vd-footer-cta { width: 100%; }
+    .vd-footer-btn { width: 100%; justify-content: center; padding: 14px 24px; }
+
+    .vd-footer-bottom { padding: 40px 20px 15px; }
+    .vd-footer-bottom-inner { grid-template-columns: 1fr 1fr; gap: 30px; }
+    .vd-footer-col-brand {
+        grid-column: 1 / -1;
+        text-align: center;
+        align-items: center;
+    }
+    .vd-footer-col-brand .vd-footer-logo {
+        margin: -15px auto 8px;
+        width: 100px;
+        height: 100px;
+    }
+    .vd-footer-address { margin-top: -8px; margin-bottom: 12px; }
+    .vd-footer-social { justify-content: center; }
+
+    .vd-footer-copyright { padding: 12px 20px 15px; font-size: 0.75rem; }
 }
 
+/* ============================================================
+   RESPONSIVE — MOBILE (max 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+    .social-icon { width: 26px !important; height: 26px !important; }
+    .social-icon svg { width: 13px !important; height: 13px !important; }
+    .social-icons { gap: 6px !important; }
+
+    .btn-top-bar {
+        padding: 12px 22px !important;
+        font-size: 0.75rem !important;
+        letter-spacing: 0.4px !important;
+        border-radius: 26px !important;
+        line-height: 1.2 !important;
+    }
+    .top-bar-buttons { gap: 8px !important; }
+
+    .dashboard-header .logo-link img {
+        max-height: 52px !important;
+        height: 52px !important;
+    }
+
+    .home-segments-box { transform: translateY(-10px) !important; }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE (max 480px)
+   ============================================================ */
 @media (max-width: 480px) {
-    .dashboard-nav { width: 75% !important; padding: 80px 20px 30px !important; }
-    .dashboard-nav a { font-size: 1rem !important; padding: 12px 0 !important; }
-    #logoutMobile { padding: 12px 20px !important; font-size: 0.9rem !important; }
+    .home-hero-title { font-size: 1.8rem !important; letter-spacing: 2px !important; }
+    .home-title-row h2 { font-size: 1.3rem !important; }
+    .home-hero-left-p { font-size: 0.8rem !important; }
+    .home-hero-map { width: 240px !important; max-width: 240px !important; }
+    .home-hero-map img.de-map-img { max-height: 34vh !important; }
+    .home-hero-map .logo-over-map { width: 60% !important; max-width: 140px !important; }
+    .city-name { font-size: 9px !important; }
+    .city-point { width: 8px !important; height: 8px !important; margin-left: -4px !important; margin-top: -4px !important; }
+    .city-pulse { width: 14px !important; height: 14px !important; margin-left: -7px !important; margin-top: -7px !important; }
+
+    .home-segment-detail {
+        width: calc(100% - 20px);
+        margin: 15px 10px;
+        padding: 20px 14px;
+        scroll-margin-top: 80px;
+    }
+
+    .dashboard-header { padding: 5px 6px; min-height: 46px; }
+    .dashboard-header .logo-link img { max-height: 36px !important; height: 36px !important; }
+    .welcome-center { font-size: 0.55rem; }
+
+    .dashboard-nav { width: 75%; padding: 80px 20px 30px; }
+    .dashboard-nav a { font-size: 1rem; padding: 12px 0; }
+
+    body.index-page.scrolled-page { padding-top: 55px !important; }
+
+    .social-icon { width: 24px !important; height: 24px !important; }
+    .social-icon svg { width: 12px !important; height: 12px !important; }
+
+    .btn-top-bar {
+        padding: 11px 16px !important;
+        font-size: 0.68rem !important;
+        border-radius: 24px !important;
+    }
+
+    .dashboard-header .logo-link img { max-height: 50px !important; height: 50px !important; }
+
+    .home-segments-box { transform: translateY(-10px) !important; }
+
+    /* --- Footer mobile --- */
+    .home-follow { padding: 25px 15px 12px !important; }
+    .home-follow h3 { font-size: 1rem; }
+
+    .vd-footer-top { padding: 30px 15px; }
+    .vd-footer-label-text { font-size: 0.65rem; letter-spacing: 1px; }
+    .vd-footer-title-white { font-size: 1.8rem; letter-spacing: 2px; }
+    .vd-footer-title-green { font-size: 1.3rem; }
+
+    .vd-footer-btn {
+        font-size: 0.82rem;
+        padding: 12px 20px;
+        letter-spacing: 0.5px;
+    }
+
+    .vd-footer-bottom { padding: 30px 15px 12px; }
+    .vd-footer-bottom-inner {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        text-align: center;
+    }
+
+    .vd-footer-col {
+        text-align: center;
+        align-items: center;
+    }
+
+    .vd-footer-col-brand .vd-footer-logo {
+        width: 90px !important;
+        height: 90px !important;
+        margin: 0 auto 10px;
+    }
+
+    .vd-footer-address { margin-top: 0 !important; }
+
+    .vd-footer-heading { text-align: center; width: 100%; }
+    .vd-footer-list { align-items: center; text-align: center; }
+    .vd-footer-cities li { justify-content: center; }
+    .vd-footer-social { justify-content: center; }
+
+    .vd-footer-copyright {
+        font-size: 0.72rem;
+        line-height: 1.6;
+        padding: 10px 15px 15px;
+    }
+
+    .vd-footer-sep { margin: 0 6px; }
 }
 
+/* ============================================================
+   RESPONSIVE — TRÈS PETIT MOBILE (max 360px)
+   ============================================================ */
 @media (max-width: 360px) {
     .social-icon { width: 22px !important; height: 22px !important; }
     .social-icon svg { width: 11px !important; height: 11px !important; }
@@ -2409,4 +2499,106 @@ body.sektoren-page.scrolled-page {
 
     .dashboard-nav { width: 80% !important; padding: 70px 16px 20px !important; }
     .dashboard-nav a { font-size: 0.9rem !important; padding: 10px 0 !important; }
+}
+
+/* ============================================================
+   FIX MOBILE — ESPACE HEADER SUR INDEX
+   ============================================================ */
+@media (max-width: 900px) {
+    body.index-page.dashboard-page { padding-top: 100px !important; }
+    body.index-page.scrolled-page { padding-top: 55px !important; }
+
+    .home-hero { padding-top: 20px !important; margin-top: 0 !important; }
+    .home-hero-inner { padding-top: 0 !important; margin-top: 0 !important; }
+    .home-hero-row { padding-top: 0 !important; margin-top: 0 !important; }
+    .home-hero-left { padding-top: 0 !important; margin-top: 0 !important; }
+}
+
+@media (max-width: 480px) {
+    body.index-page.dashboard-page { padding-top: 80px !important; }
+    body.index-page.scrolled-page { padding-top: 50px !important; }
+    .home-hero { padding-top: 15px !important; }
+}
+
+/* ============================================================
+   ✅ UNIFICATION — BANDEAU SOCIAL DISPARAÎT AU SCROLL PARTOUT
+   ============================================================ */
+body.scrolled-page .social-top-bar,
+body .social-top-bar.hidden,
+body.index-page.scrolled-page .social-top-bar,
+body.index-page .social-top-bar.hidden,
+body.dashboard-page.scrolled-page .social-top-bar,
+body.vertriebspartner-page.scrolled-page .social-top-bar,
+body.salespromoter-page.scrolled-page .social-top-bar,
+body.sektoren-page.scrolled-page .social-top-bar {
+    transform: translateY(-110%) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    max-height: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    display: none !important;
+}
+
+body.scrolled-page .dashboard-header,
+body.index-page.scrolled-page .dashboard-header,
+body.dashboard-page.scrolled-page .dashboard-header,
+body.vertriebspartner-page.scrolled-page .dashboard-header,
+body.salespromoter-page.scrolled-page .dashboard-header,
+body.sektoren-page.scrolled-page .dashboard-header {
+    top: 0 !important;
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 3px solid #1a3d6a !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+body.scrolled-page,
+body.index-page.scrolled-page,
+body.dashboard-page.scrolled-page,
+body.vertriebspartner-page.scrolled-page,
+body.salespromoter-page.scrolled-page,
+body.sektoren-page.scrolled-page {
+    padding-top: 68px !important;
+}
+
+@media (max-width: 900px) {
+    body.scrolled-page,
+    body.index-page.scrolled-page,
+    body.dashboard-page.scrolled-page,
+    body.vertriebspartner-page.scrolled-page,
+    body.salespromoter-page.scrolled-page,
+    body.sektoren-page.scrolled-page {
+        padding-top: 56px !important;
+    }
+}
+
+/* ============================================================
+   FIX SEKTOREN PAGE — SCROLL + FOOTER VISIBLE
+   ============================================================ */
+body.sektoren-page {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    padding-top: 112px !important;
+}
+
+body.sektoren-page.scrolled-page {
+    padding-top: 68px !important;
+}
+
+.sektoren-page .home-follow,
+.sektoren-page .vd-footer {
+    position: relative !important;
+    z-index: 30 !important;
+    width: 100% !important;
+}
+
+@media (max-width: 900px) {
+    body.sektoren-page { padding-top: 100px !important; }
+    body.sektoren-page.scrolled-page { padding-top: 56px !important; }
 }
