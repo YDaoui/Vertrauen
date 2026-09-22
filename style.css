@@ -2670,3 +2670,469 @@ body.sektoren-page.scrolled-page {
     body.sektoren-page { padding-top: 155px !important; }   /* ✅ +55px sur petit mobile */
     body.sektoren-page.scrolled-page { padding-top: 56px !important; }
 }
+/* ============================================================
+   ✅ INDEX — VIDÉO + CARTE MAP EN BAS DU PARAGRAPHE
+   ============================================================ */
+
+/* 1. Colonne droite : vidéo */
+.home-hero-video {
+    flex: 0 0 auto;
+    max-width: 560px;
+    width: 100%;
+    display: flex;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+.home-hero-video .hero-video {
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    max-height: 60vh;
+    display: block;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(84, 229, 13, 0.25);
+    background: #000;
+}
+
+/* 2. Carte map déplacée en bas du paragraphe (à gauche) */
+.home-hero-map-left {
+    margin-top: 40px !important;    /* espace entre le paragraphe et la carte */
+    width: 100% !important;
+    max-width: 400px !important;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.home-hero-map-left img.de-map-img {
+    width: 100%;
+    height: auto;
+    max-height: 45vh;
+    display: block;
+    opacity: 0.85;
+    filter:
+        brightness(0) saturate(100%)
+        invert(72%) sepia(96%) saturate(1352%)
+        hue-rotate(53deg) brightness(103%) contrast(101%)
+        drop-shadow(0 8px 25px rgba(84, 229, 13, 0.4));
+    transition: filter 0.3s ease, transform 0.4s ease, opacity 0.3s ease;
+}
+
+.home-hero-map-left img.de-map-img:hover {
+    transform: scale(1.03);
+    opacity: 1;
+}
+
+.home-hero-map-left .logo-over-map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40% !important;
+    max-width: 160px !important;
+    height: auto;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0.65;
+    filter:
+        brightness(0) saturate(100%)
+        invert(75%) sepia(0%) saturate(0%) brightness(55%) contrast(90%)
+        drop-shadow(0 0 8px rgba(180, 180, 180, 0.6))
+        drop-shadow(0 0 16px rgba(160, 160, 160, 0.3));
+    transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+.home-hero-map-left .logo-over-map:hover {
+    opacity: 1;
+    filter:
+        brightness(0) saturate(500%)
+        invert(80%) sepia(0%) saturate(0%) brightness(125%) contrast(95%)
+        drop-shadow(0 0 12px rgba(200, 200, 200, 0.8))
+        drop-shadow(0 0 24px rgba(180, 180, 180, 0.5));
+}
+
+/* ============================================================
+   RESPONSIVE — Mobile
+   ============================================================ */
+@media (max-width: 900px) {
+    .home-hero-video {
+        max-width: 100%;
+        width: 100%;
+        margin: 20px 0 0 auto !important;
+        align-self: flex-end !important;
+        justify-content: flex-end !important;
+    }
+
+    .home-hero-video .hero-video {
+        max-width: 100%;
+        max-height: 42vh;
+        border-radius: 12px;
+    }
+
+    .home-hero-map-left {
+        max-width: 300px !important;
+        margin: 30px 0 0 auto !important;
+        align-self: flex-end !important;
+    }
+
+    .home-hero-map-left img.de-map-img {
+        max-height: 40vh;
+    }
+
+    .home-hero-map-left .logo-over-map {
+        max-width: 130px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-hero-video .hero-video {
+        max-height: 35vh;
+        border-radius: 10px;
+    }
+
+    .home-hero-map-left {
+        max-width: 240px !important;
+    }
+
+    .home-hero-map-left img.de-map-img {
+        max-height: 34vh;
+    }
+
+    .home-hero-map-left .logo-over-map {
+        max-width: 100px !important;
+    }
+}
+/* ============================================================
+   ✅ CARTE GERMANY — RÉDUITE + À DROITE DU PARAGRAPHE
+   ============================================================ */
+
+/* 1. Le conteneur gauche devient une grille 2 colonnes :
+   paragraphe à gauche, carte à droite */
+.home-hero-left {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    grid-template-areas:
+        "label    label"
+        "title    title"
+        "subtitle subtitle"
+        "text     map"      !important;
+    column-gap: 30px;
+    align-items: start;
+    width: 100%;
+}
+
+/* 2. Répartition des zones */
+.home-hero-left .home-hero-label       { grid-area: label; }
+.home-hero-left .home-hero-title       { grid-area: title; }
+.home-hero-left .home-title-row        { grid-area: subtitle; }
+.home-hero-left .home-hero-left-p      { grid-area: text; }
+.home-hero-left .home-hero-map-left    { grid-area: map; }
+
+/* 3. Carte Germany — réduite + collée à droite */
+.home-hero-map-left {
+    max-width: 180px !important;      /* ✅ encore plus petite */
+    width: 180px !important;
+    margin: 0 !important;             /* ✅ pas de marge externe */
+    align-self: start !important;
+    justify-self: end !important;     /* ✅ collée à droite */
+    position: relative;
+}
+
+.home-hero-map-left img.de-map-img {
+    width: 100% !important;
+    height: auto;
+    max-height: 25vh !important;      /* ✅ réduite en hauteur */
+    display: block;
+    opacity: 0.85;
+    filter:
+        brightness(0) saturate(100%)
+        invert(72%) sepia(96%) saturate(1352%)
+        hue-rotate(53deg) brightness(103%) contrast(101%)
+        drop-shadow(0 8px 25px rgba(84, 229, 13, 0.4));
+    transition: filter 0.3s ease, transform 0.4s ease, opacity 0.3s ease;
+}
+
+.home-hero-map-left img.de-map-img:hover {
+    transform: scale(1.03);
+    opacity: 1;
+}
+
+/* 4. Logo sur la carte — réduit */
+.home-hero-map-left .logo-over-map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40% !important;
+    max-width: 70px !important;       /* ✅ logo plus petit */
+    height: auto;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0.65;
+    filter:
+        brightness(0) saturate(100%)
+        invert(75%) sepia(0%) saturate(0%) brightness(55%) contrast(90%)
+        drop-shadow(0 0 8px rgba(180, 180, 180, 0.6))
+        drop-shadow(0 0 16px rgba(160, 160, 160, 0.3));
+    transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+/* 5. Le paragraphe reste à gauche */
+.home-hero-left .home-hero-left-p {
+    max-width: 100%;
+    margin: 18px 0 0;
+}
+
+/* ============================================================
+   ✅ MOBILE — La carte passe SOUS le paragraphe, centrée
+   ============================================================ */
+@media (max-width: 900px) {
+    .home-hero-left {
+        grid-template-columns: 1fr !important;
+        grid-template-areas:
+            "label"
+            "title"
+            "subtitle"
+            "text"
+            "map" !important;
+        column-gap: 0;
+        row-gap: 15px;
+    }
+
+    .home-hero-map-left {
+        max-width: 200px !important;
+        width: 200px !important;
+        margin: 15px auto 0 !important;   /* centrée horizontalement */
+        justify-self: center !important;
+    }
+
+    .home-hero-map-left img.de-map-img {
+        max-height: 28vh !important;
+    }
+
+    .home-hero-map-left .logo-over-map {
+        max-width: 80px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-hero-map-left {
+        max-width: 160px !important;
+        width: 160px !important;
+    }
+
+    .home-hero-map-left img.de-map-img {
+        max-height: 22vh !important;
+    }
+
+    .home-hero-map-left .logo-over-map {
+        max-width: 60px !important;
+    }
+}
+/* ============================================================
+   ✅ INDEX — VIDÉO PLUS GRANDE + CARTE À GAUCHE DU PARAGRAPHE
+   ============================================================ */
+
+/* =============================================================
+   1. COLONNE GAUCHE — Grille : CARTE (gauche) + TEXTE (droite)
+   ============================================================= */
+.home-hero-left {
+    display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    grid-template-areas:
+        "label    label"
+        "title    title"
+        "subtitle subtitle"
+        "map      text"    !important;
+    column-gap: 30px;
+    align-items: start;
+    width: 100%;
+}
+
+/* Répartition des zones */
+.home-hero-left .home-hero-label      { grid-area: label; }
+.home-hero-left .home-hero-title      { grid-area: title; }
+.home-hero-left .home-title-row       { grid-area: subtitle; }
+.home-hero-left .home-hero-map-left   { grid-area: map; }   /* ✅ carte à gauche */
+.home-hero-left .home-hero-left-p     { grid-area: text; }  /* ✅ texte à droite */
+
+/* =============================================================
+   2. CARTE GERMANY — À GAUCHE DU PARAGRAPHE
+   ============================================================= */
+.home-hero-map-left {
+    max-width: 220px !important;
+    width: 220px !important;
+    margin: 0 !important;
+    align-self: start !important;
+    justify-self: start !important;    /* ✅ collée à gauche */
+    position: relative;
+}
+
+.home-hero-map-left img.de-map-img {
+    width: 100% !important;
+    height: auto;
+    max-height: 28vh !important;
+    display: block;
+    opacity: 0.85;
+    filter:
+        brightness(0) saturate(100%)
+        invert(72%) sepia(96%) saturate(1352%)
+        hue-rotate(53deg) brightness(103%) contrast(101%)
+        drop-shadow(0 8px 25px rgba(84, 229, 13, 0.4));
+    transition: filter 0.3s ease, transform 0.4s ease, opacity 0.3s ease;
+}
+
+.home-hero-map-left img.de-map-img:hover {
+    transform: scale(1.03);
+    opacity: 1;
+}
+
+.home-hero-map-left .logo-over-map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40% !important;
+    max-width: 80px !important;
+    height: auto;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0.65;
+    filter:
+        brightness(0) saturate(100%)
+        invert(75%) sepia(0%) saturate(0%) brightness(55%) contrast(90%)
+        drop-shadow(0 0 8px rgba(180, 180, 180, 0.6))
+        drop-shadow(0 0 16px rgba(160, 160, 160, 0.3));
+    transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+/* Paragraphe — reste à droite de la carte */
+.home-hero-left .home-hero-left-p {
+    max-width: 100%;
+    margin: 0 !important;
+    padding-top: 0;
+}
+
+/* =============================================================
+   3. VIDÉO — AGRANDIE
+   ============================================================= */
+.home-hero-video {
+    flex: 0 0 auto;
+    max-width: 750px !important;    /* ✅ encore plus grande */
+    width: 100%;
+    display: flex;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+.home-hero-video .hero-video {
+    width: 100%;
+    max-width: 750px !important;
+    height: auto;
+    max-height: 72vh !important;    /* ✅ plus haute */
+    display: block;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(84, 229, 13, 0.25);
+    background: #000;
+}
+
+/* =============================================================
+   RESPONSIVE — TABLETTE (max 900px)
+   ============================================================= */
+@media (max-width: 900px) {
+    /* La carte passe AU-DESSUS du texte */
+    .home-hero-left {
+        grid-template-columns: 1fr !important;
+        grid-template-areas:
+            "label"
+            "title"
+            "subtitle"
+            "map"
+            "text" !important;
+        row-gap: 15px;
+        column-gap: 0;
+    }
+
+    .home-hero-map-left {
+        max-width: 200px !important;
+        width: 200px !important;
+        margin: 15px auto 0 !important;   /* centrée */
+        justify-self: center !important;
+    }
+
+    .home-hero-map-left img.de-map-img {
+        max-height: 26vh !important;
+    }
+
+    .home-hero-map-left .logo-over-map {
+        max-width: 70px !important;
+    }
+
+    /* Vidéo pleine largeur sur tablette */
+    .home-hero-video {
+        max-width: 100% !important;
+    }
+    .home-hero-video .hero-video {
+        max-width: 100%;
+        max-height: 55vh !important;
+    }
+}
+
+/* =============================================================
+   RESPONSIVE — MOBILE (max 480px)
+   ============================================================= */
+@media (max-width: 480px) {
+    .home-hero-map-left {
+        max-width: 160px !important;
+        width: 160px !important;
+    }
+
+    .home-hero-map-left img.de-map-img {
+        max-height: 22vh !important;
+    }
+
+    .home-hero-map-left .logo-over-map {
+        max-width: 55px !important;
+    }
+
+    .home-hero-video .hero-video {
+        max-height: 45vh !important;
+        border-radius: 10px;
+    }
+}
+/* ============================================================
+   ✅ PARAGRAPHE INDEX — POLICE RÉDUITE + DESCENDU UN PEU
+   ============================================================ */
+
+/* Desktop */
+.home-hero-left .home-hero-left-p {
+    font-size: 0.8rem !important;     /* ✅ police réduite */
+    line-height: 1.55 !important;
+    margin-top: 30px !important;      /* ✅ descendu de ~10px */
+}
+
+/* Tablette */
+@media (max-width: 900px) {
+    .home-hero-left .home-hero-left-p {
+        font-size: 0.75rem !important;
+        line-height: 1.5 !important;
+        margin-top: 25px !important;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .home-hero-left .home-hero-left-p {
+        font-size: 0.72rem !important;
+        line-height: 1.5 !important;
+        margin-top: 20px !important;
+    }
+}
