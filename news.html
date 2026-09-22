@@ -65,10 +65,10 @@
             <span></span><span></span><span></span>
         </button>
         <nav class="dashboard-nav" id="mainNav">
-            <a href="notre-histoire.html">Unsere Geschichte</a>
+            <a href="index.html">Unsere Geschichte</a>
             <a href="sektoren.html">Unsere Sektoren</a>
             <a href="news.html" class="active">News</a>
-            <a href="nous-rejoindre.html">Kommen Sie zu uns</a>
+            <a href="ueber-uns.html">Über uns</a>
         </nav>
     </header>
 
@@ -77,12 +77,10 @@
 
     <!-- ===== CONTENU NEWS ===== -->
     <main class="news-content">
-        <h1 class="news-title">Unsere News</h1>
-        <p class="news-subtitle">Entdecken Sie unsere neuesten Projekte und Ereignisse.</p>
-
+        
         <div class="news-carousel" id="newsCarousel">
             <div class="news-slides" id="newsSlides">
-                <!-- Les images seront injectées par JS -->
+                <!-- Slides injectées par JS -->
             </div>
 
             <button class="news-arrow news-prev" id="newsPrev" aria-label="Zurück">
@@ -118,24 +116,52 @@
             const nextBtn = document.getElementById('newsNext');
             if (!slidesContainer) return;
 
-            // ✅ Liste des images dans Images/Dashbords/News/
-            const images = [
-                'Images/Dashbords/News/Affiche(1).jpeg',
-                'Images/Dashbords/News/Affiche(2).jpeg',
-                'Images/Dashbords/News/Affiche(1).jpeg',
-                'Images/Dashbords/News/Affiche(2).jpeg',
-                'Images/Dashbords/News/Affiche(1).jpeg',
+            // ✅ Données des slides : image + texte
+            const news = [
+                {
+                    image: 'Images/Dashbords/News/Affiche(1).jpeg',
+                    title: 'Neues Projekt gestartet',
+                    text: 'Wir freuen uns, unser neuestes Energieprojekt vorzustellen. Es hilft Haushalten, ihre Stromkosten zu senken und gleichzeitig die Umwelt zu schonen.'
+                },
+                {
+                    image: 'Images/Dashbords/News/Affiche(2).jpeg',
+                    title: 'Partnerschaft erweitert',
+                    text: 'Wir haben unsere Zusammenarbeit mit führenden Anbietern ausgebaut, um unseren Kunden noch bessere Tarife anbieten zu können.'
+                },
+                {
+                    image: 'Images/Dashbords/News/Affiche(1).jpeg',
+                    title: 'Team-Event 2026',
+                    text: 'Unser Team hat an einem spannenden Workshop teilgenommen, um die Servicequalität weiter zu verbessern.'
+                },
+                {
+                    image: 'Images/Dashbords/News/Affiche(2).jpeg',
+                    title: 'Neue Tarife verfügbar',
+                    text: 'Ab sofort sind unsere neuen Strom- und Gastarife verfügbar. Sprechen Sie uns an für ein individuelles Angebot.'
+                },
+                {
+                    image: 'Images/Dashbords/News/Affiche(1).jpeg',
+                    title: 'Auszeichnung erhalten',
+                    text: 'Wir wurden für unsere herausragende Kundenbetreuung ausgezeichnet. Vielen Dank an alle Partner und Kunden!'
+                }
             ];
 
             let currentIndex = 0;
             let autoTimer = null;
             const INTERVAL = 5000; // 5 secondes
 
-            // Créer les slides
-            images.forEach((src, i) => {
+            // Créer les slides avec image + texte
+            news.forEach((item, i) => {
                 const slide = document.createElement('div');
                 slide.className = 'news-slide' + (i === 0 ? ' active' : '');
-                slide.innerHTML = `<img src="${src}" alt="News ${i + 1}" />`;
+                slide.innerHTML = `
+                    <div class="news-slide-image">
+                        <img src="${item.image}" alt="${item.title}" />
+                    </div>
+                    <div class="news-slide-text">
+                        <h3>${item.title}</h3>
+                        <p>${item.text}</p>
+                    </div>
+                `;
                 slidesContainer.appendChild(slide);
 
                 const dot = document.createElement('button');
@@ -179,7 +205,6 @@
                 });
             });
 
-            // Pause au survol
             const carousel = document.getElementById('newsCarousel');
             if (carousel) {
                 carousel.addEventListener('mouseenter', stopAuto);
@@ -187,7 +212,7 @@
             }
 
             startAuto();
-            console.log('✅ Carrousel News démarré — ' + images.length + ' images, interval 5s');
+            console.log('✅ Carrousel News démarré — ' + news.length + ' slides');
         }
 
         if (document.readyState === 'loading') {

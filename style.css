@@ -4040,7 +4040,7 @@ body.sektoren-page.scrolled-page {
     }
 }
 /* ============================================================
-   PAGE NEWS — CARROUSEL AUTOMATIQUE
+   PAGE NEWS — CARROUSEL AVEC TEXTE
    ============================================================ */
 .news-page {
     background: #0c2545;
@@ -4071,7 +4071,7 @@ body.sektoren-page.scrolled-page {
 
 .news-carousel {
     position: relative;
-    width: 70%;                    /* ✅ 70% de la largeur sur desktop */
+    width: 70%;
     max-width: 1200px;
     margin: 0 auto;
     border-radius: 16px;
@@ -4083,30 +4083,83 @@ body.sektoren-page.scrolled-page {
 .news-slides {
     position: relative;
     width: 100%;
-    aspect-ratio: 700 / 1117;      /* ✅ ratio des images (700×1117) */
-    background: #0b1a2f;
 }
 
 .news-slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.8s ease;
-    display: flex;
+    display: none;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    gap: 0;
+    width: 100%;
+    min-height: 500px;
 }
 
 .news-slide.active {
-    opacity: 1;
-    z-index: 1;
+    display: flex;
 }
 
-.news-slide img {
+/* --- Image --- */
+.news-slide-image {
+    flex: 1 1 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.news-slide-image img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    max-height: 600px;
+    object-fit: contain;
+    border-radius: 12px;
     display: block;
+}
+
+/* --- Texte --- */
+.news-slide-text {
+    flex: 1 1 40%;
+    padding: 30px;
+    text-align: left;
+    color: #FFFFFF;
+}
+
+.news-slide-text h3 {
+    color: #54e50d;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 16px;
+    line-height: 1.3;
+}
+
+.news-slide-text p {
+    color: #A0AAB5;
+    font-size: 1rem;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* ============================================================
+   VERSION ALLEMANDE (de) — IMAGE À DROITE, TEXTE À GAUCHE
+   ============================================================ */
+html[lang="de"] .news-slide {
+    flex-direction: row-reverse;
+}
+
+html[lang="de"] .news-slide-text {
+    text-align: left;
+}
+
+/* ============================================================
+   VERSION ARABE (ar) — IMAGE À GAUCHE, TEXTE À DROITE
+   ============================================================ */
+html[lang="ar"] .news-slide {
+    flex-direction: row;
+}
+
+html[lang="ar"] .news-slide-text {
+    text-align: right;
+    direction: rtl;
 }
 
 /* Flèches */
@@ -4174,17 +4227,54 @@ body.sektoren-page.scrolled-page {
 }
 
 /* ============================================================
-   RESPONSIVE — MOBILE
+   RESPONSIVE — MOBILE (TEXTE EN BAS DE L'IMAGE)
    ============================================================ */
 @media (max-width: 900px) {
+
     .news-content { padding: 120px 15px 40px; }
     .news-title { font-size: 1.8rem; }
     .news-subtitle { font-size: 0.9rem; }
 
     .news-carousel {
-        width: 95% !important;     /* ✅ plus large sur mobile */
+        width: 95% !important;
         max-width: 100% !important;
     }
+
+    /* ✅ Sur mobile : image en haut, texte en bas */
+    .news-slide,
+    html[lang="de"] .news-slide,
+    html[lang="ar"] .news-slide {
+        flex-direction: column !important;
+        min-height: auto;
+    }
+
+    .news-slide-image {
+        flex: 0 0 auto;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .news-slide-image img {
+        max-height: 60vh;
+        width: 100%;
+        object-fit: contain;
+    }
+
+    .news-slide-text {
+        flex: 0 0 auto;
+        width: 100%;
+        padding: 20px;
+        text-align: center !important;
+        direction: ltr;
+    }
+
+    html[lang="ar"] .news-slide-text {
+        direction: rtl;
+        text-align: center;
+    }
+
+    .news-slide-text h3 { font-size: 1.3rem; }
+    .news-slide-text p { font-size: 0.9rem; }
 
     .news-arrow { width: 38px; height: 38px; }
     .news-arrow svg { width: 16px; height: 16px; }
@@ -4193,13 +4283,19 @@ body.sektoren-page.scrolled-page {
 }
 
 @media (max-width: 480px) {
+
     .news-content { padding: 100px 10px 30px; }
     .news-title { font-size: 1.4rem; }
 
     .news-carousel {
-        width: 100% !important;    /* ✅ pleine largeur sur petit mobile */
+        width: 100% !important;
         border-radius: 12px;
     }
+
+    .news-slide-image { padding: 10px; }
+    .news-slide-text { padding: 15px; }
+    .news-slide-text h3 { font-size: 1.1rem; }
+    .news-slide-text p { font-size: 0.85rem; }
 
     .news-arrow { width: 32px; height: 32px; }
     .news-dot { width: 10px; height: 10px; }
