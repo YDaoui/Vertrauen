@@ -4,21 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Über uns – Vertrauen Distributor</title>
+
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
-    <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
-    <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-EV3MLGBFYW');
     </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
+    <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
+
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+    <!-- CSS principal -->
     <link rel="stylesheet" href="style.css" />
 </head>
-<body class="dashboard-page">
-    <!-- ===== BANDEAU RÉSEAUX SOCIAUX ===== -->
+
+<body class="dashboard-page ueber-uns-page">
+
+    <!-- ===== BANDEAU RÉSEAUX SOCIAUX + 2 BOUTONS ===== -->
     <div class="social-top-bar">
         <div class="social-top-bar-content">
             <div class="social-icons">
@@ -42,106 +52,633 @@
                         <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
                     </svg>
                 </a>
-              
+            </div>
+            <div class="top-bar-buttons">
+                <a href="Vertriebspartner.html" class="btn-top-bar">Vertriebspartner werden</a>
+                <a href="SalesPromoter.html" class="btn-top-bar">Sales Promoter werden</a>
             </div>
         </div>
     </div>
-    <!-- ===== FIN BANDEAU RÉSEAUX SOCIAUX ===== -->
+    <!-- ===== FIN BANDEAU ===== -->
 
+    <!-- Overlay mobile -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- ===== HEADER ===== -->
     <header class="dashboard-header" id="dashboardHeader">
-        <!-- Logo à gauche -->
         <a href="index.html" class="logo-link">
             <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" />
         </a>
 
-        <!-- Message de bienvenue centré -->
-        <span id="userNameDisplay" class="welcome-center"></span>
-
-        <!-- Hamburger (visible sur mobile) -->
         <button class="hamburger" id="hamburgerBtn" aria-label="Menü öffnen/schließen">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span>
         </button>
 
-        <!-- Navigation -->
         <nav class="dashboard-nav" id="mainNav">
-            <!-- Menu pour tous -->
             <a href="index.html">Unsere Geschichte</a>
-            
             <a href="sektoren.html">Unsere Sektoren</a>
-          
-          
+            <a href="news.html">Nachrichten</a>
+            <a href="ueber-uns.html" class="active">Über uns</a>
         </nav>
-
     </header>
 
-<script type="text/javascript">
-var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-(function(){
-  var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-  s1.async = true;
-  s1.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
-  s1.charset = 'UTF-8';
-  s1.setAttribute('crossorigin', '*');
-  s0.parentNode.insertBefore(s1, s0);
-})();
-</script>
+    <!-- ============================================================
+         1. CARREAU BLEU — TEXTE À GAUCHE + IMAGE À DROITE
+         ============================================================ -->
+    <section class="home-hero">
+        <div class="home-hero-inner">
+            <div class="home-hero-row">
 
-    <main class="dashboard-content">
-        <div class="ueber-uns-box">
-            <h2>Über uns</h2>
-            <p>
-                Die <strong>Vertrauen Distributor Vertriebs GmbH</strong> ist ein zuverlässiger Partner im
-                Energievertrieb. Mit Sitz in Homburg / Saarland bieten wir maßgeschneiderte Lösungen für
-                Privat- und Geschäftskunden. Unser Ziel ist es, durch Transparenz, Fairness und
-                höchste Servicequalität langfristige Kundenbeziehungen aufzubauen.
-            </p>
-            <br />
-            <p>
-                <strong>Unsere Mission:</strong> Wir bringen Energie und Vertrauen zusammen – für eine
-                nachhaltige und sichere Zukunft.
-            </p>
+                <!-- COLONNE GAUCHE -->
+                <div class="home-hero-left">
+                    <div class="home-hero-label">
+                        <span class="green-bar"></span>
+                        <span>Distri seit 2008</span>
+                    </div>
+
+                    <h1 class="home-hero-title">UNSERE WURZELN</h1>
+
+                    <div class="home-title-row">
+                        <h2>Vertrauen, das seit 2008 wächst</h2>
+                        <div class="home-excellence-icon" aria-label="Exzellenz">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 21h8M12 17v4" stroke-linecap="round"/>
+                                <path d="M7 4h10v5a5 5 0 0 1-10 0V4z"/>
+                                <path d="M7 6H4a2 2 0 0 0 2 2h1"/>
+                                <path d="M17 6h3a2 2 0 0 1-2 2h-1"/>
+                                <path d="M12 14l-1.2 2.4L8 17l1.8 1.6L9.4 21 12 19.6 14.6 21l-.4-2.4L16 17l-2.8-.6L12 14z" fill="#A0AAB5" stroke="none"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <p class="home-hero-left-p">
+                        Was 2008 als kleine Idee begann, ist heute ein starkes Netzwerk aus Kunden, Partnern
+                        und Mitarbeitern. Wir glauben, dass ehrliche Beratung und echte Nähe die Basis jeder
+                        guten Zusammenarbeit sind – und genau dafür stehen wir jeden Tag aufs Neue ein.
+                        Ob Strom, Gas, Internet oder Versicherung: Vertrauen bleibt unsere einzige Währung.
+                    </p>
+
+                    <a href="#parcours" class="ueber-uns-cta">
+                        Entdecken Sie unseren Weg
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- COLONNE DROITE : Image + phrase -->
+                <div class="home-hero-right home-hero-video">
+                    <img src="Images/Dashbords/Collaboration.jpeg"
+                         alt="Zusammenarbeit bei Vertrauen Distributor"
+                         class="hero-collab" />
+
+                    <span class="hero-collab-caption">
+                        Die Zusammenarbeit, geprägt von Vertrauen
+                    </span>
+                </div>
+
+            </div>
         </div>
-    </main>
+    </section>
 
-    <footer class="dashboard-footer">
-        <a href="datenschutz.html">Datenschutzerklärung</a>
-        <span style="color:#6a7b91; margin:0 12px;">|</span>
-        <span style="color:#6a7b91;">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
+    <!-- ============================================================
+         2. SECTION BLANCHE — AUSGANGSPUNKT + VERTRAUEN
+         ============================================================ -->
+    <section class="ueber-uns-white">
+        <div class="ueber-uns-white-inner">
+
+            <div class="ueber-uns-white-left">
+                <div class="uu-small-label">
+                    <span class="green-bar"></span>
+                    <span>Ausgangspunkt</span>
+                </div>
+
+                <div class="uu-year-row">
+                    <span class="uu-year">2008</span>
+                    <span class="uu-year-dot"></span>
+                </div>
+
+                <div class="uu-small-label uu-small-label-bottom">
+                    <span class="green-bar"></span>
+                    <span>Gründung von Distri</span>
+                </div>
+            </div>
+
+            <div class="ueber-uns-white-right">
+                <div class="uu-small-label">
+                    <span class="green-bar"></span>
+                    <span>Unsere Tätigkeitsbereiche</span>
+                </div>
+
+                <h2 class="uu-blue-title">
+                    Vertrauen beginnt mit der Wahl der richtigen Menschen
+                </h2>
+
+                <p class="uu-paragraph">
+                    Ob im Vertrieb, im Kundenservice oder in der Beratung – unsere Arbeit lebt von
+                    den Menschen, die sie täglich tragen. Deshalb setzen wir seit 2008 auf sorgfältig
+                    ausgewählte Partner und Mitarbeiter, die nicht nur fachlich überzeugen, sondern
+                    auch unsere Werte teilen. Ehrlichkeit, Verlässlichkeit und echtes Engagement
+                    sind für uns keine Floskeln, sondern die Grundlage jeder Zusammenarbeit.
+                    So entsteht Vertrauen – Tag für Tag, Kunde für Kunde.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ============================================================
+         3. SECTION PARCOURS — TIMELINE
+         ============================================================ -->
+    <section class="ueber-uns-parcours" id="parcours">
+        <div class="ueber-uns-parcours-inner">
+
+            <div class="uu-parcours-left">
+                <div class="uu-small-label">
+                    <span class="green-bar"></span>
+                    <span>Unser Weg</span>
+                </div>
+
+                <h2 class="uu-parcours-title">
+                    Wachsen.<br />
+                    Lernen.<br />
+                    Die Zukunft bauen.
+                </h2>
+
+                <p class="uu-parcours-desc">
+                    Von den ersten Projekten bis zu unserer internationalen Entwicklung –
+                    die Etappen, die Vertrauen Distributor geprägt haben.
+                </p>
+            </div>
+
+            <div class="uu-parcours-right">
+                <div class="uu-timeline">
+
+                    <div class="uu-timeline-item">
+                        <span class="uu-timeline-dot"></span>
+                        <span class="uu-timeline-year">2008</span>
+                        <h3 class="uu-timeline-title">Die Gründung</h3>
+                        <p class="uu-timeline-text">
+                            Vertrauen Distributor entsteht als kleine Idee mit einer klaren Mission:
+                            Energievertrieb ehrlich, nah und transparent zu gestalten.
+                        </p>
+                    </div>
+
+                    <div class="uu-timeline-item">
+                        <span class="uu-timeline-dot"></span>
+                        <span class="uu-timeline-year">2012</span>
+                        <h3 class="uu-timeline-title">Erste Partnerschaften</h3>
+                        <p class="uu-timeline-text">
+                            Aufbau eines stabilen Netzwerks von Anbietern und Vertriebspartnern
+                            im Energie- und Versicherungsbereich.
+                        </p>
+                    </div>
+
+                    <div class="uu-timeline-item">
+                        <span class="uu-timeline-dot"></span>
+                        <span class="uu-timeline-year">2016</span>
+                        <h3 class="uu-timeline-title">Regionale Expansion</h3>
+                        <p class="uu-timeline-text">
+                            Eröffnung neuer Standorte und Ausweitung unserer Tätigkeit auf
+                            ganz Deutschland.
+                        </p>
+                    </div>
+
+                    <div class="uu-timeline-item">
+                        <span class="uu-timeline-dot"></span>
+                        <span class="uu-timeline-year">2020</span>
+                        <h3 class="uu-timeline-title">Die digitale Wende</h3>
+                        <p class="uu-timeline-text">
+                            Einführung digitaler Prozesse und Online-Beratung – für noch mehr
+                            Nähe zu unseren Kunden, egal wo sie sind.
+                        </p>
+                    </div>
+
+                    <div class="uu-timeline-item">
+                        <span class="uu-timeline-dot"></span>
+                        <span class="uu-timeline-year">2024</span>
+                        <h3 class="uu-timeline-title">Vier Sektoren</h3>
+                        <p class="uu-timeline-text">
+                            Strom, Gas, Internet und Versicherung – unser Angebot wird
+                            vollständig und deckt alle Grundbedürfnisse ab.
+                        </p>
+                    </div>
+
+                    <div class="uu-timeline-item">
+                        <span class="uu-timeline-dot"></span>
+                        <span class="uu-timeline-year">Heute</span>
+                        <h3 class="uu-timeline-title">Eine starke Gemeinschaft</h3>
+                        <p class="uu-timeline-text">
+                            Tausende Kunden, hunderte Partner und ein Team, das jeden Tag
+                            mit Leidenschaft für Vertrauen steht.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ============================================================
+         4. SECTION DISTRI HEUTE — CHIFFRES CLÉS
+         ============================================================ -->
+    <section class="ueber-uns-heute">
+        <div class="ueber-uns-heute-inner">
+
+            <div class="uu-heute-top">
+                <div class="uu-heute-left">
+                    <div class="uu-small-label">
+                        <span class="green-bar"></span>
+                        <span>Distri heute</span>
+                    </div>
+
+                    <h2 class="uu-heute-title">
+                        Mehr Wege.<br />
+                        Immer noch so nah.
+                    </h2>
+                </div>
+
+                <div class="uu-heute-right">
+                    <a href="sektoren.html" class="uu-heute-link">
+                        Entdecken Sie unsere Tätigkeitsbereiche
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+                        <div class="uu-stats-grid">
+
+                <div class="uu-stat-item">
+                    <span class="uu-stat-number">
+                        <span class="uu-stat-value" data-target="42">0</span>
+                    </span>
+                    <h3 class="uu-stat-title">Mitarbeiter</h3>
+                    <p class="uu-stat-text">
+                        Ein engagiertes Team, das täglich für unsere Kunden da ist.
+                    </p>
+                </div>
+
+                <div class="uu-stat-item">
+                    <span class="uu-stat-number">
+                        <span class="uu-stat-value" data-target="19">0</span>
+                    </span>
+                    <h3 class="uu-stat-title">Verkaufsstellen</h3>
+                    <p class="uu-stat-text">
+                        Ein starkes Netzwerk in ganz Deutschland – nah an unseren Kunden.
+                    </p>
+                </div>
+
+                <div class="uu-stat-item">
+                    <span class="uu-stat-number">
+                        <span class="uu-stat-value" data-target="4">0</span>
+                    </span>
+                    <h3 class="uu-stat-title">Sektoren</h3>
+                    <p class="uu-stat-text">
+                        Strom, Gas, Internet und Versicherung – alle Grundbedürfnisse abgedeckt.
+                    </p>
+                </div>
+
+                <div class="uu-stat-item">
+                    <span class="uu-stat-number">
+                        <span class="uu-stat-value" data-target="1478">0</span>
+                    </span>
+                    <h3 class="uu-stat-title">Verträge</h3>
+                    <p class="uu-stat-text">
+                        Tausende Kunden, die uns Jahr für Jahr ihr Vertrauen schenken.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="uu-werte-grid">
+
+                <div class="uu-werte-item">
+                    <span class="uu-werte-num">01</span>
+                    <h3 class="uu-werte-item-title">Nähe</h3>
+                    <p class="uu-werte-item-text">
+                        Eine vertrauensvolle Beziehung, so nah wie möglich an unseren Kunden und Mitarbeitern.
+                    </p>
+                </div>
+
+                <div class="uu-werte-item">
+                    <span class="uu-werte-num">02</span>
+                    <h3 class="uu-werte-item-title">Reaktionsfähigkeit</h3>
+                    <p class="uu-werte-item-text">
+                        Schnelle Anpassungsfähigkeit, um Ihre Bedürfnisse jederzeit zu erfüllen.
+                    </p>
+                </div>
+
+                <div class="uu-werte-item">
+                    <span class="uu-werte-num">03</span>
+                    <h3 class="uu-werte-item-title">Kompetenz</h3>
+                    <p class="uu-werte-item-text">
+                        Fundiertes technisches Know-how im Dienst Ihrer Projekte.
+                    </p>
+                </div>
+
+                <div class="uu-werte-item">
+                    <span class="uu-werte-num">04</span>
+                    <h3 class="uu-werte-item-title">Transparenz</h3>
+                    <p class="uu-werte-item-text">
+                        Offene und ehrliche Kommunikation in jeder Phase.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== SECTION "BLEIBEN SIE IN VERBINDUNG" ===== -->
+    <section class="home-follow">
+        <h3>Bleiben Sie mit uns in Verbindung</h3>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+            </a>
+            <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
+                </svg>
+            </a>
+            <a href="https://twitter.com/votrecompte" target="_blank" class="social-icon twitter" aria-label="Twitter">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </a>
+            <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER UNIFIÉ ===== -->
+    <footer class="vd-footer">
+
+        <div class="vd-footer-top">
+            <div class="vd-footer-top-inner">
+                <div class="vd-footer-titles">
+                    <div class="vd-footer-label">
+                        <span class="green-bar"></span>
+                        <span class="vd-footer-label-text">Folgen Sie unserem Aufbau</span>
+                    </div>
+                    <h2 class="vd-footer-title-white">Ihr nächster Beitrag</h2>
+                    <h3 class="vd-footer-title-green">Sprechen wir darüber</h3>
+                </div>
+                <div class="vd-footer-cta">
+                    <a href="kontakt.html" class="vd-footer-btn">
+                        Mit unserem Team sprechen
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="vd-footer-bottom">
+            <div class="vd-footer-bottom-inner">
+
+                <div class="vd-footer-col vd-footer-col-brand">
+                    <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" class="vd-footer-logo" />
+                    <p class="vd-footer-address">
+                        Vertrauen Distributor Vertriebs GmbH<br />
+                        Musterstraße 12<br />
+                        10115 Berlin, Deutschland
+                    </p>
+                    <p class="vd-footer-follow-label">Folgen Sie uns</p>
+                    <div class="vd-footer-social">
+                        <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/dl.companie/" target="_blank" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
+                            </svg>
+                        </a>
+                        <a href="https://twitter.com/votrecompte" target="_blank" aria-label="Twitter">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@votrecompte" target="_blank" aria-label="TikTok">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="vd-footer-col">
+                    <h4 class="vd-footer-heading">Unsere Sektoren</h4>
+                    <ul class="vd-footer-list">
+                        <li><a href="sektoren.html#strom">Strom</a></li>
+                        <li><a href="sektoren.html#gas">Gas</a></li>
+                        <li><a href="sektoren.html#internet">Internet</a></li>
+                        <li><a href="sektoren.html#versicherung">Versicherung</a></li>
+                    </ul>
+                </div>
+
+                <div class="vd-footer-col">
+                    <h4 class="vd-footer-heading">Mehr erfahren</h4>
+                    <ul class="vd-footer-list">
+                        <li><a href="ueber-uns.html">Über uns</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                        <li><a href="news.html">Nachrichten</a></li>
+                        <li><a href="index.html">Unsere Geschichte</a></li>
+                    </ul>
+                </div>
+
+                <div class="vd-footer-col">
+                    <h4 class="vd-footer-heading">Wo sind unsere Büros</h4>
+                    <ul class="vd-footer-list vd-footer-cities">
+                        <li><span class="vd-city-dot"></span>Berlin</li>
+                        <li><span class="vd-city-dot"></span>Hamburg</li>
+                        <li><span class="vd-city-dot"></span>München</li>
+                        <li><span class="vd-city-dot"></span>Köln</li>
+                        <li><span class="vd-city-dot"></span>Frankfurt</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="vd-footer-copyright">
+            <a href="datenschutz.html">Datenschutzerklärung</a>
+            <span class="vd-footer-sep">|</span>
+            <span class="vd-footer-copy">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
+        </div>
+
     </footer>
 
-    <script>
-        // ===== EFFET DE SCROLL SUR LE HEADER =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.getElementById('dashboardHeader');
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
-        });
-
-        // ===== HAMBURGER MENU =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburgerBtn = document.getElementById('hamburgerBtn');
-            const mainNav = document.getElementById('mainNav');
-
-            if (hamburgerBtn) {
-                hamburgerBtn.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    mainNav.classList.toggle('open');
-                });
-            }
-        });
-
-        // ===== GESTION DU MENU SELON LE RÔLE =====
-        
+    <!-- ===== BULLE DE CHAT TAWK.TO ===== -->
+    <script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function(){
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      s0.parentNode.insertBefore(s1, s0);
+    })();
     </script>
 
-    <!-- Toute la logique (auth, affichage du nom, etc.) vit dans main.js -->
+    <!-- ===== SCRIPT PRINCIPAL ===== -->
     <script src="main.js"></script>
+
+    <!-- ===== MENU HAMBURGER ===== -->
+    <script>
+    (function() {
+        function initHamburger() {
+            const hamburger = document.getElementById('hamburgerBtn');
+            const nav = document.getElementById('mainNav');
+            const overlay = document.getElementById('menuOverlay');
+
+            if (!hamburger || !nav) {
+                setTimeout(initHamburger, 200);
+                return;
+            }
+
+            const newHamburger = hamburger.cloneNode(true);
+            hamburger.parentNode.replaceChild(newHamburger, hamburger);
+
+            const finalHamburger = document.getElementById('hamburgerBtn');
+            const finalNav = document.getElementById('mainNav');
+            if (!finalHamburger || !finalNav) return;
+
+            finalHamburger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.classList.toggle('active');
+                finalNav.classList.toggle('open');
+                if (overlay) overlay.classList.toggle('active');
+            });
+
+            finalNav.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    finalHamburger.classList.remove('active');
+                    finalNav.classList.remove('open');
+                    if (overlay) overlay.classList.remove('active');
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (finalNav.classList.contains('open')) {
+                    if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
+                        finalHamburger.classList.remove('active');
+                        finalNav.classList.remove('open');
+                        if (overlay) overlay.classList.remove('active');
+                    }
+                }
+            });
+
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    finalHamburger.classList.remove('active');
+                    finalNav.classList.remove('open');
+                    overlay.classList.remove('active');
+                });
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initHamburger);
+        } else {
+            initHamburger();
+        }
+        setTimeout(initHamburger, 500);
+        setTimeout(initHamburger, 1500);
+    })();
+    </script>
+
+    <!-- ===== EFFET DE SCROLL ===== -->
+    <script>
+    (function() {
+        function applyScroll() {
+            const socialBar = document.querySelector('.social-top-bar');
+            const header = document.querySelector('.dashboard-header');
+            const body = document.body;
+            const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollY > 50) {
+                if (socialBar) socialBar.classList.add('hidden');
+                if (header) {
+                    header.classList.add('scrolled');
+                    header.classList.add('top-zero');
+                }
+                if (body) body.classList.add('scrolled-page');
+            } else {
+                if (socialBar) socialBar.classList.remove('hidden');
+                if (header) {
+                    header.classList.remove('scrolled');
+                    header.classList.remove('top-zero');
+                }
+                if (body) body.classList.remove('scrolled-page');
+            }
+        }
+        window.addEventListener('scroll', applyScroll, { passive: true });
+        document.addEventListener('DOMContentLoaded', applyScroll);
+        applyScroll();
+    })();
+    </script>
+
+    <!-- ===== COMPTEUR ANIMÉ — 4 CHIFFRES CLÉS ===== -->
+    <script>
+    (function() {
+        function initCounters() {
+            const counters = document.querySelectorAll('.uu-stat-value');
+            if (!counters.length) return;
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseInt(el.dataset.target, 10);
+                        if (isNaN(target)) return;
+
+                        const duration = 1600;
+                        const start = performance.now();
+
+                        function step(now) {
+                            const progress = Math.min((now - start) / duration, 1);
+                            const eased = 1 - Math.pow(1 - progress, 3);
+                            const value = Math.floor(target * eased);
+                            el.textContent = value.toLocaleString('de-DE');
+                            if (progress < 1) requestAnimationFrame(step);
+                            else el.textContent = target.toLocaleString('de-DE');
+                        }
+                        requestAnimationFrame(step);
+                        observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            counters.forEach(function(c) { observer.observe(c); });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCounters);
+        } else {
+            initCounters();
+        }
+    })();
+    </script>
+
 </body>
 </html>

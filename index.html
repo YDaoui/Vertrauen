@@ -22,230 +22,6 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 
-<!-- ===== FIX SEGMENTS — SCROLL GARANTI ===== -->
-<script>
-(function () {
-    function initSegmentsScroll() {
-        const tabs = document.querySelectorAll('.home-segment-tab');
-        const details = document.querySelectorAll('.home-segment-detail');
-
-        if (!tabs.length || !details.length) {
-            console.warn('⚠️ Segments : onglets ou détails introuvables');
-            return;
-        }
-
-        console.log('✅ initSegmentsScroll : ' + tabs.length + ' onglets, ' + details.length + ' détails');
-
-        tabs.forEach(function (tab) {
-            tab.addEventListener('click', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                const segment = this.getAttribute('data-segment');
-                console.log('🔵 Clic sur segment :', segment);
-
-                // Onglet actif
-                tabs.forEach(function (t) { t.classList.remove('active'); });
-                this.classList.add('active');
-
-                // Trouver la section cible
-                const targetSection = document.querySelector(
-                    '.home-segment-detail[data-segment="' + segment + '"]'
-                );
-
-                if (!targetSection) {
-                    console.warn('❌ Section introuvable pour :', segment);
-                    return;
-                }
-
-                // Animation donut
-                const num = targetSection.querySelector('.donut-num');
-                if (num) {
-                    const target = parseInt(num.getAttribute('data-target'), 10);
-                    if (!isNaN(target)) {
-                        num.textContent = '0';
-                        const duration = 1600;
-                        const start = performance.now();
-                        function step(now) {
-                            const progress = Math.min((now - start) / duration, 1);
-                            const eased = 1 - Math.pow(1 - progress, 3);
-                            const value = Math.floor(target * eased);
-                            num.textContent = value.toLocaleString('de-DE');
-                            if (progress < 1) requestAnimationFrame(step);
-                            else num.textContent = target.toLocaleString('de-DE');
-                        }
-                        requestAnimationFrame(step);
-                    }
-                }
-
-                // ✅ SCROLL MANUEL (fiable partout)
-                const header = document.getElementById('dashboardHeader');
-                const headerHeight = header ? header.offsetHeight : 68;
-                const extraOffset = 20;
-                const offset = headerHeight + extraOffset;
-
-                const rect = targetSection.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const targetY = rect.top + scrollTop - offset;
-
-                console.log('📏 Scroll vers Y =', targetY, '(header =', headerHeight, 'px)');
-
-                window.scrollTo({
-                    top: targetY,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initSegmentsScroll);
-    } else {
-        initSegmentsScroll();
-    }
-
-    setTimeout(initSegmentsScroll, 1000);
-})();
-</script>
-
-<!-- ===== FORCE L'AJOUT DES VILLES APRÈS CHARGEMENT DE LA CARTE ===== -->
-<script>
-(function () {
-    function addCitiesNow() {
-        const mapImg = document.querySelector('.de-map-img');
-        if (!mapImg) {
-            console.warn('⚠️ Carte introuvable');
-            return;
-        }
-
-        const parent = mapImg.parentElement;
-        parent.style.position = 'relative';
-
-        parent.querySelectorAll('.city-point, .city-pulse, .city-name').forEach(el => el.remove());
-
-        const cities = [
-            { name: 'Berlin',     x: 72, y: 30 },
-            { name: 'Hamburg',    x: 53, y: 15 },
-            { name: 'München',    x: 58, y: 78 },
-            { name: 'Köln',       x: 30, y: 45 },
-            { name: 'Frankfurt',  x: 40, y: 52 },
-            { name: 'Stuttgart',  x: 44, y: 63 },
-            { name: 'Düsseldorf', x: 28, y: 41 },
-            { name: 'Dresden',    x: 81, y: 49 },
-            { name: 'Hannover',   x: 46, y: 26 },
-            { name: 'Nürnberg',   x: 58, y: 62 }
-        ];
-
-        cities.forEach(function (city) {
-            const pulse = document.createElement('div');
-            pulse.className = 'city-pulse';
-            pulse.style.left = city.x + '%';
-            pulse.style.top  = city.y + '%';
-            parent.appendChild(pulse);
-
-            const dot = document.createElement('div');
-            dot.className = 'city-point';
-            dot.style.left = city.x + '%';
-            dot.style.top  = city.y + '%';
-            parent.appendChild(dot);
-
-            const label = document.createElement('div');
-            label.className = 'city-name';
-            label.style.left = city.x + '%';
-            label.style.top  = (city.y - 5) + '%';
-            label.textContent = city.name;
-            parent.appendChild(label);
-        });
-
-        console.log('✅ Villes ajoutées :', cities.length);
-    }
-
-    window.addEventListener('load', function () {
-        setTimeout(addCitiesNow, 300);
-    });
-
-    setTimeout(addCitiesNow, 1500);
-})();
-</script>
-
-<!-- ===== FIX HAMBURGER ===== -->
-<script>
-(function () {
-    function fixHamburgerIndex() {
-        const hamburger = document.getElementById('hamburgerBtn');
-        const nav = document.getElementById('mainNav');
-        const overlay = document.getElementById('menuOverlay');
-
-        if (!hamburger || !nav) {
-            console.warn('⚠️ Hamburger introuvable sur index');
-            return;
-        }
-
-        const newHamburger = hamburger.cloneNode(true);
-        hamburger.parentNode.replaceChild(newHamburger, hamburger);
-
-        const finalHamburger = document.getElementById('hamburgerBtn');
-        const finalNav = document.getElementById('mainNav');
-
-        finalHamburger.addEventListener('click', function (e) {
-            e.stopPropagation();
-            this.classList.toggle('active');
-            finalNav.classList.toggle('open');
-            if (overlay) overlay.classList.toggle('active');
-        });
-
-        finalNav.querySelectorAll('a').forEach(function (link) {
-            link.addEventListener('click', function () {
-                finalHamburger.classList.remove('active');
-                finalNav.classList.remove('open');
-                if (overlay) overlay.classList.remove('active');
-            });
-        });
-
-        document.addEventListener('click', function (e) {
-            if (finalNav.classList.contains('open')) {
-                if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
-                    finalHamburger.classList.remove('active');
-                    finalNav.classList.remove('open');
-                    if (overlay) overlay.classList.remove('active');
-                }
-            }
-        });
-
-        if (overlay) {
-            overlay.addEventListener('click', function () {
-                finalHamburger.classList.remove('active');
-                finalNav.classList.remove('open');
-                overlay.classList.remove('active');
-            });
-        }
-
-        console.log('✅ fixHamburgerIndex : hamburger activé sur index');
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', fixHamburgerIndex);
-    } else {
-        fixHamburgerIndex();
-    }
-
-    setTimeout(fixHamburgerIndex, 800);
-})();
-</script>
-
-<!-- Tawk.to -->
-<script type="text/javascript">
-var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-(function(){
-  var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-  s1.async = true;
-  s1.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
-  s1.charset = 'UTF-8';
-  s1.setAttribute('crossorigin', '*');
-  s0.parentNode.insertBefore(s1, s0);
-})();
-</script>
-
 <body class="dashboard-page index-page">
 
     <!-- ===== BANDEAU RÉSEAUX SOCIAUX ===== -->
@@ -301,59 +77,55 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     <!-- ===== HERO ===== -->
     <section class="home-hero">
         <div class="home-hero-inner">
-            <div class="home-hero-row">
 
-                <!-- ✅ COLONNE GAUCHE : TITRES + PARAGRAPHE + CARTE MAP EN BAS -->
-                <div class="home-hero-left">
-                    <div class="home-hero-label">
-                        <span class="green-bar"></span>
-                        <span>Unsere Tätigkeitsbereiche</span>
-                    </div>
-                    <h1 class="home-hero-title">VIER Sektoren</h1>
-                    <div class="home-title-row">
-                        <h2>Unsere einzige Anforderung: Vertrauen</h2>
-                        <div class="home-excellence-icon" aria-label="Exzellenz">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 21h8M12 17v4" stroke-linecap="round"/>
-                                <path d="M7 4h10v5a5 5 0 0 1-10 0V4z"/>
-                                <path d="M7 6H4a2 2 0 0 0 2 2h1"/>
-                                <path d="M17 6h3a2 2 0 0 1-2 2h-1"/>
-                                <path d="M12 14l-1.2 2.4L8 17l1.8 1.6L9.4 21 12 19.6 14.6 21l-.4-2.4L16 17l-2.8-.6L12 14z" fill="#A0AAB5" stroke="none"/>
-                            </svg>
+            <!-- VIDÉO PLEIN LARGEUR + OVERLAY -->
+            <div class="hero-video-wrap">
+
+                <video
+                    class="hero-video"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    poster="Images/Dashbords/Videos/Vertrauen_poster.jpg">
+                    <source src="Images/Dashbords/Videos/Vertrauen.mp4" type="video/mp4" />
+                    Ihr Browser unterstützt keine HTML5-Videos.
+                </video>
+
+                <div class="hero-overlay">
+
+                    <!-- HAUT GAUCHE : titre BLANC -->
+                    <div class="hero-top-left">
+                        <div class="hero-label">
+                            <span class="green-bar"></span>
+                            <span>Unsere Tätigkeitsbereiche</span>
                         </div>
+                        <h1 class="hero-h1">VIER Sektoren</h1>
                     </div>
-                    <p class="home-hero-left-p">
-                        Seit über 8 Jahren sind wir als Energie-Distributor tätig und haben uns durch Verlässlichkeit,
-                        klare Kommunikation und persönliche Betreuung das Vertrauen unserer Kunden und Partner erarbeitet.
-                        Ob Strom, Gas, Internet oder Versicherung – wir stehen für faire Tarife, transparente Beratung
-                        und eine langfristige Zusammenarbeit.
-                    </p>
 
-                    <!-- ✅ CARTE MAP — PLACÉE EN BAS DU PARAGRAPHE, À GAUCHE -->
-                    <div class="home-hero-map home-hero-map-left">
+                    <!-- BAS GAUCHE : titre VERT -->
+                    <div class="hero-bottom-left">
+                        <h2 class="hero-h2">Unsere einzige Anforderung: Vertrauen</h2>
+                    </div>
+
+                    <!-- BAS DROITE : carte Allemagne -->
+                    <div class="hero-map-mini">
                         <img src="Images/Dashbords/de.svg" alt="Karte von Deutschland" class="de-map-img" />
-                        <img src="Images/Vertrauen_Logo1.png" alt="Logo Vertrauen" class="logo-over-map" />
                     </div>
-                </div>
 
-                <!-- ✅ COLONNE DROITE : VIDÉO Vertrauen.mp4 -->
-                <div class="home-hero-right home-hero-video">
-                    <video
-                        class="hero-video"
-                        autoplay
-                        muted
-                        loop
-                        playsinline
-                        preload="metadata"
-                        poster="Images/Dashbords/Videos/Vertrauen_poster.jpg">
-                        <source src="Images/Dashbords/Videos/Vertrauen.mp4" type="video/mp4" />
-                        Ihr Browser unterstützt keine HTML5-Videos.
-                    </video>
                 </div>
-
             </div>
 
-            <!-- ✅ 4 BOUTONS ÉTIRÉS SUR TOUTE LA LARGEUR -->
+            <!-- PARAGRAPHE SOUS LA VIDÉO -->
+            <p class="hero-paragraph">
+                Seit über 8 Jahren sind wir als Energie-Distributor tätig und haben uns durch Verlässlichkeit,
+                klare Kommunikation und persönliche Betreuung das Vertrauen unserer Kunden und Partner erarbeitet.
+                Ob Strom, Gas, Internet oder Versicherung – wir stehen für faire Tarife, transparente Beratung
+                und eine langfristige Zusammenarbeit.
+            </p>
+
+            <!-- 4 SEGMENTS -->
             <div class="home-segments-box">
                 <div class="home-segments-row" id="segmentsRow">
 
@@ -387,17 +159,9 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
                 </div>
             </div>
+
         </div>
     </section>
-
-    <!-- ✅ EN-TÊTE PERMANENT — SOUS LES BOUTONS -->
-    <div class="home-segments-header">
-        <h3>Unsere 4 Sektoren</h3>
-        <p>
-            Entdecken Sie unsere Tätigkeitsbereiche – Strom, Gas, Internet und Versicherung.
-            Klicken Sie auf einen Sektor, um mehr zu erfahren.
-        </p>
-    </div>
 
     <!-- ===== DÉTAILS SEGMENTS ===== -->
 
@@ -548,13 +312,10 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         </div>
     </section>
 
-    <!-- ===== FOOTER PRINCIPAL ===== -->
+    <!-- ===== FOOTER ===== -->
     <footer class="vd-footer">
-
-        <!-- PARTIE HAUTE : TITRES + BOUTON -->
         <div class="vd-footer-top">
             <div class="vd-footer-top-inner">
-
                 <div class="vd-footer-titles">
                     <div class="vd-footer-label">
                         <span class="green-bar"></span>
@@ -563,7 +324,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                     <h2 class="vd-footer-title-white">Ihr nächster Beitrag</h2>
                     <h3 class="vd-footer-title-green">Sprechen wir darüber</h3>
                 </div>
-
                 <div class="vd-footer-cta">
                     <a href="kontakt.html" class="vd-footer-btn">
                         Mit unserem Team sprechen
@@ -574,25 +334,20 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                         </svg>
                     </a>
                 </div>
-
             </div>
         </div>
 
-        <!-- PARTIE BASSE : 4 COLONNES -->
         <div class="vd-footer-bottom">
             <div class="vd-footer-bottom-inner">
 
                 <div class="vd-footer-col vd-footer-col-brand">
                     <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" class="vd-footer-logo" />
-
                     <p class="vd-footer-address">
                         Vertrauen Distributor Vertriebs GmbH<br />
                         Musterstraße 12<br />
                         10115 Berlin, Deutschland
                     </p>
-
                     <p class="vd-footer-follow-label">Folgen Sie uns</p>
-
                     <div class="vd-footer-social">
                         <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" aria-label="Facebook">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -656,15 +411,132 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             <span class="vd-footer-sep">|</span>
             <span class="vd-footer-copy">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
         </div>
-
     </footer>
 
     <!-- ===== JS ===== -->
     <script src="main.js"></script>
-</body>
 
-<script>
-    // ===== SCROLL : CACHER BANDEAU SOCIAL + CHANGER COULEUR HEADER =====
+    <!-- ===== FIX SEGMENTS — SCROLL ===== -->
+    <script>
+    (function () {
+        function initSegmentsScroll() {
+            const tabs = document.querySelectorAll('.home-segment-tab');
+            const details = document.querySelectorAll('.home-segment-detail');
+            if (!tabs.length || !details.length) return;
+
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const segment = this.getAttribute('data-segment');
+
+                    tabs.forEach(function (t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+
+                    const targetSection = document.querySelector(
+                        '.home-segment-detail[data-segment="' + segment + '"]'
+                    );
+                    if (!targetSection) return;
+
+                    const num = targetSection.querySelector('.donut-num');
+                    if (num) {
+                        const target = parseInt(num.getAttribute('data-target'), 10);
+                        if (!isNaN(target)) {
+                            num.textContent = '0';
+                            const duration = 1600;
+                            const start = performance.now();
+                            function step(now) {
+                                const progress = Math.min((now - start) / duration, 1);
+                                const eased = 1 - Math.pow(1 - progress, 3);
+                                num.textContent = Math.floor(target * eased).toLocaleString('de-DE');
+                                if (progress < 1) requestAnimationFrame(step);
+                                else num.textContent = target.toLocaleString('de-DE');
+                            }
+                            requestAnimationFrame(step);
+                        }
+                    }
+
+                    const header = document.getElementById('dashboardHeader');
+                    const headerHeight = header ? header.offsetHeight : 68;
+                    const offset = headerHeight + 20;
+                    const rect = targetSection.getBoundingClientRect();
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    const targetY = rect.top + scrollTop - offset;
+
+                    window.scrollTo({ top: targetY, behavior: 'smooth' });
+                });
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSegmentsScroll);
+        } else {
+            initSegmentsScroll();
+        }
+        setTimeout(initSegmentsScroll, 1000);
+    })();
+    </script>
+
+    <!-- ===== HAMBURGER ===== -->
+    <script>
+    (function () {
+        function fixHamburgerIndex() {
+            const hamburger = document.getElementById('hamburgerBtn');
+            const nav = document.getElementById('mainNav');
+            const overlay = document.getElementById('menuOverlay');
+            if (!hamburger || !nav) return;
+
+            const newHamburger = hamburger.cloneNode(true);
+            hamburger.parentNode.replaceChild(newHamburger, hamburger);
+
+            const finalHamburger = document.getElementById('hamburgerBtn');
+            const finalNav = document.getElementById('mainNav');
+
+            finalHamburger.addEventListener('click', function (e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+                finalNav.classList.toggle('open');
+                if (overlay) overlay.classList.toggle('active');
+            });
+
+            finalNav.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    finalHamburger.classList.remove('active');
+                    finalNav.classList.remove('open');
+                    if (overlay) overlay.classList.remove('active');
+                });
+            });
+
+            document.addEventListener('click', function (e) {
+                if (finalNav.classList.contains('open')) {
+                    if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
+                        finalHamburger.classList.remove('active');
+                        finalNav.classList.remove('open');
+                        if (overlay) overlay.classList.remove('active');
+                    }
+                }
+            });
+
+            if (overlay) {
+                overlay.addEventListener('click', function () {
+                    finalHamburger.classList.remove('active');
+                    finalNav.classList.remove('open');
+                    overlay.classList.remove('active');
+                });
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fixHamburgerIndex);
+        } else {
+            fixHamburgerIndex();
+        }
+        setTimeout(fixHamburgerIndex, 800);
+    })();
+    </script>
+
+    <!-- ===== SCROLL : CACHER BANDEAU SOCIAL + HEADER ===== -->
+    <script>
     (function() {
         function applyScroll() {
             const socialBar = document.querySelector('.social-top-bar');
@@ -692,5 +564,7 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         document.addEventListener('DOMContentLoaded', applyScroll);
         applyScroll();
     })();
-</script>
+    </script>
+
+</body>
 </html>
