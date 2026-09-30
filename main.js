@@ -2933,7 +2933,6 @@ function addGermanCitiesDots() {
   const parent = mapImg.parentElement;
   parent.style.position = 'relative';
 
-  // Nettoyer les anciens points
   parent.querySelectorAll('.city-point, .city-pulse, .city-name').forEach(el => el.remove());
 
   const cities = [
@@ -2973,13 +2972,12 @@ function addGermanCitiesDots() {
   console.log('✅ addGermanCitiesDots : ' + cities.length + ' villes ajoutées');
 }
 
-// ✅ Attendre le chargement de l'image avant d'ajouter les points
 window.addEventListener('load', function () {
   setTimeout(addGermanCitiesDots, 200);
 });
 
-// ✅ Rappel de sécurité après 1 seconde
 setTimeout(addGermanCitiesDots, 1000);
+
 // =====================================================================
 // ===== SEGMENTS INDEX — CLIC + SCROLL FLUIDE + DONUTS ===============
 // =====================================================================
@@ -3003,7 +3001,6 @@ function initSegmentsIndex() {
       );
 
       if (targetSection) {
-        // Animation donut
         const num = targetSection.querySelector('.donut-num');
         if (num) {
           const target = parseInt(num.dataset.target, 10);
@@ -3023,7 +3020,6 @@ function initSegmentsIndex() {
           }
         }
 
-        // ✅ Scroll natif + scroll-margin-top gère l'offset
         targetSection.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
@@ -3089,4 +3085,180 @@ document.addEventListener('DOMContentLoaded', function() {
   animateCounters();
   initSegmentsIndex();
   addGermanCitiesDots();
+
+  // ✅ Système de langue (pop-up DE/AR + traduction)
+  if (typeof window.__initLanguageSystem === 'function') {
+    window.__initLanguageSystem();
+  }
 });
+
+// =====================================================================
+// ===== BLOC LANGUE — POP-UP + TRADUCTION DE/AR ======================
+// (DÉPLACÉ ICI : à la fin du fichier, EN DEHORS du DOMContentLoaded)
+// =====================================================================
+(function () {
+    const STORAGE_KEY = 'vertrauen_lang';
+    const POPUP_KEY   = 'vertrauen_popup_seen';
+
+    /* ============================================================
+       📚 DICTIONNAIRE DE TRADUCTIONS (Allemand → Arabe)
+       ============================================================ */
+    const translations = {
+        ar: {
+            "Vertriebspartner werden": "كن شريكاً في التوزيع",
+            "D 2 D": "D 2 D",
+
+            "Unsere Geschichte": "قصتنا",
+            "Unsere Sektoren": "قطاعاتنا",
+            "Nachrichten": "الأخبار",
+            "Über uns": "من نحن",
+
+            "Unsere Tätigkeitsbereiche": "مجالات نشاطنا",
+            "VIER Sektoren": "أربعة قطاعات",
+            "Unsere einzige Anforderung: Vertrauen": "شرطنا الوحيد: الثقة",
+            "Seit über 8 Jahren sind wir als Energie-Distributor tätig und haben uns durch Verlässlichkeit, klare Kommunikation und persönliche Betreuung das Vertrauen unserer Kunden und Partner erarbeitet. Ob Strom, Gas, Internet oder Versicherung – wir stehen für faire Tarife, transparente Beratung und eine langfristige Zusammenarbeit.":
+                "منذ أكثر من 8 سنوات نعمل كموزّع للطاقة، وقد كسبنا ثقة عملائنا وشركائنا من خلال الموثوقية والتواصل الواضح والرعاية الشخصية. سواء كان الكهرباء أو الغاز أو الإنترنت أو التأمين – نحن نضمن أسعاراً عادلة واستشارات شفافة وتعاوناً طويل الأمد.",
+
+            "Strom": "الكهرباء",
+            "Gas": "الغاز",
+            "Internet": "الإنترنت",
+            "Versicherung": "التأمين",
+
+            "Wir vermitteln Stromtarife renommierter Anbieter und begleiten jeden Vertriebspartner persönlich – von der Beratung bis zum Vertragsabschluss. Diese Erfahrung ist die Basis für das Vertrauen, das uns unsere Kunden entgegenbringen.":
+                "نقوم بوساطة أسعار الكهرباء من مزوّدين مرموقين ونرافق كل شريك مبيعات شخصياً – من الاستشارة حتى إبرام العقد. هذه الخبرة هي أساس الثقة التي يمنحنا إياها عملاؤنا.",
+            "Strom Verträge": "عقود الكهرباء",
+            "Entwicklung seit 2008": "التطوّر منذ 2008",
+            "Kunden insgesamt": "إجمالي العملاء",
+
+            "Vom ersten Tag an setzen wir auf klare Beratung und faire Tarife im Gasvertrieb. Unsere Sales Promoter kennen den Markt genau und sorgen dafür, dass jede Familie das passende Angebot findet.":
+                "منذ اليوم الأول نعتمد على الاستشارة الواضحة والأسعار العادلة في بيع الغاز. مندوبو المبيعات لدينا يعرفون السوق جيداً ويضمنون أن تجد كل عائلة العرض المناسب.",
+            "Gas Verträge": "عقود الغاز",
+
+            "Schnelles, zuverlässiges Internet ist heute Grundversorgung. Wir arbeiten seit Jahren mit etablierten Anbietern zusammen und helfen Haushalten und Firmen, den richtigen Anschluss zu finden.":
+                "الإنترنت السريع والموثوق هو اليوم خدمة أساسية. نعمل منذ سنوات مع مزوّدين معروفين ونساعد الأسر والشركات على إيجاد الاتصال المناسب.",
+            "Internet Verträge": "عقود الإنترنت",
+
+            "Absicherung braucht Vertrauen. Unser Team begleitet Kunden bei der Wahl passender Versicherungslösungen – transparent, unabhängig und mit über acht Jahren Erfahrung im Vertrieb.":
+                "التأمين يحتاج إلى الثقة. فريقنا يرافق العملاء في اختيار حلول التأمين المناسبة – بشفافية واستقلالية وخبرة تفوق ثماني سنوات في المبيعات.",
+            "Versicherungen": "التأمينات",
+
+            "Weitere Sektoren ansehen": "استعرض قطاعات أخرى",
+            "Bleiben Sie mit uns in Verbindung": "ابقَ على تواصل معنا",
+
+            "Folgen Sie unserem Aufbau": "تابع مسيرتنا",
+            "Ihr nächster Beitrag": "مساهمتك القادمة",
+            "Sprechen wir darüber": "لنتحدّث عن ذلك",
+            "Mit unserem Team sprechen": "تحدّث مع فريقنا",
+            "Unsere Sektoren": "قطاعاتنا",
+            "Mehr erfahren": "اعرف المزيد",
+            "Kontakt": "اتصل بنا",
+            "Folgen Sie uns": "تابعنا",
+            "Datenschutzerklärung": "سياسة الخصوصية",
+
+            "Sprache wählen": "اختر اللغة",
+            "Bitte wählen Sie Ihre Sprache": "الرجاء اختيار لغتك",
+            "Deutsch": "الألمانية",
+            "العربية": "العربية"
+        }
+    };
+
+    function translatePage(lang) {
+        localStorage.setItem(STORAGE_KEY, lang);
+
+        const html = document.documentElement;
+        if (lang === 'ar') {
+            html.setAttribute('lang', 'ar');
+            html.setAttribute('dir', 'rtl');
+        } else {
+            html.setAttribute('lang', 'de');
+            html.setAttribute('dir', 'ltr');
+        }
+
+        const walker = document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT,
+            {
+                acceptNode: function (node) {
+                    const tag = node.parentNode.nodeName.toLowerCase();
+                    if (tag === 'script' || tag === 'style' || tag === 'svg' || tag === 'path') {
+                        return NodeFilter.FILTER_REJECT;
+                    }
+                    return node.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+                }
+            }
+        );
+
+        const nodes = [];
+        let n;
+        while (n = walker.nextNode()) nodes.push(n);
+
+        const dict = lang === 'ar' ? translations.ar : {};
+
+        nodes.forEach(function (node) {
+            const original = node.nodeValue;
+            const key = original.trim();
+            if (!key) return;
+
+            if (!node.__originalText) {
+                node.__originalText = original;
+            }
+
+            if (lang === 'de') {
+                node.nodeValue = node.__originalText;
+            } else if (dict[key]) {
+                const leading  = original.match(/^\s*/)[0];
+                const trailing = original.match(/\s*$/)[0];
+                node.nodeValue = leading + dict[key] + trailing;
+            }
+        });
+    }
+
+    function showPopup() {
+        const popup = document.getElementById('langPopup');
+        if (popup) popup.classList.add('active');
+    }
+
+    function hidePopup() {
+        const popup = document.getElementById('langPopup');
+        if (popup) popup.classList.remove('active');
+    }
+
+    function initLanguageSystem() {
+        const popup = document.getElementById('langPopup');
+        const savedLang = localStorage.getItem(STORAGE_KEY);
+
+        // Si pas de popup sur cette page → applique juste la langue sauvegardée
+        if (savedLang) translatePage(savedLang);
+        if (!popup) return;
+
+        const popupSeen = localStorage.getItem(POPUP_KEY);
+
+        if (!popupSeen) {
+            setTimeout(showPopup, 300);
+        }
+
+        popup.querySelectorAll('.lang-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const lang = this.getAttribute('data-lang');
+                translatePage(lang);
+                localStorage.setItem(POPUP_KEY, '1');
+                hidePopup();
+            });
+        });
+
+        popup.addEventListener('click', function (e) {
+            if (e.target === popup) {
+                localStorage.setItem(POPUP_KEY, '1');
+                hidePopup();
+            }
+        });
+    }
+
+    window.__initLanguageSystem = initLanguageSystem;
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initLanguageSystem);
+    } else {
+        initLanguageSystem();
+    }
+})();
