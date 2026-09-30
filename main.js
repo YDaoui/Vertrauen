@@ -3055,11 +3055,12 @@ function animateCounters() {
 // =====================================================================
 (function () {
     const POPUP_KEY = 'vertrauen_popup_seen';
+    let langInitDone = false;
 
     function setGoogleLang(lang) {
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + location.hostname;
-
+        const past = 'expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'googtrans=; ' + past;
+        document.cookie = 'googtrans=; ' + past + ' domain=' + location.hostname;
         if (lang === 'ar') {
             document.cookie = 'googtrans=/de/ar; path=/';
             document.cookie = 'googtrans=/de/ar; path=/; domain=' + location.hostname;
@@ -3067,56 +3068,30 @@ function animateCounters() {
         location.reload();
     }
 
-    function showPopup() {
-        const popup = document.getElementById('langPopup');
-        if (!popup) {
-            console.error('❌ #langPopup introuvable dans le HTML');
-            return;
-        }
-        popup.classList.add('active');
-        console.log('✅ Pop-up affiché');
-    }
-
-    function hidePopup() {
-        const popup = document.getElementById('langPopup');
-        if (popup) popup.classList.remove('active');
-    }
-
     function initLanguageSystem() {
+        if (langInitDone) return;
         const popup = document.getElementById('langPopup');
-
-        if (!popup) {
-            console.warn('⚠️ Pas de #langPopup sur cette page');
-            return;
-        }
-
-        console.log('✅ initLanguageSystem : popup trouvé');
+        if (!popup) return;
+        langInitDone = true;
 
         const popupSeen = localStorage.getItem(POPUP_KEY);
         const isTranslated = document.cookie.indexOf('googtrans=/de/ar') !== -1;
 
-        if (!popupSeen && !isTranslated) {
-            console.log('✅ Affichage du pop-up');
-            showPopup();
-        } else {
-            console.log('ℹ️ Pop-up bloqué :', { popupSeen, isTranslated });
-        }
+        if (!popupSeen && !isTranslated) popup.classList.add('active');
 
         popup.querySelectorAll('.lang-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
-                const lang = this.getAttribute('data-lang');
                 localStorage.setItem(POPUP_KEY, '1');
-                hidePopup();
-                setTimeout(function () {
-                    setGoogleLang(lang);
-                }, 200);
+                popup.classList.remove('active');
+                const lang = this.getAttribute('data-lang');
+                setTimeout(function () { setGoogleLang(lang); }, 200);
             });
         });
 
         popup.addEventListener('click', function (e) {
             if (e.target === popup) {
                 localStorage.setItem(POPUP_KEY, '1');
-                hidePopup();
+                popup.classList.remove('active');
             }
         });
     }
@@ -3129,18 +3104,15 @@ function animateCounters() {
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
                 autoDisplay: false
             }, 'google_translate_element');
-        } catch (e) {
-            console.warn('Google Translate init error:', e);
-        }
+        } catch (e) { console.warn('Google Translate init error:', e); }
     };
 
     function loadGoogleTranslate() {
         if (window.__gtLoaded) return;
         window.__gtLoaded = true;
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-        document.head.appendChild(script);
+        const s = document.createElement('script');
+        s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        document.head.appendChild(s);
     }
 
     function start() {
@@ -3148,13 +3120,8 @@ function animateCounters() {
         initLanguageSystem();
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', start);
-    } else {
-        start();
-    }
-
-    setTimeout(start, 1500);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+    else start();
 })();
 
 // =====================================================================
