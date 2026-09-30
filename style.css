@@ -6111,3 +6111,28 @@ html[dir="rtl"] .hero-paragraph {
         padding: 16px 14px;
     }
 }
+/* Masquer la barre Google Translate */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+#goog-gt-tt,
+.goog-tooltip,
+.goog-te-gadget-icon,
+.goog-te-menu-value,
+.skiptranslate > iframe,
+.goog-te-gadget,
+#google_translate_element {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+body {
+    top: 0 !important;
+    position: static !important;
+}
+
+.goog-text-highlight {
+    background: none !important;
+    box-shadow: none !important;
+}

@@ -25,31 +25,36 @@
 <body class="dashboard-page index-page">
 
     <!-- ===== POP-UP LANGUE (au 1er lancement) ===== -->
+    <!-- ===== POP-UP LANGUE ===== -->
+    <!-- ===== POP-UP LANGUE ===== -->
     <div class="lang-popup-overlay" id="langPopup" role="dialog" aria-modal="true">
-        <div class="lang-popup">
-            <div class="lang-popup-header">
-                <span class="green-bar"></span>
-                <h2>Sprache wählen</h2>
-            </div>
-            <p class="lang-popup-sub">
-                Bitte wählen Sie Ihre Sprache
-                <br>
-                <span class="ar-sub">الرجاء اختيار لغتك</span>
-            </p>
+    <div class="lang-popup">
+        <div class="lang-popup-header">
+            <span class="green-bar"></span>
+            <h2>Sprache wählen</h2>
+        </div>
+        <p class="lang-popup-sub">
+            Bitte wählen Sie Ihre Sprache
+            <br>
+            <span class="ar-sub">الرجاء اختيار لغتك</span>
+        </p>
 
-            <div class="lang-popup-buttons">
-                <button class="lang-btn" data-lang="de" type="button">
-                    <span class="lang-flag">🇩🇪</span>
-                    <span class="lang-name">Deutsch</span>
-                </button>
+        <div class="lang-popup-buttons">
+            <button class="lang-btn" data-lang="de" type="button">
+                <span class="lang-flag">🇩🇪</span>
+                <span class="lang-name">Deutsch</span>
+            </button>
 
-                <button class="lang-btn" data-lang="ar" type="button">
-                    <span class="lang-flag">🇸🇦</span>
-                    <span class="lang-name">العربية</span>
-                </button>
-            </div>
+            <button class="lang-btn" data-lang="ar" type="button">
+                <span class="lang-flag">🇸🇦</span>
+                <span class="lang-name">العربية</span>
+            </button>
         </div>
     </div>
+</div>
+
+<!-- ✅ Conteneur caché pour Google Translate -->
+<div id="google_translate_element" style="display:none !important;"></div>
 
     <!-- ===== BANDEAU RÉSEAUX SOCIAUX ===== -->
     <div class="social-top-bar">
