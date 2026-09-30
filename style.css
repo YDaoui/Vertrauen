@@ -6136,3 +6136,25 @@ body {
     background: none !important;
     box-shadow: none !important;
 }
+.lang-popup-buttons {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important;
+}
+
+.lang-btn {
+    padding: 22px 16px !important;
+    justify-content: center;
+}
+
+.lang-btn .lang-flag { display: none !important; }
+
+@media (max-width: 480px) {
+    .lang-popup-buttons {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+    }
+    .lang-btn { padding: 18px 8px !important; }
+    .lang-btn .lang-name { font-size: 0.95rem; }
+    .lang-btn[data-lang="ar"] .lang-name { font-size: 1.1rem; }
+}
