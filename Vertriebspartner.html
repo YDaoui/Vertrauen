@@ -85,93 +85,173 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
     <div class="vp-hero-fixed"></div>
 
-    <!-- ===== FORMULAIRE EN DESSOUS - FOND BLEU ===== -->
+    <!-- ============================================================
+         SECTION FORMULAIRE — ONGLETS B2B / B2C
+         ============================================================ -->
     <section class="vp-form-section" id="vpFormSection">
         <div class="vp-form-card">
 
-            <!-- Titres alignés à gauche -->
+            <!-- Titres généraux -->
             <h1 class="vp-title-1">Jetzt Vertriebspartner werden!</h1>
             <p class="vp-title-2">Erfolgreich in der Energiebranche</p>
             <hr class="vp-divider" />
 
-            <h3>
-                Als Vertriebspartner der <span class="accent">DL-Distri</span> profitieren Sie von Reichweite, Erfahrung und Vernetzung! Registrieren Sie sich jetzt!
-            </h3>
+            <!-- ===== ONGLETS ===== -->
+            <div class="vp-tabs" role="tablist">
+                <button class="vp-tab active" data-tab="b2b" role="tab" aria-selected="true" aria-controls="panel-b2b">
+                    <span class="vp-tab-title">B2B</span>
+                    <span class="vp-tab-sub">Geschäftskunden</span>
+                </button>
+                <button class="vp-tab" data-tab="b2c" role="tab" aria-selected="false" aria-controls="panel-b2c">
+                    <span class="vp-tab-title">B2C</span>
+                    <span class="vp-tab-sub">Privatkunden</span>
+                </button>
+            </div>
 
-            <form class="vp-form" action="#" method="POST">
+            <!-- ============================================================
+                 PANNEAU B2B
+                 ============================================================ -->
+            <div class="vp-tab-panel active" id="panel-b2b" role="tabpanel" data-tab-panel="b2b">
+                <h3>
+                    Als <span class="accent">B2B</span>-Vertriebspartner der <span class="accent">DL-Distri</span> profitieren Sie von Reichweite, Erfahrung und Vernetzung! Registrieren Sie sich jetzt!
+                </h3>
 
-                <!-- Firma -->
-                <div class="form-group">
-                    <label for="firma">Firma</label>
-                    <input type="text" id="firma" name="firma" class="form-control" placeholder="Ihre Firma" />
-                </div>
+                <form class="vp-form" action="#" method="POST">
+                    <input type="hidden" name="angle" value="B2B" />
 
-                <!-- Land (Radio) -->
-                
-
-                <!-- PLZ -->
-                <div class="form-group">
-                    <label for="plz">PLZ <span class="required">*</span></label>
-                    <input type="text" id="plz" name="plz" class="form-control" placeholder="Ihre Postleitzahl" required />
-                </div>
-
-                <!-- Vorname / Nachname -->
-                <div class="form-row">
                     <div class="form-group">
-                        <label for="vorname">Vorname <span class="required">*</span></label>
-                        <input type="text" id="vorname" name="vorname" class="form-control" placeholder="Ihr Vorname" required />
+                        <label for="firma-b2b">Firma</label>
+                        <input type="text" id="firma-b2b" name="firma" class="form-control" placeholder="Ihre Firma" />
                     </div>
+
                     <div class="form-group">
-                        <label for="nachname">Nachname <span class="required">*</span></label>
-                        <input type="text" id="nachname" name="nachname" class="form-control" placeholder="Ihr Nachname" required />
+                        <label for="plz-b2b">PLZ <span class="required">*</span></label>
+                        <input type="text" id="plz-b2b" name="plz" class="form-control" placeholder="Ihre Postleitzahl" required />
                     </div>
-                </div>
 
-                <!-- E-Mail -->
-                <div class="form-group">
-                    <label for="email">E-Mail-Adresse <span class="required">*</span></label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="ihre@email.de" required />
-                </div>
-
-                <!-- Telefon -->
-                <div class="form-group">
-                    <label for="telefon">Telefonnummer <span class="required">*</span></label>
-                    <input type="tel" id="telefon" name="telefon" class="form-control" placeholder="+49 123 456789" required />
-                </div>
-
-                <!-- Interessen (Checkboxen) -->
-                <div class="form-group">
-                    <label>Ich interessiere mich für... <span class="required">*</span></label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="interesse" value="Strom/Gas" /> Strom/Gas</label>
-                        <label><input type="checkbox" name="interesse" value="Gewerbe (SLP, RLM)" /> Gewerbe (SLP, RLM)</label>
-                        <label><input type="checkbox" name="interesse" value="Telekommunikation" /> Telekommunikation</label>
-                        <label><input type="checkbox" name="interesse" value="Glasfaser" /> Glasfaser</label>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vorname-b2b">Vorname <span class="required">*</span></label>
+                            <input type="text" id="vorname-b2b" name="vorname" class="form-control" placeholder="Ihr Vorname" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="nachname-b2b">Nachname <span class="required">*</span></label>
+                            <input type="text" id="nachname-b2b" name="nachname" class="form-control" placeholder="Ihr Nachname" required />
+                        </div>
                     </div>
-                </div>
 
-                <!-- Nachricht -->
-                <div class="form-group">
-                    <label for="nachricht">Hier können Sie uns eine Nachricht hinterlassen.</label>
-                    <textarea id="nachricht" name="nachricht" class="form-control textarea-lg" placeholder="Ihre Nachricht an uns..."></textarea>
-                </div>
-
-                <!-- Datenschutz Checkbox -->
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <label>
-                            <input type="checkbox" name="datenschutz" required />
-                            Ich habe die Datenschutzerklärung zur Kenntnis genommen. Ich stimme zu, dass meine Angaben und Daten zur Beantwortung meiner Anfrage elektronisch erhoben und gespeichert werden. Hinweis: Sie können Ihre Einwilligung jederzeit für die Zukunft (per E-Mail, Post usw.) widerrufen. <span class="required">*</span>
-                        </label>
+                    <div class="form-group">
+                        <label for="email-b2b">E-Mail-Adresse <span class="required">*</span></label>
+                        <input type="email" id="email-b2b" name="email" class="form-control" placeholder="ihre@email.de" required />
                     </div>
-                </div>
 
-                <!-- Bouton Senden -->
-                <div class="form-group form-submit-center">
-                    <button type="submit" class="btn-senden">Senden</button>
-                </div>
+                    <div class="form-group">
+                        <label for="telefon-b2b">Telefonnummer <span class="required">*</span></label>
+                        <input type="tel" id="telefon-b2b" name="telefon" class="form-control" placeholder="+49 123 456789" required />
+                    </div>
 
-            </form>
+                    <div class="form-group">
+                        <label>Ich interessiere mich für... <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="interesse" value="Strom/Gas" /> Strom/Gas</label>
+                            <label><input type="checkbox" name="interesse" value="Gewerbe (SLP, RLM)" /> Gewerbe (SLP, RLM)</label>
+                            <label><input type="checkbox" name="interesse" value="Telekommunikation" /> Telekommunikation</label>
+                            <label><input type="checkbox" name="interesse" value="Glasfaser" /> Glasfaser</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nachricht-b2b">Hier können Sie uns eine Nachricht hinterlassen.</label>
+                        <textarea id="nachricht-b2b" name="nachricht" class="form-control textarea-lg" placeholder="Ihre Nachricht an uns..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" name="datenschutz" required />
+                                Ich habe die Datenschutzerklärung zur Kenntnis genommen. Ich stimme zu, dass meine Angaben und Daten zur Beantwortung meiner Anfrage elektronisch erhoben und gespeichert werden. Hinweis: Sie können Ihre Einwilligung jederzeit für die Zukunft (per E-Mail, Post usw.) widerrufen. <span class="required">*</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-submit-center">
+                        <button type="submit" class="btn-senden">Senden (B2B)</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ============================================================
+                 PANNEAU B2C
+                 ============================================================ -->
+            <div class="vp-tab-panel" id="panel-b2c" role="tabpanel" data-tab-panel="b2c">
+                <h3>
+                    Als <span class="accent">B2C</span>-Vertriebspartner der <span class="accent">DL-Distri</span> profitieren Sie von Reichweite, Erfahrung und Vernetzung! Registrieren Sie sich jetzt!
+                </h3>
+
+                <form class="vp-form" action="#" method="POST">
+                    <input type="hidden" name="angle" value="B2C" />
+
+                    <div class="form-group">
+                        <label for="firma-b2c">Firma</label>
+                        <input type="text" id="firma-b2c" name="firma" class="form-control" placeholder="Ihre Firma" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="plz-b2c">PLZ <span class="required">*</span></label>
+                        <input type="text" id="plz-b2c" name="plz" class="form-control" placeholder="Ihre Postleitzahl" required />
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vorname-b2c">Vorname <span class="required">*</span></label>
+                            <input type="text" id="vorname-b2c" name="vorname" class="form-control" placeholder="Ihr Vorname" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="nachname-b2c">Nachname <span class="required">*</span></label>
+                            <input type="text" id="nachname-b2c" name="nachname" class="form-control" placeholder="Ihr Nachname" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email-b2c">E-Mail-Adresse <span class="required">*</span></label>
+                        <input type="email" id="email-b2c" name="email" class="form-control" placeholder="ihre@email.de" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefon-b2c">Telefonnummer <span class="required">*</span></label>
+                        <input type="tel" id="telefon-b2c" name="telefon" class="form-control" placeholder="+49 123 456789" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ich interessiere mich für... <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="interesse" value="Strom/Gas" /> Strom/Gas</label>
+                            <label><input type="checkbox" name="interesse" value="Gewerbe (SLP, RLM)" /> Gewerbe (SLP, RLM)</label>
+                            <label><input type="checkbox" name="interesse" value="Telekommunikation" /> Telekommunikation</label>
+                            <label><input type="checkbox" name="interesse" value="Glasfaser" /> Glasfaser</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nachricht-b2c">Hier können Sie uns eine Nachricht hinterlassen.</label>
+                        <textarea id="nachricht-b2c" name="nachricht" class="form-control textarea-lg" placeholder="Ihre Nachricht an uns..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" name="datenschutz" required />
+                                Ich habe die Datenschutzerklärung zur Kenntnis genommen. Ich stimme zu, dass meine Angaben und Daten zur Beantwortung meiner Anfrage elektronisch erhoben und gespeichert werden. Hinweis: Sie können Ihre Einwilligung jederzeit für die Zukunft (per E-Mail, Post usw.) widerrufen. <span class="required">*</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-submit-center">
+                        <button type="submit" class="btn-senden">Senden (B2C)</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </section>
 
@@ -205,7 +285,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     <!-- ===== FOOTER PRINCIPAL ===== -->
     <footer class="vd-footer">
 
-        <!-- PARTIE HAUTE : TITRES + BOUTON -->
         <div class="vd-footer-top">
             <div class="vd-footer-top-inner">
                 <div class="vd-footer-titles">
@@ -229,11 +308,9 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             </div>
         </div>
 
-        <!-- PARTIE BASSE : 4 COLONNES -->
         <div class="vd-footer-bottom">
             <div class="vd-footer-bottom-inner">
 
-                <!-- COLONNE 1 : LOGO + ADRESSE + RÉSEAUX -->
                 <div class="vd-footer-col vd-footer-col-brand">
                     <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" class="vd-footer-logo" />
                     <p class="vd-footer-address">
@@ -266,7 +343,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                     </div>
                 </div>
 
-                <!-- COLONNE 2 : SEKTOREN -->
                 <div class="vd-footer-col">
                     <h4 class="vd-footer-heading">Unsere Sektoren</h4>
                     <ul class="vd-footer-list">
@@ -277,7 +353,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                     </ul>
                 </div>
 
-                <!-- COLONNE 3 : LIENS -->
                 <div class="vd-footer-col">
                     <h4 class="vd-footer-heading">Mehr erfahren</h4>
                     <ul class="vd-footer-list">
@@ -288,12 +363,9 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                     </ul>
                 </div>
 
-             
-
             </div>
         </div>
 
-        <!-- BARRE COPYRIGHT -->
         <div class="vd-footer-copyright">
             <a href="datenschutz.html">Datenschutzerklärung</a>
             <span class="vd-footer-sep">|</span>
@@ -381,6 +453,41 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
             document.addEventListener('DOMContentLoaded', initHamburger);
             initHamburger();
+        })();
+    </script>
+
+    <!-- ===== ONGLETS B2B / B2C ===== -->
+    <script>
+        (function() {
+            function initTabs() {
+                const tabs = document.querySelectorAll('.vp-tab');
+                const panels = document.querySelectorAll('.vp-tab-panel');
+                if (!tabs.length || !panels.length) return;
+
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        const target = this.dataset.tab;
+
+                        // Onglets
+                        tabs.forEach(t => {
+                            t.classList.remove('active');
+                            t.setAttribute('aria-selected', 'false');
+                        });
+                        this.classList.add('active');
+                        this.setAttribute('aria-selected', 'true');
+
+                        // Panneaux
+                        panels.forEach(p => {
+                            if (p.dataset.tabPanel === target) {
+                                p.classList.add('active');
+                            } else {
+                                p.classList.remove('active');
+                            }
+                        });
+                    });
+                });
+            }
+            document.addEventListener('DOMContentLoaded', initTabs);
         })();
     </script>
 

@@ -4948,86 +4948,154 @@ body {
 }
 
 /* ============================================================
-   PAGE DATENSCHUTZ / IMPRESSUM — alignement sur le style du site
+   PAGE DATENSCHUTZ — fond image + cadre transparent
    ============================================================ */
-body:has(.datenschutz-card),
-body:has(.impressum-card) {
-    background-image: none;
-    background-color: #F4F6F9;
-    padding-top: 68px;              /* pas de bandeau social ici */
+body.datenschutz-page {
+    padding-top: 112px;              /* bandeau social + header, comme index */
     transition: padding-top 0.4s ease;
 }
 
-body:has(.datenschutz-card) .dashboard-header,
-body:has(.impressum-card) .dashboard-header {
-    top: 0;                         /* header collé en haut */
-}
-
-/* Barre titre */
-.top-bar {
-    background-color: #0c2545;
-    border-bottom: 3px solid #54e50d;
-    padding: 18px 40px;
-    display: flex;
-    align-items: center;
+.datenschutz-main {
+    flex: 1;
     width: 100%;
+    padding: 40px 20px 70px;
 }
 
-.top-bar span {
-    color: #54e50d !important;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-/* Carte de contenu */
-.impressum-card,
-.datenschutz-card {
-    background-color: #0c2545;
+.datenschutz-page .datenschutz-card {
+    background: rgba(12, 37, 69, 0.35);   /* mets 0 pour 100 % transparent */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border: 2px solid #54e50d;
     border-radius: 16px;
     padding: 40px 48px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     max-width: 900px;
-    width: calc(100% - 40px);
-    margin: 40px auto 60px;
+    width: 100%;
+    margin: 0 auto;
     color: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
-.impressum-card h1,
-.datenschutz-card h1 {
+.datenschutz-page .datenschutz-card h1 {
     color: #54e50d;
-    border-bottom: 2px solid #1a3d6a;
+    border-bottom: 2px solid #54e50d;
     padding-bottom: 12px;
     margin-bottom: 24px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
-.impressum-card h2,
-.datenschutz-card h2 {
+.datenschutz-page .datenschutz-card h2 {
     color: #FFFFFF;
     font-size: 1.15rem;
     margin: 28px 0 10px;
     padding-left: 12px;
     border-left: 4px solid #54e50d;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
-.datenschutz-card .ds-text {
-    color: #A0AAB5;
+.datenschutz-page .ds-text {
+    color: #E8ECF0;
     line-height: 1.75;
     font-size: 0.95rem;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
 }
 
-.datenschutz-card a { color: #54e50d; text-decoration: none; }
-.datenschutz-card a:hover { color: #FFFFFF; text-decoration: underline; }
+.datenschutz-page .datenschutz-card a {
+    color: #54e50d;
+    text-decoration: none;
+    word-break: break-word;
+}
+.datenschutz-page .datenschutz-card a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+
+.datenschutz-page .ds-back {
+    margin-top: 30px;
+    text-align: center;
+}
 
 @media (max-width: 900px) {
-    body:has(.datenschutz-card),
-    body:has(.impressum-card) { padding-top: 56px; }
+    body.datenschutz-page { padding-top: 100px; }
+    .datenschutz-main { padding: 24px 12px 50px; }
+    .datenschutz-page .datenschutz-card { padding: 26px 20px; }
+}
 
-    .top-bar { padding: 14px 16px; }
+@media (max-width: 480px) {
+    body.datenschutz-page { padding-top: 90px; }
+}
+/* ============================================================
+   PAGE DATENSCHUTZ — fond image + cadre transparent
+   ============================================================ */
+body.datenschutz-page {
+    padding-top: 112px;              /* bandeau social + header, comme index */
+    transition: padding-top 0.4s ease;
+}
 
-    .impressum-card,
-    .datenschutz-card {
-        padding: 26px 20px;
-        margin: 24px auto 40px;
-    }
+.datenschutz-main {
+    flex: 1;
+    width: 100%;
+    padding: 40px 20px 70px;
+}
+
+.datenschutz-page .datenschutz-card {
+    background: rgba(12, 37, 69, 0.35);   /* mets 0 pour 100 % transparent */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 2px solid #54e50d;
+    border-radius: 16px;
+    padding: 40px 48px;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    color: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.datenschutz-page .datenschutz-card h1 {
+    color: #54e50d;
+    border-bottom: 2px solid #54e50d;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.datenschutz-page .datenschutz-card h2 {
+    color: #FFFFFF;
+    font-size: 1.15rem;
+    margin: 28px 0 10px;
+    padding-left: 12px;
+    border-left: 4px solid #54e50d;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.datenschutz-page .ds-text {
+    color: #E8ECF0;
+    line-height: 1.75;
+    font-size: 0.95rem;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+.datenschutz-page .datenschutz-card a {
+    color: #54e50d;
+    text-decoration: none;
+    word-break: break-word;
+}
+.datenschutz-page .datenschutz-card a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+
+.datenschutz-page .ds-back {
+    margin-top: 30px;
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+    body.datenschutz-page { padding-top: 100px; }
+    .datenschutz-main { padding: 24px 12px 50px; }
+    .datenschutz-page .datenschutz-card { padding: 26px 20px; }
+}
+
+@media (max-width: 480px) {
+    body.datenschutz-page { padding-top: 90px; }
 }
