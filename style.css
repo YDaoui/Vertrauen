@@ -6360,3 +6360,86 @@ body.login-page {
         padding-top: 40px;
     }
 }
+/* ============================================================
+   ✅ MOBILE — ALIGNEMENT CONTENU / HEADER
+   INDEX    : vidéo collée au bas du menu (contenu descendu)
+   SEKTOREN : segments collés au bas du menu (contenu remonté)
+   ============================================================ */
+
+/* ---------- TABLETTE (max 900px) ---------- */
+@media (max-width: 900px) {
+    /* INDEX : contenu descendu pour que la vidéo touche le menu */
+    body.index-page.dashboard-page {
+        padding-top: 94px !important;
+    }
+    body.index-page.dashboard-page.scrolled-page {
+        padding-top: 60px !important;
+    }
+
+    /* SEKTOREN : contenu remonté pour que les segments touchent le menu */
+    body.sektoren-page {
+        padding-top: 94px !important;
+    }
+    body.sektoren-page.scrolled-page {
+        padding-top: 60px !important;
+    }
+}
+
+/* ---------- MOBILE STANDARD (max 768px) ---------- */
+@media (max-width: 768px) {
+    body.index-page.dashboard-page {
+        padding-top: 94px !important;
+    }
+    body.index-page.dashboard-page.scrolled-page {
+        padding-top: 60px !important;
+    }
+
+    body.sektoren-page {
+        padding-top: 94px !important;
+    }
+    body.sektoren-page.scrolled-page {
+        padding-top: 60px !important;
+    }
+}
+
+/* ---------- PETIT MOBILE (max 480px) ---------- */
+@media (max-width: 480px) {
+    /* INDEX : vidéo juste sous le menu */
+    body.index-page.dashboard-page {
+        padding-top: 90px !important;
+    }
+    body.index-page.dashboard-page.scrolled-page {
+        padding-top: 58px !important;
+    }
+
+    /* SEKTOREN : segments juste sous le menu */
+    body.sektoren-page {
+        padding-top: 90px !important;
+    }
+    body.sektoren-page.scrolled-page {
+        padding-top: 58px !important;
+    }
+
+    /* On enlève le décalage interne du hero sur l'index */
+    body.index-page .home-hero {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+}
+
+/* ---------- TRÈS PETIT MOBILE (max 360px) ---------- */
+@media (max-width: 360px) {
+    body.index-page.dashboard-page {
+        padding-top: 88px !important;
+    }
+    body.index-page.dashboard-page.scrolled-page {
+        padding-top: 55px !important;
+    }
+
+    body.sektoren-page {
+        padding-top: 88px !important;
+    }
+    body.sektoren-page.scrolled-page {
+        padding-top: 55px !important;
+    }
+}
