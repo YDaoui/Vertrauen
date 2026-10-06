@@ -5647,3 +5647,171 @@ body.datenschutz-page {
         font-size: 0.78rem !important;
     }
 }
+/* ============================================================
+   SEKTOREN — AUCUN SEGMENT OUVERT PAR DÉFAUT (ACCORDÉON)
+   ============================================================ */
+
+/* Par défaut : tous les segments ont la même largeur, aucun actif */
+.sektoren-page .segment {
+    flex: 1 !important;
+    transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Aucun segment actif : pas de contenu caché visible */
+.sektoren-page .segment:not(.active) .segment-hidden-text {
+    opacity: 0 !important;
+    max-width: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+/* Quand un segment est actif : il s'élargit */
+.sektoren-page .segment.active {
+    flex: 3 !important;
+}
+
+/* ---------- RESPONSIVE MOBILE ---------- */
+@media (max-width: 900px) {
+    .sektoren-page .segment {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+    }
+
+    .sektoren-page .segment.active {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+    }
+}
+/* ============================================================
+   ✅ MOBILE SEKTOREN — MÊME STRUCTURE QUE DESKTOP
+   À placer à la toute fin du fichier
+   ============================================================ */
+@media (max-width: 900px) {
+
+    /* Contenu actif : colonne centrée */
+    .sektoren-page .segment.active .segment-content {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 30px 24px !important;
+        gap: 20px !important;
+    }
+
+    /* Bloc icône + titre + texte : aligné à gauche, centré en largeur */
+    .sektoren-page .segment.active .segment-bottom-group {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        gap: 12px !important;
+        width: 100% !important;
+        max-width: 620px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        position: relative !important;
+        bottom: auto !important;
+        left: auto !important;
+        transform: none !important;
+    }
+
+    /* Icône : au-dessus du titre, à gauche */
+    .sektoren-page .segment.active .segment-icon-wrapper {
+        width: 48px !important;
+        height: 48px !important;
+        align-self: flex-start !important;
+        margin: 0 0 4px 0 !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper svg {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    /* Titre : horizontal, à gauche, avec trait vert dessous */
+    .sektoren-page .segment.active .segment-word {
+        writing-mode: horizontal-tb !important;
+        text-align: left !important;
+        align-self: flex-start !important;
+        font-size: 1.8rem !important;
+        font-weight: 800 !important;
+        letter-spacing: 4px !important;
+        margin: 0 -4px 0 0 !important;
+        padding: 0 !important;
+        line-height: 1.1 !important;
+    }
+
+    .sektoren-page .segment.active .segment-word::after {
+        width: 44px !important;
+        height: 2px !important;
+        margin: 10px 0 0 0 !important;
+    }
+
+    /* Paragraphe : carte glass, texte à gauche */
+    .sektoren-page .segment.active .segment-hidden-text {
+        opacity: 1 !important;
+        max-width: 100% !important;
+        max-height: 500px !important;
+        overflow: visible !important;
+        pointer-events: auto !important;
+        padding: 16px 18px !important;
+        background: rgba(12, 37, 69, 0.55) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-left: 2px solid #54e50d !important;
+        border-radius: 6px !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        text-align: left !important;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45) !important;
+        margin: 0 0 0 -2px !important;
+        align-self: stretch !important;
+        font-size: 0.85rem !important;
+    }
+
+    .sektoren-page .segment.active .segment-hidden-text p {
+        text-align: left !important;
+        margin: 0 0 16px 0 !important;
+    }
+
+    .sektoren-page .segment.active .segment-hidden-text .btn-segment {
+        display: inline-flex !important;
+        margin: 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .sektoren-page .segment.active .segment-content {
+        padding: 24px 16px !important;
+        gap: 18px !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper {
+        width: 42px !important;
+        height: 42px !important;
+    }
+
+    .sektoren-page .segment.active .segment-icon-wrapper svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .sektoren-page .segment.active .segment-word {
+        font-size: 1.5rem !important;
+        letter-spacing: 3px !important;
+        margin-right: -3px !important;
+    }
+
+    .sektoren-page .segment.active .segment-word::after {
+        width: 36px !important;
+        margin-top: 8px !important;
+    }
+
+    .sektoren-page .segment.active .segment-hidden-text {
+        padding: 14px 16px !important;
+        font-size: 0.78rem !important;
+    }
+}

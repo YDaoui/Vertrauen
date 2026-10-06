@@ -2850,38 +2850,33 @@ window.deleteContract = async function(id) {
 };
 
 // =====================================================================
-// ===== BLOC 10 : SEKTOREN - GESTION DES SEGMENTS ====================
+// ===== BLOC 10 : SEKTOREN — GESTION DES SEGMENTS (ACCORDÉON) ========
 // =====================================================================
 function initSektorenPage() {
-    const segments = document.querySelectorAll('.segment');
+    const segments = document.querySelectorAll('.sektoren-page .segment');
     if (segments.length === 0) return;
 
-    let activeSegment = null;
+    // ✅ Aucun segment ouvert au démarrage
+    segments.forEach(seg => seg.classList.remove('active'));
 
     segments.forEach(segment => {
-        segment.addEventListener('click', function(e) {
-            e.stopPropagation();
-            
-            if (this.classList.contains('active')) {
-                this.classList.remove('active');
-                activeSegment = null;
-                return;
-            }
+        segment.addEventListener('click', function (e) {
+            // Si le clic vient d'un lien (bouton "Entdecken Sie…"), on laisse la navigation
+            if (e.target.closest('a')) return;
 
+            const isActive = this.classList.contains('active');
+
+            // Fermer TOUS les segments
             segments.forEach(seg => seg.classList.remove('active'));
-            this.classList.add('active');
-            activeSegment = this;
+
+            // Si le segment cliqué était fermé → on l'ouvre
+            // Si le segment cliqué était ouvert → il reste fermé (toggle)
+            if (!isActive) {
+                this.classList.add('active');
+            }
         });
     });
-
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.segment')) {
-            segments.forEach(seg => seg.classList.remove('active'));
-            activeSegment = null;
-        }
-    });
 }
-
 // =====================================================================
 // ===== SCROLL : masque le bandeau social, garde le header ===========
 // =====================================================================
