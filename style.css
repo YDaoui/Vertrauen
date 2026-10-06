@@ -6443,3 +6443,26 @@ body.login-page {
         padding-top: 55px !important;
     }
 }
+/* ============================================================
+   CADENAS LOGIN — VISIBLE UNIQUEMENT SUR LE MENU BLEU
+   Caché quand le header devient blanc (scrollé)
+   ============================================================ */
+
+/* Sur le menu blanc (scrollé) : cadenas masqué */
+.dashboard-header.scrolled .header-lock-icon,
+body.scrolled-page .dashboard-header .header-lock-icon {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(-50%) scale(0.85) !important;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+/* Sur le menu bleu (non scrollé) : cadenas visible et animé */
+.dashboard-header .header-lock-icon {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(-50%) scale(1);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
