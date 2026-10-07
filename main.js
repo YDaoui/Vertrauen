@@ -687,172 +687,40 @@ function initMeinPortalPage() {
 }
 
 // =====================================================================
-// ===== BLOC 1 : login.html ===========================================
+// ===== BLOC 1 : pageadmin.html (login) ==============================
 // =====================================================================
 function initLoginPage() {
   const loginForm = document.getElementById('login-form');
-  const regForm = document.getElementById('registration-form');
-  if (!loginForm || !regForm) return;
+  // ⚠️ On ne teste plus regForm : il n'existe plus sur pageadmin.html
+  if (!loginForm) return;
 
   const loginContainer = document.getElementById('login-form-container');
-  const registrationContainer = document.getElementById('registration-form-container');
   const forgotContainer = document.getElementById('forgot-form-container');
-
-  const showRegLink = document.getElementById('show-registration-link');
-  const hideRegLink = document.getElementById('hide-registration-link');
   const forgotLink = document.getElementById('forgot-link');
   const backToLoginLink = document.getElementById('back-to-login-link');
 
-  function resetRegistrationForm() {
-    document.getElementById('email').value = '';
-    document.getElementById('email_wdh').value = '';
-    document.getElementById('vorname').value = '';
-    document.getElementById('nachname').value = '';
-    document.getElementById('tel_vorwahl').value = '';
-    document.getElementById('tel_nummer').value = '';
-    document.getElementById('fax_vorwahl').value = '';
-    document.getElementById('fax_nummer').value = '';
-    document.getElementById('reg-password').value = '';
-    document.getElementById('reg-password-confirm').value = '';
-    document.getElementById('datenschutz').checked = false;
-    document.getElementById('register-message').textContent = '';
-    document.getElementById('password-fields').style.display = 'none';
-    document.getElementById('register-btn').textContent = 'Registrieren';
-    document.getElementById('register-btn').dataset.emailVerified = 'false';
-    document.getElementById('email').dataset.validated = '';
+  // --- Navigation : lien "Passwort vergessen ?" ---
+  if (forgotLink) {
+    forgotLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      loginContainer.style.display = 'none';
+      if (forgotContainer) forgotContainer.style.display = 'block';
+      const fm = document.getElementById('forgot-message');
+      if (fm) fm.textContent = '';
+    });
   }
 
-  showRegLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    loginContainer.style.display = 'none';
-    forgotContainer.style.display = 'none';
-    registrationContainer.style.display = 'block';
-    resetRegistrationForm();
-  });
+  if (backToLoginLink) {
+    backToLoginLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (forgotContainer) forgotContainer.style.display = 'none';
+      loginContainer.style.display = 'block';
+    });
+  }
 
-  hideRegLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    registrationContainer.style.display = 'none';
-    forgotContainer.style.display = 'none';
-    loginContainer.style.display = 'block';
-  });
-
-  forgotLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    loginContainer.style.display = 'none';
-    registrationContainer.style.display = 'none';
-    forgotContainer.style.display = 'block';
-    document.getElementById('forgot-message').textContent = '';
-  });
-
-  backToLoginLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    forgotContainer.style.display = 'none';
-    registrationContainer.style.display = 'none';
-    loginContainer.style.display = 'block';
-  });
-
-  const regMessage = document.getElementById('register-message');
-  const registerBtn = document.getElementById('register-btn');
-
-  regForm.addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    if (registerBtn.dataset.emailVerified !== 'true') {
-      const email = document.getElementById('email').value.trim();
-      const emailWdh = document.getElementById('email_wdh').value.trim();
-      const vorname = document.getElementById('vorname').value.trim();
-      const nachname = document.getElementById('nachname').value.trim();
-      const datenschutz = document.getElementById('datenschutz').checked;
-
-      if (!email || !emailWdh || !vorname || !nachname) {
-        regMessage.textContent = 'Bitte füllen Sie alle Pflichtfelder aus. / Veuillez remplir tous les champs obligatoires.';
-        regMessage.style.color = '#cc0000';
-        return;
-      }
-      if (email !== emailWdh) {
-        regMessage.textContent = 'E-Mail-Adressen stimmen nicht überein. / Les adresses e-mail ne correspondent pas.';
-        regMessage.style.color = '#cc0000';
-        return;
-      }
-      if (!datenschutz) {
-        regMessage.textContent = 'Bitte akzeptieren Sie die Datenschutzbestimmungen. / Veuillez accepter les conditions.';
-        regMessage.style.color = '#cc0000';
-        return;
-      }
-
-      try {
-        const exists = await emailExists(email);
-        if (exists) {
-          regMessage.textContent = 'Diese E-Mail ist bereits registriert. / Cet e-mail est déjà enregistré.';
-          regMessage.style.color = '#cc0000';
-          document.getElementById('password-fields').style.display = 'none';
-          registerBtn.dataset.emailVerified = 'false';
-        } else {
-          regMessage.textContent = 'E-Mail ist frei. Bitte Passwort festlegen. / L\'e-mail est libre.';
-          regMessage.style.color = '#008000';
-          document.getElementById('password-fields').style.display = 'block';
-          registerBtn.dataset.emailVerified = 'true';
-          registerBtn.textContent = 'Passwort speichern';
-          document.getElementById('email').dataset.validated = email;
-        }
-      } catch (error) {
-        console.error('Firebase error:', error);
-        regMessage.textContent = 'Fehler bei der Verbindung zur Datenbank.';
-        regMessage.style.color = '#cc0000';
-      }
-    } else {
-      const email = document.getElementById('email').dataset.validated;
-      const password = document.getElementById('reg-password').value;
-      const passwordConfirm = document.getElementById('reg-password-confirm').value;
-      const anrede = document.getElementById('anrede').value;
-      const vorname = document.getElementById('vorname').value.trim();
-      const nachname = document.getElementById('nachname').value.trim();
-      const telVorwahl = document.getElementById('tel_vorwahl').value.trim();
-      const telNummer = document.getElementById('tel_nummer').value.trim();
-      const faxVorwahl = document.getElementById('fax_vorwahl').value.trim();
-      const faxNummer = document.getElementById('fax_nummer').value.trim();
-      const datenschutz = document.getElementById('datenschutz').checked;
-
-      if (!password || !passwordConfirm) {
-        regMessage.textContent = 'Bitte Passwort und Bestätigung eingeben.';
-        regMessage.style.color = '#cc0000';
-        return;
-      }
-      if (password !== passwordConfirm) {
-        regMessage.textContent = 'Passwörter stimmen nicht überein.';
-        regMessage.style.color = '#cc0000';
-        return;
-      }
-      if (!datenschutz) {
-        regMessage.textContent = 'Bitte akzeptieren Sie die Datenschutzbestimmungen.';
-        regMessage.style.color = '#cc0000';
-        return;
-      }
-
-      const telefon = telVorwahl + ' ' + telNummer;
-      const fax = faxVorwahl + ' ' + faxNummer;
-
-      const userData = {
-        anrede, vorname, nachname, telefon, fax,
-        password: password,
-        created_at: new Date().toISOString()
-      };
-
-      try {
-        await createUser({ email, ...userData });
-        regMessage.textContent = 'Registrierung erfolgreich! Sie können sich jetzt anmelden.';
-        regMessage.style.color = '#008000';
-        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
-      } catch (error) {
-        console.error('Firebase error:', error);
-        regMessage.textContent = 'Fehler beim Speichern des Benutzers.';
-        regMessage.style.color = '#cc0000';
-      }
-    }
-  });
-
+  // --- Soumission du formulaire de connexion ---
   const loginMsg = document.getElementById('login-message');
+
   loginForm.addEventListener('submit', async function (e) {
     e.preventDefault();
     const email = document.getElementById('user').value.trim();
@@ -876,7 +744,9 @@ function initLoginPage() {
 
         loginMsg.textContent = 'Login erfolgreich! Weiterleitung ...';
         loginMsg.style.color = '#008000';
-        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+
+        // ✅ Redirection vers sektoren.html
+        setTimeout(() => { window.location.href = 'sektoren.html'; }, 800);
       } else {
         loginMsg.textContent = 'E-Mail oder Passwort falsch.';
         loginMsg.style.color = '#cc0000';
@@ -888,6 +758,7 @@ function initLoginPage() {
     }
   });
 
+  // --- Formulaire "Passwort vergessen" ---
   const forgotForm = document.getElementById('forgot-form');
   if (forgotForm) {
     const forgotMsg = document.getElementById('forgot-message');
