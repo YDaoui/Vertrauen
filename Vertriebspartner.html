@@ -116,7 +116,12 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                     Als <span class="accent">B2B</span>-Vertriebspartner der <span class="accent">DL-Distri</span> profitieren Sie von Reichweite, Erfahrung und Vernetzung! Registrieren Sie sich jetzt!
                 </h3>
 
-                <form class="vp-form" action="#" method="POST">
+                <form class="vp-form" action="https://formsubmit.co/d6b69ca1bd3be32c7915fa4dd6e04bf0" method="POST">
+                    <!-- Sujet de l'e-mail -->
+                    <input type="hidden" name="_subject" value="B2B" />
+                    <input type="hidden" name="_captcha" value="false" />
+                    <input type="hidden" name="_template" value="table" />
+                    <!-- Champs cachés supplémentaires (optionnel) -->
                     <input type="hidden" name="angle" value="B2B" />
 
                     <div class="form-group">
@@ -153,10 +158,10 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                     <div class="form-group">
                         <label>Ich interessiere mich für... <span class="required">*</span></label>
                         <div class="checkbox-group">
-                            <label><input type="checkbox" name="interesse" value="Strom/Gas" /> Strom/Gas</label>
-                            <label><input type="checkbox" name="interesse" value="Gewerbe (SLP, RLM)" /> Gewerbe (SLP, RLM)</label>
-                            <label><input type="checkbox" name="interesse" value="Telekommunikation" /> Telekommunikation</label>
-                            <label><input type="checkbox" name="interesse" value="Glasfaser" /> Glasfaser</label>
+                            <label><input type="checkbox" name="interesse[]" value="Strom/Gas" /> Strom/Gas</label>
+                            <label><input type="checkbox" name="interesse[]" value="Gewerbe (SLP, RLM)" /> Gewerbe (SLP, RLM)</label>
+                            <label><input type="checkbox" name="interesse[]" value="Telekommunikation" /> Telekommunikation</label>
+                            <label><input type="checkbox" name="interesse[]" value="Glasfaser" /> Glasfaser</label>
                         </div>
                     </div>
 
@@ -188,7 +193,11 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                     Als <span class="accent">B2C</span>-Vertriebspartner der <span class="accent">DL-Distri</span> profitieren Sie von Reichweite, Erfahrung und Vernetzung! Registrieren Sie sich jetzt!
                 </h3>
 
-                <form class="vp-form" action="#" method="POST">
+                <form class="vp-form" action="https://formsubmit.co/d6b69ca1bd3be32c7915fa4dd6e04bf0" method="POST">
+                    <!-- Sujet de l'e-mail -->
+                    <input type="hidden" name="_subject" value="B2C" />
+                    <input type="hidden" name="_captcha" value="false" />
+                    <input type="hidden" name="_template" value="table" />
                     <input type="hidden" name="angle" value="B2C" />
 
                     <div class="form-group">
@@ -225,10 +234,10 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                     <div class="form-group">
                         <label>Ich interessiere mich für... <span class="required">*</span></label>
                         <div class="checkbox-group">
-                            <label><input type="checkbox" name="interesse" value="Strom/Gas" /> Strom/Gas</label>
-                            <label><input type="checkbox" name="interesse" value="Gewerbe (SLP, RLM)" /> Gewerbe (SLP, RLM)</label>
-                            <label><input type="checkbox" name="interesse" value="Telekommunikation" /> Telekommunikation</label>
-                            <label><input type="checkbox" name="interesse" value="Glasfaser" /> Glasfaser</label>
+                            <label><input type="checkbox" name="interesse[]" value="Strom/Gas" /> Strom/Gas</label>
+                            <label><input type="checkbox" name="interesse[]" value="Gewerbe (SLP, RLM)" /> Gewerbe (SLP, RLM)</label>
+                            <label><input type="checkbox" name="interesse[]" value="Telekommunikation" /> Telekommunikation</label>
+                            <label><input type="checkbox" name="interesse[]" value="Glasfaser" /> Glasfaser</label>
                         </div>
                     </div>
 
@@ -488,6 +497,85 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                 });
             }
             document.addEventListener('DOMContentLoaded', initTabs);
+        })();
+    </script>
+
+    <!-- ===== SOUMISSION AJAX FORMSUBMIT (pas de redirection) ===== -->
+    <script>
+        (function () {
+            // Hash FormSubmit (protection anti-spam)
+            const FORMSUBMIT_HASH = 'd6b69ca1bd3be32c7915fa4dd6e04bf0';
+            const AJAX_ENDPOINT = 'https://formsubmit.co/ajax/' + FORMSUBMIT_HASH;
+
+            function showMessage(form, type, text) {
+                // Supprime l'ancien message s'il existe
+                const old = form.querySelector('.vp-form-message');
+                if (old) old.remove();
+
+                const p = document.createElement('p');
+                p.className = 'vp-form-message ' + type;
+                p.textContent = text;
+                p.style.textAlign = 'center';
+                p.style.fontWeight = '600';
+                p.style.marginTop = '15px';
+                p.style.fontSize = '1rem';
+                p.style.color = (type === 'success') ? '#54e50d' : '#ff6b6b';
+                form.appendChild(p);
+            }
+
+            function initFormFeedback() {
+                document.querySelectorAll('.vp-form').forEach(function (form) {
+                    form.addEventListener('submit', async function (e) {
+                        e.preventDefault();
+
+                        const btn = form.querySelector('button[type="submit"]');
+                        const originalText = btn ? btn.textContent : '';
+
+                        if (btn) {
+                            btn.disabled = true;
+                            btn.textContent = 'Wird gesendet ...';
+                        }
+
+                        const formData = new FormData(form);
+
+                        try {
+                            const response = await fetch(AJAX_ENDPOINT, {
+                                method: 'POST',
+                                body: formData,
+                                headers: { 'Accept': 'application/json' }
+                            });
+
+                            const data = await response.json();
+
+                            if (data.success === 'true' || data.success === true) {
+                                showMessage(form, 'success',
+                                    '✅ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.');
+                                form.reset();
+
+                                setTimeout(function () {
+                                    if (btn) {
+                                        btn.disabled = false;
+                                        btn.textContent = originalText;
+                                    }
+                                }, 3000);
+                            } else {
+                                throw new Error(data.message || 'Unbekannter Fehler');
+                            }
+
+                        } catch (error) {
+                            console.error('FormSubmit error:', error);
+                            showMessage(form, 'error',
+                                '❌ Fehler beim Senden. Bitte versuchen Sie es später erneut.');
+                            if (btn) {
+                                btn.disabled = false;
+                                btn.textContent = originalText;
+                            }
+                        }
+                    });
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', initFormFeedback);
         })();
     </script>
 
