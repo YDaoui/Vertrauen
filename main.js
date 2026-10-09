@@ -746,7 +746,7 @@ function initLoginPage() {
         loginMsg.style.color = '#008000';
 
         // ✅ Redirection vers sektoren.html
-        setTimeout(() => { window.location.href = 'sektoren.html'; }, 800);
+        setTimeout(() => { window.location.href = 'admin.html'; }, 800);
       } else {
         loginMsg.textContent = 'E-Mail oder Passwort falsch.';
         loginMsg.style.color = '#cc0000';

@@ -6466,3 +6466,402 @@ body.scrolled-page .dashboard-header .header-lock-icon {
     transform: translateY(-50%) scale(1);
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
+
+/* =====================================================
+   ADMIN – Fichier dédié à la page admin.html
+   Réutilise : .vp-form-card, .vp-tabs, .vp-tab, .vp-tab-panel,
+               .vp-title-1/2, .vp-divider, .accent, .form-control,
+               .btn-senden, .vd-footer
+   ===================================================== */
+
+:root {
+    --adm-green:   #54e50d;
+    --adm-blue:    #0c2545;
+    --adm-blue-2:  #1a3d6a;
+    --adm-text:    #1b2433;
+    --adm-border:  rgba(0, 0, 0, .10);
+}
+
+/* =====================================================
+   STRUCTURE GLOBALE
+   ===================================================== */
+body.admin-page {
+    margin: 0;
+    background: #f3f6fb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body.admin-page .adm-main {
+    flex: 1 0 auto;
+}
+
+body.admin-page .vd-footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+/* =====================================================
+   HEADER ADMIN
+   ===================================================== */
+.adm-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 28px;
+    background: linear-gradient(135deg, var(--adm-blue), var(--adm-blue-2));
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .25);
+}
+.adm-header .logo-link img {
+    height: 46px;
+    display: block;
+}
+.adm-header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.adm-user {
+    color: #fff;
+    font-size: .9rem;
+    opacity: .9;
+}
+.adm-logout {
+    padding: 8px 18px !important;
+    font-size: .85rem !important;
+}
+
+/* =====================================================
+   LAYOUT PRINCIPAL
+   ===================================================== */
+.adm-main {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px 16px 48px;
+    box-sizing: border-box;
+}
+.adm-card {
+    max-width: 100%;
+    margin: 0 auto;
+    background: #ffffff !important;
+    border: 1px solid var(--adm-border);
+}
+
+/* Titre de la carte admin */
+.admin-page .adm-card .vp-title-1 {
+    color: var(--adm-blue) !important;
+}
+.admin-page .adm-card .vp-title-2 {
+    color: #6a7b91 !important;
+}
+
+/* =====================================================
+   ONGLETS ADMIN (4 colonnes, pas de pilule glissante)
+   ===================================================== */
+.adm-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px;
+    background: #f3f6fb !important;
+    padding: 6px !important;
+    border-radius: 12px !important;
+    border: 1px solid var(--adm-border) !important;
+    box-shadow: none !important;
+    margin: 0 0 30px !important;
+}
+
+/* On désactive la pilule glissante du style global (prévue pour 2 onglets) */
+.adm-tabs::before {
+    display: none !important;
+}
+
+/* Onglets (inactifs) */
+.adm-tabs .vp-tab {
+    min-width: 0;
+    padding: 14px 10px !important;
+    background: transparent !important;
+    border-radius: 8px !important;
+    transition: background .25s ease, transform .2s ease !important;
+}
+.adm-tabs .vp-tab:hover:not(.active) {
+    background: rgba(84, 229, 13, 0.10) !important;
+}
+
+/* Onglet actif */
+.adm-tabs .vp-tab.active {
+    background: linear-gradient(135deg, var(--adm-green), #46c40a) !important;
+    box-shadow: 0 4px 14px rgba(84, 229, 13, 0.35) !important;
+}
+.adm-tabs .vp-tab.active .vp-tab-title {
+    color: var(--adm-blue) !important;
+}
+.adm-tabs .vp-tab.active .vp-tab-sub {
+    color: rgba(12, 37, 69, 0.75) !important;
+}
+
+/* Tailles de texte */
+.adm-tabs .vp-tab-title {
+    font-size: 1rem !important;
+    letter-spacing: 1.5px !important;
+}
+.adm-tabs .vp-tab-sub {
+    font-size: 0.68rem !important;
+    letter-spacing: 1.2px !important;
+}
+
+/* =====================================================
+   PANNEAUX
+   ===================================================== */
+.admin-page .vp-tab-panel {
+    display: none;
+}
+.admin-page .vp-tab-panel.active {
+    display: block;
+    animation: admSlideFade .4s cubic-bezier(.22, 1, .36, 1);
+}
+@keyframes admSlideFade {
+    0%   { opacity: 0; transform: translateY(14px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.admin-page .vp-tab-panel h3 {
+    color: var(--adm-text);
+    margin: 22px 0 14px;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+.admin-page .vp-tab-panel h3 .accent {
+    color: var(--adm-green);
+}
+
+/* =====================================================
+   BARRE D'OUTILS
+   ===================================================== */
+.adm-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.adm-search {
+    flex: 1;
+    max-width: 360px;
+}
+.adm-count {
+    min-width: 34px;
+    text-align: center;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--adm-green);
+    color: #0b1a05;
+    font-weight: 700;
+    font-size: .85rem;
+}
+
+/* =====================================================
+   TABLEAUX
+   ===================================================== */
+.adm-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--adm-border);
+    border-radius: 12px;
+    background: #fff;
+}
+.adm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .88rem;
+    color: var(--adm-text);
+}
+.adm-table thead th {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(135deg, var(--adm-blue), var(--adm-blue-2));
+    color: #fff;
+    text-align: left;
+    padding: 12px 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.adm-table tbody td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--adm-border);
+    vertical-align: top;
+}
+.adm-table tbody tr:nth-child(even) { background: #f7f9fd; }
+.adm-table tbody tr:hover { background: rgba(84, 229, 13, .10); }
+.adm-table a {
+    color: var(--adm-blue-2);
+    text-decoration: none;
+}
+.adm-table a:hover { text-decoration: underline; }
+
+.adm-msg-cell {
+    max-width: 320px;
+    word-break: break-word;
+}
+.adm-empty {
+    text-align: center;
+    padding: 28px;
+    opacity: .6;
+}
+
+/* Badge vert */
+.adm-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--adm-green);
+    color: #0b1a05;
+    font-weight: 700;
+    font-size: .75rem;
+}
+
+/* Bouton supprimer */
+.adm-del {
+    background: transparent;
+    border: 1px solid #ff6b6b;
+    color: #ff6b6b;
+    padding: 5px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: .8rem;
+    transition: all .2s;
+}
+.adm-del:hover {
+    background: #ff6b6b;
+    color: #fff;
+}
+
+/* =====================================================
+   PANNEAU SETTINGS
+   ===================================================== */
+.adm-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+.adm-info > div {
+    background: #fff;
+    border: 1px solid var(--adm-border);
+    border-left: 4px solid var(--adm-green);
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.adm-info span {
+    font-size: .8rem;
+    opacity: .65;
+}
+.adm-info strong {
+    color: var(--adm-text);
+    word-break: break-all;
+}
+
+.adm-msg {
+    text-align: center;
+    font-weight: 600;
+    min-height: 1.2em;
+}
+.adm-msg.success { color: var(--adm-green); }
+.adm-msg.error   { color: #ff6b6b; }
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+@media (max-width: 900px) {
+    .adm-tabs {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .adm-tabs .vp-tab-title {
+        font-size: 0.9rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .adm-header {
+        padding: 10px 14px;
+    }
+    .adm-user {
+        display: none;
+    }
+    .adm-main {
+        padding: 20px 12px 36px;
+    }
+    .adm-search {
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .adm-tabs {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px;
+    }
+    .adm-tabs .vp-tab {
+        padding: 10px 6px !important;
+    }
+    .adm-tabs .vp-tab-title {
+        font-size: 0.78rem !important;
+        letter-spacing: 1px !important;
+    }
+    .adm-tabs .vp-tab-sub {
+        font-size: 0.58rem !important;
+        letter-spacing: 0.8px !important;
+    }
+    .adm-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .adm-count {
+        align-self: flex-end;
+    }
+    .adm-table {
+        font-size: 0.8rem;
+    }
+    .adm-table thead th,
+    .adm-table tbody td {
+        padding: 8px 10px;
+    }
+}
+/* ===== TITRE D'ACCUEIL (utilisateur connecté) ===== */
+.home-hero-head .hero-h2.welcome-heading {
+    color: #A0AAB5;               /* gris clair */
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.home-hero-head .hero-h2.welcome-heading .welcome-label {
+    color: #A0AAB5;               /* gris clair */
+}
+.home-hero-head .hero-h2.welcome-heading .welcome-name {
+    color: #54e50d;               /* vert */
+}
+
+/* ===== ICÔNE PERSONNE (utilisateur connecté) ===== */
+.dashboard-header .header-lock-icon.is-logged-in {
+    border-color: #54e50d;
+    color: #54e50d;
+    background: rgba(84, 229, 13, 0.08);
+}
+.dashboard-header .header-lock-icon.is-logged-in:hover {
+    background: #54e50d;
+    color: #0c2545;
+    box-shadow: 0 4px 15px rgba(84, 229, 13, 0.45);
+}
+
+@media (max-width: 900px) {
+    .home-hero-head .hero-h2.welcome-heading { font-size: 1.1rem; }
+}
+@media (max-width: 480px) {
+    .home-hero-head .hero-h2.welcome-heading { font-size: 0.95rem; }
+}

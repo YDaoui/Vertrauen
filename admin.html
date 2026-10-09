@@ -1,747 +1,964 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin – Vertrauen Distributor</title>
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-EV3MLGBFYW');
-  </script>
-  <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
-  <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vertrauen Distributor – Willkommen</title>
 
-  <!-- Flatpickr CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EV3MLGBFYW');
+    </script>
 
-  <!-- ===== Styles du combo personnalisé ===== -->
-  <style>
-    .custom-select {
-      position: relative;
-      width: 100%;
-      font-family: inherit;
-    }
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
+    <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
 
-    .custom-select-trigger {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-      min-height: 44px;
-      padding: 8px 14px;
-      background: #1b1f27;
-      border: 1px solid #6a7b91;
-      border-radius: 8px;
-      color: #ffffff;
-      font-size: 14px;
-      text-align: left;
-      cursor: pointer;
-      box-sizing: border-box;
-      transition: border-color 0.15s ease;
-    }
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="style.css" />
 
-    .custom-select-trigger:hover {
-      border-color: #54e50d;
-    }
+    <!-- ===== Styles onglets style ADMIN appliqués aux segments ===== -->
+    <style>
+        .home-segments-box {
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            margin: 40px auto 10px !important;
+            max-width: 1200px !important;
+        }
 
-    .custom-select.open .custom-select-trigger {
-      border-color: #54e50d;
-    }
+        .home-segments-row {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 8px !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            padding: 6px !important;
+            border-radius: 12px !important;
+            border: 1px solid rgba(84, 229, 13, 0.25) !important;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25) !important;
+            width: 100% !important;
+            border-top: none !important;
+        }
 
-    .custom-select-trigger-placeholder {
-      color: #6a7b91;
-    }
+        .home-segment-tab {
+            all: unset;
+            box-sizing: border-box;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 4px !important;
+            padding: 16px 12px !important;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease !important;
+            position: relative !important;
+            border-right: none !important;
+            background: transparent !important;
+            text-align: center !important;
+            min-width: 0 !important;
+        }
 
-    .custom-select-trigger-logo {
-      width: 26px;
-      height: 26px;
-      object-fit: contain;
-      border-radius: 4px;
-      background: #ffffff;
-      padding: 2px;
-      flex-shrink: 0;
-    }
+        .home-segment-tab:hover:not(.active) {
+            background: rgba(84, 229, 13, 0.10) !important;
+            transform: translateY(-1px) !important;
+        }
 
-    .custom-select-trigger-name {
-      color: #ffffff;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+        .home-segment-tab.active {
+            background: linear-gradient(135deg, #54e50d 0%, #46c40a 100%) !important;
+            box-shadow: 0 4px 14px rgba(84, 229, 13, 0.35) !important;
+        }
 
-    .custom-select-trigger::after {
-      content: '▾';
-      margin-left: auto;
-      color: #6a7b91;
-      flex-shrink: 0;
-    }
+        .home-segment-tab .tab-title {
+            font-size: 0.9rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 1.2px !important;
+            text-transform: uppercase !important;
+            color: #A0AAB5 !important;
+            transition: color 0.25s ease !important;
+            margin: 0 !important;
+            line-height: 1.2 !important;
+        }
 
-    .custom-select-panel {
-      display: none;
-      position: absolute;
-      top: calc(100% + 6px);
-      left: 0;
-      right: 0;
-      max-height: 260px;
-      overflow-y: auto;
-      background: #1b1f27;
-      border: 1px solid #6a7b91;
-      border-radius: 8px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      z-index: 50;
-    }
+        .home-segment-tab:hover:not(.active) .tab-title {
+            color: #54e50d !important;
+        }
 
-    .custom-select.open .custom-select-panel {
-      display: block;
-    }
+        .home-segment-tab.active .tab-title {
+            color: #0c2545 !important;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+        }
 
-    .custom-select-option {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 14px;
-      cursor: pointer;
-      transition: background 0.1s ease;
-    }
+        .home-segment-tab .tab-sub {
+            font-size: 0.65rem !important;
+            font-weight: 500 !important;
+            letter-spacing: 1.2px !important;
+            text-transform: uppercase !important;
+            color: #4a5568 !important;
+            transition: color 0.25s ease !important;
+        }
 
-    .custom-select-option:hover {
-      background: rgba(84, 229, 13, 0.12);
-    }
+        .home-segment-tab.active .tab-sub {
+            color: rgba(12, 37, 69, 0.75) !important;
+        }
 
-    .custom-select-option.selected {
-      background: rgba(84, 229, 13, 0.2);
-    }
+        .home-segment-tab .tab-arrow { display: none !important; }
+        .home-segment-tab.active::after { display: none !important; }
 
-    .custom-select-option-logo {
-      width: 28px;
-      height: 28px;
-      object-fit: contain;
-      border-radius: 4px;
-      background: #ffffff;
-      padding: 2px;
-      flex-shrink: 0;
-    }
+        /* ===== EN-TÊTE ===== */
+        .home-hero {
+            background: #0c2545 !important;
+            padding: 40px 40px 20px !important;
+            min-height: auto !important;
+            height: auto !important;
+        }
+        .home-hero-inner {
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+        }
+        .home-hero-head {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .home-hero-head .hero-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .home-hero-head .green-bar {
+            width: 36px;
+            height: 3px;
+            background: #54e50d;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        .home-hero-head .hero-label span:not(.green-bar) {
+            color: #A0AAB5;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .home-hero-head .hero-h1 {
+            color: #FFFFFF;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            line-height: 1.05;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        .home-hero-head .hero-h2 {
+            color: #54e50d;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 4px 0 0;
+            line-height: 1.2;
+        }
+        .home-hero-paragraph {
+            color: #A0AAB5;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 900px;
+            margin: 20px 0 0;
+        }
 
-    .custom-select-option-name {
-      color: #ffffff;
-      font-size: 14px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    /* ===== STYLE DES CONTRATS ===== */
-    .contract-form-container {
-      display: none;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      padding: 20px;
-      margin: 20px 0;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .contract-form-container.active {
-      display: block;
-    }
-
-    .contract-info-display {
-      background: rgba(84, 229, 13, 0.08);
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin: 10px 0;
-      border-left: 3px solid #54e50d;
-    }
-
-    .contract-info-display .info-label {
-      color: #6a7b91;
-      font-size: 12px;
-    }
-
-    .contract-info-display .info-value {
-      color: #ffffff;
-      font-weight: bold;
-      font-size: 15px;
-    }
-
-    /* ===== STYLE DES ITEMS CONTRATS (comme les offres) ===== */
-    .contract-item {
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin-bottom: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      transition: all 0.2s ease;
-    }
-
-    .contract-item:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(84, 229, 13, 0.2);
-    }
-
-    .contract-item .contract-info {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      flex: 1;
-    }
-
-    .contract-item .contract-info .contract-user {
-      color: #54e50d;
-      font-weight: 600;
-      font-size: 15px;
-    }
-
-    .contract-item .contract-info .contract-details {
-      color: #ffffff;
-      font-size: 14px;
-    }
-
-    .contract-item .contract-info .contract-dates {
-      color: #6a7b91;
-      font-size: 13px;
-    }
-
-    .contract-item .contract-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    /* ===== BOUTONS CONTRATS (même style que les offres) ===== */
-    .contract-item .contract-actions button {
-      padding: 6px 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-
-    .contract-item .contract-actions .edit-btn {
-      background: rgba(84, 229, 13, 0.15);
-      color: #54e50d;
-      border: 1px solid rgba(84, 229, 13, 0.3);
-    }
-
-    .contract-item .contract-actions .edit-btn:hover {
-      background: rgba(84, 229, 13, 0.3);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(84, 229, 13, 0.2);
-    }
-
-    .contract-item .contract-actions .delete-btn {
-      background: rgba(255, 107, 107, 0.15);
-      color: #ff6b6b;
-      border: 1px solid rgba(255, 107, 107, 0.3);
-    }
-
-    .contract-item .contract-actions .delete-btn:hover {
-      background: rgba(255, 107, 107, 0.3);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
-    }
-
-    /* ===== RECHERCHE UTILISATEUR ===== */
-    .search-input {
-      position: relative;
-    }
-
-    .search-input input {
-      width: 100%;
-      padding: 10px 14px;
-      background: #1b1f27;
-      border: 1px solid #6a7b91;
-      border-radius: 8px;
-      color: #ffffff;
-      font-size: 14px;
-      transition: border-color 0.15s ease;
-    }
-
-    .search-input input:focus {
-      border-color: #54e50d;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(84, 229, 13, 0.15);
-    }
-
-    .search-results {
-      position: absolute;
-      top: calc(100% + 4px);
-      left: 0;
-      right: 0;
-      max-height: 200px;
-      overflow-y: auto;
-      background: #1b1f27;
-      border: 1px solid #6a7b91;
-      border-radius: 8px;
-      z-index: 50;
-      display: none;
-    }
-
-    .search-results.show {
-      display: block;
-    }
-
-    .search-results .result-item {
-      padding: 8px 14px;
-      cursor: pointer;
-      color: #ffffff;
-      transition: background 0.1s ease;
-    }
-
-    .search-results .result-item:hover {
-      background: rgba(84, 229, 13, 0.12);
-    }
-
-    .search-results .result-item .result-email {
-      color: #6a7b91;
-      font-size: 12px;
-    }
-
-    /* ===== STYLE DES DATEPICKERS SUR LA MÊME LIGNE ===== */
-    .form-row-dates {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .form-row-dates .form-group {
-      flex: 1;
-      min-width: 150px;
-    }
-
-    /* ===== STYLE FLATPICKR PERSONNALISE ===== */
-    .flatpickr-calendar {
-      background: #1b1f27 !important;
-      border: 1px solid #6a7b91 !important;
-      border-radius: 8px !important;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
-    }
-
-    .flatpickr-calendar .flatpickr-month {
-      color: #ffffff !important;
-      background: #1b1f27 !important;
-    }
-
-    .flatpickr-calendar .flatpickr-current-month .flatpickr-monthDropdown-months,
-    .flatpickr-calendar .flatpickr-current-month input.cur-year {
-      color: #ffffff !important;
-      background: #1b1f27 !important;
-    }
-
-    .flatpickr-calendar .flatpickr-weekdays {
-      background: #1b1f27 !important;
-    }
-
-    .flatpickr-calendar .flatpickr-weekday {
-      color: #54e50d !important;
-    }
-
-    .flatpickr-calendar .flatpickr-day {
-      color: #ffffff !important;
-      border-radius: 4px !important;
-    }
-
-    .flatpickr-calendar .flatpickr-day:hover {
-      background: rgba(84, 229, 13, 0.15) !important;
-      border-color: #54e50d !important;
-    }
-
-    .flatpickr-calendar .flatpickr-day.selected {
-      background: #54e50d !important;
-      border-color: #54e50d !important;
-      color: #1b1f27 !important;
-    }
-
-    .flatpickr-calendar .flatpickr-day.today {
-      border-color: #54e50d !important;
-    }
-
-    .flatpickr-calendar .flatpickr-day.inRange {
-      background: rgba(84, 229, 13, 0.2) !important;
-      border-color: rgba(84, 229, 13, 0.3) !important;
-    }
-
-    .flatpickr-calendar .flatpickr-day.prevMonthDay,
-    .flatpickr-calendar .flatpickr-day.nextMonthDay {
-      color: #6a7b91 !important;
-    }
-
-    .flatpickr-calendar .flatpickr-months .flatpickr-prev-month,
-    .flatpickr-calendar .flatpickr-months .flatpickr-next-month {
-      color: #6a7b91 !important;
-    }
-
-    .flatpickr-calendar .flatpickr-months .flatpickr-prev-month:hover,
-    .flatpickr-calendar .flatpickr-months .flatpickr-next-month:hover {
-      color: #54e50d !important;
-    }
-
-    .flatpickr-calendar .flatpickr-prev-month svg,
-    .flatpickr-calendar .flatpickr-next-month svg {
-      fill: #6a7b91 !important;
-    }
-
-    .flatpickr-calendar .flatpickr-prev-month:hover svg,
-    .flatpickr-calendar .flatpickr-next-month:hover svg {
-      fill: #54e50d !important;
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .form-row-dates {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .contract-item {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .contract-item .contract-actions {
-        width: 100%;
-        justify-content: flex-start;
-      }
-    }
-  </style>
+        @media (max-width: 900px) {
+            .home-hero { padding: 30px 20px 15px !important; }
+            .home-hero-head .hero-h1 { font-size: 2.2rem; letter-spacing: 2px; }
+            .home-hero-head .hero-h2 { font-size: 1.1rem; }
+            .home-segments-row { grid-template-columns: repeat(2, 1fr) !important; gap: 6px !important; }
+            .home-segment-tab { padding: 12px 8px !important; }
+            .home-segment-tab .tab-title { font-size: 0.78rem !important; letter-spacing: 1px !important; }
+            .home-segment-tab .tab-sub { font-size: 0.58rem !important; letter-spacing: 0.8px !important; }
+        }
+        @media (max-width: 480px) {
+            .home-hero-head .hero-h1 { font-size: 1.6rem; letter-spacing: 1.5px; }
+            .home-hero-head .hero-h2 { font-size: 0.95rem; }
+            .home-segment-tab { padding: 10px 6px !important; }
+            .home-segment-tab .tab-title { font-size: 0.72rem !important; }
+            .home-segment-tab .tab-sub { font-size: 0.52rem !important; }
+        }
+    </style>
 </head>
-<body class="dashboard-page">
 
-  <!-- ===== BANDEAU RÉSEAUX SOCIAUX ===== -->
-  <div class="social-top-bar">
-    <div class="social-top-bar-content">
-      <div class="social-icons">
-        <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
-        </a>
-        <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
-          </svg>
-        </a>
-        <a href="https://twitter.com/votrecompte" target="_blank" class="social-icon twitter" aria-label="Twitter">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-      </a>
-        <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
-          </svg>
-        </a>
-        <span class="social-label">Folgen Sie uns</span>
-      </div>
+<body class="dashboard-page index-page">
+
+    <!-- ===== POP-UP LANGUE ===== -->
+    <div class="lang-popup-overlay" id="langPopup" role="dialog" aria-modal="true">
+        <div class="lang-popup">
+            <div class="lang-popup-header">
+                <span class="green-bar"></span>
+                <h2>Sprache wählen</h2>
+            </div>
+            <p class="lang-popup-sub">
+                Bitte wählen Sie Ihre Sprache
+                <br>
+                <span class="ar-sub">الرجاء اختيار لغتك</span>
+            </p>
+            <div class="lang-popup-buttons">
+                <button class="lang-btn" data-lang="de" type="button">
+                    <span class="lang-name">Deutsch</span>
+                </button>
+                <button class="lang-btn" data-lang="ar" type="button">
+                    <span class="lang-name">العربية</span>
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
-  <!-- ===== FIN BANDEAU RÉSEAUX SOCIAUX ===== -->
 
-  <!-- ===== HEADER ===== -->
-  <header class="dashboard-header" id="dashboardHeader">
-    <a href="index.html" class="logo-link">
-      <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" />
-    </a>
-    <span id="userNameDisplay" class="welcome-center"></span>
-    <button class="hamburger" id="hamburgerBtn" aria-label="Menü öffnen/schließen">
-      <span></span><span></span><span></span>
-    </button>
-    <nav class="dashboard-nav" id="mainNav">
-      
-      <a href="ueber-uns.html">Über uns</a>
-     
-      <a href="#" id="logoutMobile" style="display:none;">Abmelden</a>
-    </nav>
-    
-  </header>
+    <div id="google_translate_element" style="display:none !important;"></div>
 
-  <!-- ===== MAIN ===== -->
-  <main class="dashboard-content">
-    <div class="admin-box">
-      <h1>Admin-Bereich</h1>
-
-      <!-- Tabs -->
-      <div class="tab-container">
-        <button class="tab-btn active" data-tab="tab-companies">Unternehmen</button>
-        <button class="tab-btn" data-tab="tab-users">Benutzer</button>
-        <button class="tab-btn" data-tab="tab-offers">Angebote</button>
-        <button class="tab-btn" data-tab="tab-contracts">Verträge</button>
-      </div>
-
-      <!-- ===== TAB: UNTERNEHMEN ===== -->
-      <div id="tab-companies" class="tab-content active">
-        <button id="toggleCompanyForm" class="add-company-btn">➕ Unternehmen hinzufügen</button>
-
-        <div id="companyFormContainer" class="company-form-container">
-          <h2 id="companyFormTitle" style="color:#54e50d;">Neues Unternehmen</h2>
-          <span id="editModeIndicator" class="edit-mode-indicator">✏️ Bearbeitungsmodus</span>
-          <form id="companyForm">
-            <input type="hidden" id="editCompanyId" />
-            <div class="form-row">
-              <div class="form-group">
-                <label for="compName">Name *</label>
-                <input type="text" id="compName" placeholder="Firmenname" required />
-              </div>
-              <div class="form-group">
-                <label for="compService">Service</label>
-                <input type="text" id="compService" placeholder="Dienstleistung" />
-              </div>
+    <!-- ===== BANDEAU RÉSEAUX SOCIAUX ===== -->
+    <div class="social-top-bar">
+        <div class="social-top-bar-content">
+            <div class="social-icons">
+                <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
+                </a>
+                <a href="https://twitter.com/votrecompte" target="_blank" class="social-icon twitter" aria-label="Twitter">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg>
+                </a>
             </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="compPhone">Telefon</label>
-                <input type="text" id="compPhone" placeholder="Telefonnummer" />
-              </div>
-              <div class="form-group">
-                <label for="compCreated">Erstellt am</label>
-                <input type="date" id="compCreated" />
-              </div>
+            <div class="top-bar-buttons">
+                <a href="Vertriebspartner.html" class="btn-top-bar">Vertriebspartner</a>
+                <a href="SalesPromoter.html" class="btn-top-bar">Verkaufsförderer</a>
             </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="compCommercial">Commercial</label>
-                <input type="text" id="compCommercial" placeholder="Ansprechpartner" />
-              </div>
-              <div class="form-group">
-                <label for="compLogo">Logo (Bild hochladen)</label>
-                <input type="file" id="compLogo" accept="image/*" />
-                <img id="logoPreview" class="logo-preview" alt="Logo Vorschau" />
-                <small style="color:#6a7b91; display:block; margin-top:4px;">JPEG, PNG, GIF usw.</small>
-              </div>
-            </div>
-            <div class="form-actions">
-              <button type="submit" class="btn-submit" id="submitCompanyBtn">Unternehmen speichern</button>
-              <button type="button" id="cancelCompanyForm" class="btn-submit secondary">Abbrechen</button>
-            </div>
-            <div id="companyMessage" class="message"></div>
-          </form>
         </div>
-
-        <h2 style="font-size:1.5rem; margin:20px 0 12px; color:#54e50d;">Vorhandene Unternehmen</h2>
-        <div id="companyList"><p style="color:#6a7b91;">Lade Unternehmen...</p></div>
-      </div>
-
-      <!-- ===== TAB: BENUTZER ===== -->
-      <div id="tab-users" class="tab-content">
-        <h2 style="font-size:1.5rem; margin:20px 0 12px; color:#54e50d;">Benutzer verwalten</h2>
-        <div id="userList"><p style="color:#6a7b91;">Lade Benutzer...</p></div>
-
-        <div id="editFormContainer" class="edit-form">
-          <h3 style="color:#54e50d;">Benutzer bearbeiten</h3>
-          <form id="editUserForm">
-            <input type="hidden" id="editEmail" />
-            <div class="form-row">
-              <div class="form-group">
-                <label>Anrede</label>
-                <input type="text" id="editAnrede" placeholder="z.B. Herr" />
-              </div>
-              <div class="form-group">
-                <label>Vorname</label>
-                <input type="text" id="editVorname" placeholder="Vorname" />
-              </div>
-              <div class="form-group">
-                <label>Nachname</label>
-                <input type="text" id="editNachname" placeholder="Nachname" />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label>Telefon</label>
-                <input type="text" id="editTelefon" placeholder="Telefon" />
-              </div>
-              <div class="form-group">
-                <label>Fax</label>
-                <input type="text" id="editFax" placeholder="Fax" />
-              </div>
-            </div>
-            <button type="submit" class="btn-submit">Änderungen speichern</button>
-            <button type="button" id="cancelEdit" class="btn-submit secondary">Abbrechen</button>
-            <div id="editMessage" class="message"></div>
-          </form>
-        </div>
-      </div>
-
-      <!-- ===== TAB: ANGEBOTE ===== -->
-      <div id="tab-offers" class="tab-content">
-        <button id="toggleOfferForm" class="add-company-btn" style="margin-top:20px;">➕ Angebot hinzufügen</button>
-
-        <div id="offerFormContainer" class="company-form-container" style="display:none;">
-          <h2 style="color:#54e50d;">Neues Angebot</h2>
-          <form id="offerForm">
-            <div class="form-row">
-              <div class="form-group" style="flex: 1 1 100%;">
-                <label for="offerCompanyTrigger">Unternehmen *</label>
-                <div class="custom-select" id="offerCompanySelect">
-                  <button type="button" class="custom-select-trigger" id="offerCompanyTrigger">
-                    <span class="custom-select-trigger-placeholder">-- Unternehmen auswählen --</span>
-                  </button>
-                  <div class="custom-select-panel" id="offerCompanyPanel">
-                    <p style="color:#6a7b91; padding:10px;">Lade Unternehmen...</p>
-                  </div>
-                </div>
-                <input type="hidden" id="offerCompany" />
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group" style="flex: 1 1 100%;">
-                <label>Energietyp *</label>
-                <div style="display:flex; gap:20px; margin-top:4px;">
-                  <label style="display:flex; align-items:center; gap:8px; color:#ffffff; cursor:pointer;">
-                    <input type="radio" name="offerEnergyType" value="strom" checked /> ⚡ Strom
-                  </label>
-                  <label style="display:flex; align-items:center; gap:8px; color:#ffffff; cursor:pointer;">
-                    <input type="radio" name="offerEnergyType" value="gas" /> 🔥 Gas
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="offerPrice">Preis *</label>
-                <input type="text" id="offerPrice" placeholder="z.B. 0,29 €/kWh" required />
-              </div>
-              <div class="form-group">
-                <label for="offerDuration">Laufzeit *</label>
-                <input type="text" id="offerDuration" placeholder="z.B. 12 Monate" required />
-              </div>
-            </div>
-
-            <div class="form-actions">
-              <button type="submit" class="btn-submit">Angebot speichern</button>
-              <button type="button" id="cancelOfferForm" class="btn-submit secondary">Abbrechen</button>
-            </div>
-            <div id="offerMessage" class="message"></div>
-          </form>
-        </div>
-
-        <h2 style="font-size:1.5rem; margin:20px 0 12px; color:#54e50d;">Vorhandene Angebote</h2>
-        <div id="offerList"><p style="color:#6a7b91;">Lade Angebote...</p></div>
-      </div>
-
-      <!-- ===== TAB: VERTRÄGE ===== -->
-      <div id="tab-contracts" class="tab-content">
-        <button id="toggleContractForm" class="add-company-btn" style="margin-top:20px;">➕ Vertrag hinzufügen</button>
-
-        <!-- Formulaire d'ajout de contrat -->
-        <div id="contractFormContainer" class="contract-form-container">
-          <h2 style="color:#54e50d;">Neuen Vertrag anlegen</h2>
-          <span id="editContractModeIndicator" class="edit-mode-indicator">✏️ Bearbeitungsmodus</span>
-          <form id="contractForm">
-            <input type="hidden" id="editContractId" />
-
-            <!-- Recherche utilisateur -->
-            <div class="form-row">
-              <div class="form-group" style="flex: 1 1 100%;">
-                <label for="contractUserSearch">Benutzer *</label>
-                <div class="search-input">
-                  <input type="text" id="contractUserSearch" placeholder="Benutzer suchen (Name oder E-Mail)..." autocomplete="off" />
-                  <div class="search-results" id="contractUserResults"></div>
-                </div>
-                <input type="hidden" id="contractUserId" />
-                <div id="contractUserSelected" style="display:none; margin-top:8px; padding:8px 12px; background:rgba(84,229,13,0.1); border-radius:6px; border-left:3px solid #54e50d;">
-                  <span style="color:#54e50d;">✓</span> <span id="contractUserSelectedName" style="color:#ffffff;"></span>
-                  <button type="button" id="contractUserClear" style="margin-left:12px; background:none; border:none; color:#ff6b6b; cursor:pointer;">✕</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Type d'énergie -->
-            <div class="form-row">
-              <div class="form-group" style="flex: 1 1 100%;">
-                <label>Energietyp *</label>
-                <div style="display:flex; gap:20px; margin-top:4px;">
-                  <label style="display:flex; align-items:center; gap:8px; color:#ffffff; cursor:pointer;">
-                    <input type="radio" name="contractEnergyType" value="strom" checked /> ⚡ Strom
-                  </label>
-                  <label style="display:flex; align-items:center; gap:8px; color:#ffffff; cursor:pointer;">
-                    <input type="radio" name="contractEnergyType" value="gas" /> 🔥 Gas
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <!-- Sélection offre -->
-            <div class="form-row">
-              <div class="form-group" style="flex: 1 1 100%;">
-                <label for="contractOfferTrigger">Angebot *</label>
-                <div class="custom-select" id="contractOfferSelect">
-                  <button type="button" class="custom-select-trigger" id="contractOfferTrigger">
-                    <span class="custom-select-trigger-placeholder">-- Angebot auswählen --</span>
-                  </button>
-                  <div class="custom-select-panel" id="contractOfferPanel">
-                    <p style="color:#6a7b91; padding:10px;">Lade Angebote...</p>
-                  </div>
-                </div>
-                <input type="hidden" id="contractOfferId" />
-              </div>
-            </div>
-
-            <!-- Affichage des infos de l'offre sélectionnée -->
-            <div id="contractOfferInfo" style="display:none;">
-              <div class="contract-info-display">
-                <div><span class="info-label">Unternehmen</span> <span class="info-value" id="contractOfferCompanyName">-</span></div>
-                <div style="margin-top:4px;"><span class="info-label">Preis</span> <span class="info-value" id="contractOfferPrice">-</span></div>
-                <div style="margin-top:4px;"><span class="info-label">Laufzeit</span> <span class="info-value" id="contractOfferDuration">-</span></div>
-              </div>
-            </div>
-
-            <!-- Dates sur la même ligne -->
-            <div class="form-row-dates">
-              <div class="form-group">
-                <label for="contractDateFrom">Vertrag von *</label>
-                <input type="date" id="contractDateFrom" required />
-              </div>
-              <div class="form-group">
-                <label for="contractDateTo">Vertrag bis *</label>
-                <input type="date" id="contractDateTo" required />
-              </div>
-            </div>
-
-            <div class="form-actions">
-              <button type="submit" class="btn-submit" id="submitContractBtn">Vertrag speichern</button>
-              <button type="button" id="cancelContractForm" class="btn-submit secondary">Abbrechen</button>
-            </div>
-            <div id="contractMessage" class="message"></div>
-          </form>
-        </div>
-
-        <h2 style="font-size:1.5rem; margin:20px 0 12px; color:#54e50d;">Vorhandene Verträge</h2>
-        <div id="contractList"><p style="color:#6a7b91;">Lade Verträge...</p></div>
-      </div>
-
     </div>
-  </main>
 
-  <!-- ===== FOOTER ===== -->
-  <footer class="dashboard-footer">
-    <a href="datenschutz.html">Datenschutzerklärung</a>
-    <span style="color:#6a7b91; margin:0 12px;">|</span>
-    <span style="color:#6a7b91;">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
-  </footer>
+    <div class="menu-overlay" id="menuOverlay"></div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <!-- ===== HEADER ===== -->
+    <header class="dashboard-header" id="dashboardHeader">
+        <a href="index.html" class="logo-link">
+            <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" />
+        </a>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Menü öffnen/schließen">
+            <span></span><span></span><span></span>
+        </button>
+        <nav class="dashboard-nav" id="mainNav">
+            <a href="index.html" class="active">Unsere Geschichte</a>
+            
+            <a href="news.html">Nachrichten</a>
+            
+        </nav>
+        <a href="pageadmin.html" class="header-lock-icon" aria-label="Portalanmeldung">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+                 stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+        </a>
+    </header>
 
-  <!-- Flatpickr JS -->
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/de.js"></script>
+    <!-- ===== HERO ===== -->
+    <section class="home-hero">
+        <div class="home-hero-inner">
 
-  <!-- ===== MAIN.JS ===== -->
-  <script src="main.js"></script>
+            <div class="home-hero-head">
+                <div class="hero-label">
+                    <span class="green-bar"></span>
+                    <span>Unsere Bereiche</span>
+                </div>
+                <h1 class="hero-h1">Vier Bereiche</h1>
+                <h2 class="hero-h2">Unsere einzige Anforderung: Vertrauen</h2>
+            </div>
+
+            <p class="home-hero-paragraph">
+                Seit über 8 Jahren sind wir als Energie-Distributor tätig und haben uns durch Verlässlichkeit,
+                klare Kommunikation und persönliche Betreuung das Vertrauen unserer Kunden und Partner erarbeitet.
+                Ob Vertriebspartner, Verkaufsförderer, News oder Einstellungen – wir stehen für faire Tarife,
+                transparente Beratung und eine langfristige Zusammenarbeit.
+            </p>
+
+            <!-- ===== ONGLETS (style admin) ===== -->
+            <div class="home-segments-box">
+                <div class="home-segments-row" id="segmentsRow">
+
+                    <button class="home-segment-tab active" data-segment="vertriebspartner" type="button">
+                        <span class="tab-title">Vertriebspartner</span>
+                        <span class="tab-sub">Verlauf</span>
+                    </button>
+
+                    <button class="home-segment-tab" data-segment="verkaeufer" type="button">
+                        <span class="tab-title">Verkaufsförderer</span>
+                        <span class="tab-sub">Promoter</span>
+                    </button>
+
+                    <button class="home-segment-tab" data-segment="news" type="button">
+                        <span class="tab-title">News</span>
+                        <span class="tab-sub">Beiträge</span>
+                    </button>
+
+                    <button class="home-segment-tab" data-segment="setting" type="button">
+                        <span class="tab-title">Setting</span>
+                        <span class="tab-sub">Einstellungen</span>
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== VERTRIEBSPARTNER ===== -->
+    <section class="home-segment-detail" id="segmentDetail-vertriebspartner" data-segment="vertriebspartner">
+        <div class="home-segment-detail-inner">
+            <div class="detail-top">
+                <div class="detail-image">
+                    <img src="Images/Dashbords/Vertriebspartner_image.jpg" alt="Vertriebspartner" />
+                </div>
+                <div class="detail-text">
+                    <div class="detail-header">
+                        <span class="green-bar"></span>
+                        <h3>Vertriebspartner</h3>
+                    </div>
+                    <p>
+                        Als Vertriebspartner der DL-Distri profitieren Sie von unserer Reichweite, unserer
+                        Erfahrung und unserem Netzwerk. Wir begleiten Sie von der ersten Anfrage bis zum
+                        Vertragsabschluss – transparent, zuverlässig und persönlich.
+                    </p>
+                    <a href="Vertriebspartner.html" class="detail-more-link">
+                        Jetzt Partner werden
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="detail-bottom">
+                <div class="detail-chart-item">
+                    <div class="donut-wrap">
+                        <svg viewBox="0 0 128 128">
+                            <circle class="donut-track" cx="64" cy="64" r="54"/>
+                            <circle class="donut-value" style="--offset:84.8" cx="64" cy="64" r="54"/>
+                        </svg>
+                        <div class="donut-num" data-target="225">0</div>
+                    </div>
+                    <div class="chart-label">Partner aktiv</div>
+                </div>
+
+                <div class="detail-chart-item">
+                    <div class="line-chart-wrap">
+                        <svg viewBox="0 0 300 160" class="line-chart" preserveAspectRatio="xMidYMid meet">
+                            <defs>
+                                <linearGradient id="lineGrad-vp" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%"   stop-color="#54e50d" stop-opacity="0.35"/>
+                                    <stop offset="100%" stop-color="#54e50d" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <line x1="30" y1="20"  x2="290" y2="20"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="50"  x2="290" y2="50"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="80"  x2="290" y2="80"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="110" x2="290" y2="110" stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="140" x2="290" y2="140" stroke="rgba(160,170,181,0.25)" stroke-width="1"/>
+                            <path d="M30,130 L60,120 L90,105 L120,100 L150,85 L180,70 L210,55 L240,45 L270,30 L290,22 L290,140 L30,140 Z" fill="url(#lineGrad-vp)"/>
+                            <path d="M30,130 L60,120 L90,105 L120,100 L150,85 L180,70 L210,55 L240,45 L270,30 L290,22"
+                                  fill="none" stroke="#54e50d" stroke-width="3"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="30"  cy="130" r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
+                            <circle cx="150" cy="85"  r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
+                            <circle cx="290" cy="22"  r="5" fill="#54e50d"/>
+                            <text x="30"  y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2018</text>
+                            <text x="150" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2022</text>
+                            <text x="290" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2026</text>
+                        </svg>
+                    </div>
+                    <div class="chart-label">Entwicklung der Anfragen</div>
+                </div>
+
+                <div class="detail-chart-item">
+                    <div class="stat-numbers">
+                        <div class="stat-big" data-target="320">0</div>
+                        <div class="stat-sub">Anfragen insgesamt</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== VERKAUFSFÖRDERER ===== -->
+    <section class="home-segment-detail" id="segmentDetail-verkaeufer" data-segment="verkaeufer">
+        <div class="home-segment-detail-inner">
+            <div class="detail-top">
+                <div class="detail-image">
+                    <img src="Images/Dashbords/sales_image.jpg" alt="Verkaufsförderer" />
+                </div>
+                <div class="detail-text">
+                    <div class="detail-header">
+                        <span class="green-bar"></span>
+                        <h3>Verkaufsförderer</h3>
+                    </div>
+                    <p>
+                        Unsere Verkaufsförderer sind das Gesicht der Marke. Sie beraten Kunden vor Ort,
+                        präsentieren Tarife und unterstützen unser Vertriebsteam. Klare Prozesse, faire
+                        Vergütung und eine starke Gemeinschaft – das ist unser Erfolgsrezept.
+                    </p>
+                    <a href="SalesPromoter.html" class="detail-more-link">
+                        Jetzt Verkaufsförderer werden
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="detail-bottom">
+                <div class="detail-chart-item">
+                    <div class="donut-wrap">
+                        <svg viewBox="0 0 128 128">
+                            <circle class="donut-track" cx="64" cy="64" r="54"/>
+                            <circle class="donut-value" style="--offset:169.6" cx="64" cy="64" r="54"/>
+                        </svg>
+                        <div class="donut-num" data-target="140">0</div>
+                    </div>
+                    <div class="chart-label">Promoter aktiv</div>
+                </div>
+
+                <div class="detail-chart-item">
+                    <div class="line-chart-wrap">
+                        <svg viewBox="0 0 300 160" class="line-chart" preserveAspectRatio="xMidYMid meet">
+                            <defs>
+                                <linearGradient id="lineGrad-vk" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%"   stop-color="#54e50d" stop-opacity="0.35"/>
+                                    <stop offset="100%" stop-color="#54e50d" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <line x1="30" y1="20"  x2="290" y2="20"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="50"  x2="290" y2="50"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="80"  x2="290" y2="80"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="110" x2="290" y2="110" stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="140" x2="290" y2="140" stroke="rgba(160,170,181,0.25)" stroke-width="1"/>
+                            <path d="M30,135 L60,128 L90,118 L120,108 L150,95 L180,82 L210,68 L240,55 L270,42 L290,35 L290,140 L30,140 Z" fill="url(#lineGrad-vk)"/>
+                            <path d="M30,135 L60,128 L90,118 L120,108 L150,95 L180,82 L210,68 L240,55 L270,42 L290,35"
+                                  fill="none" stroke="#54e50d" stroke-width="3"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="30"  cy="135" r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
+                            <circle cx="150" cy="95"  r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
+                            <circle cx="290" cy="35"  r="5" fill="#54e50d"/>
+                            <text x="30"  y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2018</text>
+                            <text x="150" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2022</text>
+                            <text x="290" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2026</text>
+                        </svg>
+                    </div>
+                    <div class="chart-label">Entwicklung der Promoter</div>
+                </div>
+
+                <div class="detail-chart-item">
+                    <div class="stat-numbers">
+                        <div class="stat-big" data-target="215">0</div>
+                        <div class="stat-sub">Promoter insgesamt</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== NEWS ===== -->
+    <section class="home-segment-detail" id="segmentDetail-news" data-segment="news">
+        <div class="home-segment-detail-inner">
+            <div class="detail-top">
+                <div class="detail-image">
+                    <img src="Images/Dashbords/image3.jpg" alt="News" />
+                </div>
+                <div class="detail-text">
+                    <div class="detail-header">
+                        <span class="green-bar"></span>
+                        <h3>News</h3>
+                    </div>
+                    <p>
+                        Bleiben Sie informiert über neue Tarife, Marktentwicklungen und aktuelle Projekte.
+                        In unserem News-Bereich veröffentlichen wir regelmäßig Neuigkeiten rund um Energie,
+                        Telekommunikation und Vertrieb.
+                    </p>
+                    <a href="news.html" class="detail-more-link">
+                        Alle Beiträge ansehen
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="detail-bottom">
+                <div class="detail-chart-item">
+                    <div class="donut-wrap">
+                        <svg viewBox="0 0 128 128">
+                            <circle class="donut-track" cx="64" cy="64" r="54"/>
+                            <circle class="donut-value" style="--offset:67.9" cx="64" cy="64" r="54"/>
+                        </svg>
+                        <div class="donut-num" data-target="412">0</div>
+                    </div>
+                    <div class="chart-label">Beiträge veröffentlicht</div>
+                </div>
+
+                <div class="detail-chart-item">
+                    <div class="line-chart-wrap">
+                        <svg viewBox="0 0 300 160" class="line-chart" preserveAspectRatio="xMidYMid meet">
+                            <defs>
+                                <linearGradient id="lineGrad-news" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%"   stop-color="#54e50d" stop-opacity="0.35"/>
+                                    <stop offset="100%" stop-color="#54e50d" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <line x1="30" y1="20"  x2="290" y2="20"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="50"  x2="290" y2="50"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="80"  x2="290" y2="80"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="110" x2="290" y2="110" stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="140" x2="290" y2="140" stroke="rgba(160,170,181,0.25)" stroke-width="1"/>
+                            <path d="M30,138 L60,130 L90,120 L120,105 L150,88 L180,72 L210,58 L240,40 L270,28 L290,18 L290,140 L30,140 Z" fill="url(#lineGrad-news)"/>
+                            <path d="M30,138 L60,130 L90,120 L120,105 L150,88 L180,72 L210,58 L240,40 L270,28 L290,18"
+                                  fill="none" stroke="#54e50d" stroke-width="3"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="30"  cy="138" r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
+                            <circle cx="150" cy="88"  r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
+                            <circle cx="290" cy="18"  r="5" fill="#54e50d"/>
+                            <text x="30"  y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2018</text>
+                            <text x="150" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2022</text>
+                            <text x="290" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2026</text>
+                        </svg>
+                    </div>
+                    <div class="chart-label">Aktivität der Beiträge</div>
+                </div>
+
+                <div class="detail-chart-item">
+                    <div class="stat-numbers">
+                        <div class="stat-big" data-target="1580">0</div>
+                        <div class="stat-sub">Leser insgesamt</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SETTING ===== -->
+    <section class="home-segment-detail" id="segmentDetail-setting" data-segment="setting">
+        <div class="home-segment-detail-inner">
+            <div class="detail-top">
+                <div class="detail-image">
+                    <img src="Images/Dashbords/image4.jpg" alt="Setting" />
+                </div>
+                <div class="detail-text">
+                    <div class="detail-header">
+                        <span class="green-bar"></span>
+                        <h3>Setting</h3>
+                    </div>
+                    <p>
+                        Alle Einstellungen Ihres Kontos an einem Ort: Sprache, Benachrichtigungen,
+                        Sicherheit und persönliche Daten. Verwalten Sie Ihr Profil bequem über das Portal
+                        und behalten Sie jederzeit die Kontrolle.
+                    </p>
+                    <a href="pageadmin.html" class="detail-more-link">
+                        Zum Portal
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="detail-bottom">
+                <div class="detail-chart-item">
+                    <div class="donut-wrap">
+                        <svg viewBox="0 0 128 128">
+                            <circle class="donut-track" cx="64" cy="64" r="54"/>
+                            <circle class="donut-value" style="--offset:33.9" cx="64" cy="64" r="54"/>
+                        </svg>
+                        <div class="donut-num" data-target="1786">0</div>
+                    </div>
+                    <div class="chart-label">Konten verwaltet</div>
+                </div>
+
+                <div class="detail-chart-item">
+                    <div class="line-chart-wrap">
+                        <svg viewBox="0 0 300 160" class="line-chart" preserveAspectRatio="xMidYMid meet">
+                            <defs>
+                                <linearGradient id="lineGrad-set" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%"   stop-color="#54e50d" stop-opacity="0.35"/>
+                                    <stop offset="100%" stop-color="#54e50d" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <line x1="30" y1="20"  x2="290" y2="20"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="50"  x2="290" y2="50"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="80"  x2="290" y2="80"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="110" x2="290" y2="110" stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
+                            <line x1="30" y1="140" x2="290" y2="140" stroke="rgba(160,170,181,0.25)" stroke-width="1"/>
+                            <path d="M30,132 L60,124 L90,112 L120,98 L150,82 L180,65 L210,50 L240,35 L270,24 L290,14 L290,140 L30,140 Z" fill="url(#lineGrad-set)"/>
+                            <path d="M30,132 L60,124 L90,112 L120,98 L150,82 L180,65 L210,50 L240,35 L270,24 L290,14"
+                                  fill="none" stroke="#54e50d" stroke-width="3"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="30"  cy="132" r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
+                            <circle cx="150" cy="82"  r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
+                            <circle cx="290" cy="14"  r="5" fill="#54e50d"/>
+                            <text x="30"  y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2018</text>
+                            <text x="150" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2022</text>
+                            <text x="290" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2026</text>
+                        </svg>
+                    </div>
+                    <div class="chart-label">Profil-Aktivität</div>
+                </div>
+
+                <div class="detail-chart-item">
+                    <div class="stat-numbers">
+                        <div class="stat-big" data-target="4200">0</div>
+                        <div class="stat-sub">Konten insgesamt</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SUIVEZ-NOUS ===== -->
+    <section class="home-follow">
+        <h3>Bleiben Sie mit uns in Verbindung</h3>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
+            </a>
+            <a href="https://twitter.com/votrecompte" target="_blank" class="social-icon twitter" aria-label="Twitter">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="vd-footer">
+        <div class="vd-footer-top">
+            <div class="vd-footer-top-inner">
+                <div class="vd-footer-titles">
+                    <div class="vd-footer-label">
+                        <span class="green-bar"></span>
+                        <span class="vd-footer-label-text">Folgen Sie unserem Aufbau</span>
+                    </div>
+                    <h2 class="vd-footer-title-white">Ihr nächster Beitrag</h2>
+                    <h3 class="vd-footer-title-green">Sprechen wir darüber</h3>
+                </div>
+                <div class="vd-footer-cta">
+                    <a href="kontakt.html" class="vd-footer-btn">
+                        Mit unserem Team sprechen
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="vd-footer-bottom">
+            <div class="vd-footer-bottom-inner">
+                <div class="vd-footer-col vd-footer-col-brand">
+                    <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" class="vd-footer-logo" />
+                    <p class="vd-footer-address">
+                        Vertrauen Distributor Vertriebs GmbH<br />
+                        Musterstraße 12<br />
+                        10115 Berlin, Deutschland
+                    </p>
+                    <p class="vd-footer-follow-label">Folgen Sie uns</p>
+                    <div class="vd-footer-social">
+                        <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                        <a href="https://www.instagram.com/dl.companie/" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg></a>
+                        <a href="https://twitter.com/votrecompte" target="_blank" aria-label="Twitter"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                        <a href="https://www.tiktok.com/@votrecompte" target="_blank" aria-label="TikTok"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg></a>
+                    </div>
+                </div>
+
+                <div class="vd-footer-col">
+                    <h4 class="vd-footer-heading">Unsere Bereiche</h4>
+                    <ul class="vd-footer-list">
+                        <li><a href="index.html#segmentDetail-vertriebspartner">Vertriebspartner</a></li>
+                        <li><a href="index.html#segmentDetail-verkaeufer">Verkaufsförderer</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="pageadmin.html">Setting</a></li>
+                    </ul>
+                </div>
+
+                <div class="vd-footer-col">
+                    <h4 class="vd-footer-heading">Mehr erfahren</h4>
+                    <ul class="vd-footer-list">
+                        <li><a href="ueber-uns.html">Über uns</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                        <li><a href="news.html">Nachrichten</a></li>
+                        <li><a href="index.html">Unsere Geschichte</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="vd-footer-copyright">
+            <a href="datenschutz.html">Datenschutzerklärung</a>
+            <span class="vd-footer-sep">|</span>
+            <span class="vd-footer-copy">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
+        </div>
+    </footer>
+
+    <!-- ===== JS ===== -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+    <script src="main.js"></script>
+
+    <!-- ===== CHAT TAWK.TO ===== -->
+    <script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function(){
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      s0.parentNode.insertBefore(s1, s0);
+    })();
+    </script>
+
+    <!-- ===== SEGMENTS — SCROLL + ANIMATION ===== -->
+    <script>
+    (function () {
+        function animateCounters(root) {
+            (root || document).querySelectorAll('.donut-num, .stat-big').forEach(function (el) {
+                const target = parseInt(el.getAttribute('data-target'), 10);
+                if (isNaN(target)) return;
+                el.textContent = '0';
+                const duration = 1600;
+                const start = performance.now();
+                function step(now) {
+                    const progress = Math.min((now - start) / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    el.textContent = Math.floor(target * eased).toLocaleString('de-DE');
+                    if (progress < 1) requestAnimationFrame(step);
+                    else el.textContent = target.toLocaleString('de-DE');
+                }
+                requestAnimationFrame(step);
+            });
+        }
+
+        function initSegmentsScroll() {
+            const tabs = document.querySelectorAll('button.home-segment-tab[data-segment]');
+            const details = document.querySelectorAll('.home-segment-detail');
+            if (!tabs.length || !details.length) return;
+
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const segment = this.getAttribute('data-segment');
+
+                    document.querySelectorAll('.home-segment-tab').forEach(function (t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+
+                    const targetSection = document.querySelector(
+                        '.home-segment-detail[data-segment="' + segment + '"]'
+                    );
+                    if (!targetSection) return;
+
+                    animateCounters(targetSection);
+
+                    const header = document.getElementById('dashboardHeader');
+                    const headerHeight = header ? header.offsetHeight : 68;
+                    const offset = headerHeight + 20;
+                    const rect = targetSection.getBoundingClientRect();
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    const targetY = rect.top + scrollTop - offset;
+                    window.scrollTo({ top: targetY, behavior: 'smooth' });
+                });
+            });
+
+            const first = document.querySelector('.home-segment-detail[data-segment="vertriebspartner"]');
+            if (first) setTimeout(function(){ animateCounters(first); }, 400);
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initSegmentsScroll);
+        else initSegmentsScroll();
+        setTimeout(initSegmentsScroll, 1000);
+    })();
+    </script>
+
+    <!-- ===== HAMBURGER ===== -->
+    <script>
+    (function () {
+        function fixHamburgerIndex() {
+            const hamburger = document.getElementById('hamburgerBtn');
+            const nav = document.getElementById('mainNav');
+            const overlay = document.getElementById('menuOverlay');
+            if (!hamburger || !nav) return;
+
+            const newHamburger = hamburger.cloneNode(true);
+            hamburger.parentNode.replaceChild(newHamburger, hamburger);
+            const finalHamburger = document.getElementById('hamburgerBtn');
+            const finalNav = document.getElementById('mainNav');
+
+            finalHamburger.addEventListener('click', function (e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+                finalNav.classList.toggle('open');
+                if (overlay) overlay.classList.toggle('active');
+            });
+
+            finalNav.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    finalHamburger.classList.remove('active');
+                    finalNav.classList.remove('open');
+                    if (overlay) overlay.classList.remove('active');
+                });
+            });
+
+            document.addEventListener('click', function (e) {
+                if (finalNav.classList.contains('open')) {
+                    if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
+                        finalHamburger.classList.remove('active');
+                        finalNav.classList.remove('open');
+                        if (overlay) overlay.classList.remove('active');
+                    }
+                }
+            });
+
+            if (overlay) {
+                overlay.addEventListener('click', function () {
+                    finalHamburger.classList.remove('active');
+                    finalNav.classList.remove('open');
+                    overlay.classList.remove('active');
+                });
+            }
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fixHamburgerIndex);
+        else fixHamburgerIndex();
+        setTimeout(fixHamburgerIndex, 800);
+    })();
+    </script>
+
+    <!-- ===== SCROLL ===== -->
+    <script>
+    (function() {
+        function applyScroll() {
+            const socialBar = document.querySelector('.social-top-bar');
+            const header = document.querySelector('.dashboard-header');
+            const body = document.body;
+            const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollY > 50) {
+                if (socialBar) socialBar.classList.add('hidden');
+                if (header) { header.classList.add('scrolled'); header.classList.add('top-zero'); }
+                if (body) body.classList.add('scrolled-page');
+            } else {
+                if (socialBar) socialBar.classList.remove('hidden');
+                if (header) { header.classList.remove('scrolled'); header.classList.remove('top-zero'); }
+                if (body) body.classList.remove('scrolled-page');
+            }
+        }
+        window.addEventListener('scroll', applyScroll, { passive: true });
+        document.addEventListener('DOMContentLoaded', applyScroll);
+        applyScroll();
+    })();
+    </script>
+<!-- ===== AUTH ICON + WELCOME HEADING ===== -->
+<script>
+(function () {
+    // === 1. Cadenas → Icône personne si connecté ===
+    function updateHeaderAuthIcon() {
+        const lockIcon = document.querySelector('.header-lock-icon');
+        if (!lockIcon) return;
+
+        const userEmail = localStorage.getItem('userEmail');
+
+        if (userEmail) {
+            const isAdminFlag = localStorage.getItem('isAdmin') === 'true';
+            lockIcon.href = isAdminFlag ? 'admin.html' : 'sektoren.html';
+            lockIcon.setAttribute('aria-label', 'Mein Konto');
+            lockIcon.setAttribute('title', 'Mein Konto');
+            lockIcon.innerHTML = `
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+                     stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            `;
+            lockIcon.classList.add('is-logged-in');
+        } else {
+            lockIcon.href = 'pageadmin.html';
+            lockIcon.setAttribute('aria-label', 'Portalanmeldung');
+            lockIcon.setAttribute('title', 'Portalanmeldung');
+            lockIcon.innerHTML = `
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+                     stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+            `;
+            lockIcon.classList.remove('is-logged-in');
+        }
+    }
+
+    // === 2. Remplace "Unsere einzige Anforderung: Vertrauen" par le nom ===
+    function updateHomeWelcome() {
+        const h2 = document.querySelector('.home-hero-head .hero-h2');
+        if (!h2) return;
+
+        const userEmail = localStorage.getItem('userEmail');
+        if (!userEmail) return;   // pas connecté → on garde le titre d'origine
+
+        const nachname = localStorage.getItem('userNachname');
+        const anrede   = localStorage.getItem('userAnrede');
+
+        let displayName = nachname || userEmail;
+        if (anrede && nachname) displayName = anrede + ' ' + nachname;
+
+        h2.classList.add('welcome-heading');
+        h2.innerHTML =
+            '<span class="welcome-label">Willkommen</span>, ' +
+            '<span class="welcome-name">' + displayName + '</span>';
+    }
+
+    // === Exécution ===
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            updateHeaderAuthIcon();
+            updateHomeWelcome();
+        });
+    } else {
+        updateHeaderAuthIcon();
+        updateHomeWelcome();
+    }
+
+    // Sécurité : re-run après 500ms (au cas où main.js écrit après)
+    setTimeout(function () {
+        updateHeaderAuthIcon();
+        updateHomeWelcome();
+    }, 500);
+})();
+</script>
 </body>
 </html>
