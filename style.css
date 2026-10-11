@@ -7907,8 +7907,8 @@ html body .reply-modal .reply-logo img {
     body.dashboard-page.index-page .hero-video-wrap,
     body.index-page .home-hero-video,
     body.dashboard-page.index-page .home-hero-right {
-        margin-top: 40px !important;
-        transform: translateY(40px) !important;
+        margin-top: 20px !important;
+        transform: translateY(20px) !important;
         position: relative !important;
     }
 }
