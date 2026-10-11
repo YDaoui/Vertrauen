@@ -65,5 +65,70 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="main.js"></script>
+
+    <!-- ============================================================
+         DÉSACTIVATION DU CHAT TAWK.TO SUR LA PAGE LOGIN
+         ============================================================ -->
+    <script>
+    (function () {
+        // 1. Neutralise les fonctions d'init du chat
+        function killChat() {
+            window.initTawkTo = function () {};
+            window.initChatOnAllPages = function () {};
+
+            // Supprime tout script Tawk déjà injecté
+            document.querySelectorAll('script[src*="embed.tawk.to"]').forEach(s => s.remove());
+        }
+
+        // Exécution immédiate (avant que DOMContentLoaded ne soit traité)
+        killChat();
+        setTimeout(killChat, 0);
+        setTimeout(killChat, 100);
+
+        // 2. Filet de sécurité : supprime tout widget Tawk qui apparaîtrait
+        function removeTawkWidgets() {
+            var selectors = [
+                'iframe[src*="tawk.to"]',
+                'div[class*="tawk"]',
+                'div[id*="tawk"]',
+                '.widget-visible',
+                '#tawkchat-minified-container',
+                '.tawk-min-container'
+            ];
+            selectors.forEach(function (sel) {
+                document.querySelectorAll(sel).forEach(function (el) {
+                    el.remove();
+                });
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+            removeTawkWidgets();
+            setTimeout(removeTawkWidgets, 500);
+            setTimeout(removeTawkWidgets, 1500);
+            setTimeout(removeTawkWidgets, 3000);
+
+            // Surveillance continue (au cas où il serait réinjecté)
+            var observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (m) {
+                    m.addedNodes.forEach(function (node) {
+                        if (node.nodeType !== 1) return;
+                        var id = (node.id || '') + ' ' + (node.className || '');
+                        if (/tawk/i.test(id) ||
+                            (node.tagName === 'IFRAME' && /tawk\.to/i.test(node.src || ''))) {
+                            node.remove();
+                        }
+                    });
+                });
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
+
+        window.addEventListener('load', function () {
+            removeTawkWidgets();
+            setTimeout(removeTawkWidgets, 1000);
+        });
+    })();
+    </script>
 </body>
 </html>

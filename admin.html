@@ -95,7 +95,7 @@
                 </div>
             </div>
 
-            <!-- ONGLETS -->
+            <!-- ONGLETS PRINCIPAUX -->
             <div class="home-segments-box">
                 <div class="home-segments-row" id="segmentsRow">
 
@@ -132,6 +132,13 @@
                             <h4>Anfragen Vertriebspartner</h4>
                         </div>
 
+                        <!-- FILTRES VP (style identique aux onglets News) -->
+                        <div class="admin-news-tabs" id="vpFilterTabs">
+                            <button class="admin-news-tab active" data-filter="alle" type="button">📋 Alle</button>
+                            <button class="admin-news-tab" data-filter="offen" type="button">⏳ Offen</button>
+                            <button class="admin-news-tab" data-filter="beantwortet" type="button">✅ Beantwortet</button>
+                        </div>
+
                         <div id="vpRequestsList" class="setting-users-list">
                             <p class="setting-list-loading">Lade Anfragen...</p>
                         </div>
@@ -148,6 +155,13 @@
                         <div class="setting-block-head">
                             <span class="green-bar"></span>
                             <h4>Anfragen Verkaufsförderer</h4>
+                        </div>
+
+                        <!-- FILTRES VK (style identique aux onglets News) -->
+                        <div class="admin-news-tabs" id="vkFilterTabs">
+                            <button class="admin-news-tab active" data-filter="alle" type="button">📋 Alle</button>
+                            <button class="admin-news-tab" data-filter="offen" type="button">⏳ Offen</button>
+                            <button class="admin-news-tab" data-filter="beantwortet" type="button">✅ Beantwortet</button>
                         </div>
 
                         <div id="vkRequestsList" class="setting-users-list">
@@ -433,12 +447,71 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="main.js"></script>
 
-    <!-- ===== SCRIPT : Onglets + Tableaux (VP & VK) + Réponse ===== -->
+    <!-- ============================================================
+         DÉSACTIVATION DU CHAT TAWK.TO SUR CETTE PAGE
+         ============================================================ -->
+    <script>
+    (function () {
+        function killChat() {
+            window.initTawkTo = function () {};
+            window.initChatOnAllPages = function () {};
+            document.querySelectorAll('script[src*="embed.tawk.to"]').forEach(s => s.remove());
+        }
+        killChat();
+        setTimeout(killChat, 0);
+        setTimeout(killChat, 100);
+
+        function removeTawkWidgets() {
+            var selectors = [
+                'iframe[src*="tawk.to"]',
+                'div[class*="tawk"]',
+                'div[id*="tawk"]',
+                '.widget-visible',
+                '#tawkchat-minified-container',
+                '.tawk-min-container'
+            ];
+            selectors.forEach(function (sel) {
+                document.querySelectorAll(sel).forEach(function (el) {
+                    if (el.id === 'google_translate_element') return;
+                    el.remove();
+                });
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+            removeTawkWidgets();
+            setTimeout(removeTawkWidgets, 500);
+            setTimeout(removeTawkWidgets, 1500);
+            setTimeout(removeTawkWidgets, 3000);
+
+            var observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (m) {
+                    m.addedNodes.forEach(function (node) {
+                        if (node.nodeType !== 1) return;
+                        var id = (node.id || '') + ' ' + (node.className || '');
+                        if (/tawk/i.test(id) ||
+                            (node.tagName === 'IFRAME' && /tawk\.to/i.test(node.src || ''))) {
+                            node.remove();
+                        }
+                    });
+                });
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
+
+        window.addEventListener('load', function () {
+            removeTawkWidgets();
+            setTimeout(removeTawkWidgets, 1000);
+        });
+    })();
+    </script>
+
+    <!-- ===== SCRIPT : Onglets + Tableaux (VP & VK) + Filtres + Réponse ===== -->
     <script>
     (function () {
 
         /* ============================================================
-           1. ONGLETS
+           1. ONGLETS PRINCIPAUX
            ============================================================ */
         function initTabs() {
             const tabs = document.querySelectorAll('button.home-segment-tab[data-segment]');
@@ -449,7 +522,6 @@
 
             if (!tabs.length) return;
 
-            // État initial : VP visible
             if (vpBox)      vpBox.classList.add('visible');
             if (vkBox)      vkBox.classList.remove('visible');
             if (settingBox) settingBox.classList.remove('visible');
@@ -484,19 +556,105 @@
         }
 
         /* ============================================================
-           2. TABLEAUX
+           2. FILTRES (Vertriebspartner / Verkaufsförderer)
+           ============================================================ */
+        // État des filtres actifs
+        let vpFilter = 'alle';
+        let vkFilter = 'alle';
+
+        // Stockage des docs bruts pour filtrage local
+        let vpAllDocs = [];
+        let vkAllDocs = [];
+
+        // Stockages des caches
+        window._vpRequestsCache = {};
+        window._vkRequestsCache = {};
+
+        function initFilterTabs() {
+            // Filtres VP
+            const vpFilterTabs = document.querySelectorAll('#vpFilterTabs .admin-news-tab');
+            vpFilterTabs.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    vpFilterTabs.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    vpFilter = this.getAttribute('data-filter');
+                    applyVPFilter();
+                });
+            });
+
+            // Filtres VK
+            const vkFilterTabs = document.querySelectorAll('#vkFilterTabs .admin-news-tab');
+            vkFilterTabs.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    vkFilterTabs.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    vkFilter = this.getAttribute('data-filter');
+                    applyVKFilter();
+                });
+            });
+        }
+
+        function applyVPFilter() {
+            const list = document.getElementById('vpRequestsList');
+            if (!list) return;
+
+            if (vpAllDocs.length === 0) {
+                list.innerHTML = '<p class="setting-list-empty">Keine Anfragen vorhanden.</p>';
+                return;
+            }
+
+            const filtered = vpAllDocs.filter(doc => {
+                const replied = doc.data().replied === true;
+                if (vpFilter === 'offen') return !replied;
+                if (vpFilter === 'beantwortet') return replied;
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                list.innerHTML = '<p class="setting-list-empty">Keine Anfragen für diesen Filter.</p>';
+                return;
+            }
+
+            window._vpRequestsCache = {};
+            list.innerHTML = buildTableHtml(filtered, window._vpRequestsCache);
+            bindReplyButtons(list, window._vpRequestsCache);
+        }
+
+        function applyVKFilter() {
+            const list = document.getElementById('vkRequestsList');
+            if (!list) return;
+
+            if (vkAllDocs.length === 0) {
+                list.innerHTML = '<p class="setting-list-empty">Keine Anfragen vorhanden.</p>';
+                return;
+            }
+
+            const filtered = vkAllDocs.filter(doc => {
+                const replied = doc.data().replied === true;
+                if (vkFilter === 'offen') return !replied;
+                if (vkFilter === 'beantwortet') return replied;
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                list.innerHTML = '<p class="setting-list-empty">Keine Anfragen für diesen Filter.</p>';
+                return;
+            }
+
+            window._vkRequestsCache = {};
+            list.innerHTML = buildTableHtml(filtered, window._vkRequestsCache);
+            bindReplyButtons(list, window._vkRequestsCache);
+        }
+
+        /* ============================================================
+           3. TABLEAUX
            ============================================================ */
         const COLLECTION = 'senden_Vertriebspartner';
         const REPLIES_COLLECTION = 'replies_Vertriebspartner';
         const ADMIN_EMAIL = 'infos@dl-distri.de';
 
         let currentRequest = null;
-        window._vpRequestsCache = {};
-        window._vkRequestsCache = {};
 
-        /* ------------------------------------------------------------
-           Construit le HTML du tableau à partir d'une liste de docs
-           ------------------------------------------------------------ */
         function buildTableHtml(docs, cache) {
             let html = `
                 <div class="setting-users-table-wrap">
@@ -571,9 +729,6 @@
             return html;
         }
 
-        /* ------------------------------------------------------------
-           Attache les handlers "Antworten" sur les boutons
-           ------------------------------------------------------------ */
         function bindReplyButtons(container, cache) {
             container.querySelectorAll('.reply-btn').forEach(btn => {
                 btn.addEventListener('click', function () {
@@ -587,9 +742,6 @@
             });
         }
 
-        /* ------------------------------------------------------------
-           Chargement VERTRIEBSPARTNER (tous sauf Promoter)
-           ------------------------------------------------------------ */
         async function loadVPRequests() {
             const list = document.getElementById('vpRequestsList');
             if (!list) return;
@@ -607,20 +759,17 @@
                     .orderBy('createdAt', 'desc')
                     .get();
 
-                // Garde seulement les Vertriebspartner (B2B, B2C ou générique)
-                const docs = snap.docs.filter(doc => {
+                vpAllDocs = snap.docs.filter(doc => {
                     const t = (doc.data().type || '').toString();
                     return t.startsWith('Vertriebspartner');
                 });
 
-                if (docs.length === 0) {
+                if (vpAllDocs.length === 0) {
                     list.innerHTML = '<p class="setting-list-empty">Keine Anfragen vorhanden.</p>';
                     return;
                 }
 
-                window._vpRequestsCache = {};
-                list.innerHTML = buildTableHtml(docs, window._vpRequestsCache);
-                bindReplyButtons(list, window._vpRequestsCache);
+                applyVPFilter();
 
             } catch (err) {
                 console.error('loadVPRequests error:', err);
@@ -628,9 +777,6 @@
             }
         }
 
-        /* ------------------------------------------------------------
-           Chargement VERKAUFSFÖRDERER (uniquement Promoter)
-           ------------------------------------------------------------ */
         async function loadVKRequests() {
             const list = document.getElementById('vkRequestsList');
             if (!list) return;
@@ -648,20 +794,17 @@
                     .orderBy('createdAt', 'desc')
                     .get();
 
-                // Garde seulement les Promoter
-                const docs = snap.docs.filter(doc => {
+                vkAllDocs = snap.docs.filter(doc => {
                     const t = (doc.data().type || '').toString();
                     return t === 'Promoter';
                 });
 
-                if (docs.length === 0) {
+                if (vkAllDocs.length === 0) {
                     list.innerHTML = '<p class="setting-list-empty">Keine Anfragen vorhanden.</p>';
                     return;
                 }
 
-                window._vkRequestsCache = {};
-                list.innerHTML = buildTableHtml(docs, window._vkRequestsCache);
-                bindReplyButtons(list, window._vkRequestsCache);
+                applyVKFilter();
 
             } catch (err) {
                 console.error('loadVKRequests error:', err);
@@ -670,7 +813,7 @@
         }
 
         /* ============================================================
-           3. MODAL
+           4. MODAL
            ============================================================ */
         function openReplyModal(req) {
             currentRequest = req;
@@ -704,7 +847,7 @@
         }
 
         /* ============================================================
-           4. ENVOI
+           5. ENVOI
            ============================================================ */
         async function sendReply() {
             if (!currentRequest) return;
@@ -774,7 +917,6 @@
                     closeReplyModal();
                     btn.disabled = false;
                     btn.textContent = '📧 Antwort senden';
-                    // Recharge les deux tableaux pour refléter le statut
                     loadVPRequests();
                     loadVKRequests();
                 }, 1500);
@@ -789,10 +931,11 @@
         }
 
         /* ============================================================
-           5. INIT
+           6. INIT
            ============================================================ */
         function init() {
             initTabs();
+            initFilterTabs();
 
             document.getElementById('replyClose')?.addEventListener('click', closeReplyModal);
             document.getElementById('replyCancelBtn')?.addEventListener('click', closeReplyModal);
@@ -806,7 +949,6 @@
             }
 
             loadVPRequests();
-            // VK est chargé seulement quand on clique sur l'onglet (voir initTabs)
         }
 
         if (document.readyState === 'loading') {
