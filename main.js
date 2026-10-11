@@ -691,7 +691,6 @@ function initMeinPortalPage() {
 // =====================================================================
 function initLoginPage() {
   const loginForm = document.getElementById('login-form');
-  // ⚠️ On ne teste plus regForm : il n'existe plus sur pageadmin.html
   if (!loginForm) return;
 
   const loginContainer = document.getElementById('login-form-container');
@@ -699,7 +698,6 @@ function initLoginPage() {
   const forgotLink = document.getElementById('forgot-link');
   const backToLoginLink = document.getElementById('back-to-login-link');
 
-  // --- Navigation : lien "Passwort vergessen ?" ---
   if (forgotLink) {
     forgotLink.addEventListener('click', (e) => {
       e.preventDefault();
@@ -718,7 +716,6 @@ function initLoginPage() {
     });
   }
 
-  // --- Soumission du formulaire de connexion ---
   const loginMsg = document.getElementById('login-message');
 
   loginForm.addEventListener('submit', async function (e) {
@@ -745,7 +742,6 @@ function initLoginPage() {
         loginMsg.textContent = 'Login erfolgreich! Weiterleitung ...';
         loginMsg.style.color = '#008000';
 
-        // ✅ Redirection vers sektoren.html
         setTimeout(() => { window.location.href = 'admin.html'; }, 800);
       } else {
         loginMsg.textContent = 'E-Mail oder Passwort falsch.';
@@ -758,7 +754,6 @@ function initLoginPage() {
     }
   });
 
-  // --- Formulaire "Passwort vergessen" ---
   const forgotForm = document.getElementById('forgot-form');
   if (forgotForm) {
     const forgotMsg = document.getElementById('forgot-message');
@@ -791,7 +786,7 @@ function initLoginPage() {
 }
 
 // =====================================================================
-// ===== BLOC 2 : admin.html ===========================================
+// ===== BLOC 2 : admin.html (admin dashboard classique) ===============
 // =====================================================================
 function initAdminPage() {
   const companyForm = document.getElementById('companyForm');
@@ -2727,27 +2722,23 @@ function initSektorenPage() {
     const segments = document.querySelectorAll('.sektoren-page .segment');
     if (segments.length === 0) return;
 
-    // ✅ Aucun segment ouvert au démarrage
     segments.forEach(seg => seg.classList.remove('active'));
 
     segments.forEach(segment => {
         segment.addEventListener('click', function (e) {
-            // Si le clic vient d'un lien (bouton "Entdecken Sie…"), on laisse la navigation
             if (e.target.closest('a')) return;
 
             const isActive = this.classList.contains('active');
 
-            // Fermer TOUS les segments
             segments.forEach(seg => seg.classList.remove('active'));
 
-            // Si le segment cliqué était fermé → on l'ouvre
-            // Si le segment cliqué était ouvert → il reste fermé (toggle)
             if (!isActive) {
                 this.classList.add('active');
             }
         });
     });
 }
+
 // =====================================================================
 // ===== SCROLL : masque le bandeau social, garde le header ===========
 // =====================================================================
@@ -2771,7 +2762,7 @@ function initScrollBehavior() {
     if (socialBar)   socialBar.classList.toggle('hidden', scrolled);
     if (header)    { header.classList.toggle('top-zero', scrolled);
                      header.classList.toggle('scrolled', scrolled); }
-    if (formSection) formSection.classList.toggle('scrolled', scrolled);
+   // if (formSection) formSection.classList.toggle('scrolled', scrolled);
   }
 
   window.addEventListener('scroll', function () {
@@ -2845,6 +2836,9 @@ setTimeout(addGermanCitiesDots, 1000);
 // ===== SEGMENTS INDEX — CLIC + SCROLL FLUIDE + DONUTS ===============
 // =====================================================================
 function initSegmentsIndex() {
+  // ✅ Ne pas s'exécuter sur admin : géré par le script inline d'admin.html
+  if (document.body.classList.contains('admin-page')) return;
+
   const tabs = document.querySelectorAll('.home-segment-tab');
   const details = document.querySelectorAll('.home-segment-detail');
   if (!tabs.length || !details.length) return;
@@ -2991,6 +2985,303 @@ function animateCounters() {
 })();
 
 // =====================================================================
+// ===== LANGUE ACTUELLE (filtre images news) ==========================
+// =====================================================================
+function getCurrentLanguage() {
+  if (document.cookie.indexOf('googtrans=/de/ar') !== -1) return 'ar';
+  return 'de';
+}
+
+function applyNewsLanguageFilter() {
+  const lang = getCurrentLanguage();
+  document.querySelectorAll('.news-image-card[data-lang]').forEach(card => {
+    card.style.display = (card.dataset.lang === lang) ? '' : 'none';
+  });
+}
+
+// =====================================================================
+// ===== ADMIN SEGMENTS : DÉSACTIVÉ (géré par admin.html inline) =======
+// =====================================================================
+function initAdminSegments() {
+  // ⚠️ VIDÉ VOLONTAIREMENT.
+  // La gestion des onglets sur admin.html est faite par son script inline
+  // (pour éviter le double listener qui provoquait un scroll indésirable).
+  return;
+}
+
+// =====================================================================
+// ===== COMPTEURS ANIMÉS (admin) — appelable par le script inline =====
+// =====================================================================
+function animateAdminCounters(root) {
+  (root || document).querySelectorAll('.donut-num, .stat-big').forEach(el => {
+    const target = parseInt(el.getAttribute('data-target'), 10);
+    if (isNaN(target)) return;
+    el.textContent = '0';
+    const duration = 1600;
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(target * eased).toLocaleString('de-DE');
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString('de-DE');
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+// =====================================================================
+// ===== ADMIN SETTING : Gestion des utilisateurs ======================
+// =====================================================================
+function initAdminSetting() {
+  let initDone = false;
+  function run() {
+    if (initDone) return;
+    const form = document.getElementById('settingAddUserForm');
+    const list = document.getElementById('settingUsersList');
+    const area = document.getElementById('settingArea');
+    const openBtn = document.getElementById('settingOpenFormBtn');
+    const cancelBtn = document.getElementById('settingCancelFormBtn');
+    if (!form || !list || !area || !openBtn || !cancelBtn) return;
+    if (typeof firebase === 'undefined' || !firebase.apps.length) {
+      setTimeout(run, 300);
+      return;
+    }
+    initDone = true;
+
+    const db = firebase.firestore();
+    const msg = document.getElementById('settingUserMessage');
+
+    function showMsg(text, type) {
+      if (!msg) return;
+      msg.textContent = text;
+      msg.style.color = (type === 'success') ? '#54e50d'
+                       : (type === 'error') ? '#ff6b6b'
+                       : '#A0AAB5';
+      if (type) setTimeout(() => {
+        if (msg.textContent === text) msg.textContent = '';
+      }, 5000);
+    }
+
+    openBtn.addEventListener('click', () => {
+      area.classList.add('form-open');
+      setTimeout(() => document.getElementById('settingEmail')?.focus(), 100);
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      form.reset();
+      showMsg('', null);
+      area.classList.remove('form-open');
+    });
+
+    async function loadUsers() {
+      list.innerHTML = '<p class="setting-list-loading">Lade Benutzer...</p>';
+      try {
+        const snap = await db.collection('users').get();
+        if (snap.empty) {
+          list.innerHTML = '<p class="setting-list-empty">Keine Benutzer vorhanden.</p>';
+          return;
+        }
+        let html = `<div class="setting-users-table-wrap"><table class="setting-users-table"><thead><tr>
+          <th>Anrede</th><th>Vorname</th><th>Nachname</th><th>E-Mail</th>
+          <th>Telefon</th><th>Passwort</th><th>Aktion</th></tr></thead><tbody>`;
+        snap.forEach(doc => {
+          const d = doc.data() || {};
+          const email = doc.id;
+          const pw = d.password || '';
+          html += `<tr data-email="${email}">
+            <td>${d.anrede || '—'}</td>
+            <td>${d.vorname || '—'}</td>
+            <td>${d.nachname || '—'}</td>
+            <td>${email}</td>
+            <td>${d.telefon || '—'}</td>
+            <td>
+              <span class="pw-hidden" data-pw="${pw}" data-shown="0">••••••••</span>
+              <button type="button" class="pw-toggle" title="Anzeigen / Verbergen">👁</button>
+            </td>
+            <td>
+              <button type="button" class="setting-delete-btn" data-email="${email}">Löschen</button>
+            </td>
+          </tr>`;
+        });
+        html += '</tbody></table></div>';
+        list.innerHTML = html;
+
+        list.querySelectorAll('.pw-toggle').forEach(btn => {
+          btn.addEventListener('click', function () {
+            const span = this.previousElementSibling;
+            if (!span) return;
+            if (span.dataset.shown === '1') {
+              span.textContent = '••••••••'; span.dataset.shown = '0';
+            } else {
+              span.textContent = span.dataset.pw || ''; span.dataset.shown = '1';
+            }
+          });
+        });
+
+        list.querySelectorAll('.setting-delete-btn').forEach(btn => {
+          btn.addEventListener('click', async function () {
+            const email = this.dataset.email;
+            if (!confirm(`Benutzer "${email}" wirklich löschen?`)) return;
+            try {
+              await db.collection('users').doc(email).delete();
+              loadUsers();
+            } catch (err) {
+              alert('Fehler beim Löschen: ' + err.message);
+            }
+          });
+        });
+
+      } catch (err) {
+        list.innerHTML = '<p class="setting-list-error">Fehler beim Laden.</p>';
+      }
+    }
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const email    = document.getElementById('settingEmail').value.trim().toLowerCase();
+      const password = document.getElementById('settingPassword').value.trim();
+      const anrede   = document.getElementById('settingAnrede').value.trim();
+      const vorname  = document.getElementById('settingVorname').value.trim();
+      const nachname = document.getElementById('settingNachname').value.trim();
+      const telefon  = document.getElementById('settingTelefon').value.trim();
+      const fax      = document.getElementById('settingFax').value.trim();
+
+      if (!email || !password) {
+        showMsg('❌ E-Mail und Passwort sind erforderlich.', 'error');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showMsg('❌ Bitte eine gültige E-Mail-Adresse eingeben.', 'error');
+        return;
+      }
+
+      const btn = form.querySelector('button[type="submit"]');
+      const originalText = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Wird gespeichert...'; }
+
+      try {
+        const docRef = db.collection('users').doc(email);
+        const existing = await docRef.get();
+        if (existing.exists) {
+          showMsg('❌ Diese E-Mail-Adresse existiert bereits.', 'error');
+          if (btn) { btn.disabled = false; btn.textContent = originalText; }
+          return;
+        }
+        await docRef.set({
+          anrede, vorname, nachname, telefon, fax, password,
+          created_at: new Date().toISOString()
+        });
+        showMsg('✅ Benutzer erfolgreich hinzugefügt!', 'success');
+        form.reset();
+        loadUsers();
+        setTimeout(() => {
+          area.classList.remove('form-open');
+          showMsg('', null);
+        }, 1200);
+      } catch (err) {
+        showMsg('❌ Fehler: ' + err.message, 'error');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = originalText; }
+      }
+    });
+
+    loadUsers();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+  else run();
+  setTimeout(run, 800);
+  setTimeout(run, 1500);
+}
+
+// =====================================================================
+// ===== ADMIN NEWS : onglets catégories + boutons Parcourir ===========
+// =====================================================================
+function initAdminNews() {
+  const STORAGE_PREFIX = 'news_img_';
+  let initDone = false;
+
+  function run() {
+    if (initDone) return;
+    const firstTab = document.querySelector('.admin-news-tab');
+    if (!firstTab) return;
+    initDone = true;
+
+    // Onglets catégories
+    const tabs = document.querySelectorAll('.admin-news-tab');
+    const cats = document.querySelectorAll('.admin-news-cat');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function () {
+        const cat = this.dataset.cat;
+        tabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        cats.forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
+      });
+    });
+
+    // Restaurer images sauvegardées (localStorage)
+    document.querySelectorAll('img[data-img-key]').forEach(img => {
+      const saved = localStorage.getItem(STORAGE_PREFIX + img.dataset.imgKey);
+      if (saved) {
+        img.src = saved;
+        img.parentElement.classList.remove('img-error');
+      }
+    });
+
+    // Boutons Parcourir
+    document.querySelectorAll('.news-browse-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const input = document.querySelector('.news-file-input[data-key="' + this.dataset.target + '"]');
+        if (input) input.click();
+      });
+    });
+
+    // Changement de fichier
+    document.querySelectorAll('.news-file-input').forEach(input => {
+      input.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const key = this.dataset.key;
+        const img = document.querySelector('img[data-img-key="' + key + '"]');
+        if (!img) return;
+
+        const reader = new FileReader();
+        reader.onload = event => {
+          const image = new Image();
+          image.onload = () => {
+            const MAX = 1000;
+            let { width, height } = image;
+            if (width > MAX) { height = Math.round(height * (MAX / width)); width = MAX; }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+            img.src = dataUrl;
+            img.parentElement.classList.remove('img-error');
+
+            try {
+              localStorage.setItem(STORAGE_PREFIX + key, dataUrl);
+            } catch (err) {
+              alert('⚠️ Image trop volumineuse pour être sauvegardée.');
+            }
+          };
+          image.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+        this.value = '';
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+  else run();
+  setTimeout(run, 500);
+}
+
+// =====================================================================
 // ===== INITIALISATION GLOBALE ========================================
 // =====================================================================
 document.addEventListener('DOMContentLoaded', function() {
@@ -3018,8 +3309,19 @@ document.addEventListener('DOMContentLoaded', function() {
   initChatOnAllPages();
   initSektorenPage();
 
-  // Index : compteurs + segments + carte
+  // ⚠️ initAdminSegments() est VIDE : le script inline d'admin.html gère les onglets
+  initAdminSegments();
+
+  initAdminSetting();
+  initAdminNews();
+  applyNewsLanguageFilter();
+
   animateCounters();
-  initSegmentsIndex();
+
+  // ✅ Guard : ne pas exécuter sur admin
+  if (!document.body.classList.contains('admin-page')) {
+    initSegmentsIndex();
+  }
+
   addGermanCitiesDots();
 });

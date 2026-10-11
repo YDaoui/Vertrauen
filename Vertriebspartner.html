@@ -18,6 +18,33 @@
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Style local pour l'alignement de la case Datenschutz -->
+    <style>
+        .datenschutz-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.5;
+        }
+        .datenschutz-label input[type="checkbox"] {
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+        .datenschutz-label span {
+            flex: 1;
+        }
+        .datenschutz-label a.datenschutz-link {
+            color: #54e50d;
+            font-weight: 600;
+            text-decoration: underline;
+            transition: color 0.2s ease;
+        }
+        .datenschutz-label a.datenschutz-link:hover {
+            color: #3fbf09;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <script type="text/javascript">
@@ -117,11 +144,9 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                 </h3>
 
                 <form class="vp-form" action="https://formsubmit.co/d6b69ca1bd3be32c7915fa4dd6e04bf0" method="POST">
-                    <!-- Sujet de l'e-mail -->
                     <input type="hidden" name="_subject" value="B2B" />
                     <input type="hidden" name="_captcha" value="false" />
                     <input type="hidden" name="_template" value="table" />
-                    <!-- Champs cachés supplémentaires (optionnel) -->
                     <input type="hidden" name="angle" value="B2B" />
 
                     <div class="form-group">
@@ -172,9 +197,11 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
                     <div class="form-group">
                         <div class="checkbox-group">
-                            <label>
+                            <label class="datenschutz-label">
                                 <input type="checkbox" name="datenschutz" required />
-                                Ich habe die Datenschutzerklärung zur Kenntnis genommen. Ich stimme zu, dass meine Angaben und Daten zur Beantwortung meiner Anfrage elektronisch erhoben und gespeichert werden. Hinweis: Sie können Ihre Einwilligung jederzeit für die Zukunft (per E-Mail, Post usw.) widerrufen. <span class="required">*</span>
+                                <span>
+                                    Ich habe die <a href="datenschutz.html" class="datenschutz-link">Datenschutzerklärung</a> zur Kenntnis genommen. Ich stimme zu, dass meine Angaben und Daten zur Beantwortung meiner Anfrage elektronisch erhoben und gespeichert werden. Hinweis: Sie können Ihre Einwilligung jederzeit für die Zukunft (per E-Mail, Post usw.) widerrufen. <span class="required">*</span>
+                                </span>
                             </label>
                         </div>
                     </div>
@@ -194,7 +221,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                 </h3>
 
                 <form class="vp-form" action="https://formsubmit.co/d6b69ca1bd3be32c7915fa4dd6e04bf0" method="POST">
-                    <!-- Sujet de l'e-mail -->
                     <input type="hidden" name="_subject" value="B2C" />
                     <input type="hidden" name="_captcha" value="false" />
                     <input type="hidden" name="_template" value="table" />
@@ -248,9 +274,11 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
                     <div class="form-group">
                         <div class="checkbox-group">
-                            <label>
+                            <label class="datenschutz-label">
                                 <input type="checkbox" name="datenschutz" required />
-                                Ich habe die Datenschutzerklärung zur Kenntnis genommen. Ich stimme zu, dass meine Angaben und Daten zur Beantwortung meiner Anfrage elektronisch erhoben und gespeichert werden. Hinweis: Sie können Ihre Einwilligung jederzeit für die Zukunft (per E-Mail, Post usw.) widerrufen. <span class="required">*</span>
+                                <span>
+                                    Ich habe die <a href="datenschutz.html" class="datenschutz-link">Datenschutzerklärung</a> zur Kenntnis genommen. Ich stimme zu, dass meine Angaben und Daten zur Beantwortung meiner Anfrage elektronisch erhoben und gespeichert werden. Hinweis: Sie können Ihre Einwilligung jederzeit für die Zukunft (per E-Mail, Post usw.) widerrufen. <span class="required">*</span>
+                                </span>
                             </label>
                         </div>
                     </div>
@@ -269,24 +297,16 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         <h3>Bleiben Sie mit uns in Verbindung</h3>
         <div class="social-icons">
             <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
             <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
-                </svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
             </a>
             <a href="https://twitter.com/votrecompte" target="_blank" class="social-icon twitter" aria-label="Twitter">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
             <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
-                </svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg>
             </a>
         </div>
     </section>
@@ -330,24 +350,16 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                     <p class="vd-footer-follow-label">Folgen Sie uns</p>
                     <div class="vd-footer-social">
                         <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" aria-label="Facebook">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                         </a>
                         <a href="https://www.instagram.com/dl.companie/" target="_blank" aria-label="Instagram">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
-                            </svg>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
                         </a>
                         <a href="https://twitter.com/votrecompte" target="_blank" aria-label="Twitter">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                            </svg>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                         </a>
                         <a href="https://www.tiktok.com/@votrecompte" target="_blank" aria-label="TikTok">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
-                            </svg>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg>
                         </a>
                     </div>
                 </div>
@@ -382,6 +394,10 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         </div>
 
     </footer>
+
+    <!-- ===== FIREBASE SDK ===== -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
     <!-- ===== SCRIPTS ===== -->
     <script>
@@ -477,7 +493,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                     tab.addEventListener('click', function() {
                         const target = this.dataset.tab;
 
-                        // Onglets
                         tabs.forEach(t => {
                             t.classList.remove('active');
                             t.setAttribute('aria-selected', 'false');
@@ -485,7 +500,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                         this.classList.add('active');
                         this.setAttribute('aria-selected', 'true');
 
-                        // Panneaux
                         panels.forEach(p => {
                             if (p.dataset.tabPanel === target) {
                                 p.classList.add('active');
@@ -500,83 +514,158 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         })();
     </script>
 
-    <!-- ===== SOUMISSION AJAX FORMSUBMIT (pas de redirection) ===== -->
+    <!-- ===== SOUMISSION : FIRESTORE + FORMSUBMIT ===== -->
     <script>
-        (function () {
-            // Hash FormSubmit (protection anti-spam)
-            const FORMSUBMIT_HASH = 'd6b69ca1bd3be32c7915fa4dd6e04bf0';
-            const AJAX_ENDPOINT = 'https://formsubmit.co/ajax/' + FORMSUBMIT_HASH;
+    (function () {
+        const FORMSUBMIT_HASH = 'd6b69ca1bd3be32c7915fa4dd6e04bf0';
+        const AJAX_ENDPOINT = 'https://formsubmit.co/ajax/' + FORMSUBMIT_HASH;
+        const COLLECTION = 'senden_Vertriebspartner';
 
-            function showMessage(form, type, text) {
-                // Supprime l'ancien message s'il existe
-                const old = form.querySelector('.vp-form-message');
-                if (old) old.remove();
+        /* ============================================================
+           Détecte le type selon la page + l'onglet actif
+           ============================================================ */
+        function getSubmissionType(form) {
+            const isPromoter = document.body.classList.contains('salespromoter-page');
+            if (isPromoter) return 'Promoter';
 
-                const p = document.createElement('p');
-                p.className = 'vp-form-message ' + type;
-                p.textContent = text;
-                p.style.textAlign = 'center';
-                p.style.fontWeight = '600';
-                p.style.marginTop = '15px';
-                p.style.fontSize = '1rem';
-                p.style.color = (type === 'success') ? '#54e50d' : '#ff6b6b';
-                form.appendChild(p);
+            const panel = form.closest('.vp-tab-panel');
+            const angle = panel ? panel.getAttribute('data-tab-panel') : null;
+            if (angle === 'b2b') return 'Vertriebspartner B2B';
+            if (angle === 'b2c') return 'Vertriebspartner B2C';
+
+            return 'Vertriebspartner';
+        }
+
+        /* ============================================================
+           Transforme les champs du formulaire en objet JSON
+           ============================================================ */
+        function formToObject(form) {
+            const data = {};
+            const formData = new FormData(form);
+
+            for (const [key, value] of formData.entries()) {
+                if (key.endsWith('[]')) {
+                    const cleanKey = key.replace('[]', '');
+                    if (!Array.isArray(data[cleanKey])) data[cleanKey] = [];
+                    data[cleanKey].push(value);
+                } else if (data[key] !== undefined) {
+                    if (!Array.isArray(data[key])) data[key] = [data[key]];
+                    data[key].push(value);
+                } else {
+                    data[key] = value;
+                }
+            }
+            return data;
+        }
+
+        /* ============================================================
+           Sauvegarde dans Firestore
+           ============================================================ */
+        async function saveToFirestore(form, type) {
+            if (typeof firebase === 'undefined' || !firebase.apps.length) {
+                console.warn('Firebase non initialisé — enregistrement ignoré');
+                return null;
             }
 
-            function initFormFeedback() {
-                document.querySelectorAll('.vp-form').forEach(function (form) {
-                    form.addEventListener('submit', async function (e) {
-                        e.preventDefault();
+            const db = firebase.firestore();
+            const fields = formToObject(form);
 
-                        const btn = form.querySelector('button[type="submit"]');
-                        const originalText = btn ? btn.textContent : '';
+            const userEmail = localStorage.getItem('userEmail') || null;
+            const now = new Date();
 
-                        if (btn) {
-                            btn.disabled = true;
-                            btn.textContent = 'Wird gesendet ...';
-                        }
+            const payload = {
+                type: type,
+                ...fields,
+                userEmail: userEmail,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                dateEnvoi: now.toISOString(),
+                dateEnvoiFr: now.toLocaleDateString('de-DE'),
+                heureEnvoi: now.toLocaleTimeString('de-DE', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                })
+            };
 
+            const ref = await db.collection(COLLECTION).add(payload);
+            console.log('✅ Enregistré dans', COLLECTION, '— ID:', ref.id);
+            return ref.id;
+        }
+
+        /* ============================================================
+           Message succès / erreur
+           ============================================================ */
+        function showMessage(form, type, text) {
+            const old = form.querySelector('.vp-form-message');
+            if (old) old.remove();
+
+            const p = document.createElement('p');
+            p.className = 'vp-form-message ' + type;
+            p.textContent = text;
+            p.style.textAlign = 'center';
+            p.style.fontWeight = '600';
+            p.style.marginTop = '15px';
+            p.style.fontSize = '1rem';
+            p.style.color = (type === 'success') ? '#54e50d' : '#ff6b6b';
+            form.appendChild(p);
+        }
+
+        /* ============================================================
+           Soumission
+           ============================================================ */
+        function initFormFeedback() {
+            document.querySelectorAll('.vp-form').forEach(function (form) {
+                form.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+
+                    const btn = form.querySelector('button[type="submit"]');
+                    const originalText = btn ? btn.textContent : '';
+
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.textContent = 'Wird gesendet ...';
+                    }
+
+                    const type = getSubmissionType(form);
+
+                    try {
+                        // 1. Enregistrer dans Firestore
+                        await saveToFirestore(form, type);
+
+                        // 2. Envoyer l'email via FormSubmit
                         const formData = new FormData(form);
+                        const response = await fetch(AJAX_ENDPOINT, {
+                            method: 'POST',
+                            body: formData,
+                            headers: { 'Accept': 'application/json' }
+                        });
 
-                        try {
-                            const response = await fetch(AJAX_ENDPOINT, {
-                                method: 'POST',
-                                body: formData,
-                                headers: { 'Accept': 'application/json' }
-                            });
+                        const data = await response.json();
 
-                            const data = await response.json();
-
-                            if (data.success === 'true' || data.success === true) {
-                                showMessage(form, 'success',
-                                    '✅ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.');
-                                form.reset();
-
-                                setTimeout(function () {
-                                    if (btn) {
-                                        btn.disabled = false;
-                                        btn.textContent = originalText;
-                                    }
-                                }, 3000);
-                            } else {
-                                throw new Error(data.message || 'Unbekannter Fehler');
-                            }
-
-                        } catch (error) {
-                            console.error('FormSubmit error:', error);
-                            showMessage(form, 'error',
-                                '❌ Fehler beim Senden. Bitte versuchen Sie es später erneut.');
-                            if (btn) {
-                                btn.disabled = false;
-                                btn.textContent = originalText;
-                            }
+                        if (data.success === 'true' || data.success === true) {
+                            showMessage(form, 'success',
+                                '✅ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.');
+                            form.reset();
+                        } else {
+                            throw new Error(data.message || 'Unbekannter Fehler');
                         }
-                    });
-                });
-            }
 
-            document.addEventListener('DOMContentLoaded', initFormFeedback);
-        })();
+                    } catch (error) {
+                        console.error('Erreur:', error);
+                        showMessage(form, 'error',
+                            '❌ Fehler beim Senden. Bitte versuchen Sie es später erneut.');
+                    } finally {
+                        if (btn) {
+                            btn.disabled = false;
+                            btn.textContent = originalText;
+                        }
+                    }
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initFormFeedback);
+    })();
     </script>
 
     <script src="main.js"></script>

@@ -14,12 +14,159 @@
       gtag('config', 'G-EV3MLGBFYW');
     </script>
 
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
-
-    <!-- CSS principal -->
     <link rel="stylesheet" href="style.css" />
+
+    <!-- ===== Styles onglets (identiques à admin) ===== -->
+    <style>
+        .home-segments-box {
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            margin: 40px auto 10px !important;
+            max-width: 1200px !important;
+        }
+
+        .home-segments-row {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 8px !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            padding: 6px !important;
+            border-radius: 12px !important;
+            border: 1px solid rgba(84, 229, 13, 0.25) !important;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25) !important;
+            width: 100% !important;
+            border-top: none !important;
+        }
+
+        .home-segment-tab {
+            all: unset;
+            box-sizing: border-box;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 4px !important;
+            padding: 16px 12px !important;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease !important;
+            position: relative !important;
+            border-right: none !important;
+            background: transparent !important;
+            text-align: center !important;
+            min-width: 0 !important;
+        }
+
+        .home-segment-tab:hover:not(.active) {
+            background: rgba(84, 229, 13, 0.10) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .home-segment-tab.active {
+            background: linear-gradient(135deg, #54e50d 0%, #46c40a 100%) !important;
+            box-shadow: 0 4px 14px rgba(84, 229, 13, 0.35) !important;
+        }
+
+        .home-segment-tab .tab-title {
+            font-size: 0.9rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 1.2px !important;
+            text-transform: uppercase !important;
+            color: #A0AAB5 !important;
+            transition: color 0.25s ease !important;
+            margin: 0 !important;
+            line-height: 1.2 !important;
+        }
+
+        .home-segment-tab:hover:not(.active) .tab-title {
+            color: #54e50d !important;
+        }
+
+        .home-segment-tab.active .tab-title {
+            color: #0c2545 !important;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+        }
+
+        .home-segment-tab .tab-sub {
+            font-size: 0.65rem !important;
+            font-weight: 500 !important;
+            letter-spacing: 1.2px !important;
+            text-transform: uppercase !important;
+            color: #4a5568 !important;
+            transition: color 0.25s ease !important;
+        }
+
+        .home-segment-tab.active .tab-sub {
+            color: rgba(12, 37, 69, 0.75) !important;
+        }
+
+        .home-segment-tab .tab-arrow { display: none !important; }
+        .home-segment-tab.active::after { display: none !important; }
+
+        /* ===== HERO (identique admin) ===== */
+        .home-hero {
+            background: #0c2545 !important;
+            padding: 40px 40px 20px !important;
+            min-height: auto !important;
+            height: auto !important;
+        }
+        .home-hero-inner {
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+        }
+        .home-hero-head {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .home-hero-head .hero-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .home-hero-head .green-bar {
+            width: 36px;
+            height: 3px;
+            background: #54e50d;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        .home-hero-head .hero-label span:not(.green-bar) {
+            color: #A0AAB5;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .home-hero-head .hero-h2 {
+            color: #54e50d;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 4px 0 0;
+            line-height: 1.2;
+        }
+
+        @media (max-width: 900px) {
+            .home-hero { padding: 30px 20px 15px !important; }
+            .home-hero-head .hero-h2 { font-size: 1.1rem; }
+            .home-segments-row { grid-template-columns: repeat(2, 1fr) !important; gap: 6px !important; }
+            .home-segment-tab { padding: 12px 8px !important; }
+            .home-segment-tab .tab-title { font-size: 0.78rem !important; letter-spacing: 1px !important; }
+            .home-segment-tab .tab-sub { font-size: 0.58rem !important; letter-spacing: 0.8px !important; }
+        }
+        @media (max-width: 480px) {
+            .home-hero-head .hero-h2 { font-size: 0.95rem; }
+            .home-segment-tab { padding: 10px 6px !important; }
+            .home-segment-tab .tab-title { font-size: 0.72rem !important; }
+            .home-segment-tab .tab-sub { font-size: 0.52rem !important; }
+        }
+    </style>
 </head>
 
 <body class="dashboard-page news-page">
@@ -29,24 +176,16 @@
         <div class="social-top-bar-content">
             <div class="social-icons">
                 <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                 </a>
                 <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
                 </a>
                 <a href="https://twitter.com/votrecompte" target="_blank" class="social-icon twitter" aria-label="Twitter">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                 </a>
                 <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg>
                 </a>
             </div>
             <div class="top-bar-buttons">
@@ -75,60 +214,145 @@
     <!-- ===== MENU OVERLAY (mobile) ===== -->
     <div class="menu-overlay" id="menuOverlay"></div>
 
-    <!-- ===== CONTENU NEWS ===== -->
-    <main class="news-content">
-        
-        <div class="news-carousel" id="newsCarousel">
-            <div class="news-slides" id="newsSlides">
-                <!-- Slides injectées par JS -->
+    <!-- ===== HERO + ONGLETS ===== -->
+    <section class="home-hero">
+        <div class="home-hero-inner">
+
+            <div class="home-hero-head">
+                <div class="hero-label">
+                    <span class="green-bar"></span>
+                    <span>Aktuelle Beiträge</span>
+                </div>
+                <h2 class="hero-h2">Unsere News & Projekte</h2>
             </div>
 
-            <button class="news-arrow news-prev" id="newsPrev" aria-label="Zurück">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 18l-6-6 6-6"/>
-                </svg>
-            </button>
-            <button class="news-arrow news-next" id="newsNext" aria-label="Weiter">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 18l6-6-6-6"/>
-                </svg>
-            </button>
+            <!-- ===== ONGLETS ===== -->
+            <div class="home-segments-box">
+                <div class="home-segments-row" id="segmentsRow">
 
-            <div class="news-dots" id="newsDots"></div>
+                    <button class="home-segment-tab active" data-category="Strom" type="button">
+                        <span class="tab-title">Strom</span>
+                        <span class="tab-sub">Energie</span>
+                    </button>
+
+                    <button class="home-segment-tab" data-category="Gas" type="button">
+                        <span class="tab-title">Gas</span>
+                        <span class="tab-sub">Energie</span>
+                    </button>
+
+                    <button class="home-segment-tab" data-category="Internet" type="button">
+                        <span class="tab-title">Internet</span>
+                        <span class="tab-sub">Telekom</span>
+                    </button>
+
+                    <button class="home-segment-tab" data-category="Versicherung" type="button">
+                        <span class="tab-title">Versicherung</span>
+                        <span class="tab-sub">Schutz</span>
+                    </button>
+
+                </div>
+            </div>
+
         </div>
-    </main>
+    </section>
+
+    <!-- ===== CONTENU DES RUBRIQUES (sous les onglets) ===== -->
+        <!-- ===== CONTENU DES RUBRIQUES (sous les onglets) ===== -->
+    <section class="news-categories-section">
+        <div class="news-categories-inner">
+
+            <div class="news-category active" data-category="Strom">
+                <div class="news-images-grid">
+                    <div class="news-image-card" data-lang="ar">
+                        <img src="Images/Dashbords/News/Storm/Storm_Ar.jpeg"
+                             alt="Strom – Arabisch"
+                             onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                        <div class="news-image-label">العربية</div>
+                    </div>
+                    <div class="news-image-card" data-lang="de">
+                        <img src="Images/Dashbords/News/Storm/Storm_Ger.jpeg"
+                             alt="Strom – Deutsch"
+                             onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                        <div class="news-image-label">Deutsch</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-category" data-category="Gas">
+                <div class="news-images-grid">
+                    <div class="news-image-card" data-lang="ar">
+                        <img src="Images/Dashbords/News/Gas/Gas_Ar.jpeg"
+                             alt="Gas – Arabisch"
+                             onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                        <div class="news-image-label">العربية</div>
+                    </div>
+                    <div class="news-image-card" data-lang="de">
+                        <img src="Images/Dashbords/News/Gas/Gas_Ger.jpeg"
+                             alt="Gas – Deutsch"
+                             onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                        <div class="news-image-label">Deutsch</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-category" data-category="Internet">
+                <div class="news-images-grid">
+                    <div class="news-image-card" data-lang="ar">
+                        <img src="Images/Dashbords/News/Internet/Internet_Ar.jpeg"
+                             alt="Internet – Arabisch"
+                             onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                        <div class="news-image-label">العربية</div>
+                    </div>
+                    <div class="news-image-card" data-lang="de">
+                        <img src="Images/Dashbords/News/Internet/Internet_Ger.jpeg"
+                             alt="Internet – Deutsch"
+                             onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                        <div class="news-image-label">Deutsch</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-category" data-category="Versicherung">
+                <div class="news-images-grid">
+                    <div class="news-image-card" data-lang="ar">
+                        <img src="Images/Dashbords/News/Versicherung/Versicherung_Ar.jpeg"
+                             alt="Versicherung – Arabisch"
+                             onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                        <div class="news-image-label">العربية</div>
+                    </div>
+                    <div class="news-image-card" data-lang="de">
+                        <img src="Images/Dashbords/News/Versicherung/Versicherung_Ger.jpeg"
+                             alt="Versicherung – Deutsch"
+                             onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                        <div class="news-image-label">Deutsch</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
 
     <!-- ===== SECTION "SUIVEZ-NOUS" ===== -->
     <section class="home-follow">
         <h3>Bleiben Sie mit uns in Verbindung</h3>
         <div class="social-icons">
             <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
             <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
-                </svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
             </a>
             <a href="https://twitter.com/votrecompte" target="_blank" class="social-icon twitter" aria-label="Twitter">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
             <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
-                </svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg>
             </a>
         </div>
     </section>
 
-    <!-- ===== FOOTER UNIFIÉ ===== -->
+    <!-- ===== FOOTER ===== -->
     <footer class="vd-footer">
-
-        <!-- PARTIE HAUTE : TITRES + BOUTON -->
         <div class="vd-footer-top">
             <div class="vd-footer-top-inner">
                 <div class="vd-footer-titles">
@@ -152,10 +376,8 @@
             </div>
         </div>
 
-        <!-- PARTIE BASSE : 4 COLONNES -->
         <div class="vd-footer-bottom">
             <div class="vd-footer-bottom-inner">
-
                 <div class="vd-footer-col vd-footer-col-brand">
                     <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" class="vd-footer-logo" />
                     <p class="vd-footer-address">
@@ -165,26 +387,10 @@
                     </p>
                     <p class="vd-footer-follow-label">Folgen Sie uns</p>
                     <div class="vd-footer-social">
-                        <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" aria-label="Facebook">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.instagram.com/dl.companie/" target="_blank" aria-label="Instagram">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
-                            </svg>
-                        </a>
-                        <a href="https://twitter.com/votrecompte" target="_blank" aria-label="Twitter">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.tiktok.com/@votrecompte" target="_blank" aria-label="TikTok">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
-                            </svg>
-                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                        <a href="https://www.instagram.com/dl.companie/" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg></a>
+                        <a href="https://twitter.com/votrecompte" target="_blank" aria-label="Twitter"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                        <a href="https://www.tiktok.com/@votrecompte" target="_blank" aria-label="TikTok"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg></a>
                     </div>
                 </div>
 
@@ -207,9 +413,6 @@
                         <li><a href="index.html">Unsere Geschichte</a></li>
                     </ul>
                 </div>
-
-             
-
             </div>
         </div>
 
@@ -218,47 +421,34 @@
             <span class="vd-footer-sep">|</span>
             <span class="vd-footer-copy">© 2026 Vertrauen Distributor Vertriebs GmbH</span>
         </div>
-
     </footer>
 
     <!-- ===== SCRIPTS ===== -->
-
-    <!-- Script principal -->
     <script src="main.js"></script>
 
-    <!-- ✅ 1. Menu hamburger — AVANT les autres scripts pour être prioritaire -->
+    <!-- Menu hamburger -->
     <script>
     (function() {
         function initHamburger() {
             const hamburger = document.getElementById('hamburgerBtn');
             const nav = document.getElementById('mainNav');
             const overlay = document.getElementById('menuOverlay');
+            if (!hamburger || !nav) { setTimeout(initHamburger, 200); return; }
 
-            if (!hamburger || !nav) {
-                setTimeout(initHamburger, 200);
-                return;
-            }
-
-            // Supprimer les anciens listeners en clonant
             const newHamburger = hamburger.cloneNode(true);
             hamburger.parentNode.replaceChild(newHamburger, hamburger);
-
             const finalHamburger = document.getElementById('hamburgerBtn');
             const finalNav = document.getElementById('mainNav');
-
             if (!finalHamburger || !finalNav) return;
 
-            // Toggle au clic sur le hamburger
             finalHamburger.addEventListener('click', function(e) {
                 e.stopPropagation();
                 e.preventDefault();
                 this.classList.toggle('active');
                 finalNav.classList.toggle('open');
                 if (overlay) overlay.classList.toggle('active');
-                console.log('🍔 Hamburger cliqué — nav open:', finalNav.classList.contains('open'));
             });
 
-            // Fermer le menu au clic sur un lien
             finalNav.querySelectorAll('a').forEach(function(link) {
                 link.addEventListener('click', function() {
                     finalHamburger.classList.remove('active');
@@ -267,7 +457,6 @@
                 });
             });
 
-            // Fermer le menu au clic en dehors
             document.addEventListener('click', function(e) {
                 if (finalNav.classList.contains('open')) {
                     if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
@@ -278,7 +467,6 @@
                 }
             });
 
-            // Fermer via l'overlay
             if (overlay) {
                 overlay.addEventListener('click', function() {
                     finalHamburger.classList.remove('active');
@@ -286,137 +474,42 @@
                     overlay.classList.remove('active');
                 });
             }
-
-            console.log('✅ Menu hamburger actif sur news');
         }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initHamburger);
-        } else {
-            initHamburger();
-        }
-
-        // Sécurité : réessayer après 500ms et 1500ms
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHamburger);
+        else initHamburger();
         setTimeout(initHamburger, 500);
         setTimeout(initHamburger, 1500);
     })();
     </script>
 
-    <!-- ✅ 2. Carrousel News -->
+    <!-- Onglets rubriques -->
     <script>
     (function () {
-        function initNewsCarousel() {
-            const slidesContainer = document.getElementById('newsSlides');
-            const dotsContainer = document.getElementById('newsDots');
-            const prevBtn = document.getElementById('newsPrev');
-            const nextBtn = document.getElementById('newsNext');
-            if (!slidesContainer) return;
+        function initNewsTabs() {
+            const tabs = document.querySelectorAll('.home-segment-tab[data-category]');
+            const categories = document.querySelectorAll('.news-category');
+            if (!tabs.length || !categories.length) return;
 
-            const news = [
-                {
-                    image: 'Images/Dashbords/News/Affiche(1).jpeg',
-                    title: 'Neues Projekt gestartet',
-                    text: 'Wir freuen uns, unser neuestes Energieprojekt vorzustellen. Es hilft Haushalten, ihre Stromkosten zu senken und gleichzeitig die Umwelt zu schonen.'
-                },
-                {
-                    image: 'Images/Dashbords/News/Affiche(2).jpeg',
-                    title: 'Partnerschaft erweitert',
-                    text: 'Wir haben unsere Zusammenarbeit mit führenden Anbietern ausgebaut, um unseren Kunden noch bessere Tarife anbieten zu können.'
-                },
-                {
-                    image: 'Images/Dashbords/News/Affiche(1).jpeg',
-                    title: 'Team-Event 2026',
-                    text: 'Unser Team hat an einem spannenden Workshop teilgenommen, um die Servicequalität weiter zu verbessern.'
-                },
-                {
-                    image: 'Images/Dashbords/News/Affiche(2).jpeg',
-                    title: 'Neue Tarife verfügbar',
-                    text: 'Ab sofort sind unsere neuen Strom- und Gastarife verfügbar. Sprechen Sie uns an für ein individuelles Angebot.'
-                },
-                {
-                    image: 'Images/Dashbords/News/Affiche(1).jpeg',
-                    title: 'Auszeichnung erhalten',
-                    text: 'Wir wurden für unsere herausragende Kundenbetreuung ausgezeichnet. Vielen Dank an alle Partner und Kunden!'
-                }
-            ];
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    const cat = this.getAttribute('data-category');
 
-            let currentIndex = 0;
-            let autoTimer = null;
-            const INTERVAL = 5000;
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
 
-            news.forEach((item, i) => {
-                const slide = document.createElement('div');
-                slide.className = 'news-slide' + (i === 0 ? ' active' : '');
-                slide.innerHTML = `
-                    <div class="news-slide-image">
-                        <img src="${item.image}" alt="${item.title}" />
-                    </div>
-                    <div class="news-slide-text">
-                        <h3>${item.title}</h3>
-                        <p>${item.text}</p>
-                    </div>
-                `;
-                slidesContainer.appendChild(slide);
-
-                const dot = document.createElement('button');
-                dot.className = 'news-dot' + (i === 0 ? ' active' : '');
-                dot.setAttribute('data-index', i);
-                dot.setAttribute('aria-label', 'Bild ' + (i + 1));
-                dotsContainer.appendChild(dot);
-            });
-
-            const slides = slidesContainer.querySelectorAll('.news-slide');
-            const dots = dotsContainer.querySelectorAll('.news-dot');
-
-            function goTo(index) {
-                if (index < 0) index = slides.length - 1;
-                if (index >= slides.length) index = 0;
-                slides.forEach((s, i) => s.classList.toggle('active', i === index));
-                dots.forEach((d, i) => d.classList.toggle('active', i === index));
-                currentIndex = index;
-            }
-
-            function next() { goTo(currentIndex + 1); }
-            function prev() { goTo(currentIndex - 1); }
-
-            function startAuto() {
-                stopAuto();
-                autoTimer = setInterval(next, INTERVAL);
-            }
-            function stopAuto() {
-                if (autoTimer) clearInterval(autoTimer);
-                autoTimer = null;
-            }
-
-            if (nextBtn) nextBtn.addEventListener('click', () => { next(); startAuto(); });
-            if (prevBtn) prevBtn.addEventListener('click', () => { prev(); startAuto(); });
-
-            dots.forEach(dot => {
-                dot.addEventListener('click', () => {
-                    goTo(parseInt(dot.dataset.index, 10));
-                    startAuto();
+                    categories.forEach(c => {
+                        c.classList.toggle('active', c.getAttribute('data-category') === cat);
+                    });
                 });
             });
-
-            const carousel = document.getElementById('newsCarousel');
-            if (carousel) {
-                carousel.addEventListener('mouseenter', stopAuto);
-                carousel.addEventListener('mouseleave', startAuto);
-            }
-
-            startAuto();
-            console.log('✅ Carrousel News démarré');
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initNewsCarousel);
-        } else {
-            initNewsCarousel();
-        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNewsTabs);
+        else initNewsTabs();
     })();
     </script>
 
-    <!-- ✅ 3. Scroll header -->
+    <!-- Scroll header -->
     <script>
     (function() {
         function applyScroll() {
@@ -427,17 +520,11 @@
 
             if (scrollY > 50) {
                 if (socialBar) socialBar.classList.add('hidden');
-                if (header) {
-                    header.classList.add('scrolled');
-                    header.classList.add('top-zero');
-                }
+                if (header) { header.classList.add('scrolled'); header.classList.add('top-zero'); }
                 if (body) body.classList.add('scrolled-page');
             } else {
                 if (socialBar) socialBar.classList.remove('hidden');
-                if (header) {
-                    header.classList.remove('scrolled');
-                    header.classList.remove('top-zero');
-                }
+                if (header) { header.classList.remove('scrolled'); header.classList.remove('top-zero'); }
                 if (body) body.classList.remove('scrolled-page');
             }
         }

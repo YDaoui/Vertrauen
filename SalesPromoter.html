@@ -9,6 +9,33 @@
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Style local pour l'alignement de la case Datenschutz -->
+    <style>
+        .datenschutz-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.5;
+        }
+        .datenschutz-label input[type="checkbox"] {
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+        .datenschutz-label span {
+            flex: 1;
+        }
+        .datenschutz-label a.datenschutz-link {
+            color: #54e50d;
+            font-weight: 600;
+            text-decoration: underline;
+            transition: color 0.2s ease;
+        }
+        .datenschutz-label a.datenschutz-link:hover {
+            color: #3fbf09;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <script type="text/javascript">
@@ -96,60 +123,68 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                 Felder mit einem <span style="color: #54e50d;">*</span> sind Pflichtfelder
             </p>
 
-            <form class="vp-form" action="#" method="POST">
+            <form class="vp-form" id="salesPromoterForm"
+      action="https://formsubmit.co/infos@dl-distri.de" method="POST">
 
-                <!-- Vorname / Nachname -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="vorname">Vorname <span class="required">*</span></label>
-                        <input type="text" id="vorname" name="vorname" class="form-control" placeholder="Dein Vorname" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="nachname">Nachname <span class="required">*</span></label>
-                        <input type="text" id="nachname" name="nachname" class="form-control" placeholder="Dein Nachname" required />
-                    </div>
-                </div>
+    <!-- Paramètres FormSubmit -->
+    <input type="hidden" name="_subject" value="Neue Sales Promoter Bewerbung" />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_template" value="table" />
 
-                <!-- E-Mail -->
-                <div class="form-group">
-                    <label for="email">E-Mail-Adresse <span class="required">*</span></label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="deine@email.de" required />
-                </div>
+    <!-- Vorname / Nachname -->
+    <div class="form-row">
+        <div class="form-group">
+            <label for="vorname">Vorname <span class="required">*</span></label>
+            <input type="text" id="vorname" name="vorname" class="form-control" placeholder="Dein Vorname" required />
+        </div>
+        <div class="form-group">
+            <label for="nachname">Nachname <span class="required">*</span></label>
+            <input type="text" id="nachname" name="nachname" class="form-control" placeholder="Dein Nachname" required />
+        </div>
+    </div>
 
-                <!-- Telefon -->
-                <div class="form-group">
-                    <label for="telefon">Telefonnummer <span class="required">*</span></label>
-                    <input type="tel" id="telefon" name="telefon" class="form-control" placeholder="+49 123 456789" required />
-                </div>
+    <!-- E-Mail -->
+    <div class="form-group">
+        <label for="email">E-Mail-Adresse <span class="required">*</span></label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="deine@email.de" required />
+    </div>
 
-                <!-- Einsatzorte -->
-                <div class="form-group">
-                    <label for="einsatzorte">Mögliche Einsatzorte (z.B. "Köln" oder "Raum Stuttgart") <span class="required">*</span></label>
-                    <input type="text" id="einsatzorte" name="einsatzorte" class="form-control" placeholder="z.B. Köln, Raum Stuttgart..." required />
-                </div>
+    <!-- Telefon -->
+    <div class="form-group">
+        <label for="telefon">Telefonnummer <span class="required">*</span></label>
+        <input type="tel" id="telefon" name="telefon" class="form-control" placeholder="+49 123 456789" required />
+    </div>
 
-                <!-- Nachricht -->
-                <div class="form-group">
-                    <label for="nachricht">Hier kannst du uns noch eine Nachricht hinterlassen:</label>
-                    <textarea id="nachricht" name="nachricht" class="form-control textarea-lg" placeholder="Deine Nachricht an uns..."></textarea>
-                </div>
+    <!-- Einsatzorte -->
+    <div class="form-group">
+        <label for="einsatzorte">Mögliche Einsatzorte (z.B. "Köln" oder "Raum Stuttgart") <span class="required">*</span></label>
+        <input type="text" id="einsatzorte" name="einsatzorte" class="form-control" placeholder="z.B. Köln, Raum Stuttgart..." required />
+    </div>
 
-                <!-- Datenschutz Checkbox -->
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <label>
-                            <input type="checkbox" name="datenschutz" required />
-                            Ich habe die Datenschutzerklärung zur Kenntnis genommen. Ich stimme zu, dass meine Angaben und Daten zur Beantwortung meiner Anfrage elektronisch erhoben und gespeichert werden. Hinweis: Sie können Ihre Einwilligung jederzeit für die Zukunft (per E-Mail, Post usw.) widerrufen. <span class="required">*</span>
-                        </label>
-                    </div>
-                </div>
+    <!-- Nachricht -->
+    <div class="form-group">
+        <label for="nachricht">Hier kannst du uns noch eine Nachricht hinterlassen:</label>
+        <textarea id="nachricht" name="nachricht" class="form-control textarea-lg" placeholder="Deine Nachricht an uns..."></textarea>
+    </div>
 
-                <!-- Bouton Senden -->
-                <div class="form-group form-submit-center">
-                    <button type="submit" class="btn-senden">Senden</button>
-                </div>
+    <!-- Datenschutz Checkbox -->
+    <div class="form-group">
+        <div class="checkbox-group">
+            <label class="datenschutz-label">
+                <input type="checkbox" name="datenschutz" required />
+                <span>
+                    Ich habe die <a href="datenschutz.html" class="datenschutz-link">Datenschutzerklärung</a> zur Kenntnis genommen. Ich stimme zu, dass meine Angaben und Daten zur Beantwortung meiner Anfrage elektronisch erhoben und gespeichert werden. Hinweis: Sie können Ihre Einwilligung jederzeit für die Zukunft (per E-Mail, Post usw.) widerrufen. <span class="required">*</span>
+                </span>
+            </label>
+        </div>
+    </div>
 
-            </form>
+    <!-- Bouton Senden -->
+    <div class="form-group form-submit-center">
+        <button type="submit" class="btn-senden">Senden</button>
+    </div>
+
+</form>
         </div>
     </section>
 
@@ -361,6 +396,164 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         })();
     </script>
 
+    <!-- ===== FIREBASE SDK ===== -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
     <script src="main.js"></script>
+
+    <!-- ===== SOUMISSION : FIRESTORE + FORMSUBMIT (Sales Promoter) ===== -->
+    <script>
+    (function () {
+        const FORMSUBMIT_EMAIL = 'infos@dl-distri.de';
+        const AJAX_ENDPOINT = 'https://formsubmit.co/ajax/' + FORMSUBMIT_EMAIL;
+        const COLLECTION = 'senden_Vertriebspartner';
+
+        /* ============================================================
+           Détecte le type selon la page + l'onglet actif
+           ============================================================ */
+        function getSubmissionType(form) {
+            const isPromoter = document.body.classList.contains('salespromoter-page');
+            if (isPromoter) return 'Promoter';
+
+            const panel = form.closest('.vp-tab-panel');
+            const angle = panel ? panel.getAttribute('data-tab-panel') : null;
+            if (angle === 'b2b') return 'Vertriebspartner B2B';
+            if (angle === 'b2c') return 'Vertriebspartner B2C';
+
+            return 'Vertriebspartner';
+        }
+
+        /* ============================================================
+           Transforme les champs du formulaire en objet JSON
+           ============================================================ */
+        function formToObject(form) {
+            const data = {};
+            const formData = new FormData(form);
+
+            for (const [key, value] of formData.entries()) {
+                if (key.endsWith('[]')) {
+                    const cleanKey = key.replace('[]', '');
+                    if (!Array.isArray(data[cleanKey])) data[cleanKey] = [];
+                    data[cleanKey].push(value);
+                } else if (data[key] !== undefined) {
+                    if (!Array.isArray(data[key])) data[key] = [data[key]];
+                    data[key].push(value);
+                } else {
+                    data[key] = value;
+                }
+            }
+            return data;
+        }
+
+        /* ============================================================
+           Sauvegarde dans Firestore
+           ============================================================ */
+        async function saveToFirestore(form, type) {
+            if (typeof firebase === 'undefined' || !firebase.apps.length) {
+                console.warn('Firebase non initialisé — enregistrement ignoré');
+                return null;
+            }
+
+            const db = firebase.firestore();
+            const fields = formToObject(form);
+
+            const userEmail = localStorage.getItem('userEmail') || null;
+            const now = new Date();
+
+            const payload = {
+                type: type,
+                ...fields,
+                userEmail: userEmail,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                dateEnvoi: now.toISOString(),
+                dateEnvoiFr: now.toLocaleDateString('de-DE'),
+                heureEnvoi: now.toLocaleTimeString('de-DE', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                })
+            };
+
+            const ref = await db.collection(COLLECTION).add(payload);
+            console.log('✅ Enregistré dans', COLLECTION, '— ID:', ref.id);
+            return ref.id;
+        }
+
+        /* ============================================================
+           Message succès / erreur
+           ============================================================ */
+        function showMessage(form, type, text) {
+            const old = form.querySelector('.vp-form-message');
+            if (old) old.remove();
+
+            const p = document.createElement('p');
+            p.className = 'vp-form-message ' + type;
+            p.textContent = text;
+            p.style.textAlign = 'center';
+            p.style.fontWeight = '600';
+            p.style.marginTop = '15px';
+            p.style.fontSize = '1rem';
+            p.style.color = (type === 'success') ? '#54e50d' : '#ff6b6b';
+            form.appendChild(p);
+        }
+
+        /* ============================================================
+           Soumission : Firestore + FormSubmit AJAX
+           ============================================================ */
+        function initFormFeedback() {
+            document.querySelectorAll('.vp-form').forEach(function (form) {
+                form.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+
+                    const btn = form.querySelector('button[type="submit"]');
+                    const originalText = btn ? btn.textContent : '';
+
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.textContent = 'Wird gesendet ...';
+                    }
+
+                    const type = getSubmissionType(form);
+
+                    try {
+                        // 1. Enregistrer dans Firestore
+                        await saveToFirestore(form, type);
+
+                        // 2. Envoyer l'email via FormSubmit (AJAX)
+                        const formData = new FormData(form);
+                        const response = await fetch(AJAX_ENDPOINT, {
+                            method: 'POST',
+                            body: formData,
+                            headers: { 'Accept': 'application/json' }
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success === 'true' || data.success === true) {
+                            showMessage(form, 'success',
+                                '✅ Vielen Dank! Ihre Bewerbung wurde erfolgreich gesendet.');
+                            form.reset();
+                        } else {
+                            throw new Error(data.message || 'Unbekannter Fehler');
+                        }
+
+                    } catch (error) {
+                        console.error('Erreur:', error);
+                        showMessage(form, 'error',
+                            '❌ Fehler beim Senden. Bitte versuchen Sie es später erneut.');
+                    } finally {
+                        if (btn) {
+                            btn.disabled = false;
+                            btn.textContent = originalText;
+                        }
+                    }
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initFormFeedback);
+    })();
+    </script>
 </body>
 </html>

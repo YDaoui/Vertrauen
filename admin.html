@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vertrauen Distributor – Willkommen</title>
 
-    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -14,183 +13,12 @@
       gtag('config', 'G-EV3MLGBFYW');
     </script>
 
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
-
-    <!-- CSS principal -->
     <link rel="stylesheet" href="style.css" />
-
-    <!-- ===== Styles onglets style ADMIN appliqués aux segments ===== -->
-    <style>
-        .home-segments-box {
-            background: transparent !important;
-            border: none !important;
-            border-radius: 0 !important;
-            padding: 0 !important;
-            margin: 40px auto 10px !important;
-            max-width: 1200px !important;
-        }
-
-        .home-segments-row {
-            display: grid !important;
-            grid-template-columns: repeat(4, 1fr) !important;
-            gap: 8px !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            padding: 6px !important;
-            border-radius: 12px !important;
-            border: 1px solid rgba(84, 229, 13, 0.25) !important;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25) !important;
-            width: 100% !important;
-            border-top: none !important;
-        }
-
-        .home-segment-tab {
-            all: unset;
-            box-sizing: border-box;
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 4px !important;
-            padding: 16px 12px !important;
-            border-radius: 8px !important;
-            cursor: pointer !important;
-            transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease !important;
-            position: relative !important;
-            border-right: none !important;
-            background: transparent !important;
-            text-align: center !important;
-            min-width: 0 !important;
-        }
-
-        .home-segment-tab:hover:not(.active) {
-            background: rgba(84, 229, 13, 0.10) !important;
-            transform: translateY(-1px) !important;
-        }
-
-        .home-segment-tab.active {
-            background: linear-gradient(135deg, #54e50d 0%, #46c40a 100%) !important;
-            box-shadow: 0 4px 14px rgba(84, 229, 13, 0.35) !important;
-        }
-
-        .home-segment-tab .tab-title {
-            font-size: 0.9rem !important;
-            font-weight: 700 !important;
-            letter-spacing: 1.2px !important;
-            text-transform: uppercase !important;
-            color: #A0AAB5 !important;
-            transition: color 0.25s ease !important;
-            margin: 0 !important;
-            line-height: 1.2 !important;
-        }
-
-        .home-segment-tab:hover:not(.active) .tab-title {
-            color: #54e50d !important;
-        }
-
-        .home-segment-tab.active .tab-title {
-            color: #0c2545 !important;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) !important;
-        }
-
-        .home-segment-tab .tab-sub {
-            font-size: 0.65rem !important;
-            font-weight: 500 !important;
-            letter-spacing: 1.2px !important;
-            text-transform: uppercase !important;
-            color: #4a5568 !important;
-            transition: color 0.25s ease !important;
-        }
-
-        .home-segment-tab.active .tab-sub {
-            color: rgba(12, 37, 69, 0.75) !important;
-        }
-
-        .home-segment-tab .tab-arrow { display: none !important; }
-        .home-segment-tab.active::after { display: none !important; }
-
-        /* ===== EN-TÊTE ===== */
-        .home-hero {
-            background: #0c2545 !important;
-            padding: 40px 40px 20px !important;
-            min-height: auto !important;
-            height: auto !important;
-        }
-        .home-hero-inner {
-            max-width: 1200px !important;
-            margin: 0 auto !important;
-            width: 100% !important;
-        }
-        .home-hero-head {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        .home-hero-head .hero-label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .home-hero-head .green-bar {
-            width: 36px;
-            height: 3px;
-            background: #54e50d;
-            border-radius: 2px;
-            flex-shrink: 0;
-        }
-        .home-hero-head .hero-label span:not(.green-bar) {
-            color: #A0AAB5;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .home-hero-head .hero-h1 {
-            color: #FFFFFF;
-            font-size: 3.5rem;
-            font-weight: 700;
-            letter-spacing: 4px;
-            line-height: 1.05;
-            margin: 0;
-            text-transform: uppercase;
-        }
-        .home-hero-head .hero-h2 {
-            color: #54e50d;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 4px 0 0;
-            line-height: 1.2;
-        }
-        .home-hero-paragraph {
-            color: #A0AAB5;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            max-width: 900px;
-            margin: 20px 0 0;
-        }
-
-        @media (max-width: 900px) {
-            .home-hero { padding: 30px 20px 15px !important; }
-            .home-hero-head .hero-h1 { font-size: 2.2rem; letter-spacing: 2px; }
-            .home-hero-head .hero-h2 { font-size: 1.1rem; }
-            .home-segments-row { grid-template-columns: repeat(2, 1fr) !important; gap: 6px !important; }
-            .home-segment-tab { padding: 12px 8px !important; }
-            .home-segment-tab .tab-title { font-size: 0.78rem !important; letter-spacing: 1px !important; }
-            .home-segment-tab .tab-sub { font-size: 0.58rem !important; letter-spacing: 0.8px !important; }
-        }
-        @media (max-width: 480px) {
-            .home-hero-head .hero-h1 { font-size: 1.6rem; letter-spacing: 1.5px; }
-            .home-hero-head .hero-h2 { font-size: 0.95rem; }
-            .home-segment-tab { padding: 10px 6px !important; }
-            .home-segment-tab .tab-title { font-size: 0.72rem !important; }
-            .home-segment-tab .tab-sub { font-size: 0.52rem !important; }
-        }
-    </style>
 </head>
 
-<body class="dashboard-page index-page">
+<body class="dashboard-page admin-page">
 
     <!-- ===== POP-UP LANGUE ===== -->
     <div class="lang-popup-overlay" id="langPopup" role="dialog" aria-modal="true">
@@ -205,17 +33,13 @@
                 <span class="ar-sub">الرجاء اختيار لغتك</span>
             </p>
             <div class="lang-popup-buttons">
-                <button class="lang-btn" data-lang="de" type="button">
-                    <span class="lang-name">Deutsch</span>
-                </button>
-                <button class="lang-btn" data-lang="ar" type="button">
-                    <span class="lang-name">العربية</span>
-                </button>
+                <button class="lang-btn" data-lang="de" type="button"><span class="lang-name">Deutsch</span></button>
+                <button class="lang-btn" data-lang="ar" type="button"><span class="lang-name">العربية</span></button>
             </div>
         </div>
     </div>
 
-    <div id="google_translate_element" style="display:none !important;"></div>
+    <div id="google_translate_element" class="hidden-translate"></div>
 
     <!-- ===== BANDEAU RÉSEAUX SOCIAUX ===== -->
     <div class="social-top-bar">
@@ -235,8 +59,8 @@
                 </a>
             </div>
             <div class="top-bar-buttons">
-                <a href="Vertriebspartner.html" class="btn-top-bar">Vertriebspartner</a>
-                <a href="SalesPromoter.html" class="btn-top-bar">Verkaufsförderer</a>
+                <a href="Vertriebspartner.html" class="btn-top-bar" onclick="window.location.href='Vertriebspartner.html'; return false;">Vertriebspartner</a>
+                <a href="SalesPromoter.html" class="btn-top-bar" onclick="window.location.href='SalesPromoter.html'; return false;">Verkaufsförderer</a>
             </div>
         </div>
     </div>
@@ -252,18 +76,11 @@
             <span></span><span></span><span></span>
         </button>
         <nav class="dashboard-nav" id="mainNav">
-            <a href="index.html" class="active">Unsere Geschichte</a>
-            
+            <a href="admin.html" class="active">Unsere Geschichte</a>
             <a href="news.html">Nachrichten</a>
-            
         </nav>
         <a href="pageadmin.html" class="header-lock-icon" aria-label="Portalanmeldung">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
-                 stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </a>
     </header>
 
@@ -274,20 +91,11 @@
             <div class="home-hero-head">
                 <div class="hero-label">
                     <span class="green-bar"></span>
-                    <span>Unsere Bereiche</span>
+                    <span>Meine Geschäftsführung</span>
                 </div>
-                <h1 class="hero-h1">Vier Bereiche</h1>
-                <h2 class="hero-h2">Unsere einzige Anforderung: Vertrauen</h2>
             </div>
 
-            <p class="home-hero-paragraph">
-                Seit über 8 Jahren sind wir als Energie-Distributor tätig und haben uns durch Verlässlichkeit,
-                klare Kommunikation und persönliche Betreuung das Vertrauen unserer Kunden und Partner erarbeitet.
-                Ob Vertriebspartner, Verkaufsförderer, News oder Einstellungen – wir stehen für faire Tarife,
-                transparente Beratung und eine langfristige Zusammenarbeit.
-            </p>
-
-            <!-- ===== ONGLETS (style admin) ===== -->
+            <!-- ONGLETS -->
             <div class="home-segments-box">
                 <div class="home-segments-row" id="segmentsRow">
 
@@ -314,322 +122,195 @@
                 </div>
             </div>
 
-        </div>
-    </section>
+            <!-- ===== CONTENU VERTRIEBSPARTNER ===== -->
+            <div class="vertriebspartner-inline-content visible" id="vertriebspartnerInlineContent">
+                <div class="setting-area">
+                    <div class="setting-table-col">
 
-    <!-- ===== VERTRIEBSPARTNER ===== -->
-    <section class="home-segment-detail" id="segmentDetail-vertriebspartner" data-segment="vertriebspartner">
-        <div class="home-segment-detail-inner">
-            <div class="detail-top">
-                <div class="detail-image">
-                    <img src="Images/Dashbords/Vertriebspartner_image.jpg" alt="Vertriebspartner" />
-                </div>
-                <div class="detail-text">
-                    <div class="detail-header">
-                        <span class="green-bar"></span>
-                        <h3>Vertriebspartner</h3>
-                    </div>
-                    <p>
-                        Als Vertriebspartner der DL-Distri profitieren Sie von unserer Reichweite, unserer
-                        Erfahrung und unserem Netzwerk. Wir begleiten Sie von der ersten Anfrage bis zum
-                        Vertragsabschluss – transparent, zuverlässig und persönlich.
-                    </p>
-                    <a href="Vertriebspartner.html" class="detail-more-link">
-                        Jetzt Partner werden
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
-                             stroke="currentColor" stroke-width="2.5"
-                             stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
+                        <div class="setting-block-head">
+                            <span class="green-bar"></span>
+                            <h4>Anfragen Vertriebspartner</h4>
+                        </div>
 
-            <div class="detail-bottom">
-                <div class="detail-chart-item">
-                    <div class="donut-wrap">
-                        <svg viewBox="0 0 128 128">
-                            <circle class="donut-track" cx="64" cy="64" r="54"/>
-                            <circle class="donut-value" style="--offset:84.8" cx="64" cy="64" r="54"/>
-                        </svg>
-                        <div class="donut-num" data-target="225">0</div>
-                    </div>
-                    <div class="chart-label">Partner aktiv</div>
-                </div>
+                        <div id="vpRequestsList" class="setting-users-list">
+                            <p class="setting-list-loading">Lade Anfragen...</p>
+                        </div>
 
-                <div class="detail-chart-item">
-                    <div class="line-chart-wrap">
-                        <svg viewBox="0 0 300 160" class="line-chart" preserveAspectRatio="xMidYMid meet">
-                            <defs>
-                                <linearGradient id="lineGrad-vp" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%"   stop-color="#54e50d" stop-opacity="0.35"/>
-                                    <stop offset="100%" stop-color="#54e50d" stop-opacity="0"/>
-                                </linearGradient>
-                            </defs>
-                            <line x1="30" y1="20"  x2="290" y2="20"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="50"  x2="290" y2="50"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="80"  x2="290" y2="80"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="110" x2="290" y2="110" stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="140" x2="290" y2="140" stroke="rgba(160,170,181,0.25)" stroke-width="1"/>
-                            <path d="M30,130 L60,120 L90,105 L120,100 L150,85 L180,70 L210,55 L240,45 L270,30 L290,22 L290,140 L30,140 Z" fill="url(#lineGrad-vp)"/>
-                            <path d="M30,130 L60,120 L90,105 L120,100 L150,85 L180,70 L210,55 L240,45 L270,30 L290,22"
-                                  fill="none" stroke="#54e50d" stroke-width="3"
-                                  stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="30"  cy="130" r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
-                            <circle cx="150" cy="85"  r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
-                            <circle cx="290" cy="22"  r="5" fill="#54e50d"/>
-                            <text x="30"  y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2018</text>
-                            <text x="150" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2022</text>
-                            <text x="290" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2026</text>
-                        </svg>
-                    </div>
-                    <div class="chart-label">Entwicklung der Anfragen</div>
-                </div>
-
-                <div class="detail-chart-item">
-                    <div class="stat-numbers">
-                        <div class="stat-big" data-target="320">0</div>
-                        <div class="stat-sub">Anfragen insgesamt</div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- ===== VERKAUFSFÖRDERER ===== -->
-    <section class="home-segment-detail" id="segmentDetail-verkaeufer" data-segment="verkaeufer">
-        <div class="home-segment-detail-inner">
-            <div class="detail-top">
-                <div class="detail-image">
-                    <img src="Images/Dashbords/sales_image.jpg" alt="Verkaufsförderer" />
-                </div>
-                <div class="detail-text">
-                    <div class="detail-header">
-                        <span class="green-bar"></span>
-                        <h3>Verkaufsförderer</h3>
-                    </div>
-                    <p>
-                        Unsere Verkaufsförderer sind das Gesicht der Marke. Sie beraten Kunden vor Ort,
-                        präsentieren Tarife und unterstützen unser Vertriebsteam. Klare Prozesse, faire
-                        Vergütung und eine starke Gemeinschaft – das ist unser Erfolgsrezept.
-                    </p>
-                    <a href="SalesPromoter.html" class="detail-more-link">
-                        Jetzt Verkaufsförderer werden
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
-                             stroke="currentColor" stroke-width="2.5"
-                             stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
+            <!-- ===== CONTENU VERKAUFSFÖRDERER ===== -->
+            <div class="vertriebspartner-inline-content" id="verkaeuferInlineContent">
+                <div class="setting-area">
+                    <div class="setting-table-col">
 
-            <div class="detail-bottom">
-                <div class="detail-chart-item">
-                    <div class="donut-wrap">
-                        <svg viewBox="0 0 128 128">
-                            <circle class="donut-track" cx="64" cy="64" r="54"/>
-                            <circle class="donut-value" style="--offset:169.6" cx="64" cy="64" r="54"/>
-                        </svg>
-                        <div class="donut-num" data-target="140">0</div>
-                    </div>
-                    <div class="chart-label">Promoter aktiv</div>
-                </div>
+                        <div class="setting-block-head">
+                            <span class="green-bar"></span>
+                            <h4>Anfragen Verkaufsförderer</h4>
+                        </div>
 
-                <div class="detail-chart-item">
-                    <div class="line-chart-wrap">
-                        <svg viewBox="0 0 300 160" class="line-chart" preserveAspectRatio="xMidYMid meet">
-                            <defs>
-                                <linearGradient id="lineGrad-vk" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%"   stop-color="#54e50d" stop-opacity="0.35"/>
-                                    <stop offset="100%" stop-color="#54e50d" stop-opacity="0"/>
-                                </linearGradient>
-                            </defs>
-                            <line x1="30" y1="20"  x2="290" y2="20"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="50"  x2="290" y2="50"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="80"  x2="290" y2="80"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="110" x2="290" y2="110" stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="140" x2="290" y2="140" stroke="rgba(160,170,181,0.25)" stroke-width="1"/>
-                            <path d="M30,135 L60,128 L90,118 L120,108 L150,95 L180,82 L210,68 L240,55 L270,42 L290,35 L290,140 L30,140 Z" fill="url(#lineGrad-vk)"/>
-                            <path d="M30,135 L60,128 L90,118 L120,108 L150,95 L180,82 L210,68 L240,55 L270,42 L290,35"
-                                  fill="none" stroke="#54e50d" stroke-width="3"
-                                  stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="30"  cy="135" r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
-                            <circle cx="150" cy="95"  r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
-                            <circle cx="290" cy="35"  r="5" fill="#54e50d"/>
-                            <text x="30"  y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2018</text>
-                            <text x="150" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2022</text>
-                            <text x="290" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2026</text>
-                        </svg>
-                    </div>
-                    <div class="chart-label">Entwicklung der Promoter</div>
-                </div>
+                        <div id="vkRequestsList" class="setting-users-list">
+                            <p class="setting-list-loading">Lade Anfragen...</p>
+                        </div>
 
-                <div class="detail-chart-item">
-                    <div class="stat-numbers">
-                        <div class="stat-big" data-target="215">0</div>
-                        <div class="stat-sub">Promoter insgesamt</div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- ===== NEWS ===== -->
-    <section class="home-segment-detail" id="segmentDetail-news" data-segment="news">
-        <div class="home-segment-detail-inner">
-            <div class="detail-top">
-                <div class="detail-image">
-                    <img src="Images/Dashbords/image3.jpg" alt="News" />
-                </div>
-                <div class="detail-text">
-                    <div class="detail-header">
-                        <span class="green-bar"></span>
-                        <h3>News</h3>
+            <!-- ===== CONTENU SETTING ===== -->
+            <div class="setting-inline-content" id="settingInlineContent">
+                <div class="setting-area" id="settingArea">
+
+                    <div class="setting-table-col">
+                        <div class="setting-block-head">
+                            <span class="green-bar"></span>
+                            <h4>Bestehende Benutzer</h4>
+                        </div>
+                        <div id="settingUsersList" class="setting-users-list">
+                            <p class="setting-list-loading">Lade Benutzer...</p>
+                        </div>
+                        <div class="setting-add-btn-wrap">
+                            <button type="button" id="settingOpenFormBtn" class="setting-submit-btn">
+                                + Benutzer hinzufügen
+                            </button>
+                        </div>
                     </div>
-                    <p>
-                        Bleiben Sie informiert über neue Tarife, Marktentwicklungen und aktuelle Projekte.
-                        In unserem News-Bereich veröffentlichen wir regelmäßig Neuigkeiten rund um Energie,
-                        Telekommunikation und Vertrieb.
-                    </p>
-                    <a href="news.html" class="detail-more-link">
-                        Alle Beiträge ansehen
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
-                             stroke="currentColor" stroke-width="2.5"
-                             stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </a>
+
+                    <div class="setting-form-col" id="settingFormCol">
+                        <div class="setting-block-head">
+                            <span class="green-bar"></span>
+                            <h4>Neuen Benutzer anlegen</h4>
+                        </div>
+                        <form id="settingAddUserForm" class="setting-form" autocomplete="off">
+                            <div class="setting-form-group">
+                                <label for="settingEmail">E-Mail-Adresse <span class="required">*</span></label>
+                                <input type="email" id="settingEmail" name="email" class="form-control" placeholder="z.B. kunde@beispiel.de" required />
+                            </div>
+                            <div class="setting-form-group">
+                                <label for="settingPassword">Passwort <span class="required">*</span></label>
+                                <input type="text" id="settingPassword" name="password" class="form-control" placeholder="Passwort eingeben" required />
+                            </div>
+                            <div class="setting-form-group">
+                                <label for="settingAnrede">Anrede</label>
+                                <select id="settingAnrede" name="anrede" class="form-control">
+                                    <option value="">-- Auswählen --</option>
+                                    <option value="Herr">Herr</option>
+                                    <option value="Frau">Frau</option>
+                                    <option value="Divers">Divers</option>
+                                </select>
+                            </div>
+                            <div class="setting-form-group">
+                                <label for="settingVorname">Vorname</label>
+                                <input type="text" id="settingVorname" name="vorname" class="form-control" placeholder="Vorname" />
+                            </div>
+                            <div class="setting-form-group">
+                                <label for="settingNachname">Nachname</label>
+                                <input type="text" id="settingNachname" name="nachname" class="form-control" placeholder="Nachname" />
+                            </div>
+                            <div class="setting-form-group">
+                                <label for="settingTelefon">Telefon</label>
+                                <input type="tel" id="settingTelefon" name="telefon" class="form-control" placeholder="+49 123 456789" />
+                            </div>
+                            <div class="setting-form-group">
+                                <label for="settingFax">Fax</label>
+                                <input type="text" id="settingFax" name="fax" class="form-control" placeholder="Fax" />
+                            </div>
+                            <p id="settingUserMessage" class="setting-user-message"></p>
+                            <div class="setting-form-actions">
+                                <button type="submit" class="setting-submit-btn">💾 Speichern</button>
+                                <button type="button" id="settingCancelFormBtn" class="setting-cancel-btn">✖ Abbrechen</button>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="detail-bottom">
-                <div class="detail-chart-item">
-                    <div class="donut-wrap">
-                        <svg viewBox="0 0 128 128">
-                            <circle class="donut-track" cx="64" cy="64" r="54"/>
-                            <circle class="donut-value" style="--offset:67.9" cx="64" cy="64" r="54"/>
-                        </svg>
-                        <div class="donut-num" data-target="412">0</div>
-                    </div>
-                    <div class="chart-label">Beiträge veröffentlicht</div>
+            <!-- ===== CONTENU NEWS ===== -->
+            <div class="news-inline-content" id="newsInlineContent">
+
+                <div class="admin-news-tabs">
+                    <button class="admin-news-tab active" data-cat="Strom" type="button">⚡ Strom</button>
+                    <button class="admin-news-tab" data-cat="Gas" type="button">🔥 Gas</button>
+                    <button class="admin-news-tab" data-cat="Internet" type="button">📡 Internet</button>
+                    <button class="admin-news-tab" data-cat="Versicherung" type="button">🛡️ Versicherung</button>
                 </div>
 
-                <div class="detail-chart-item">
-                    <div class="line-chart-wrap">
-                        <svg viewBox="0 0 300 160" class="line-chart" preserveAspectRatio="xMidYMid meet">
-                            <defs>
-                                <linearGradient id="lineGrad-news" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%"   stop-color="#54e50d" stop-opacity="0.35"/>
-                                    <stop offset="100%" stop-color="#54e50d" stop-opacity="0"/>
-                                </linearGradient>
-                            </defs>
-                            <line x1="30" y1="20"  x2="290" y2="20"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="50"  x2="290" y2="50"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="80"  x2="290" y2="80"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="110" x2="290" y2="110" stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="140" x2="290" y2="140" stroke="rgba(160,170,181,0.25)" stroke-width="1"/>
-                            <path d="M30,138 L60,130 L90,120 L120,105 L150,88 L180,72 L210,58 L240,40 L270,28 L290,18 L290,140 L30,140 Z" fill="url(#lineGrad-news)"/>
-                            <path d="M30,138 L60,130 L90,120 L120,105 L150,88 L180,72 L210,58 L240,40 L270,28 L290,18"
-                                  fill="none" stroke="#54e50d" stroke-width="3"
-                                  stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="30"  cy="138" r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
-                            <circle cx="150" cy="88"  r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
-                            <circle cx="290" cy="18"  r="5" fill="#54e50d"/>
-                            <text x="30"  y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2018</text>
-                            <text x="150" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2022</text>
-                            <text x="290" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2026</text>
-                        </svg>
+                <!-- STROM -->
+                <div class="admin-news-cat active" data-cat="Strom">
+                    <div class="admin-news-grid">
+                        <div class="admin-news-card">
+                            <img src="Images/Dashbords/News/Storm/Storm_Ar.jpeg" alt="Strom Ar" data-img-key="storm_ar" onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                            <div class="news-image-label">العربية</div>
+                            <button type="button" class="news-browse-btn" data-target="storm_ar">📁 Parcourir</button>
+                            <input type="file" accept="image/*" class="news-file-input" data-key="storm_ar" hidden />
+                        </div>
+                        <div class="admin-news-card">
+                            <img src="Images/Dashbords/News/Storm/Storm_Ger.jpeg" alt="Strom De" data-img-key="storm_ger" onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                            <div class="news-image-label">Deutsch</div>
+                            <button type="button" class="news-browse-btn" data-target="storm_ger">📁 Parcourir</button>
+                            <input type="file" accept="image/*" class="news-file-input" data-key="storm_ger" hidden />
+                        </div>
                     </div>
-                    <div class="chart-label">Aktivität der Beiträge</div>
                 </div>
 
-                <div class="detail-chart-item">
-                    <div class="stat-numbers">
-                        <div class="stat-big" data-target="1580">0</div>
-                        <div class="stat-sub">Leser insgesamt</div>
+                <!-- GAS -->
+                <div class="admin-news-cat" data-cat="Gas">
+                    <div class="admin-news-grid">
+                        <div class="admin-news-card">
+                            <img src="Images/Dashbords/News/Gas/Gas_Ar.jpeg" alt="Gas Ar" data-img-key="gas_ar" onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                            <div class="news-image-label">العربية</div>
+                            <button type="button" class="news-browse-btn" data-target="gas_ar">📁 Parcourir</button>
+                            <input type="file" accept="image/*" class="news-file-input" data-key="gas_ar" hidden />
+                        </div>
+                        <div class="admin-news-card">
+                            <img src="Images/Dashbords/News/Gas/Gas_Ger.jpeg" alt="Gas De" data-img-key="gas_ger" onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                            <div class="news-image-label">Deutsch</div>
+                            <button type="button" class="news-browse-btn" data-target="gas_ger">📁 Parcourir</button>
+                            <input type="file" accept="image/*" class="news-file-input" data-key="gas_ger" hidden />
+                        </div>
                     </div>
                 </div>
+
+                <!-- INTERNET -->
+                <div class="admin-news-cat" data-cat="Internet">
+                    <div class="admin-news-grid">
+                        <div class="admin-news-card">
+                            <img src="Images/Dashbords/News/Internet/Internet_Ar.jpeg" alt="Internet Ar" data-img-key="internet_ar" onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                            <div class="news-image-label">العربية</div>
+                            <button type="button" class="news-browse-btn" data-target="internet_ar">📁 Parcourir</button>
+                            <input type="file" accept="image/*" class="news-file-input" data-key="internet_ar" hidden />
+                        </div>
+                        <div class="admin-news-card">
+                            <img src="Images/Dashbords/News/Internet/Internet_Ger.jpeg" alt="Internet De" data-img-key="internet_ger" onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                            <div class="news-image-label">Deutsch</div>
+                            <button type="button" class="news-browse-btn" data-target="internet_ger">📁 Parcourir</button>
+                            <input type="file" accept="image/*" class="news-file-input" data-key="internet_ger" hidden />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VERSICHERUNG -->
+                <div class="admin-news-cat" data-cat="Versicherung">
+                    <div class="admin-news-grid">
+                        <div class="admin-news-card">
+                            <img src="Images/Dashbords/News/Versicherung/Versicherung_Ar.jpeg" alt="Vers Ar" data-img-key="versicherung_ar" onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                            <div class="news-image-label">العربية</div>
+                            <button type="button" class="news-browse-btn" data-target="versicherung_ar">📁 Parcourir</button>
+                            <input type="file" accept="image/*" class="news-file-input" data-key="versicherung_ar" hidden />
+                        </div>
+                        <div class="admin-news-card">
+                            <img src="Images/Dashbords/News/Versicherung/Versicherung_Ger.jpeg" alt="Vers De" data-img-key="versicherung_ger" onerror="this.onerror=null; this.parentElement.classList.add('img-error');" />
+                            <div class="news-image-label">Deutsch</div>
+                            <button type="button" class="news-browse-btn" data-target="versicherung_ger">📁 Parcourir</button>
+                            <input type="file" accept="image/*" class="news-file-input" data-key="versicherung_ger" hidden />
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
-    </section>
 
-    <!-- ===== SETTING ===== -->
-    <section class="home-segment-detail" id="segmentDetail-setting" data-segment="setting">
-        <div class="home-segment-detail-inner">
-            <div class="detail-top">
-                <div class="detail-image">
-                    <img src="Images/Dashbords/image4.jpg" alt="Setting" />
-                </div>
-                <div class="detail-text">
-                    <div class="detail-header">
-                        <span class="green-bar"></span>
-                        <h3>Setting</h3>
-                    </div>
-                    <p>
-                        Alle Einstellungen Ihres Kontos an einem Ort: Sprache, Benachrichtigungen,
-                        Sicherheit und persönliche Daten. Verwalten Sie Ihr Profil bequem über das Portal
-                        und behalten Sie jederzeit die Kontrolle.
-                    </p>
-                    <a href="pageadmin.html" class="detail-more-link">
-                        Zum Portal
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
-                             stroke="currentColor" stroke-width="2.5"
-                             stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
-            <div class="detail-bottom">
-                <div class="detail-chart-item">
-                    <div class="donut-wrap">
-                        <svg viewBox="0 0 128 128">
-                            <circle class="donut-track" cx="64" cy="64" r="54"/>
-                            <circle class="donut-value" style="--offset:33.9" cx="64" cy="64" r="54"/>
-                        </svg>
-                        <div class="donut-num" data-target="1786">0</div>
-                    </div>
-                    <div class="chart-label">Konten verwaltet</div>
-                </div>
-
-                <div class="detail-chart-item">
-                    <div class="line-chart-wrap">
-                        <svg viewBox="0 0 300 160" class="line-chart" preserveAspectRatio="xMidYMid meet">
-                            <defs>
-                                <linearGradient id="lineGrad-set" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%"   stop-color="#54e50d" stop-opacity="0.35"/>
-                                    <stop offset="100%" stop-color="#54e50d" stop-opacity="0"/>
-                                </linearGradient>
-                            </defs>
-                            <line x1="30" y1="20"  x2="290" y2="20"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="50"  x2="290" y2="50"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="80"  x2="290" y2="80"  stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="110" x2="290" y2="110" stroke="rgba(160,170,181,0.10)" stroke-width="1"/>
-                            <line x1="30" y1="140" x2="290" y2="140" stroke="rgba(160,170,181,0.25)" stroke-width="1"/>
-                            <path d="M30,132 L60,124 L90,112 L120,98 L150,82 L180,65 L210,50 L240,35 L270,24 L290,14 L290,140 L30,140 Z" fill="url(#lineGrad-set)"/>
-                            <path d="M30,132 L60,124 L90,112 L120,98 L150,82 L180,65 L210,50 L240,35 L270,24 L290,14"
-                                  fill="none" stroke="#54e50d" stroke-width="3"
-                                  stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="30"  cy="132" r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
-                            <circle cx="150" cy="82"  r="4" fill="#0c2545" stroke="#54e50d" stroke-width="2"/>
-                            <circle cx="290" cy="14"  r="5" fill="#54e50d"/>
-                            <text x="30"  y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2018</text>
-                            <text x="150" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2022</text>
-                            <text x="290" y="158" fill="#A0AAB5" font-size="10" text-anchor="middle">2026</text>
-                        </svg>
-                    </div>
-                    <div class="chart-label">Profil-Aktivität</div>
-                </div>
-
-                <div class="detail-chart-item">
-                    <div class="stat-numbers">
-                        <div class="stat-big" data-target="4200">0</div>
-                        <div class="stat-sub">Konten insgesamt</div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -637,18 +318,10 @@
     <section class="home-follow">
         <h3>Bleiben Sie mit uns in Verbindung</h3>
         <div class="social-icons">
-            <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            </a>
-            <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
-            </a>
-            <a href="https://twitter.com/votrecompte" target="_blank" class="social-icon twitter" aria-label="Twitter">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-            <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg>
-            </a>
+            <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg></a>
+            <a href="https://twitter.com/votrecompte" target="_blank" class="social-icon twitter" aria-label="Twitter"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg></a>
         </div>
     </section>
 
@@ -667,11 +340,7 @@
                 <div class="vd-footer-cta">
                     <a href="kontakt.html" class="vd-footer-btn">
                         Mit unserem Team sprechen
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
-                             stroke="currentColor" stroke-width="2.5"
-                             stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
@@ -681,11 +350,7 @@
             <div class="vd-footer-bottom-inner">
                 <div class="vd-footer-col vd-footer-col-brand">
                     <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" class="vd-footer-logo" />
-                    <p class="vd-footer-address">
-                        Vertrauen Distributor Vertriebs GmbH<br />
-                        Musterstraße 12<br />
-                        10115 Berlin, Deutschland
-                    </p>
+                    <p class="vd-footer-address">Vertrauen Distributor Vertriebs GmbH<br />Musterstraße 12<br />10115 Berlin, Deutschland</p>
                     <p class="vd-footer-follow-label">Folgen Sie uns</p>
                     <div class="vd-footer-social">
                         <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
@@ -698,8 +363,8 @@
                 <div class="vd-footer-col">
                     <h4 class="vd-footer-heading">Unsere Bereiche</h4>
                     <ul class="vd-footer-list">
-                        <li><a href="index.html#segmentDetail-vertriebspartner">Vertriebspartner</a></li>
-                        <li><a href="index.html#segmentDetail-verkaeufer">Verkaufsförderer</a></li>
+                        <li><a href="Vertriebspartner.html">Vertriebspartner</a></li>
+                        <li><a href="SalesPromoter.html">Verkaufsförderer</a></li>
                         <li><a href="news.html">News</a></li>
                         <li><a href="pageadmin.html">Setting</a></li>
                     </ul>
@@ -711,7 +376,7 @@
                         <li><a href="ueber-uns.html">Über uns</a></li>
                         <li><a href="kontakt.html">Kontakt</a></li>
                         <li><a href="news.html">Nachrichten</a></li>
-                        <li><a href="index.html">Unsere Geschichte</a></li>
+                        <li><a href="admin.html">Unsere Geschichte</a></li>
                     </ul>
                 </div>
             </div>
@@ -724,241 +389,434 @@
         </div>
     </footer>
 
+    <!-- ===== MODAL RÉPONSE ===== -->
+    <div class="reply-modal" id="replyModal">
+        <div class="reply-modal-content">
+
+            <button type="button" class="reply-close" id="replyClose" aria-label="Schließen">✖</button>
+
+            <div class="setting-block-head">
+                <span class="green-bar"></span>
+                <h4>Antwort senden</h4>
+            </div>
+
+            <p class="reply-to-info">An: <strong id="replyToEmail">—</strong></p>
+
+            <div class="setting-form">
+                <div class="setting-form-group">
+                    <label for="replySubject">Betreff</label>
+                    <input type="text" id="replySubject" class="form-control" value="Antwort auf Ihre Anfrage – Vertrauen Distributor" />
+                </div>
+
+                <div class="setting-form-group">
+                    <label for="replyMessage">Nachricht</label>
+                    <textarea id="replyMessage" class="form-control" rows="8" placeholder="Ihre Antwort an den Kunden..."></textarea>
+                </div>
+
+                <p id="replyStatus" class="setting-user-message"></p>
+
+                <div class="setting-form-actions">
+                    <button type="button" class="setting-submit-btn" id="replySendBtn">📧 Antwort senden</button>
+                    <button type="button" class="setting-cancel-btn" id="replyCancelBtn">✖ Abbrechen</button>
+                </div>
+            </div>
+
+            <div class="reply-logo">
+                <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" />
+            </div>
+
+        </div>
+    </div>
+
     <!-- ===== JS ===== -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
     <script src="main.js"></script>
 
-    <!-- ===== CHAT TAWK.TO ===== -->
-    <script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-    (function(){
-      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/6a7b0f1327c08c1d4cd75eb2/1jvob5pk8';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin', '*');
-      s0.parentNode.insertBefore(s1, s0);
-    })();
-    </script>
-
-    <!-- ===== SEGMENTS — SCROLL + ANIMATION ===== -->
+    <!-- ===== SCRIPT : Onglets + Tableaux (VP & VK) + Réponse ===== -->
     <script>
     (function () {
-        function animateCounters(root) {
-            (root || document).querySelectorAll('.donut-num, .stat-big').forEach(function (el) {
-                const target = parseInt(el.getAttribute('data-target'), 10);
-                if (isNaN(target)) return;
-                el.textContent = '0';
-                const duration = 1600;
-                const start = performance.now();
-                function step(now) {
-                    const progress = Math.min((now - start) / duration, 1);
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    el.textContent = Math.floor(target * eased).toLocaleString('de-DE');
-                    if (progress < 1) requestAnimationFrame(step);
-                    else el.textContent = target.toLocaleString('de-DE');
-                }
-                requestAnimationFrame(step);
-            });
-        }
 
-        function initSegmentsScroll() {
+        /* ============================================================
+           1. ONGLETS
+           ============================================================ */
+        function initTabs() {
             const tabs = document.querySelectorAll('button.home-segment-tab[data-segment]');
-            const details = document.querySelectorAll('.home-segment-detail');
-            if (!tabs.length || !details.length) return;
+            const vpBox       = document.getElementById('vertriebspartnerInlineContent');
+            const vkBox       = document.getElementById('verkaeuferInlineContent');
+            const settingBox  = document.getElementById('settingInlineContent');
+            const newsBox     = document.getElementById('newsInlineContent');
 
-            tabs.forEach(function (tab) {
+            if (!tabs.length) return;
+
+            // État initial : VP visible
+            if (vpBox)      vpBox.classList.add('visible');
+            if (vkBox)      vkBox.classList.remove('visible');
+            if (settingBox) settingBox.classList.remove('visible');
+            if (newsBox)    newsBox.classList.remove('visible');
+
+            tabs.forEach(tab => {
                 tab.addEventListener('click', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                     const segment = this.getAttribute('data-segment');
 
-                    document.querySelectorAll('.home-segment-tab').forEach(function (t) { t.classList.remove('active'); });
+                    tabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
 
-                    const targetSection = document.querySelector(
-                        '.home-segment-detail[data-segment="' + segment + '"]'
-                    );
-                    if (!targetSection) return;
+                    if (vpBox)      vpBox.classList.remove('visible');
+                    if (vkBox)      vkBox.classList.remove('visible');
+                    if (settingBox) settingBox.classList.remove('visible');
+                    if (newsBox)    newsBox.classList.remove('visible');
 
-                    animateCounters(targetSection);
-
-                    const header = document.getElementById('dashboardHeader');
-                    const headerHeight = header ? header.offsetHeight : 68;
-                    const offset = headerHeight + 20;
-                    const rect = targetSection.getBoundingClientRect();
-                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                    const targetY = rect.top + scrollTop - offset;
-                    window.scrollTo({ top: targetY, behavior: 'smooth' });
-                });
-            });
-
-            const first = document.querySelector('.home-segment-detail[data-segment="vertriebspartner"]');
-            if (first) setTimeout(function(){ animateCounters(first); }, 400);
-        }
-
-        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initSegmentsScroll);
-        else initSegmentsScroll();
-        setTimeout(initSegmentsScroll, 1000);
-    })();
-    </script>
-
-    <!-- ===== HAMBURGER ===== -->
-    <script>
-    (function () {
-        function fixHamburgerIndex() {
-            const hamburger = document.getElementById('hamburgerBtn');
-            const nav = document.getElementById('mainNav');
-            const overlay = document.getElementById('menuOverlay');
-            if (!hamburger || !nav) return;
-
-            const newHamburger = hamburger.cloneNode(true);
-            hamburger.parentNode.replaceChild(newHamburger, hamburger);
-            const finalHamburger = document.getElementById('hamburgerBtn');
-            const finalNav = document.getElementById('mainNav');
-
-            finalHamburger.addEventListener('click', function (e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-                finalNav.classList.toggle('open');
-                if (overlay) overlay.classList.toggle('active');
-            });
-
-            finalNav.querySelectorAll('a').forEach(function (link) {
-                link.addEventListener('click', function () {
-                    finalHamburger.classList.remove('active');
-                    finalNav.classList.remove('open');
-                    if (overlay) overlay.classList.remove('active');
-                });
-            });
-
-            document.addEventListener('click', function (e) {
-                if (finalNav.classList.contains('open')) {
-                    if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
-                        finalHamburger.classList.remove('active');
-                        finalNav.classList.remove('open');
-                        if (overlay) overlay.classList.remove('active');
+                    if (segment === 'vertriebspartner' && vpBox) {
+                        vpBox.classList.add('visible');
+                    } else if (segment === 'verkaeufer' && vkBox) {
+                        vkBox.classList.add('visible');
+                        loadVKRequests();
+                    } else if (segment === 'setting' && settingBox) {
+                        settingBox.classList.add('visible');
+                    } else if (segment === 'news' && newsBox) {
+                        newsBox.classList.add('visible');
                     }
-                }
+                });
+            });
+        }
+
+        /* ============================================================
+           2. TABLEAUX
+           ============================================================ */
+        const COLLECTION = 'senden_Vertriebspartner';
+        const REPLIES_COLLECTION = 'replies_Vertriebspartner';
+        const ADMIN_EMAIL = 'infos@dl-distri.de';
+
+        let currentRequest = null;
+        window._vpRequestsCache = {};
+        window._vkRequestsCache = {};
+
+        /* ------------------------------------------------------------
+           Construit le HTML du tableau à partir d'une liste de docs
+           ------------------------------------------------------------ */
+        function buildTableHtml(docs, cache) {
+            let html = `
+                <div class="setting-users-table-wrap">
+                    <table class="setting-users-table">
+                        <thead>
+                            <tr>
+                                <th>Typ</th>
+                                <th>Firma</th>
+                                <th>Name</th>
+                                <th>E-Mail</th>
+                                <th>Telefon</th>
+                                <th>Interessen</th>
+                                <th>Datum</th>
+                                <th>Statut</th>
+                                <th>Aktion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            docs.forEach(doc => {
+                const d = doc.data();
+                const interesses = Array.isArray(d.interesse) ? d.interesse.join(', ') : (d.interesse || '—');
+                const name = `${d.vorname || ''} ${d.nachname || ''}`.trim() || '—';
+                const date = d.dateEnvoiFr
+                    ? `${d.dateEnvoiFr} ${d.heureEnvoi || ''}`
+                    : '—';
+
+                const replied = d.replied === true;
+                const statusBadge = replied
+                    ? `<span style="color:#54e50d; font-weight:700;">✅ Beantwortet</span>`
+                    : `<span style="color:#ff6b6b; font-weight:700;">⏳ Offen</span>`;
+
+                const repliedInfo = replied
+                    ? `<div style="font-size:0.72rem; color:#A0AAB5; margin-top:4px;">von ${d.repliedBy || '—'}</div>`
+                    : '';
+
+                cache[doc.id] = {
+                    email: d.email || '',
+                    name: name,
+                    id: doc.id,
+                    replied: replied,
+                    repliedBy: d.repliedBy || null,
+                    replySubject: d.replySubject || null,
+                    replyText: d.replyText || null,
+                    repliedAtLocal: d.repliedAtLocal || null
+                };
+
+                html += `
+                    <tr>
+                        <td>${d.type || '—'}</td>
+                        <td>${d.firma || '—'}</td>
+                        <td>${name}</td>
+                        <td>${d.email || '—'}</td>
+                        <td>${d.telefon || '—'}</td>
+                        <td>${interesses}</td>
+                        <td>${date}</td>
+                        <td>${statusBadge}${repliedInfo}</td>
+                        <td>
+                            <button type="button" class="edit-btn reply-btn"
+                                    data-email="${d.email || ''}"
+                                    data-name="${name}"
+                                    data-id="${doc.id}">
+                                ✉️ ${replied ? 'Erneut antworten' : 'Antworten'}
+                            </button>
+                        </td>
+                    </tr>
+                `;
             });
 
-            if (overlay) {
-                overlay.addEventListener('click', function () {
-                    finalHamburger.classList.remove('active');
-                    finalNav.classList.remove('open');
-                    overlay.classList.remove('active');
+            html += '</tbody></table></div>';
+            return html;
+        }
+
+        /* ------------------------------------------------------------
+           Attache les handlers "Antworten" sur les boutons
+           ------------------------------------------------------------ */
+        function bindReplyButtons(container, cache) {
+            container.querySelectorAll('.reply-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const docId = this.dataset.id;
+                    const cached = cache[docId] || {};
+                    cached.email = this.dataset.email;
+                    cached.name = this.dataset.name;
+                    cached.id = docId;
+                    openReplyModal(cached);
+                });
+            });
+        }
+
+        /* ------------------------------------------------------------
+           Chargement VERTRIEBSPARTNER (tous sauf Promoter)
+           ------------------------------------------------------------ */
+        async function loadVPRequests() {
+            const list = document.getElementById('vpRequestsList');
+            if (!list) return;
+
+            if (typeof firebase === 'undefined' || !firebase.apps.length) {
+                setTimeout(loadVPRequests, 500);
+                return;
+            }
+
+            const db = firebase.firestore();
+            list.innerHTML = '<p class="setting-list-loading">Lade Anfragen...</p>';
+
+            try {
+                const snap = await db.collection(COLLECTION)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+
+                // Garde seulement les Vertriebspartner (B2B, B2C ou générique)
+                const docs = snap.docs.filter(doc => {
+                    const t = (doc.data().type || '').toString();
+                    return t.startsWith('Vertriebspartner');
+                });
+
+                if (docs.length === 0) {
+                    list.innerHTML = '<p class="setting-list-empty">Keine Anfragen vorhanden.</p>';
+                    return;
+                }
+
+                window._vpRequestsCache = {};
+                list.innerHTML = buildTableHtml(docs, window._vpRequestsCache);
+                bindReplyButtons(list, window._vpRequestsCache);
+
+            } catch (err) {
+                console.error('loadVPRequests error:', err);
+                list.innerHTML = '<p class="setting-list-error">Fehler beim Laden.</p>';
+            }
+        }
+
+        /* ------------------------------------------------------------
+           Chargement VERKAUFSFÖRDERER (uniquement Promoter)
+           ------------------------------------------------------------ */
+        async function loadVKRequests() {
+            const list = document.getElementById('vkRequestsList');
+            if (!list) return;
+
+            if (typeof firebase === 'undefined' || !firebase.apps.length) {
+                setTimeout(loadVKRequests, 500);
+                return;
+            }
+
+            const db = firebase.firestore();
+            list.innerHTML = '<p class="setting-list-loading">Lade Anfragen...</p>';
+
+            try {
+                const snap = await db.collection(COLLECTION)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+
+                // Garde seulement les Promoter
+                const docs = snap.docs.filter(doc => {
+                    const t = (doc.data().type || '').toString();
+                    return t === 'Promoter';
+                });
+
+                if (docs.length === 0) {
+                    list.innerHTML = '<p class="setting-list-empty">Keine Anfragen vorhanden.</p>';
+                    return;
+                }
+
+                window._vkRequestsCache = {};
+                list.innerHTML = buildTableHtml(docs, window._vkRequestsCache);
+                bindReplyButtons(list, window._vkRequestsCache);
+
+            } catch (err) {
+                console.error('loadVKRequests error:', err);
+                list.innerHTML = '<p class="setting-list-error">Fehler beim Laden.</p>';
+            }
+        }
+
+        /* ============================================================
+           3. MODAL
+           ============================================================ */
+        function openReplyModal(req) {
+            currentRequest = req;
+
+            const modal = document.getElementById('replyModal');
+            const subjectInput = document.getElementById('replySubject');
+            const messageInput = document.getElementById('replyMessage');
+            const status = document.getElementById('replyStatus');
+
+            document.getElementById('replyToEmail').textContent = req.email || '—';
+
+            if (req.replied) {
+                subjectInput.value = req.replySubject || 'Antwort auf Ihre Anfrage – Vertrauen Distributor';
+                messageInput.value = req.replyText || '';
+                status.textContent = `ℹ️ Bereits beantwortet von ${req.repliedBy || '—'}`;
+                status.style.color = '#A0AAB5';
+            } else {
+                subjectInput.value = 'Antwort auf Ihre Anfrage – Vertrauen Distributor';
+                messageInput.value = '';
+                status.textContent = '';
+                status.style.color = '';
+            }
+
+            modal.classList.add('active');
+            setTimeout(() => messageInput.focus(), 200);
+        }
+
+        function closeReplyModal() {
+            document.getElementById('replyModal').classList.remove('active');
+            currentRequest = null;
+        }
+
+        /* ============================================================
+           4. ENVOI
+           ============================================================ */
+        async function sendReply() {
+            if (!currentRequest) return;
+
+            const subject = document.getElementById('replySubject').value.trim();
+            const message = document.getElementById('replyMessage').value.trim();
+            const status = document.getElementById('replyStatus');
+            const btn = document.getElementById('replySendBtn');
+
+            if (!subject || !message) {
+                status.textContent = '❌ Bitte Betreff und Nachricht ausfüllen.';
+                status.style.color = '#ff6b6b';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Wird gesendet ...';
+
+            try {
+                if (typeof firebase !== 'undefined' && firebase.apps.length) {
+                    const db = firebase.firestore();
+
+                    const adminAnrede = localStorage.getItem('userAnrede') || '';
+                    const adminNachname = localStorage.getItem('userNachname') || '';
+                    const adminEmail = localStorage.getItem('userEmail') || 'admin';
+                    const adminName = (adminAnrede + ' ' + adminNachname).trim() || adminEmail;
+
+                    const now = new Date();
+
+                    await db.collection(COLLECTION)
+                        .doc(currentRequest.id)
+                        .update({
+                            replied: true,
+                            repliedBy: adminName,
+                            repliedByEmail: adminEmail,
+                            replySubject: subject,
+                            replyText: message,
+                            repliedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            repliedAtLocal: now.toISOString()
+                        });
+
+                    await db.collection(REPLIES_COLLECTION).add({
+                        requestId: currentRequest.id,
+                        toEmail: currentRequest.email,
+                        toName: currentRequest.name,
+                        fromEmail: ADMIN_EMAIL,
+                        fromAdmin: adminName,
+                        fromAdminEmail: adminEmail,
+                        subject: subject,
+                        message: message,
+                        sentAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        sentAtLocal: now.toISOString()
+                    });
+                }
+
+                const mailtoLink = `mailto:${encodeURIComponent(currentRequest.email)}`
+                    + `?from=${encodeURIComponent(ADMIN_EMAIL)}`
+                    + `&subject=${encodeURIComponent(subject)}`
+                    + `&body=${encodeURIComponent(message)}`;
+
+                window.location.href = mailtoLink;
+
+                status.textContent = '✅ Antwort wird gesendet …';
+                status.style.color = '#54e50d';
+
+                setTimeout(() => {
+                    closeReplyModal();
+                    btn.disabled = false;
+                    btn.textContent = '📧 Antwort senden';
+                    // Recharge les deux tableaux pour refléter le statut
+                    loadVPRequests();
+                    loadVKRequests();
+                }, 1500);
+
+            } catch (err) {
+                console.error('sendReply error:', err);
+                status.textContent = '❌ Fehler: ' + err.message;
+                status.style.color = '#ff6b6b';
+                btn.disabled = false;
+                btn.textContent = '📧 Antwort senden';
+            }
+        }
+
+        /* ============================================================
+           5. INIT
+           ============================================================ */
+        function init() {
+            initTabs();
+
+            document.getElementById('replyClose')?.addEventListener('click', closeReplyModal);
+            document.getElementById('replyCancelBtn')?.addEventListener('click', closeReplyModal);
+            document.getElementById('replySendBtn')?.addEventListener('click', sendReply);
+
+            const modal = document.getElementById('replyModal');
+            if (modal) {
+                modal.addEventListener('click', e => {
+                    if (e.target === modal) closeReplyModal();
                 });
             }
+
+            loadVPRequests();
+            // VK est chargé seulement quand on clique sur l'onglet (voir initTabs)
         }
-        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fixHamburgerIndex);
-        else fixHamburgerIndex();
-        setTimeout(fixHamburgerIndex, 800);
-    })();
-    </script>
 
-    <!-- ===== SCROLL ===== -->
-    <script>
-    (function() {
-        function applyScroll() {
-            const socialBar = document.querySelector('.social-top-bar');
-            const header = document.querySelector('.dashboard-header');
-            const body = document.body;
-            const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-
-            if (scrollY > 50) {
-                if (socialBar) socialBar.classList.add('hidden');
-                if (header) { header.classList.add('scrolled'); header.classList.add('top-zero'); }
-                if (body) body.classList.add('scrolled-page');
-            } else {
-                if (socialBar) socialBar.classList.remove('hidden');
-                if (header) { header.classList.remove('scrolled'); header.classList.remove('top-zero'); }
-                if (body) body.classList.remove('scrolled-page');
-            }
-        }
-        window.addEventListener('scroll', applyScroll, { passive: true });
-        document.addEventListener('DOMContentLoaded', applyScroll);
-        applyScroll();
-    })();
-    </script>
-<!-- ===== AUTH ICON + WELCOME HEADING ===== -->
-<script>
-(function () {
-    // === 1. Cadenas → Icône personne si connecté ===
-    function updateHeaderAuthIcon() {
-        const lockIcon = document.querySelector('.header-lock-icon');
-        if (!lockIcon) return;
-
-        const userEmail = localStorage.getItem('userEmail');
-
-        if (userEmail) {
-            const isAdminFlag = localStorage.getItem('isAdmin') === 'true';
-            lockIcon.href = isAdminFlag ? 'admin.html' : 'sektoren.html';
-            lockIcon.setAttribute('aria-label', 'Mein Konto');
-            lockIcon.setAttribute('title', 'Mein Konto');
-            lockIcon.innerHTML = `
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
-                     stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                </svg>
-            `;
-            lockIcon.classList.add('is-logged-in');
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
         } else {
-            lockIcon.href = 'pageadmin.html';
-            lockIcon.setAttribute('aria-label', 'Portalanmeldung');
-            lockIcon.setAttribute('title', 'Portalanmeldung');
-            lockIcon.innerHTML = `
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
-                     stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                </svg>
-            `;
-            lockIcon.classList.remove('is-logged-in');
+            init();
         }
-    }
-
-    // === 2. Remplace "Unsere einzige Anforderung: Vertrauen" par le nom ===
-    function updateHomeWelcome() {
-        const h2 = document.querySelector('.home-hero-head .hero-h2');
-        if (!h2) return;
-
-        const userEmail = localStorage.getItem('userEmail');
-        if (!userEmail) return;   // pas connecté → on garde le titre d'origine
-
-        const nachname = localStorage.getItem('userNachname');
-        const anrede   = localStorage.getItem('userAnrede');
-
-        let displayName = nachname || userEmail;
-        if (anrede && nachname) displayName = anrede + ' ' + nachname;
-
-        h2.classList.add('welcome-heading');
-        h2.innerHTML =
-            '<span class="welcome-label">Willkommen</span>, ' +
-            '<span class="welcome-name">' + displayName + '</span>';
-    }
-
-    // === Exécution ===
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function () {
-            updateHeaderAuthIcon();
-            updateHomeWelcome();
-        });
-    } else {
-        updateHeaderAuthIcon();
-        updateHomeWelcome();
-    }
-
-    // Sécurité : re-run après 500ms (au cas où main.js écrit après)
-    setTimeout(function () {
-        updateHeaderAuthIcon();
-        updateHomeWelcome();
-    }, 500);
-})();
-</script>
+        setTimeout(loadVPRequests, 1200);
+        setTimeout(loadVPRequests, 2000);
+    })();
+    </script>
 </body>
 </html>
