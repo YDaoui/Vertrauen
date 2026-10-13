@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kontakt – Vertrauen Distributor</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV3MLGBFYW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EV3MLGBFYW');
+    </script>
+
+    <!-- ✅ Firebase — INDISPENSABLE pour main.js -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+    <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
+    <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+        /* ============================================================
+           PAGE KONTAKT — STYLE
+           ============================================================ */
+        body.kontakt-page {
+            background: #0c2545 !important;
+            padding-top: 112px !important;
+        }
+        body.kontakt-page.scrolled-page {
+            padding-top: 68px !important;
+        }
+
+        .kontakt-section {
+            background: #0c2545;
+            min-height: calc(100vh - 112px);
+            padding: 60px 20px 80px;
+            box-sizing: border-box;
+        }
+
+        .kontakt-inner {
+            max-width: 820px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ---------- EN-TÊTE DE LA SECTION ---------- */
+        .kontakt-head {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 36px;
+        }
+        .kontakt-head .hero-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .kontakt-head .green-bar {
+            width: 36px;
+            height: 3px;
+            background: #54e50d;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        .kontakt-head .hero-label span:not(.green-bar) {
+            color: #A0AAB5;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .kontakt-head h1 {
+            color: #54e50d;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .kontakt-head p {
+            color: #A0AAB5;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 6px 0 0;
+        }
+
+        /* ---------- CARTE FORMULAIRE ---------- */
+        .kontakt-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(84, 229, 13, 0.25);
+            border-radius: 16px;
+            padding: 40px 42px;
+            box-sizing: border-box;
+            box-shadow:
+                inset 0 0 20px rgba(84, 229, 13, 0.05),
+                0 0 30px rgba(84, 229, 13, 0.10),
+                0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .kontakt-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 24px;
+        }
+
+        .kontakt-form .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .kontakt-form .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .kontakt-form label {
+            color: #A0AAB5;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+        .kontakt-form label .required {
+            color: #54e50d;
+            margin-left: 2px;
+        }
+
+        .kontakt-form input,
+        .kontakt-form textarea,
+        .kontakt-form select {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(12, 37, 69, 0.7);
+            border: 1px solid rgba(160, 170, 181, 0.25);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        .kontakt-form input::placeholder,
+        .kontakt-form textarea::placeholder {
+            color: #6a7b91;
+        }
+        .kontakt-form input:focus,
+        .kontakt-form textarea:focus,
+        .kontakt-form select:focus {
+            outline: none;
+            border-color: #54e50d;
+            box-shadow: 0 0 0 3px rgba(84, 229, 13, 0.18);
+            background: rgba(12, 37, 69, 0.9);
+        }
+
+        .kontakt-form textarea {
+            min-height: 140px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .kontakt-form select {
+            appearance: none;
+            background-image:
+                linear-gradient(45deg, transparent 50%, #54e50d 50%),
+                linear-gradient(135deg, #54e50d 50%, transparent 50%);
+            background-position:
+                calc(100% - 18px) calc(50% - 2px),
+                calc(100% - 13px) calc(50% - 2px);
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+            padding-right: 32px;
+            color: #ffffff;
+        }
+        .kontakt-form select option {
+            background: #0c2545;
+            color: #ffffff;
+        }
+
+        /* ---------- BOUTON ENVOYER ---------- */
+        .kontakt-submit-wrap {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 6px;
+        }
+
+        .kontakt-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #54e50d 0%, #46c40a 100%);
+            color: #0c2545;
+            border: none;
+            padding: 14px 38px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(84, 229, 13, 0.3);
+            font-family: inherit;
+        }
+        .kontakt-submit:hover:not(:disabled) {
+            background: #FFFFFF;
+            color: #0c2545;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.25);
+        }
+        .kontakt-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .kontakt-submit svg {
+            transition: transform 0.25s ease;
+        }
+        .kontakt-submit:hover:not(:disabled) svg {
+            transform: translateX(4px);
+        }
+
+        /* ---------- MESSAGE DE SUCCÈS (vert) ---------- */
+        .kontakt-success {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 24px;
+            padding: 16px 22px;
+            background: rgba(84, 229, 13, 0.12);
+            border: 2px solid #54e50d;
+            border-left: 6px solid #54e50d;
+            border-radius: 12px;
+            color: #54e50d;
+            font-size: 0.98rem;
+            font-weight: 600;
+            line-height: 1.5;
+            animation: kontaktFadeIn 0.4s ease;
+            box-shadow: 0 0 25px rgba(84, 229, 13, 0.3);
+        }
+        .kontakt-success svg {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            padding: 4px;
+            background: #54e50d;
+            color: #0c2545;
+            stroke: #0c2545;
+            border-radius: 50%;
+        }
+        .kontakt-success span {
+            flex: 1;
+        }
+
+        /* ---------- MESSAGE D'ERREUR (rouge) ---------- */
+        .kontakt-error {
+            margin-top: 24px;
+            padding: 16px 22px;
+            background: rgba(255, 107, 107, 0.12);
+            border: 2px solid #ff6b6b;
+            border-left: 6px solid #ff6b6b;
+            border-radius: 12px;
+            color: #ff6b6b;
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.5;
+            animation: kontaktFadeIn 0.4s ease;
+        }
+        .kontakt-error a {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        @keyframes kontaktFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------- BOUTON EN COURS D'ENVOI ---------- */
+        .kontakt-submit.loading {
+            opacity: 0.75;
+            cursor: wait;
+            pointer-events: none;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 700px) {
+            .kontakt-card { padding: 28px 22px; border-radius: 14px; }
+            .kontakt-form { grid-template-columns: 1fr; gap: 16px; }
+            .kontakt-head h1 { font-size: 1.4rem; }
+            .kontakt-submit { width: 100%; justify-content: center; padding: 14px 20px; font-size: 0.9rem; }
+        }
+        @media (max-width: 480px) {
+            body.kontakt-page { padding-top: 90px !important; }
+            body.kontakt-page.scrolled-page { padding-top: 58px !important; }
+            .kontakt-section { padding: 40px 14px 60px; }
+            .kontakt-card { padding: 22px 16px; }
+            .kontakt-head h1 { font-size: 1.2rem; }
+            .kontakt-head p { font-size: 0.85rem; }
+            .kontakt-success { font-size: 0.88rem; padding: 14px 16px; }
+        }
+        /* ---------- ARABE / RTL ---------- */
+.kontakt-section[dir="rtl"] .kontakt-submit-wrap { justify-content: flex-end; }
+.kontakt-section[dir="rtl"] .kontakt-submit svg { transform: scaleX(-1); }
+.kontakt-section[dir="rtl"] .kontakt-submit:hover:not(:disabled) svg { transform: scaleX(-1) translateX(4px); }
+.kontakt-section[dir="rtl"] .kontakt-form select {
+    background-position: 13px calc(50% - 2px), 18px calc(50% - 2px);
+    padding-right: 14px;
+    padding-left: 32px;
+}
+.kontakt-section[dir="rtl"] .kontakt-success { border-left-width: 2px; border-right: 6px solid #54e50d; }
+.kontakt-section[dir="rtl"] .kontakt-error { border-left-width: 2px; border-right: 6px solid #ff6b6b; }
+    </style>
+</head>
+
+<body class="dashboard-page kontakt-page">
+
+    <!-- ===== POP-UP LANGUE ===== -->
+    <div class="lang-popup-overlay" id="langPopup" role="dialog" aria-modal="true">
+        <div class="lang-popup">
+            <div class="lang-popup-header">
+                <span class="green-bar"></span>
+                <h2>Sprache wählen</h2>
+            </div>
+            <p class="lang-popup-sub">
+                Bitte wählen Sie Ihre Sprache
+                <br>
+                <span class="ar-sub">الرجاء اختيار لغتك</span>
+            </p>
+
+            <div class="lang-popup-buttons">
+                <button class="lang-btn" data-lang="de" type="button">
+                    <span class="lang-name">Deutsch</span>
+                </button>
+                <button class="lang-btn" data-lang="ar" type="button">
+                    <span class="lang-name">العربية</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteneur caché pour Google Translate -->
+    <div id="google_translate_element" style="display:none !important;"></div>
+
+    <!-- ===== BANDEAU RÉSEAUX SOCIAUX ===== -->
+    <div class="social-top-bar">
+        <div class="social-top-bar-content">
+            <div class="social-icons">
+                <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
+                </a>
+                <a href="https://twitter.com/votrecompte" target="_blank" class="social-icon twitter" aria-label="Twitter">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg>
+                </a>
+            </div>
+           <div class="top-bar-buttons">
+                <a href="Vertriebspartner.html" class="btn-top-bar">Vertriebspartner</a>
+                <a href="SalesPromoter.html" class="btn-top-bar">D2D-Vertieb</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="dashboard-header" id="dashboardHeader">
+        <a href="index.html" class="logo-link">
+            <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" />
+        </a>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Menü öffnen/schließen">
+            <span></span><span></span><span></span>
+        </button>
+        <nav class="dashboard-nav" id="mainNav">
+            <a href="index.html">Unsere Geschichte</a>
+            <a href="sektoren.html">Unsere Sektoren</a>
+            <a href="news.html">Nachrichten</a>
+            <a href="ueber-uns.html">Über uns</a>
+        </nav>
+
+        <!-- ✅ Bouton vecteur de traduction -->
+        <button type="button" class="header-lang-icon" id="langTrigger" aria-label="Sprache wählen">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+            </svg>
+        </button>
+    </header>
+
+    <!-- ===== MENU OVERLAY (mobile) ===== -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- ============================================================
+         SECTION KONTAKT — FORMULAIRE
+         Envoi AJAX (sans redirection) — utilise le hash FormSubmit
+         DÉJÀ ACTIVÉ (le même que Vertriebspartner.html)
+         ============================================================ -->
+    <section class="kontakt-section notranslate" translate="no" id="kontaktSection">
+    <div class="kontakt-inner">
+
+        <div class="kontakt-head">
+            <div class="hero-label">
+                <span class="green-bar"></span>
+                <span data-i18n="tag">Kontakt</span>
+            </div>
+            <h1 data-i18n="title">Schreiben Sie uns</h1>
+            <p data-i18n="sub">Füllen Sie das Formular aus und unser Team meldet sich schnellstmöglich bei Ihnen.</p>
+        </div>
+
+        <div class="kontakt-card">
+            <form class="kontakt-form" id="kontaktForm" novalidate>
+
+                <input type="hidden" name="_subject" value="Kontaktanfrage" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="angle" value="Kontakt" />
+
+                <div class="form-group">
+                    <label for="kName"><span data-i18n="lastname">Nachname</span><span class="required">*</span></label>
+                    <input type="text" id="kName" name="Nachname" data-i18n-ph="ph_lastname" placeholder="Ihr Nachname" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="kVorname"><span data-i18n="firstname">Vorname</span><span class="required">*</span></label>
+                    <input type="text" id="kVorname" name="Vorname" data-i18n-ph="ph_firstname" placeholder="Ihr Vorname" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="kEmail"><span data-i18n="email">E-Mail-Adresse</span><span class="required">*</span></label>
+                    <input type="email" id="kEmail" name="E-Mail" data-i18n-ph="ph_email" placeholder="ihre@email.de" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="kTelefon" data-i18n="phone">Telefonnummer</label>
+                    <input type="tel" id="kTelefon" name="Telefonnummer" placeholder="+49 ..." />
+                </div>
+
+                <div class="form-group full">
+                    <label for="kSujet"><span data-i18n="subject">Betreff</span><span class="required">*</span></label>
+                    <select id="kSujet" name="Betreff" required>
+                        <option value="" disabled selected data-i18n="choose">-- Bitte wählen --</option>
+                        <option value="Allgemeine Anfrage" data-i18n="opt_general">Allgemeine Anfrage</option>
+                        <option value="Strom" data-i18n="opt_strom">Strom</option>
+                        <option value="Gas" data-i18n="opt_gas">Gas</option>
+                        <option value="Internet" data-i18n="opt_internet">Internet</option>
+                        <option value="Versicherung" data-i18n="opt_vers">Versicherung</option>
+                        <option value="Vertriebspartner" data-i18n="opt_partner">Vertriebspartner werden</option>
+                        <option value="Sonstiges" data-i18n="opt_other">Sonstiges</option>
+                    </select>
+                </div>
+
+                <div class="form-group full">
+                    <label for="kCommentaire"><span data-i18n="message">Nachricht</span><span class="required">*</span></label>
+                    <textarea id="kCommentaire" name="Nachricht" data-i18n-ph="ph_message" placeholder="Ihre Nachricht ..." required></textarea>
+                </div>
+
+                <div class="kontakt-submit-wrap">
+                    <button type="submit" class="kontakt-submit">
+                        <span id="kSubmitText" data-i18n="send">Senden</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+
+            <div class="kontakt-success" id="kontaktSuccess" style="display:none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6L9 17l-5-5"/>
+                </svg>
+                <span data-i18n="success">Ihre Nachricht wurde erfolgreich gesendet. Wir antworten Ihnen schnellstmöglich.</span>
+            </div>
+
+            <div class="kontakt-error" id="kontaktError" style="display:none;">
+                ⚠️ <span data-i18n="error">Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut oder schreiben Sie direkt an</span>
+                <a href="mailto:infos@dl-distri.de">infos@dl-distri.de</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+    <!-- ===== SECTION "SUIVEZ-NOUS" ===== -->
+    <section class="home-follow">
+        <h3>Bleiben Sie mit uns in Verbindung</h3>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
+            </a>
+            <a href="https://twitter.com/votrecompte" target="_blank" class="social-icon twitter" aria-label="Twitter">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="vd-footer">
+        <div class="vd-footer-top">
+            <div class="vd-footer-top-inner">
+                <div class="vd-footer-titles">
+                    <div class="vd-footer-label">
+                        <span class="green-bar"></span>
+                        <span class="vd-footer-label-text">Folgen Sie unserem Aufbau</span>
+                    </div>
+                    <h2 class="vd-footer-title-white">Ihr nächster Beitrag</h2>
+                    <h3 class="vd-footer-title-green">Sprechen wir darüber</h3>
+                </div>
+                <div class="vd-footer-cta">
+                    <a href="kontakt.html" class="vd-footer-btn">
+                        Mit unserem Team sprechen
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="vd-footer-bottom">
+            <div class="vd-footer-bottom-inner">
+                <div class="vd-footer-col vd-footer-col-brand">
+                    <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" class="vd-footer-logo" />
+                    <p class="vd-footer-address">
+                        Gathe 40<br />
+                        42107 Wuppertal<br />
+                        Deutschland
+                    </p>
+                    <p class="vd-footer-follow-label">Folgen Sie uns</p>
+                    <div class="vd-footer-social">
+                        <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                        <a href="https://www.instagram.com/dl.companie/" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg></a>
+                        <a href="https://twitter.com/votrecompte" target="_blank" aria-label="Twitter"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                        <a href="https://www.tiktok.com/@votrecompte" target="_blank" aria-label="TikTok"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg></a>
+                    </div>
+                </div>
+
+                <div class="vd-footer-col">
+                    <h4 class="vd-footer-heading">Unsere Sektoren</h4>
+                    <ul class="vd-footer-list">
+                        <li><a href="sektoren.html#strom">Strom</a></li>
+                        <li><a href="sektoren.html#gas">Gas</a></li>
+                        <li><a href="sektoren.html#internet">Internet</a></li>
+                        <li><a href="sektoren.html#versicherung">Versicherung</a></li>
+                    </ul>
+                </div>
+
+                <div class="vd-footer-col">
+                    <h4 class="vd-footer-heading">Mehr erfahren</h4>
+                    <ul class="vd-footer-list">
+                        <li><a href="ueber-uns.html">Über uns</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                        <li><a href="news.html">Unsere Projekte</a></li>
+                        <li><a href="index.html">Unsere Geschichte</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="vd-footer-copyright">
+            <a href="datenschutz.html">Datenschutzerklärung</a>
+            <span class="vd-footer-sep">|</span>
+            <span class="vd-footer-copy">© 2026 DL-Distri</span>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="main.js"></script>
+
+    <!-- Menu hamburger -->
+    <script>
+    (function() {
+        function initHamburger() {
+            const hamburger = document.getElementById('hamburgerBtn');
+            const nav = document.getElementById('mainNav');
+            const overlay = document.getElementById('menuOverlay');
+            if (!hamburger || !nav) { setTimeout(initHamburger, 200); return; }
+
+            const newHamburger = hamburger.cloneNode(true);
+            hamburger.parentNode.replaceChild(newHamburger, hamburger);
+            const finalHamburger = document.getElementById('hamburgerBtn');
+            const finalNav = document.getElementById('mainNav');
+            if (!finalHamburger || !finalNav) return;
+
+            finalHamburger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.classList.toggle('active');
+                finalNav.classList.toggle('open');
+                if (overlay) overlay.classList.toggle('active');
+            });
+
+            finalNav.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    finalHamburger.classList.remove('active');
+                    finalNav.classList.remove('open');
+                    if (overlay) overlay.classList.remove('active');
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (finalNav.classList.contains('open')) {
+                    if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
+                        finalHamburger.classList.remove('active');
+                        finalNav.classList.remove('open');
+                        if (overlay) overlay.classList.remove('active');
+                    }
+                }
+            });
+
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    finalHamburger.classList.remove('active');
+                    finalNav.classList.remove('open');
+                    overlay.classList.remove('active');
+                });
+            }
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHamburger);
+        else initHamburger();
+        setTimeout(initHamburger, 500);
+        setTimeout(initHamburger, 1500);
+    })();
+    </script>
+
+    <!-- Scroll header -->
+    <script>
+    (function() {
+        function applyScroll() {
+            const socialBar = document.querySelector('.social-top-bar');
+            const header = document.querySelector('.dashboard-header');
+            const body = document.body;
+            const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollY > 50) {
+                if (socialBar) socialBar.classList.add('hidden');
+                if (header) { header.classList.add('scrolled'); header.classList.add('top-zero'); }
+                if (body) body.classList.add('scrolled-page');
+            } else {
+                if (socialBar) socialBar.classList.remove('hidden');
+                if (header) { header.classList.remove('scrolled'); header.classList.remove('top-zero'); }
+                if (body) body.classList.remove('scrolled-page');
+            }
+        }
+        window.addEventListener('scroll', applyScroll, { passive: true });
+        document.addEventListener('DOMContentLoaded', applyScroll);
+        applyScroll();
+    })();
+    </script>
+
+    <!-- ============================================================
+         ✅ ENVOI AJAX DU FORMULAIRE KONTAKT (sans redirection)
+         Utilise le hash FormSubmit DÉJÀ ACTIVÉ
+         (le même que Vertriebspartner.html → d6b69ca1bd3be32c7915fa4dd6e04bf0)
+         ============================================================ -->
+    <script>
+    (function () {
+        const AJAX_ENDPOINT = 'https://formsubmit.co/ajax/dl.companie@gmail.com';
+
+        function initKontaktForm() {
+            const form = document.getElementById('kontaktForm');
+            if (!form) return;
+
+            const btn     = form.querySelector('.kontakt-submit');
+            const success = document.getElementById('kontaktSuccess');
+            const error   = document.getElementById('kontaktError');
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                // Cache les anciens messages
+                if (success) success.style.display = 'none';
+                if (error)   error.style.display   = 'none';
+
+                // État "envoi en cours"
+                if (btn) {
+                    btn.classList.add('loading');
+                    btn.dataset.originalText = btn.innerHTML;
+                    btn.innerHTML = 'Envoi en cours...';
+                }
+
+                // Récupère les données du formulaire
+                const data = new FormData(form);
+
+                try {
+                    const response = await fetch(AJAX_ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Accept': 'application/json' },
+                        body: data
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success === 'true' || result.success === true) {
+                        // ✅ Succès
+                        form.reset();
+                        if (success) {
+                            success.style.display = 'flex';
+                            success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    } else {
+                        throw new Error(result.message || 'Erreur inconnue');
+                    }
+
+                } catch (err) {
+                    console.error('Erreur envoi formulaire :', err);
+                    if (error) {
+                        error.style.display = 'block';
+                        error.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                } finally {
+                    // Restaure le bouton
+                    if (btn) {
+                        btn.classList.remove('loading');
+                        btn.innerHTML = btn.dataset.originalText || 'Envoyer';
+                    }
+                }
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initKontaktForm);
+        } else {
+            initKontaktForm();
+        }
+    })();
+    </script>
+
+</body>
+</html>

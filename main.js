@@ -2910,9 +2910,7 @@ function animateCounters() {
   });
 }
 
-// =====================================================================
-// ===== ✅ BLOC LANGUE — POP-UP + GOOGLE TRANSLATE ==================
-// =====================================================================
+
 (function () {
     const POPUP_KEY = 'vertrauen_popup_seen';
     let langInitDone = false;
@@ -2931,14 +2929,20 @@ function animateCounters() {
     function initLanguageSystem() {
         if (langInitDone) return;
         const popup = document.getElementById('langPopup');
+        const trigger = document.getElementById('langTrigger');
         if (!popup) return;
         langInitDone = true;
 
-        const popupSeen = localStorage.getItem(POPUP_KEY);
-        const isTranslated = document.cookie.indexOf('googtrans=/de/ar') !== -1;
+        /* ---------- OUVERTURE AU CLIC SUR LE GLOBE ---------- */
+        if (trigger) {
+            trigger.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                popup.classList.add('active');
+            });
+        }
 
-        if (!popupSeen && !isTranslated) popup.classList.add('active');
-
+        /* ---------- SÉLECTION D'UNE LANGUE ---------- */
         popup.querySelectorAll('.lang-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
                 localStorage.setItem(POPUP_KEY, '1');
@@ -2948,9 +2952,16 @@ function animateCounters() {
             });
         });
 
+        /* ---------- CLIC SUR LE FOND = FERMER ---------- */
         popup.addEventListener('click', function (e) {
             if (e.target === popup) {
-                localStorage.setItem(POPUP_KEY, '1');
+                popup.classList.remove('active');
+            }
+        });
+
+        /* ---------- ÉCHAP = FERMER ---------- */
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && popup.classList.contains('active')) {
                 popup.classList.remove('active');
             }
         });

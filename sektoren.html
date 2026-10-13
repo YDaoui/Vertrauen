@@ -19,6 +19,33 @@
 </head>
 <body class="dashboard-page sektoren-page">
 
+    <!-- ===== POP-UP LANGUE ===== -->
+    <div class="lang-popup-overlay" id="langPopup" role="dialog" aria-modal="true">
+        <div class="lang-popup">
+            <div class="lang-popup-header">
+                <span class="green-bar"></span>
+                <h2>Sprache wählen</h2>
+            </div>
+            <p class="lang-popup-sub">
+                Bitte wählen Sie Ihre Sprache
+                <br>
+                <span class="ar-sub">الرجاء اختيار لغتك</span>
+            </p>
+
+            <div class="lang-popup-buttons">
+                <button class="lang-btn" data-lang="de" type="button">
+                    <span class="lang-name">Deutsch</span>
+                </button>
+                <button class="lang-btn" data-lang="ar" type="button">
+                    <span class="lang-name">العربية</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteneur caché pour Google Translate -->
+    <div id="google_translate_element" style="display:none !important;"></div>
+
     <!-- ===== BANDEAU RÉSEAUX SOCIAUX (TOP) ===== -->
     <div class="social-top-bar">
         <div class="social-top-bar-content">
@@ -47,7 +74,7 @@
             <!-- ✅ BOUTONS VERTRIEBSPARTNER + SALES PROMOTER -->
             <div class="top-bar-buttons">
                 <a href="Vertriebspartner.html" class="btn-top-bar">Vertriebspartner</a>
-                <a href="SalesPromoter.html" class="btn-top-bar">Verkaufsförderer</a>
+                <a href="SalesPromoter.html" class="btn-top-bar">D2D-Vertieb</a>
             </div>
         </div>
     </div>
@@ -69,6 +96,13 @@
             <a href="index.html">Unsere Geschichte</a>
             <a href="ueber-uns.html">Über uns</a>
         </nav>
+
+        <!-- ✅ Bouton vecteur de traduction -->
+        <button type="button" class="header-lang-icon" id="langTrigger" aria-label="Sprache wählen">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+            </svg>
+        </button>
     </header>
     <!-- ===== FIN MENU PRINCIPAL ===== -->
 
@@ -301,8 +335,6 @@
     </footer>
 
     <script src="main.js"></script>
-
-   
 
 </body>
 </html>

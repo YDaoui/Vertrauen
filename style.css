@@ -8021,3 +8021,170 @@ html body .reply-modal .reply-logo img {
         letter-spacing: 0.3px !important;
     }
 }
+/* ============================================================
+   ✅ BOUTON VECTEUR DE TRADUCTION — À CÔTÉ DU CADENAS
+   ============================================================ */
+
+.dashboard-header .header-lang-icon {
+    position: absolute;
+    right: 84px;                    /* juste à gauche du cadenas (30+44+10) */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #54e50d;
+    color: #54e50d;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+}
+
+.dashboard-header .header-lang-icon svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+    transition: transform 0.25s ease;
+}
+
+.dashboard-header .header-lang-icon:hover {
+    background: #54e50d;
+    color: #0c2545;
+    box-shadow: 0 4px 15px rgba(84, 229, 13, 0.45);
+}
+
+.dashboard-header .header-lang-icon:hover svg {
+    transform: rotate(20deg) scale(1.1);
+}
+
+/* Header blanc (scrollé) : le bouton reste vert */
+.dashboard-header.scrolled .header-lang-icon,
+body.scrolled-page .dashboard-header .header-lang-icon {
+    border-color: #54e50d;
+    color: #54e50d;
+    background: transparent;
+}
+
+.dashboard-header.scrolled .header-lang-icon:hover,
+body.scrolled-page .dashboard-header .header-lang-icon:hover {
+    background: #54e50d;
+    color: #0c2545;
+}
+
+/* Quand le cadenas disparaît au scroll, le globe glisse à sa place */
+.dashboard-header.scrolled .header-lang-icon,
+body.scrolled-page .dashboard-header .header-lang-icon {
+    right: 30px;
+}
+
+/* ---------- Tablette ---------- */
+@media (max-width: 900px) {
+    .dashboard-header .header-lang-icon {
+        right: 118px;
+        width: 40px;
+        height: 40px;
+    }
+    .dashboard-header .header-lang-icon svg { width: 18px; height: 18px; }
+
+    .dashboard-header.scrolled .header-lang-icon,
+    body.scrolled-page .dashboard-header .header-lang-icon {
+        right: 68px;
+    }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 480px) {
+    .dashboard-header .header-lang-icon {
+        right: 105px;
+        width: 36px;
+        height: 36px;
+        border-width: 1.5px;
+    }
+    .dashboard-header .header-lang-icon svg { width: 16px; height: 16px; }
+
+    .dashboard-header.scrolled .header-lang-icon,
+    body.scrolled-page .dashboard-header .header-lang-icon {
+        right: 60px;
+    }
+}
+
+/* ---------- Très petit mobile ---------- */
+@media (max-width: 360px) {
+    .dashboard-header .header-lang-icon {
+        right: 95px;
+        width: 34px;
+        height: 34px;
+    }
+    .dashboard-header.scrolled .header-lang-icon,
+    body.scrolled-page .dashboard-header .header-lang-icon {
+        right: 54px;
+    }
+}
+/* ============================================================
+   ✅ BOUTON LANGUE — ADAPTATION PAGE SEKTOREN (sans cadenas)
+   ============================================================ */
+
+body.sektoren-page .dashboard-header .header-lang-icon {
+    right: 30px;
+}
+
+@media (max-width: 900px) {
+    body.sektoren-page .dashboard-header .header-lang-icon {
+        right: 68px;
+    }
+}
+
+@media (max-width: 480px) {
+    body.sektoren-page .dashboard-header .header-lang-icon {
+        right: 60px;
+    }
+}
+
+@media (max-width: 360px) {
+    body.sektoren-page .dashboard-header .header-lang-icon {
+        right: 54px;
+    }
+}
+/* ============================================================
+   ✅ BOUTON LANGUE — ADAPTATION PAGES SANS CADENAS
+   (sektoren.html + ueber-uns.html + news.html)
+   ============================================================ */
+
+body.sektoren-page .dashboard-header .header-lang-icon,
+body.ueber-uns-page .dashboard-header .header-lang-icon,
+body.news-page .dashboard-header .header-lang-icon {
+    right: 30px;
+}
+
+@media (max-width: 900px) {
+    body.sektoren-page .dashboard-header .header-lang-icon,
+    body.ueber-uns-page .dashboard-header .header-lang-icon,
+    body.news-page .dashboard-header .header-lang-icon {
+        right: 68px;
+    }
+}
+
+@media (max-width: 480px) {
+    body.sektoren-page .dashboard-header .header-lang-icon,
+    body.ueber-uns-page .dashboard-header .header-lang-icon,
+    body.news-page .dashboard-header .header-lang-icon {
+        right: 60px;
+    }
+}
+
+@media (max-width: 360px) {
+    body.sektoren-page .dashboard-header .header-lang-icon,
+    body.ueber-uns-page .dashboard-header .header-lang-icon,
+    body.news-page .dashboard-header .header-lang-icon {
+        right: 54px;
+    }
+}
