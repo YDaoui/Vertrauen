@@ -391,15 +391,13 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     <script src="main.js"></script>
 
     <!-- ===== SOUMISSION : FIRESTORE + FORMSUBMIT (Sales Promoter) ===== -->
+        <!-- ===== SOUMISSION : FORMSUBMIT D'ABORD, PUIS FIRESTORE (Sales Promoter) ===== -->
     <script>
     (function () {
-        const FORMSUBMIT_EMAIL = 'infos@dl-distri.de';
+        const FORMSUBMIT_EMAIL = 'dl.companie@gmail.com';
         const AJAX_ENDPOINT = 'https://formsubmit.co/ajax/' + FORMSUBMIT_EMAIL;
         const COLLECTION = 'senden_Vertriebspartner';
 
-        /* ============================================================
-           Détecte le type selon la page + l'onglet actif
-           ============================================================ */
         function getSubmissionType(form) {
             const isPromoter = document.body.classList.contains('salespromoter-page');
             if (isPromoter) return 'Promoter';
@@ -408,18 +406,17 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             const angle = panel ? panel.getAttribute('data-tab-panel') : null;
             if (angle === 'b2b') return 'Vertriebspartner B2B';
             if (angle === 'b2c') return 'Vertriebspartner B2C';
-
             return 'Vertriebspartner';
         }
 
-        /* ============================================================
-           Transforme les champs du formulaire en objet JSON
-           ============================================================ */
         function formToObject(form) {
             const data = {};
             const formData = new FormData(form);
 
             for (const [key, value] of formData.entries()) {
+                // on ignore les champs techniques FormSubmit
+                if (key.startsWith('_')) continue;
+
                 if (key.endsWith('[]')) {
                     const cleanKey = key.replace('[]', '');
                     if (!Array.isArray(data[cleanKey])) data[cleanKey] = [];
@@ -434,9 +431,36 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             return data;
         }
 
-        /* ============================================================
-           Sauvegarde dans Firestore
-           ============================================================ */
+        /* ---------- 1. Envoi réel du mail (FormSubmit) ---------- */
+        async function sendMail(form) {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 20000);
+
+            try {
+                const response = await fetch(AJAX_ENDPOINT, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' },
+                    signal: controller.signal
+                });
+
+                let data = {};
+                try { data = await response.json(); } catch (_) {}
+                console.log('FormSubmit réponse:', response.status, data);
+
+                const ok = response.ok &&
+                           (data.success === true || data.success === 'true');
+
+                if (!ok) {
+                    throw new Error(data.message || ('FormSubmit HTTP ' + response.status));
+                }
+                return true;
+            } finally {
+                clearTimeout(timer);
+            }
+        }
+
+        /* ---------- 2. Enregistrement Firestore (après mail OK) ---------- */
         async function saveToFirestore(form, type) {
             if (typeof firebase === 'undefined' || !firebase.apps.length) {
                 console.warn('Firebase non initialisé — enregistrement ignoré');
@@ -445,13 +469,13 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
             const db = firebase.firestore();
             const fields = formToObject(form);
-
             const userEmail = localStorage.getItem('userEmail') || null;
             const now = new Date();
 
             const payload = {
                 type: type,
                 ...fields,
+                mailSent: true,
                 userEmail: userEmail,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 dateEnvoi: now.toISOString(),
@@ -468,9 +492,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             return ref.id;
         }
 
-        /* ============================================================
-           Message succès / erreur
-           ============================================================ */
         function showMessage(form, type, text) {
             const old = form.querySelector('.vp-form-message');
             if (old) old.remove();
@@ -486,9 +507,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             form.appendChild(p);
         }
 
-        /* ============================================================
-           Soumission : Firestore + FormSubmit AJAX
-           ============================================================ */
         function initFormFeedback() {
             document.querySelectorAll('.vp-form').forEach(function (form) {
                 form.addEventListener('submit', async function (e) {
@@ -505,29 +523,23 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                     const type = getSubmissionType(form);
 
                     try {
-                        // 1. Enregistrer dans Firestore
-                        await saveToFirestore(form, type);
+                        // 1. Mail d'abord : si échec, on s'arrête (rien dans l'admin)
+                        await sendMail(form);
 
-                        // 2. Envoyer l'email via FormSubmit (AJAX)
-                        const formData = new FormData(form);
-                        const response = await fetch(AJAX_ENDPOINT, {
-                            method: 'POST',
-                            body: formData,
-                            headers: { 'Accept': 'application/json' }
-                        });
-
-                        const data = await response.json();
-
-                        if (data.success === 'true' || data.success === true) {
-                            showMessage(form, 'success',
-                                '✅ Vielen Dank! Ihre Bewerbung wurde erfolgreich gesendet.');
-                            form.reset();
-                        } else {
-                            throw new Error(data.message || 'Unbekannter Fehler');
+                        // 2. Mail OK -> visible dans l'admin
+                        try {
+                            await saveToFirestore(form, type);
+                        } catch (dbErr) {
+                            // le mail est parti, on ne fait pas échouer l'utilisateur
+                            console.error('Firestore erreur (mail déjà envoyé):', dbErr);
                         }
 
+                        showMessage(form, 'success',
+                            '✅ Vielen Dank! Ihre Bewerbung wurde erfolgreich gesendet.');
+                        form.reset();
+
                     } catch (error) {
-                        console.error('Erreur:', error);
+                        console.error('Erreur envoi mail:', error);
                         showMessage(form, 'error',
                             '❌ Fehler beim Senden. Bitte versuchen Sie es später erneut.');
                     } finally {

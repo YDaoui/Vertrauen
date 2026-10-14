@@ -2779,17 +2779,17 @@ function initScrollBehavior() {
 // =====================================================================
 function addGermanCitiesDots() {
   const mapImg = document.querySelector('.de-map-img');
-  if (!mapImg) {
-    console.warn('⚠️ addGermanCitiesDots : image carte introuvable');
-    return;
-  }
+  if (!mapImg) return;
+
+  // Définis tes villes ici (x / y en % de l'image)
+  const cities = window.GERMAN_CITIES || [
+    // { name: 'Wuppertal', x: 30, y: 52 },
+  ];
+  if (!cities.length) return;
 
   const parent = mapImg.parentElement;
   parent.style.position = 'relative';
-
   parent.querySelectorAll('.city-point, .city-pulse, .city-name').forEach(el => el.remove());
-
-
 
   cities.forEach(city => {
     const pulse = document.createElement('div');
@@ -2811,8 +2811,6 @@ function addGermanCitiesDots() {
     label.textContent = city.name;
     parent.appendChild(label);
   });
-
-  console.log('✅ addGermanCitiesDots : ' + cities.length + ' villes ajoutées');
 }
 
 window.addEventListener('load', function () {
