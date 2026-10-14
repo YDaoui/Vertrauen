@@ -7903,22 +7903,15 @@ html body .reply-modal .reply-logo img {
 /* ============================================================
    ✅ FIX MOBILE INDEX — Décale la vidéo de 40px vers le bas
    ============================================================ */
+/* ============================================================
+   ✅ INDEX MOBILE — VIDÉO REMONTE DE 30PX
+   ============================================================ */
 @media (max-width: 900px) {
     body.dashboard-page.index-page .hero-video-wrap,
     body.index-page .home-hero-video,
     body.dashboard-page.index-page .home-hero-right {
-        margin-top: 20px !important;
-        transform: translateY(20px) !important;
-        position: relative !important;
-    }
-}
-
-@media (max-width: 480px) {
-    body.dashboard-page.index-page .hero-video-wrap,
-    body.index-page .home-hero-video,
-    body.dashboard-page.index-page .home-hero-right {
-        margin-top: 40px !important;
-        transform: translateY(40px) !important;
+        margin-top: 0 !important;
+        transform: translateY(-30px) !important;
         position: relative !important;
     }
 }
@@ -8268,4 +8261,44 @@ body.news-page .dashboard-header .header-lang-icon {
         padding: 4px 10px !important;
         font-size: 0.62rem !important;
     }
+}
+/* ============================================================
+   ✅ BOUTON TRADUCTION — MASQUÉ AU SCROLL SUR TOUTES LES PAGES
+   À ajouter à la toute fin de style.css
+   ============================================================ */
+
+/* ---------- 1. ÉTAT PAR DÉFAUT (en haut de page) : VISIBLE ---------- */
+.dashboard-header .header-lang-icon {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(-50%) scale(1);
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease,
+        transform 0.3s ease,
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+/* ---------- 2. AU SCROLL : MASQUÉ (fondu + glissement vers le haut) ---------- */
+.dashboard-header.scrolled .header-lang-icon,
+body.scrolled-page .dashboard-header .header-lang-icon {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(-50%) scale(0.85) !important;
+}
+
+/* ---------- 3. AU SURVOL (uniquement visible en haut de page) ---------- */
+.dashboard-header:not(.scrolled) .header-lang-icon:hover {
+    background: #54e50d;
+    color: #0c2545;
+    border-color: #54e50d;
+    box-shadow: 0 4px 15px rgba(84, 229, 13, 0.45);
+}
+
+.dashboard-header:not(.scrolled) .header-lang-icon:hover svg {
+    transform: rotate(20deg) scale(1.1);
 }
