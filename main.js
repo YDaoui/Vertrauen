@@ -2789,18 +2789,7 @@ function addGermanCitiesDots() {
 
   parent.querySelectorAll('.city-point, .city-pulse, .city-name').forEach(el => el.remove());
 
-  const cities = [
-    { name: 'Berlin',     x: 72, y: 30 },
-    { name: 'Hamburg',    x: 53, y: 15 },
-    { name: 'München',    x: 58, y: 78 },
-    { name: 'Köln',       x: 30, y: 45 },
-    { name: 'Frankfurt',  x: 40, y: 52 },
-    { name: 'Stuttgart',  x: 44, y: 63 },
-    { name: 'Düsseldorf', x: 28, y: 41 },
-    { name: 'Dresden',    x: 81, y: 49 },
-    { name: 'Hannover',   x: 46, y: 26 },
-    { name: 'Nürnberg',   x: 58, y: 62 }
-  ];
+
 
   cities.forEach(city => {
     const pulse = document.createElement('div');

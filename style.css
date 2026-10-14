@@ -8188,3 +8188,84 @@ body.news-page .dashboard-header .header-lang-icon {
         right: 54px;
     }
 }
+/* ============================================================
+   ✅ FIX MOBILE INDEX — Vidéo remonte de 30px + boutons centrés
+   À ajouter à la toute fin de style.css
+   ============================================================ */
+
+/* ---------- TABLETTE + MOBILE (max 900px) ---------- */
+@media (max-width: 900px) {
+
+    /* 1. VIDÉO : remonte de 30px */
+    body.dashboard-page.index-page .hero-video-wrap,
+    body.index-page .home-hero-video,
+    body.dashboard-page.index-page .home-hero-right {
+        margin-top: 0 !important;
+        transform: translateY(-30px) !important;
+        position: relative !important;
+    }
+
+    /* 2. BOUTONS VP / VKF : centrés sur le bandeau blanc au scroll */
+    body.scrolled-page .social-top-bar .top-bar-buttons {
+        position: fixed !important;
+        top: 30px !important;
+        left: 50% !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: translate(-50%, -50%) !important;
+        gap: 8px !important;
+        margin: 0 !important;
+        z-index: 1003 !important;
+        display: flex !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        opacity: 1 !important;
+    }
+
+    /* Boutons légèrement plus petits */
+    body.scrolled-page .social-top-bar .top-bar-buttons .btn-top-bar {
+        padding: 6px 14px !important;
+        font-size: 0.78rem !important;
+        letter-spacing: 0.3px !important;
+        border-radius: 24px !important;
+    }
+}
+
+/* ---------- PETIT MOBILE (max 480px) ---------- */
+@media (max-width: 480px) {
+
+    /* Vidéo : toujours -30px */
+    body.dashboard-page.index-page .hero-video-wrap,
+    body.index-page .home-hero-video,
+    body.dashboard-page.index-page .home-hero-right {
+        margin-top: 0 !important;
+        transform: translateY(-30px) !important;
+        position: relative !important;
+    }
+
+    /* Boutons : centrés, un peu plus petits */
+    body.scrolled-page .social-top-bar .top-bar-buttons {
+        top: 28px !important;
+        gap: 6px !important;
+    }
+
+    body.scrolled-page .social-top-bar .top-bar-buttons .btn-top-bar {
+        padding: 5px 12px !important;
+        font-size: 0.68rem !important;
+        letter-spacing: 0.2px !important;
+        border-radius: 20px !important;
+    }
+}
+
+/* ---------- TRÈS PETIT MOBILE (max 360px) ---------- */
+@media (max-width: 360px) {
+
+    body.scrolled-page .social-top-bar .top-bar-buttons {
+        top: 26px !important;
+    }
+
+    body.scrolled-page .social-top-bar .top-bar-buttons .btn-top-bar {
+        padding: 4px 10px !important;
+        font-size: 0.62rem !important;
+    }
+}

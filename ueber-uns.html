@@ -24,6 +24,54 @@
 
     <!-- CSS principal -->
     <link rel="stylesheet" href="style.css" />
+    <!-- =========================================================
+     FIX : BOUTON TRADUCTION AU SCROLL + BOUTON CTA MOBILE
+     ========================================================= -->
+<style>
+    /* 1) CACHER LE BOUTON TRADUCTION QUAND ON SCROLLE */
+    .dashboard-header .header-lang-icon {
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    }
+
+    /* Dès que le header reçoit .scrolled (ajouté par ton JS au scroll) */
+    .dashboard-header.scrolled .header-lang-icon,
+    body.scrolled-page .header-lang-icon {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transform: translateY(-10px);
+    }
+
+    /* 2) SUR MOBILE : image D'ABORD, puis texte + bouton "Entdecken Sie unseren Weg" EN BAS */
+    @media (max-width: 768px) {
+
+        /* On force la mise en colonne */
+        .home-hero-row {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        /* L'image monte en premier */
+        .home-hero-right,
+        .home-hero-video {
+            order: 1 !important;
+            width: 100% !important;
+            margin-bottom: 24px !important;
+        }
+
+        /* Le texte + le bouton passent en dessous de l'image */
+        .home-hero-left {
+            order: 2 !important;
+            width: 100% !important;
+        }
+
+        /* Le bouton reste bien visible en bas */
+        .home-hero-left .ueber-uns-cta {
+            display: inline-flex !important;
+            margin-top: 24px !important;
+        }
+    }
+</style>
 </head>
 
 <body class="dashboard-page ueber-uns-page">
