@@ -13,6 +13,15 @@
       gtag('config', 'G-EV3MLGBFYW');
     </script>
 
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!-- ===== EMAILJS SDK ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        emailjs.init({ publicKey: 'KYSDulQBzPNnvSZCi' });
+    </script>
+
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
     <link rel="stylesheet" href="style.css" />
@@ -51,7 +60,6 @@
                 <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
                 </a>
-               
                 <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg>
                 </a>
@@ -97,7 +105,12 @@
             <div class="home-segments-box">
                 <div class="home-segments-row" id="segmentsRow">
 
-                    <button class="home-segment-tab active" data-segment="vertriebspartner" type="button">
+                    <button class="home-segment-tab active" data-segment="statistik" type="button">
+                        <span class="tab-title">Statistik</span>
+                        <span class="tab-sub">Übersicht</span>
+                    </button>
+
+                    <button class="home-segment-tab" data-segment="vertriebspartner" type="button">
                         <span class="tab-title">Vertriebspartner</span>
                         <span class="tab-sub">Verlauf</span>
                     </button>
@@ -120,8 +133,72 @@
                 </div>
             </div>
 
+            <!-- ===== CONTENU STATISTIK ===== -->
+            <div class="statistik-inline-content visible" id="statistikInlineContent">
+
+                <div class="stats-grid">
+                    <div class="stat-card stat-card-total">
+                        <div class="stat-number" id="statTotal">—</div>
+                        <div class="stat-label">Anfragen gesamt</div>
+                    </div>
+
+                    <div class="stat-card stat-card-b2b">
+                        <div class="stat-number" id="statB2B">—</div>
+                        <div class="stat-label">B2B · Vertriebspartner</div>
+                    </div>
+
+                    <div class="stat-card stat-card-d2d">
+                        <div class="stat-number" id="statD2D">—</div>
+                        <div class="stat-label">D2D · Promoter</div>
+                    </div>
+
+                    <div class="stat-card stat-card-reply">
+                        <div class="stat-number" id="statReplied">—</div>
+                        <div class="stat-label">
+                            Beantwortet
+                            <span class="stat-rate" id="statRate">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-card-head">
+                            <span class="green-bar"></span>
+                            <h4>Répartition par catégorie</h4>
+                        </div>
+                        <div class="chart-wrap">
+                            <canvas id="chartCategories"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-card-head">
+                            <span class="green-bar"></span>
+                            <h4>Offen vs Beantwortet</h4>
+                        </div>
+                        <div class="chart-wrap">
+                            <canvas id="chartStatus"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid charts-grid-full">
+                    <div class="chart-card">
+                        <div class="chart-card-head">
+                            <span class="green-bar"></span>
+                            <h4>Évolution des demandes (30 derniers jours)</h4>
+                        </div>
+                        <div class="chart-wrap">
+                            <canvas id="chartTimeline"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
             <!-- ===== CONTENU VERTRIEBSPARTNER ===== -->
-            <div class="vertriebspartner-inline-content visible" id="vertriebspartnerInlineContent">
+            <div class="vertriebspartner-inline-content" id="vertriebspartnerInlineContent">
                 <div class="setting-area">
                     <div class="setting-table-col">
 
@@ -130,11 +207,10 @@
                             <h4>Anfragen Vertriebspartner</h4>
                         </div>
 
-                        <!-- FILTRES VP (style identique aux onglets News) -->
                         <div class="admin-news-tabs" id="vpFilterTabs">
-                            <button class="admin-news-tab active" data-filter="alle" type="button"> Alle</button>
-                            <button class="admin-news-tab" data-filter="offen" type="button"> Offen</button>
-                            <button class="admin-news-tab" data-filter="beantwortet" type="button"> Beantwortet</button>
+                            <button class="admin-news-tab active" data-filter="alle" type="button">Alle</button>
+                            <button class="admin-news-tab" data-filter="offen" type="button">Offen</button>
+                            <button class="admin-news-tab" data-filter="beantwortet" type="button">Beantwortet</button>
                         </div>
 
                         <div id="vpRequestsList" class="setting-users-list">
@@ -145,7 +221,7 @@
                 </div>
             </div>
 
-            <!-- ===== CONTENU VERKAUFSFÖRDERER ===== -->
+            <!-- ===== CONTENU D2D ===== -->
             <div class="vertriebspartner-inline-content" id="verkaeuferInlineContent">
                 <div class="setting-area">
                     <div class="setting-table-col">
@@ -155,11 +231,10 @@
                             <h4>D2D-Vertieb</h4>
                         </div>
 
-                        <!-- FILTRES VK (style identique aux onglets News) -->
                         <div class="admin-news-tabs" id="vkFilterTabs">
-                            <button class="admin-news-tab active" data-filter="alle" type="button"> Alle</button>
-                            <button class="admin-news-tab" data-filter="offen" type="button"> Offen</button>
-                            <button class="admin-news-tab" data-filter="beantwortet" type="button"> Beantwortet</button>
+                            <button class="admin-news-tab active" data-filter="alle" type="button">Alle</button>
+                            <button class="admin-news-tab" data-filter="offen" type="button">Offen</button>
+                            <button class="admin-news-tab" data-filter="beantwortet" type="button">Beantwortet</button>
                         </div>
 
                         <div id="vkRequestsList" class="setting-users-list">
@@ -243,13 +318,12 @@
             <div class="news-inline-content" id="newsInlineContent">
 
                 <div class="admin-news-tabs">
-                    <button class="admin-news-tab active" data-cat="Strom" type="button"> Strom</button>
-                    <button class="admin-news-tab" data-cat="Gas" type="button"> Gas</button>
-                    <button class="admin-news-tab" data-cat="Internet" type="button"> Internet</button>
-                    <button class="admin-news-tab" data-cat="Versicherung" type="button"> Versicherung</button>
+                    <button class="admin-news-tab active" data-cat="Strom" type="button">Strom</button>
+                    <button class="admin-news-tab" data-cat="Gas" type="button">Gas</button>
+                    <button class="admin-news-tab" data-cat="Internet" type="button">Internet</button>
+                    <button class="admin-news-tab" data-cat="Versicherung" type="button">Versicherung</button>
                 </div>
 
-                <!-- STROM -->
                 <div class="admin-news-cat active" data-cat="Strom">
                     <div class="admin-news-grid">
                         <div class="admin-news-card">
@@ -267,7 +341,6 @@
                     </div>
                 </div>
 
-                <!-- GAS -->
                 <div class="admin-news-cat" data-cat="Gas">
                     <div class="admin-news-grid">
                         <div class="admin-news-card">
@@ -285,7 +358,6 @@
                     </div>
                 </div>
 
-                <!-- INTERNET -->
                 <div class="admin-news-cat" data-cat="Internet">
                     <div class="admin-news-grid">
                         <div class="admin-news-card">
@@ -303,7 +375,6 @@
                     </div>
                 </div>
 
-                <!-- VERSICHERUNG -->
                 <div class="admin-news-cat" data-cat="Versicherung">
                     <div class="admin-news-grid">
                         <div class="admin-news-card">
@@ -332,7 +403,6 @@
         <div class="social-icons">
             <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" class="social-icon facebook" aria-label="Facebook"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
             <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg></a>
-           
             <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg></a>
         </div>
     </section>
@@ -367,7 +437,6 @@
                     <div class="vd-footer-social">
                         <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
                         <a href="https://www.instagram.com/dl.companie/" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg></a>
-                       
                         <a href="https://www.tiktok.com/@votrecompte" target="_blank" aria-label="TikTok"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg></a>
                     </div>
                 </div>
@@ -440,13 +509,43 @@
         </div>
     </div>
 
+    <!-- ===== MODAL CONFIRMATION SUPPRESSION ===== -->
+    <div class="confirm-modal" id="confirmModal">
+        <div class="confirm-modal-content">
+
+            <button type="button" class="confirm-close" id="confirmCloseBtn" aria-label="Schließen">✖</button>
+
+            <div class="confirm-icon">⚠️</div>
+
+            <div class="setting-block-head" style="justify-content:center;">
+                <h4 style="text-align:center;">Anfrage löschen ?</h4>
+            </div>
+
+            <p class="confirm-text">
+                Möchten Sie die Anfrage von<br>
+                <strong id="confirmName">—</strong><br>
+                wirklich löschen ?
+            </p>
+
+            <p class="confirm-warning">⚠️ Cette action est irréversible.</p>
+
+            <p id="confirmStatus" class="setting-user-message" style="text-align:center;"></p>
+
+            <div class="confirm-actions">
+                <button type="button" class="confirm-delete-btn" id="confirmDeleteBtn">🗑️ Ja, löschen</button>
+                <button type="button" class="confirm-cancel-btn" id="confirmCancelBtn">✖ Abbrechen</button>
+            </div>
+
+        </div>
+    </div>
+
     <!-- ===== JS ===== -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="main.js"></script>
 
     <!-- ============================================================
-         DÉSACTIVATION DU CHAT TAWK.TO SUR CETTE PAGE
+         DÉSACTIVATION DU CHAT TAWK.TO
          ============================================================ -->
     <script>
     (function () {
@@ -504,23 +603,32 @@
     })();
     </script>
 
-    <!-- ===== SCRIPT : Onglets + Tableaux (VP & VK) + Filtres + Réponse ===== -->
+    <!-- ===== SCRIPT PRINCIPAL ===== -->
     <script>
     (function () {
+
+        /* ============================================================
+           CONFIGURATION EMAILJS
+           ============================================================ */
+        const EMAILJS_SERVICE_ID  = 'service_o2dk6yp';
+        const EMAILJS_TEMPLATE_ID = 'template_6kwx8hi';
+        const ADMIN_EMAIL         = 'infos@dl-distri.de';
 
         /* ============================================================
            1. ONGLETS PRINCIPAUX
            ============================================================ */
         function initTabs() {
             const tabs = document.querySelectorAll('button.home-segment-tab[data-segment]');
-            const vpBox       = document.getElementById('vertriebspartnerInlineContent');
-            const vkBox       = document.getElementById('verkaeuferInlineContent');
-            const settingBox  = document.getElementById('settingInlineContent');
-            const newsBox     = document.getElementById('newsInlineContent');
+            const statBox    = document.getElementById('statistikInlineContent');
+            const vpBox      = document.getElementById('vertriebspartnerInlineContent');
+            const vkBox      = document.getElementById('verkaeuferInlineContent');
+            const settingBox = document.getElementById('settingInlineContent');
+            const newsBox    = document.getElementById('newsInlineContent');
 
             if (!tabs.length) return;
 
-            if (vpBox)      vpBox.classList.add('visible');
+            if (statBox)    statBox.classList.add('visible');
+            if (vpBox)      vpBox.classList.remove('visible');
             if (vkBox)      vkBox.classList.remove('visible');
             if (settingBox) settingBox.classList.remove('visible');
             if (newsBox)    newsBox.classList.remove('visible');
@@ -534,13 +642,18 @@
                     tabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
 
+                    if (statBox)    statBox.classList.remove('visible');
                     if (vpBox)      vpBox.classList.remove('visible');
                     if (vkBox)      vkBox.classList.remove('visible');
                     if (settingBox) settingBox.classList.remove('visible');
                     if (newsBox)    newsBox.classList.remove('visible');
 
-                    if (segment === 'vertriebspartner' && vpBox) {
+                    if (segment === 'statistik' && statBox) {
+                        statBox.classList.add('visible');
+                        loadStats();
+                    } else if (segment === 'vertriebspartner' && vpBox) {
                         vpBox.classList.add('visible');
+                        loadVPRequests();
                     } else if (segment === 'verkaeufer' && vkBox) {
                         vkBox.classList.add('visible');
                         loadVKRequests();
@@ -554,22 +667,17 @@
         }
 
         /* ============================================================
-           2. FILTRES (Vertriebspartner / Verkaufsförderer)
+           2. FILTRES
            ============================================================ */
-        // État des filtres actifs
         let vpFilter = 'alle';
         let vkFilter = 'alle';
-
-        // Stockage des docs bruts pour filtrage local
         let vpAllDocs = [];
         let vkAllDocs = [];
 
-        // Stockages des caches
         window._vpRequestsCache = {};
         window._vkRequestsCache = {};
 
         function initFilterTabs() {
-            // Filtres VP
             const vpFilterTabs = document.querySelectorAll('#vpFilterTabs .admin-news-tab');
             vpFilterTabs.forEach(btn => {
                 btn.addEventListener('click', function () {
@@ -580,7 +688,6 @@
                 });
             });
 
-            // Filtres VK
             const vkFilterTabs = document.querySelectorAll('#vkFilterTabs .admin-news-tab');
             vkFilterTabs.forEach(btn => {
                 btn.addEventListener('click', function () {
@@ -615,7 +722,7 @@
 
             window._vpRequestsCache = {};
             list.innerHTML = buildTableHtml(filtered, window._vpRequestsCache);
-            bindReplyButtons(list, window._vpRequestsCache);
+            bindRowButtons(list, window._vpRequestsCache);
         }
 
         function applyVKFilter() {
@@ -641,7 +748,7 @@
 
             window._vkRequestsCache = {};
             list.innerHTML = buildTableHtml(filtered, window._vkRequestsCache);
-            bindReplyButtons(list, window._vkRequestsCache);
+            bindRowButtons(list, window._vkRequestsCache);
         }
 
         /* ============================================================
@@ -649,7 +756,6 @@
            ============================================================ */
         const COLLECTION = 'senden_Vertriebspartner';
         const REPLIES_COLLECTION = 'replies_Vertriebspartner';
-        const ADMIN_EMAIL = 'infos@dl-distri.de';
 
         let currentRequest = null;
 
@@ -677,9 +783,7 @@
                 const d = doc.data();
                 const interesses = Array.isArray(d.interesse) ? d.interesse.join(', ') : (d.interesse || '—');
                 const name = `${d.vorname || ''} ${d.nachname || ''}`.trim() || '—';
-                const date = d.dateEnvoiFr
-                    ? `${d.dateEnvoiFr} ${d.heureEnvoi || ''}`
-                    : '—';
+                const date = d.dateEnvoiFr ? `${d.dateEnvoiFr} ${d.heureEnvoi || ''}` : '—';
 
                 const replied = d.replied === true;
                 const statusBadge = replied
@@ -687,7 +791,7 @@
                     : `<span style="color:#ff6b6b; font-weight:700;">⏳ Offen</span>`;
 
                 const repliedInfo = replied
-                    ? `<div style="font-size:0.72rem; color:#A0AAB5; margin-top:4px;">von ${d.repliedBy || '—'}</div>`
+                    ? `<div style="font-size:0.65rem; color:#A0AAB5; margin-top:4px;">von ${d.repliedBy || '—'}</div>`
                     : '';
 
                 cache[doc.id] = {
@@ -712,12 +816,19 @@
                         <td>${date}</td>
                         <td>${statusBadge}${repliedInfo}</td>
                         <td>
-                            <button type="button" class="edit-btn reply-btn"
-                                    data-email="${d.email || ''}"
-                                    data-name="${name}"
-                                    data-id="${doc.id}">
-                                ✉️ ${replied ? 'Erneut antworten' : 'Antworten'}
-                            </button>
+                            <div class="action-btn-group">
+                                <button type="button" class="edit-btn reply-btn"
+                                        data-email="${d.email || ''}"
+                                        data-name="${name}"
+                                        data-id="${doc.id}">
+                                    ✉️ ${replied ? 'Erneut' : 'Antworten'}
+                                </button>
+                                <button type="button" class="edit-btn delete-btn"
+                                        data-id="${doc.id}"
+                                        data-name="${name}">
+                                    🗑️ Löschen
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -727,7 +838,7 @@
             return html;
         }
 
-        function bindReplyButtons(container, cache) {
+        function bindRowButtons(container, cache) {
             container.querySelectorAll('.reply-btn').forEach(btn => {
                 btn.addEventListener('click', function () {
                     const docId = this.dataset.id;
@@ -738,6 +849,78 @@
                     openReplyModal(cached);
                 });
             });
+
+            container.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    deleteRequest(this.dataset.id, this.dataset.name);
+                });
+            });
+        }
+
+        /* ============================================================
+           SUPPRESSION — Modal de confirmation custom
+           ============================================================ */
+        let _pendingDelete = null;
+
+        function deleteRequest(docId, name) {
+            _pendingDelete = { docId, name };
+
+            document.getElementById('confirmName').textContent = name || '—';
+            document.getElementById('confirmStatus').textContent = '';
+
+            const btn = document.getElementById('confirmDeleteBtn');
+            btn.disabled = false;
+            btn.textContent = '🗑️ Ja, löschen';
+
+            const modal = document.getElementById('confirmModal');
+            modal.classList.add('active');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+            _pendingDelete = null;
+        }
+
+        async function executeDelete() {
+            if (!_pendingDelete) return;
+
+            const { docId } = _pendingDelete;
+            const btn = document.getElementById('confirmDeleteBtn');
+            const status = document.getElementById('confirmStatus');
+
+            if (typeof firebase === 'undefined' || !firebase.apps.length) {
+                status.textContent = '❌ Firebase nicht verfügbar.';
+                status.style.color = '#ff6b6b';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Wird gelöscht ...';
+            status.textContent = '';
+            status.style.color = '';
+
+            try {
+                const db = firebase.firestore();
+                await db.collection(COLLECTION).doc(docId).delete();
+
+                status.textContent = '✅ Erfolgreich gelöscht.';
+                status.style.color = '#54e50d';
+
+                loadVPRequests();
+                loadVKRequests();
+                loadStats();
+
+                setTimeout(() => {
+                    closeConfirmModal();
+                }, 900);
+
+            } catch (err) {
+                console.error('executeDelete error:', err);
+                status.textContent = '❌ Fehler: ' + err.message;
+                status.style.color = '#ff6b6b';
+                btn.disabled = false;
+                btn.textContent = '🗑️ Ja, löschen';
+            }
         }
 
         async function loadVPRequests() {
@@ -753,9 +936,7 @@
             list.innerHTML = '<p class="setting-list-loading">Lade Anfragen...</p>';
 
             try {
-                const snap = await db.collection(COLLECTION)
-                    .orderBy('createdAt', 'desc')
-                    .get();
+                const snap = await db.collection(COLLECTION).orderBy('createdAt', 'desc').get();
 
                 vpAllDocs = snap.docs.filter(doc => {
                     const t = (doc.data().type || '').toString();
@@ -788,9 +969,7 @@
             list.innerHTML = '<p class="setting-list-loading">Lade Anfragen...</p>';
 
             try {
-                const snap = await db.collection(COLLECTION)
-                    .orderBy('createdAt', 'desc')
-                    .get();
+                const snap = await db.collection(COLLECTION).orderBy('createdAt', 'desc').get();
 
                 vkAllDocs = snap.docs.filter(doc => {
                     const t = (doc.data().type || '').toString();
@@ -811,7 +990,278 @@
         }
 
         /* ============================================================
-           4. MODAL
+           4. STATISTIK
+           ============================================================ */
+        let statsCharts = { categories: null, status: null, timeline: null };
+
+        function categorize(type) {
+            const t = (type || '').toString().toLowerCase();
+            if (t.startsWith('vertriebspartner')) return 'B2B';
+            if (t === 'promoter') return 'D2D';
+            if (t.startsWith('b2c') || t === 'b2c') return 'B2C';
+            return 'B2C';
+        }
+
+        async function loadStats() {
+            if (typeof firebase === 'undefined' || !firebase.apps.length) {
+                setTimeout(loadStats, 500);
+                return;
+            }
+            if (typeof Chart === 'undefined') {
+                console.warn('Chart.js non chargé');
+                return;
+            }
+
+            try {
+                const db = firebase.firestore();
+                const snap = await db.collection(COLLECTION).get();
+                const docs = snap.docs.map(d => d.data());
+                computeAndRenderStats(docs);
+            } catch (err) {
+                console.error('loadStats error:', err);
+            }
+        }
+
+        function computeAndRenderStats(docs) {
+            let total = docs.length;
+            let b2b = 0, b2c = 0, d2d = 0;
+            let repliedB2B = 0, repliedB2C = 0, repliedD2D = 0;
+            let totalReplied = 0;
+
+            const now = new Date();
+            const days = [];
+            for (let i = 29; i >= 0; i--) {
+                const d = new Date(now);
+                d.setDate(d.getDate() - i);
+                d.setHours(0, 0, 0, 0);
+                days.push({ date: d, count: 0 });
+            }
+
+            docs.forEach(d => {
+                const cat = categorize(d.type);
+                const replied = d.replied === true;
+                if (replied) totalReplied++;
+
+                if (cat === 'B2B')       { b2b++;     if (replied) repliedB2B++; }
+                else if (cat === 'D2D')  { d2d++;     if (replied) repliedD2D++; }
+                else                     { b2c++;     if (replied) repliedB2C++; }
+
+                let docDate = null;
+                if (d.createdAt && typeof d.createdAt.toDate === 'function') {
+                    docDate = d.createdAt.toDate();
+                } else if (d.repliedAtLocal) {
+                    docDate = new Date(d.repliedAtLocal);
+                } else if (d.dateEnvoiFr) {
+                    const parts = d.dateEnvoiFr.split('.');
+                    if (parts.length === 3) {
+                        docDate = new Date(parts[2], parts[1] - 1, parts[0]);
+                    }
+                }
+                if (docDate && !isNaN(docDate)) {
+                    docDate.setHours(0, 0, 0, 0);
+                    const idx = days.findIndex(x => x.date.getTime() === docDate.getTime());
+                    if (idx !== -1) days[idx].count++;
+                }
+            });
+
+            document.getElementById('statTotal').textContent = total;
+            document.getElementById('statB2B').textContent = b2b;
+            document.getElementById('statD2D').textContent = d2d;
+            document.getElementById('statReplied').textContent = totalReplied;
+            const rateEl = document.getElementById('statRate');
+            if (rateEl) {
+                const rate = total ? Math.round((totalReplied / total) * 100) : 0;
+                rateEl.textContent = rate + '%';
+            }
+
+            renderCategoryChart(b2b, b2c, d2d);
+            renderStatusChart(b2b, repliedB2B, b2c, repliedB2C, d2d, repliedD2D);
+            renderTimelineChart(days);
+        }
+
+        function renderCategoryChart(b2b, b2c, d2d) {
+            const ctx = document.getElementById('chartCategories');
+            if (!ctx) return;
+            if (statsCharts.categories) statsCharts.categories.destroy();
+
+            statsCharts.categories = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['B2B', 'B2C', 'D2D'],
+                    datasets: [{
+                        data: [b2b, b2c, d2d],
+                        backgroundColor: ['#54e50d', '#4fa8ff', '#2a6eb5'],
+                        borderColor: '#0c2545',
+                        borderWidth: 2,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '62%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#A0AAB5',
+                                font: { size: 10, weight: '600' },
+                                padding: 10,
+                                boxWidth: 10,
+                                boxHeight: 10,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(12, 37, 69, 0.95)',
+                            borderColor: '#54e50d',
+                            borderWidth: 1,
+                            titleColor: '#FFFFFF',
+                            bodyColor: '#A0AAB5',
+                            padding: 8
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderStatusChart(b2b, repliedB2B, b2c, repliedB2C, d2d, repliedD2D) {
+            const ctx = document.getElementById('chartStatus');
+            if (!ctx) return;
+            if (statsCharts.status) statsCharts.status.destroy();
+
+            const offenB2B = b2b - repliedB2B;
+            const offenB2C = b2c - repliedB2C;
+            const offenD2D = d2d - repliedD2D;
+
+            statsCharts.status = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['B2B', 'B2C', 'D2D'],
+                    datasets: [
+                        {
+                            label: 'Offen',
+                            data: [offenB2B, offenB2C, offenD2D],
+                            backgroundColor: '#4fa8ff',
+                            borderRadius: 5,
+                            borderSkipped: false
+                        },
+                        {
+                            label: 'Beantwortet',
+                            data: [repliedB2B, repliedB2C, repliedD2D],
+                            backgroundColor: '#54e50d',
+                            borderRadius: 5,
+                            borderSkipped: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#A0AAB5',
+                                font: { size: 10, weight: '600' },
+                                padding: 10,
+                                boxWidth: 10,
+                                boxHeight: 10,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(12, 37, 69, 0.95)',
+                            borderColor: '#54e50d',
+                            borderWidth: 1,
+                            titleColor: '#FFFFFF',
+                            bodyColor: '#A0AAB5',
+                            padding: 8
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#A0AAB5', font: { size: 10, weight: '600' } }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#A0AAB5', font: { size: 10 }, precision: 0 },
+                            grid: { color: 'rgba(160, 170, 181, 0.10)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderTimelineChart(days) {
+            const ctx = document.getElementById('chartTimeline');
+            if (!ctx) return;
+            if (statsCharts.timeline) statsCharts.timeline.destroy();
+
+            const labels = days.map(d =>
+                d.date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })
+            );
+            const data = days.map(d => d.count);
+
+            statsCharts.timeline = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Anfragen / Tag',
+                        data: data,
+                        borderColor: '#54e50d',
+                        backgroundColor: 'rgba(79, 168, 255, 0.14)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.35,
+                        pointBackgroundColor: '#54e50d',
+                        pointBorderColor: '#0c2545',
+                        pointBorderWidth: 1.5,
+                        pointRadius: 3,
+                        pointHoverRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(12, 37, 69, 0.95)',
+                            borderColor: '#54e50d',
+                            borderWidth: 1,
+                            titleColor: '#FFFFFF',
+                            bodyColor: '#A0AAB5',
+                            padding: 8
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                color: '#A0AAB5',
+                                font: { size: 9 },
+                                maxRotation: 0,
+                                autoSkip: true,
+                                maxTicksLimit: 10
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#A0AAB5', font: { size: 10 }, precision: 0 },
+                            grid: { color: 'rgba(160, 170, 181, 0.10)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        /* ============================================================
+           5. MODAL RÉPONSE
            ============================================================ */
         function openReplyModal(req) {
             currentRequest = req;
@@ -845,7 +1295,7 @@
         }
 
         /* ============================================================
-           5. ENVOI
+           6. ENVOI RÉPONSE — EMAILJS (sans Outlook)
            ============================================================ */
         async function sendReply() {
             if (!currentRequest) return;
@@ -865,27 +1315,44 @@
             btn.textContent = 'Wird gesendet ...';
 
             try {
+                // ===== Infos admin =====
+                const adminAnrede   = localStorage.getItem('userAnrede')   || '';
+                const adminNachname = localStorage.getItem('userNachname') || '';
+                const adminEmail    = localStorage.getItem('userEmail')    || 'admin';
+                const adminName     = (adminAnrede + ' ' + adminNachname).trim() || adminEmail;
+
+                // ===== 1. ENVOI EMAIL VIA EMAILJS =====
+                if (typeof emailjs === 'undefined') {
+                    throw new Error('EmailJS nicht geladen. Prüfe den SDK im <head>.');
+                }
+
+                await emailjs.send(
+                    EMAILJS_SERVICE_ID,
+                    EMAILJS_TEMPLATE_ID,
+                    {
+                        to_email:  currentRequest.email,
+                        to_name:   currentRequest.name,
+                        subject:   subject,
+                        message:   message,
+                        from_name: adminName,
+                        reply_to:  ADMIN_EMAIL
+                    }
+                );
+
+                // ===== 2. MISE À JOUR FIRESTORE =====
                 if (typeof firebase !== 'undefined' && firebase.apps.length) {
                     const db = firebase.firestore();
-
-                    const adminAnrede = localStorage.getItem('userAnrede') || '';
-                    const adminNachname = localStorage.getItem('userNachname') || '';
-                    const adminEmail = localStorage.getItem('userEmail') || 'admin';
-                    const adminName = (adminAnrede + ' ' + adminNachname).trim() || adminEmail;
-
                     const now = new Date();
 
-                    await db.collection(COLLECTION)
-                        .doc(currentRequest.id)
-                        .update({
-                            replied: true,
-                            repliedBy: adminName,
-                            repliedByEmail: adminEmail,
-                            replySubject: subject,
-                            replyText: message,
-                            repliedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            repliedAtLocal: now.toISOString()
-                        });
+                    await db.collection(COLLECTION).doc(currentRequest.id).update({
+                        replied: true,
+                        repliedBy: adminName,
+                        repliedByEmail: adminEmail,
+                        replySubject: subject,
+                        replyText: message,
+                        repliedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        repliedAtLocal: now.toISOString()
+                    });
 
                     await db.collection(REPLIES_COLLECTION).add({
                         requestId: currentRequest.id,
@@ -901,14 +1368,7 @@
                     });
                 }
 
-                const mailtoLink = `mailto:${encodeURIComponent(currentRequest.email)}`
-                    + `?from=${encodeURIComponent(ADMIN_EMAIL)}`
-                    + `&subject=${encodeURIComponent(subject)}`
-                    + `&body=${encodeURIComponent(message)}`;
-
-                window.location.href = mailtoLink;
-
-                status.textContent = '✅ Antwort wird gesendet …';
+                status.textContent = '✅ Antwort wurde erfolgreich gesendet.';
                 status.style.color = '#54e50d';
 
                 setTimeout(() => {
@@ -917,11 +1377,12 @@
                     btn.textContent = '📧 Antwort senden';
                     loadVPRequests();
                     loadVKRequests();
-                }, 1500);
+                    loadStats();
+                }, 1200);
 
             } catch (err) {
                 console.error('sendReply error:', err);
-                status.textContent = '❌ Fehler: ' + err.message;
+                status.textContent = '❌ Fehler: ' + (err.text || err.message || 'Unbekannt');
                 status.style.color = '#ff6b6b';
                 btn.disabled = false;
                 btn.textContent = '📧 Antwort senden';
@@ -929,7 +1390,7 @@
         }
 
         /* ============================================================
-           6. INIT
+           7. INIT
            ============================================================ */
         function init() {
             initTabs();
@@ -946,6 +1407,18 @@
                 });
             }
 
+            document.getElementById('confirmCloseBtn')?.addEventListener('click', closeConfirmModal);
+            document.getElementById('confirmCancelBtn')?.addEventListener('click', closeConfirmModal);
+            document.getElementById('confirmDeleteBtn')?.addEventListener('click', executeDelete);
+
+            const confirmModal = document.getElementById('confirmModal');
+            if (confirmModal) {
+                confirmModal.addEventListener('click', e => {
+                    if (e.target === confirmModal) closeConfirmModal();
+                });
+            }
+
+            loadStats();
             loadVPRequests();
         }
 
@@ -954,8 +1427,8 @@
         } else {
             init();
         }
-        setTimeout(loadVPRequests, 1200);
-        setTimeout(loadVPRequests, 2000);
+        setTimeout(loadStats, 1200);
+        setTimeout(loadStats, 2000);
     })();
     </script>
 </body>

@@ -8302,3 +8302,475 @@ body.scrolled-page .dashboard-header .header-lang-icon {
 .dashboard-header:not(.scrolled) .header-lang-icon:hover svg {
     transform: rotate(20deg) scale(1.1);
 }
+/* ============================================================
+   ADMIN — ÉLARGISSEMENT + BOUTON SUPPRIMER
+   ============================================================ */
+
+#vertriebspartnerInlineContent,
+#verkaeuferInlineContent,
+#statistikInlineContent {
+    max-width: 1400px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+#vertriebspartnerInlineContent .setting-area,
+#verkaeuferInlineContent .setting-area {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+}
+
+#vertriebspartnerInlineContent .setting-table-col,
+#verkaeuferInlineContent .setting-table-col {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+#vertriebspartnerInlineContent .setting-users-table-wrap,
+#verkaeuferInlineContent .setting-users-table-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* ---- Boutons d'action (Antworten + Löschen côte à côte) ---- */
+.setting-users-table .action-btn-group {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 5px !important;
+    align-items: center !important;
+}
+
+.setting-users-table .reply-btn {
+    padding: 5px 10px !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+    border-radius: 6px !important;
+}
+
+.setting-users-table .delete-btn {
+    background: rgba(255, 107, 107, 0.15) !important;
+    color: #ff6b6b !important;
+    border: 1px solid rgba(255, 107, 107, 0.35) !important;
+    padding: 5px 10px !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px !important;
+    white-space: nowrap !important;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease !important;
+}
+
+.setting-users-table .delete-btn:hover {
+    background: rgba(255, 107, 107, 0.30) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.25) !important;
+}
+
+/* ---- Filtres compacts + police tableau réduite ---- */
+#vpFilterTabs,
+#vkFilterTabs {
+    padding: 4px !important;
+    gap: 6px !important;
+    margin-bottom: 16px !important;
+}
+#vpFilterTabs .admin-news-tab,
+#vkFilterTabs .admin-news-tab {
+    padding: 8px 10px !important;
+    font-size: 0.78rem !important;
+    letter-spacing: 0.8px !important;
+    min-height: 34px !important;
+}
+.setting-users-table { font-size: 0.74rem !important; }
+.setting-users-table thead th {
+    font-size: 0.62rem !important;
+    padding: 8px 9px !important;
+    letter-spacing: 0.8px !important;
+}
+.setting-users-table tbody td {
+    padding: 7px 9px !important;
+    font-size: 0.74rem !important;
+}
+
+/* ============================================================
+   STATISTIK — KPI CARDS + GRAPHIQUES (COMPACT · BLEU/VERT)
+   ============================================================ */
+body.admin-page .home-segments-row {
+    grid-template-columns: repeat(5, 1fr) !important;
+}
+
+.statistik-inline-content {
+    display: none;
+    width: 100%;
+    max-width: 1400px;
+    margin: 22px auto 0;
+    box-sizing: border-box;
+}
+.statistik-inline-content.visible {
+    display: block !important;
+    animation: inlineFadeIn 0.3s ease;
+}
+
+/* ---- KPI CARDS (compactes) ---- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(84, 229, 13, 0.18);
+    border-radius: 10px;
+    padding: 12px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #54e50d 0%, #4fa8ff 100%);
+    opacity: 0.9;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(84, 229, 13, 0.45);
+    box-shadow: 0 6px 18px rgba(84, 229, 13, 0.12);
+}
+
+.stat-card-total::before { background: linear-gradient(90deg, #0c2545 0%, #4fa8ff 100%); }
+.stat-card-b2b::before   { background: linear-gradient(90deg, #54e50d 0%, #2a6eb5 100%); }
+.stat-card-b2c::before   { background: linear-gradient(90deg, #4fa8ff 0%, #54e50d 100%); }
+.stat-card-d2d::before   { background: linear-gradient(90deg, #2a6eb5 0%, #54e50d 100%); }
+.stat-card-reply::before { background: linear-gradient(90deg, #54e50d 0%, #4fa8ff 100%); }
+
+.stat-icon { display: none; }
+
+.stat-number {
+    color: #54e50d;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.5px;
+}
+
+.stat-card-total .stat-number { color: #FFFFFF; }
+.stat-card-b2b   .stat-number { color: #54e50d; }
+.stat-card-b2c   .stat-number { color: #4fa8ff; }
+.stat-card-d2d   .stat-number { color: #2a6eb5; }
+.stat-card-reply .stat-number { color: #54e50d; }
+
+.stat-label {
+    color: #A0AAB5;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    line-height: 1.2;
+}
+
+.stat-rate {
+    display: inline-block;
+    background: rgba(84, 229, 13, 0.15);
+    color: #54e50d;
+    padding: 1px 6px;
+    border-radius: 8px;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    margin-top: 1px;
+}
+
+/* ---- GRILLES DE GRAPHIQUES (compactes) ---- */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.charts-grid-full { grid-template-columns: 1fr; }
+
+.chart-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(84, 229, 13, 0.18);
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    transition: border-color 0.25s ease;
+}
+.chart-card:hover { border-color: rgba(84, 229, 13, 0.4); }
+
+.chart-card-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.chart-card-head .green-bar {
+    width: 24px;
+    height: 2px;
+    background: #54e50d;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+.chart-card-head h4 {
+    color: #FFFFFF;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 190px;
+}
+.chart-wrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+    body.admin-page .home-segments-row {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+    .stat-number { font-size: 1.3rem; }
+    .stat-label { font-size: 0.55rem; }
+    .charts-grid { grid-template-columns: 1fr; }
+    .chart-wrap { height: 180px; }
+}
+
+@media (max-width: 480px) {
+    body.admin-page .home-segments-row {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .stat-card { padding: 10px 8px; }
+    .stat-number { font-size: 1.2rem; }
+    .stat-label { font-size: 0.52rem; letter-spacing: 0.5px; }
+    .stat-rate { font-size: 0.52rem; padding: 1px 5px; }
+    .chart-wrap { height: 160px; }
+    .chart-card { padding: 10px 10px; }
+    .chart-card-head h4 { font-size: 0.62rem; }
+}
+/* ============================================================
+   MODAL CONFIRMATION SUPPRESSION
+   ============================================================ */
+.confirm-modal {
+    position: fixed !important;
+    top: 0 !important; left: 0 !important;
+    right: 0 !important; bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 2147483647 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: rgba(12, 37, 69, 0.85) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    padding: 20px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.25s ease, visibility 0.25s ease !important;
+}
+
+.confirm-modal.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.confirm-modal-content {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 460px !important;
+    box-sizing: border-box !important;
+    background: rgba(12, 37, 69, 0.95) !important;
+    border: 2px solid #ff6b6b !important;
+    border-radius: 14px !important;
+    padding: 28px 26px 24px !important;
+    text-align: center !important;
+    color: #FFFFFF !important;
+    box-shadow:
+        inset 0 0 20px rgba(255, 107, 107, 0.08),
+        0 0 25px rgba(255, 107, 107, 0.35),
+        0 20px 60px rgba(0, 0, 0, 0.5) !important;
+    animation: confirmPopIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+@keyframes confirmPopIn {
+    from { opacity: 0; transform: scale(0.9) translateY(16px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.confirm-close {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50% !important;
+    border: 1px solid rgba(160, 170, 181, 0.3) !important;
+    background: transparent !important;
+    color: #A0AAB5 !important;
+    font-size: 0.85rem !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    transition: all 0.2s ease !important;
+}
+.confirm-close:hover {
+    background: rgba(255, 107, 107, 0.15) !important;
+    color: #ff6b6b !important;
+    border-color: rgba(255, 107, 107, 0.4) !important;
+}
+
+.confirm-icon {
+    font-size: 2.6rem;
+    line-height: 1;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 0 12px rgba(255, 107, 107, 0.6));
+}
+
+.confirm-modal .setting-block-head {
+    display: flex !important;
+    justify-content: center !important;
+    margin-bottom: 12px !important;
+}
+.confirm-modal .setting-block-head h4 {
+    color: #FFFFFF !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+    margin: 0 !important;
+}
+
+.confirm-text {
+    color: #A0AAB5;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 0 12px 0;
+}
+.confirm-text strong {
+    color: #54e50d;
+    font-weight: 700;
+    font-size: 1rem;
+    display: inline-block;
+    margin: 4px 0;
+    word-break: break-word;
+}
+
+.confirm-warning {
+    color: #ff6b6b;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    margin: 0 0 18px 0;
+    padding: 8px 12px;
+    background: rgba(255, 107, 107, 0.08);
+    border: 1px solid rgba(255, 107, 107, 0.25);
+    border-radius: 8px;
+}
+
+.confirm-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.confirm-delete-btn {
+    background: linear-gradient(135deg, #ff4d4d 0%, #c0392b 100%) !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    padding: 11px 22px !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    font-size: 0.86rem !important;
+    letter-spacing: 0.5px !important;
+    cursor: pointer !important;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease !important;
+    box-shadow: 0 4px 14px rgba(255, 77, 77, 0.35) !important;
+    white-space: nowrap !important;
+}
+.confirm-delete-btn:hover:not(:disabled) {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 20px rgba(255, 77, 77, 0.55) !important;
+}
+.confirm-delete-btn:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+}
+
+.confirm-cancel-btn {
+    background: transparent !important;
+    color: #A0AAB5 !important;
+    border: 1px solid rgba(160, 170, 181, 0.35) !important;
+    padding: 11px 20px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.86rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    white-space: nowrap !important;
+}
+.confirm-cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #FFFFFF !important;
+    border-color: rgba(160, 170, 181, 0.6) !important;
+}
+
+@media (max-width: 480px) {
+    .confirm-modal-content {
+        padding: 24px 18px 20px !important;
+    }
+    .confirm-actions {
+        flex-direction: column-reverse;
+    }
+    .confirm-delete-btn,
+    .confirm-cancel-btn {
+        width: 100% !important;
+        text-align: center !important;
+    }
+}
