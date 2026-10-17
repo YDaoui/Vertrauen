@@ -3364,6 +3364,45 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
   }
+  // =====================================================================
+// ===== CADENAS : état connecté + déconnexion =========================
+// =====================================================================
+function updateLockIcon() {
+  const lock = document.querySelector('.header-lock-icon');
+  if (!lock) return;
+
+  const isLoggedIn = localStorage.getItem('userEmail') !== null;
+  if (!isLoggedIn) return; // déconnecté : le cadenas reste un lien vers pageadmin.html
+
+  const svgAttrs = 'viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+
+  lock.classList.add('is-logged');
+  lock.setAttribute('href', '#');
+  lock.setAttribute('aria-label', 'Abmelden');
+  lock.setAttribute('title', 'Abmelden');
+  lock.innerHTML =
+    // icône "utilisateur connecté" (par défaut)
+    '<svg class="lock-ico-user" ' + svgAttrs + '>' +
+      '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>' +
+      '<circle cx="9" cy="7" r="4"/>' +
+      '<polyline points="16 11 18 13 22 9"/>' +
+    '</svg>' +
+    // icône "déconnexion" (au survol)
+    '<svg class="lock-ico-out" ' + svgAttrs + '>' +
+      '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>' +
+      '<polyline points="16 17 21 12 16 7"/>' +
+      '<line x1="21" y1="12" x2="9" y2="12"/>' +
+    '</svg>';
+
+  lock.onclick = function (e) {
+    e.preventDefault();
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('userNachname');
+    localStorage.removeItem('userAnrede');
+    window.location.href = 'index.html'; // change si tu veux une autre page
+  };
+}
 
   initLoginPage();
   initAdminPage();
@@ -3371,6 +3410,8 @@ document.addEventListener('DOMContentLoaded', function() {
   initStatsPage();
   initMeinPortalPage();
   updateLoginButton();
+  
+  updateLockIcon();   // ← ajoute cette ligne
   updateUserDisplay();
   updateDashboardMenu();
   initScrollBehavior();
