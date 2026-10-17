@@ -94,12 +94,13 @@
     <section class="home-hero">
         <div class="home-hero-inner">
 
-            <div class="home-hero-head">
-                <div class="hero-label">
-                    <span class="green-bar"></span>
-                    <span>Meine Geschäftsführung</span>
-                </div>
-            </div>
+           <div class="home-hero-head">
+    <div class="hero-label">
+        <span class="green-bar"></span>
+        <span>Meine Geschäftsführung</span>
+    </div>
+    <h2 class="hero-h2 welcome-heading" id="userNameDisplay"></h2>
+</div>
 
             <!-- ONGLETS PRINCIPAUX -->
             <div class="home-segments-box">
@@ -165,7 +166,7 @@
                     <div class="chart-card">
                         <div class="chart-card-head">
                             <span class="green-bar"></span>
-                            <h4>Répartition par catégorie</h4>
+                            <h4>Aufteilung nach Kategorie</h4>
                         </div>
                         <div class="chart-wrap">
                             <canvas id="chartCategories"></canvas>
@@ -187,7 +188,7 @@
                     <div class="chart-card">
                         <div class="chart-card-head">
                             <span class="green-bar"></span>
-                            <h4>Évolution des demandes (30 derniers jours)</h4>
+                            <h4>Anfrageverlauf (letzte 30 Tage)</h4>
                         </div>
                         <div class="chart-wrap">
                             <canvas id="chartTimeline"></canvas>
@@ -527,7 +528,7 @@
                 wirklich löschen ?
             </p>
 
-            <p class="confirm-warning">⚠️ Cette action est irréversible.</p>
+            <p class="confirm-warning">⚠️ Diese Aktion kann nicht rückgängig gemacht werden.</p>
 
             <p id="confirmStatus" class="setting-user-message" style="text-align:center;"></p>
 
@@ -545,7 +546,7 @@
     <script src="main.js"></script>
 
     <!-- ============================================================
-         DÉSACTIVATION DU CHAT TAWK.TO
+         DEAKTIVIERUNG DES TAWK.TO-CHATS
          ============================================================ -->
     <script>
     (function () {
@@ -608,14 +609,14 @@
     (function () {
 
         /* ============================================================
-           CONFIGURATION EMAILJS
+           KONFIGURATION EMAILJS
            ============================================================ */
         const EMAILJS_SERVICE_ID  = 'service_o2dk6yp';
         const EMAILJS_TEMPLATE_ID = 'template_6kwx8hi';
         const ADMIN_EMAIL         = 'infos@dl-distri.de';
 
         /* ============================================================
-           1. ONGLETS PRINCIPAUX
+           1. HAUPT-ONGLETS
            ============================================================ */
         function initTabs() {
             const tabs = document.querySelectorAll('button.home-segment-tab[data-segment]');
@@ -667,7 +668,7 @@
         }
 
         /* ============================================================
-           2. FILTRES
+           2. FILTER
            ============================================================ */
         let vpFilter = 'alle';
         let vkFilter = 'alle';
@@ -752,7 +753,7 @@
         }
 
         /* ============================================================
-           3. TABLEAUX
+           3. TABELLEN
            ============================================================ */
         const COLLECTION = 'senden_Vertriebspartner';
         const REPLIES_COLLECTION = 'replies_Vertriebspartner';
@@ -858,7 +859,7 @@
         }
 
         /* ============================================================
-           SUPPRESSION — Modal de confirmation custom
+           LÖSCHEN — Benutzerdefiniertes Bestätigungs-Modal
            ============================================================ */
         let _pendingDelete = null;
 
@@ -1008,7 +1009,7 @@
                 return;
             }
             if (typeof Chart === 'undefined') {
-                console.warn('Chart.js non chargé');
+                console.warn('Chart.js nicht geladen');
                 return;
             }
 
@@ -1261,7 +1262,7 @@
         }
 
         /* ============================================================
-           5. MODAL RÉPONSE
+           5. ANTWORT-MODAL
            ============================================================ */
         function openReplyModal(req) {
             currentRequest = req;
@@ -1295,7 +1296,7 @@
         }
 
         /* ============================================================
-           6. ENVOI RÉPONSE — EMAILJS (sans Outlook)
+           6. ANTWORT SENDEN — EMAILJS
            ============================================================ */
         async function sendReply() {
             if (!currentRequest) return;
@@ -1315,15 +1316,15 @@
             btn.textContent = 'Wird gesendet ...';
 
             try {
-                // ===== Infos admin =====
+                // ===== Admin-Infos =====
                 const adminAnrede   = localStorage.getItem('userAnrede')   || '';
                 const adminNachname = localStorage.getItem('userNachname') || '';
                 const adminEmail    = localStorage.getItem('userEmail')    || 'admin';
                 const adminName     = (adminAnrede + ' ' + adminNachname).trim() || adminEmail;
 
-                // ===== 1. ENVOI EMAIL VIA EMAILJS =====
+                // ===== 1. E-MAIL-VERSAND ÜBER EMAILJS =====
                 if (typeof emailjs === 'undefined') {
-                    throw new Error('EmailJS nicht geladen. Prüfe den SDK im <head>.');
+                    throw new Error('EmailJS nicht geladen. Prüfe das SDK im <head>.');
                 }
 
                 await emailjs.send(
@@ -1339,7 +1340,7 @@
                     }
                 );
 
-                // ===== 2. MISE À JOUR FIRESTORE =====
+                // ===== 2. FIRESTORE-AKTUALISIERUNG =====
                 if (typeof firebase !== 'undefined' && firebase.apps.length) {
                     const db = firebase.firestore();
                     const now = new Date();
@@ -1390,7 +1391,7 @@
         }
 
         /* ============================================================
-           7. INIT
+           7. INITIALISIERUNG
            ============================================================ */
         function init() {
             initTabs();
