@@ -8774,9 +8774,7 @@ body.admin-page .home-segments-row {
         text-align: center !important;
     }
 }
-/* ============================================================
-   ✅ INDEX MOBILE — VIDÉO COLLÉE SOUS LA BARRE DE NAVIGATION
-   ============================================================ */
+
 @media (max-width: 900px) {
     /* On annule la remontée de 30px */
     body.dashboard-page.index-page .hero-video-wrap,
