@@ -10,8 +10,9 @@
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
     <link rel="stylesheet" href="style.css" />
 
-    <!-- Style local pour l'alignement de la case Datenschutz -->
+    <!-- Style local -->
     <style>
+        /* Alignement case Datenschutz */
         .datenschutz-label {
             display: flex;
             align-items: flex-start;
@@ -35,6 +36,33 @@
             color: #3fbf09;
             text-decoration: none;
         }
+
+        /* ===== BOUTON TRADUCTION (icône globe) ===== */
+        .header-lang-icon {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 12px;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+        }
+        .header-lang-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* ===== CACHER LE BOUTON TRADUCTION AU SCROLL ===== */
+        .dashboard-header.scrolled .header-lang-icon,
+        body.scrolled-page .header-lang-icon {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-10px);
+        }
     </style>
 </head>
 
@@ -52,6 +80,33 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
 <body class="vertriebspartner-page salespromoter-page">
 
+    <!-- ===== POP-UP LANGUE ===== -->
+    <div class="lang-popup-overlay" id="langPopup" role="dialog" aria-modal="true">
+        <div class="lang-popup">
+            <div class="lang-popup-header">
+                <span class="green-bar"></span>
+                <h2>Sprache wählen</h2>
+            </div>
+            <p class="lang-popup-sub">
+                Bitte wählen Sie Ihre Sprache
+                <br>
+                <span class="ar-sub">الرجاء اختيار لغتك</span>
+            </p>
+
+            <div class="lang-popup-buttons">
+                <button class="lang-btn" data-lang="de" type="button">
+                    <span class="lang-name">Deutsch</span>
+                </button>
+                <button class="lang-btn" data-lang="ar" type="button">
+                    <span class="lang-name">العربية</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteneur caché pour Google Translate -->
+    <div id="google_translate_element" style="display:none !important;"></div>
+
     <!-- ===== BANDEAU RÉSEAUX SOCIAUX (TOP) ===== -->
     <div class="social-top-bar">
         <div class="social-top-bar-content">
@@ -66,7 +121,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
                     </svg>
                 </a>
-               
                 <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
                         <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
@@ -74,7 +128,7 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                 </a>
             </div>
             <!-- BOUTONS -->
-          <div class="top-bar-buttons">
+            <div class="top-bar-buttons">
                 <a href="Vertriebspartner.html" class="btn-top-bar">Vertriebspartner</a>
                 <a href="SalesPromoter.html" class="btn-top-bar">D2D-Vertieb</a>
             </div>
@@ -82,7 +136,7 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     </div>
     <!-- ===== FIN BANDEAU RÉSEAUX SOCIAUX ===== -->
 
-    <!-- ===== HEADER DASHBOARD AVEC MENU DE NAVIGATION ===== -->
+    <!-- ===== HEADER DASHBOARD ===== -->
     <header class="dashboard-header" id="dashboardHeader">
         <a href="index.html" class="logo-link">
             <img src="Images/Vertrauen_Logo1.png" alt="Vertrauen Distributor" />
@@ -94,8 +148,15 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             <a href="sektoren.html">Sektoren</a>
             <a href="ueber-uns.html">Über uns</a>
         </nav>
+
+        <!-- ✅ BOUTON TRADUCTION -->
+        <button type="button" class="header-lang-icon" id="langTrigger" aria-label="Sprache wählen">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+            </svg>
+        </button>
     </header>
-    <!-- ===== FIN HEADER DASHBOARD ===== -->
+    <!-- ===== FIN HEADER ===== -->
 
     <div class="vp-hero-fixed"></div>
 
@@ -120,67 +181,67 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             </p>
 
             <form class="vp-form" id="salesPromoterForm"
-      action="https://formsubmit.co/infos@dl-distri.de" method="POST">
+                  action="https://formsubmit.co/infos@dl-distri.de" method="POST">
 
-    <!-- Paramètres FormSubmit -->
-    <input type="hidden" name="_subject" value="Neue Sales Promoter Bewerbung" />
-    <input type="hidden" name="_captcha" value="false" />
-    <input type="hidden" name="_template" value="table" />
+                <!-- Paramètres FormSubmit -->
+                <input type="hidden" name="_subject" value="Neue Sales Promoter Bewerbung" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_template" value="table" />
 
-    <!-- Vorname / Nachname -->
-    <div class="form-row">
-        <div class="form-group">
-            <label for="vorname">Vorname <span class="required">*</span></label>
-            <input type="text" id="vorname" name="vorname" class="form-control" placeholder="Dein Vorname" required />
-        </div>
-        <div class="form-group">
-            <label for="nachname">Nachname <span class="required">*</span></label>
-            <input type="text" id="nachname" name="nachname" class="form-control" placeholder="Dein Nachname" required />
-        </div>
-    </div>
+                <!-- Vorname / Nachname -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="vorname">Vorname <span class="required">*</span></label>
+                        <input type="text" id="vorname" name="vorname" class="form-control" placeholder="Dein Vorname" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="nachname">Nachname <span class="required">*</span></label>
+                        <input type="text" id="nachname" name="nachname" class="form-control" placeholder="Dein Nachname" required />
+                    </div>
+                </div>
 
-    <!-- E-Mail -->
-    <div class="form-group">
-        <label for="email">E-Mail-Adresse <span class="required">*</span></label>
-        <input type="email" id="email" name="email" class="form-control" placeholder="deine@email.de" required />
-    </div>
+                <!-- E-Mail -->
+                <div class="form-group">
+                    <label for="email">E-Mail-Adresse <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="deine@email.de" required />
+                </div>
 
-    <!-- Telefon -->
-    <div class="form-group">
-        <label for="telefon">Telefonnummer <span class="required">*</span></label>
-        <input type="tel" id="telefon" name="telefon" class="form-control" placeholder="+49 123 456789" required />
-    </div>
+                <!-- Telefon -->
+                <div class="form-group">
+                    <label for="telefon">Telefonnummer <span class="required">*</span></label>
+                    <input type="tel" id="telefon" name="telefon" class="form-control" placeholder="+49 123 456789" required />
+                </div>
 
-    <!-- Einsatzorte -->
-    <div class="form-group">
-        <label for="einsatzorte">Mögliche Einsatzorte (z.B. "Köln" oder "Raum Stuttgart") <span class="required">*</span></label>
-        <input type="text" id="einsatzorte" name="einsatzorte" class="form-control" placeholder="z.B. Köln, Raum Stuttgart..." required />
-    </div>
+                <!-- Einsatzorte -->
+                <div class="form-group">
+                    <label for="einsatzorte">Mögliche Einsatzorte (z.B. "Köln" oder "Raum Stuttgart") <span class="required">*</span></label>
+                    <input type="text" id="einsatzorte" name="einsatzorte" class="form-control" placeholder="z.B. Köln, Raum Stuttgart..." required />
+                </div>
 
-    <!-- Nachricht -->
-    <div class="form-group">
-        <label for="nachricht">Hier kannst du uns noch eine Nachricht hinterlassen:</label>
-        <textarea id="nachricht" name="nachricht" class="form-control textarea-lg" placeholder="Deine Nachricht an uns..."></textarea>
-    </div>
+                <!-- Nachricht -->
+                <div class="form-group">
+                    <label for="nachricht">Hier kannst du uns noch eine Nachricht hinterlassen:</label>
+                    <textarea id="nachricht" name="nachricht" class="form-control textarea-lg" placeholder="Deine Nachricht an uns..."></textarea>
+                </div>
 
-    <!-- Datenschutz Checkbox -->
-    <div class="form-group">
-        <div class="checkbox-group">
-            <label class="datenschutz-label">
-                <input type="checkbox" name="datenschutz" required />
-                <span>
-                    Ich habe die <a href="datenschutz.html" class="datenschutz-link">Datenschutzerklärung</a> zur Kenntnis genommen. Ich stimme zu, dass meine Angaben und Daten zur Beantwortung meiner Anfrage elektronisch erhoben und gespeichert werden. Hinweis: Sie können Ihre Einwilligung jederzeit für die Zukunft (per E-Mail, Post usw.) widerrufen. <span class="required">*</span>
-                </span>
-            </label>
-        </div>
-    </div>
+                <!-- Datenschutz Checkbox -->
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <label class="datenschutz-label">
+                            <input type="checkbox" name="datenschutz" required />
+                            <span>
+                                Ich habe die <a href="datenschutz.html" class="datenschutz-link">Datenschutzerklärung</a> zur Kenntnis genommen. Ich stimme zu, dass meine Angaben und Daten zur Beantwortung meiner Anfrage elektronisch erhoben und gespeichert werden. Hinweis: Sie können Ihre Einwilligung jederzeit für die Zukunft (per E-Mail, Post usw.) widerrufen. <span class="required">*</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
 
-    <!-- Bouton Senden -->
-    <div class="form-group form-submit-center">
-        <button type="submit" class="btn-senden">Senden</button>
-    </div>
+                <!-- Bouton Senden -->
+                <div class="form-group form-submit-center">
+                    <button type="submit" class="btn-senden">Senden</button>
+                </div>
 
-</form>
+            </form>
         </div>
     </section>
 
@@ -198,7 +259,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
                 </svg>
             </a>
-           
             <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
                     <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
@@ -258,7 +318,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
                             </svg>
                         </a>
-                      
                         <a href="https://www.tiktok.com/@votrecompte" target="_blank" aria-label="TikTok">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                                 <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/>
@@ -288,7 +347,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                         <li><a href="index.html">Unsere Geschichte</a></li>
                     </ul>
                 </div>
-
 
             </div>
         </div>
@@ -390,8 +448,7 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 
     <script src="main.js"></script>
 
-    <!-- ===== SOUMISSION : FIRESTORE + FORMSUBMIT (Sales Promoter) ===== -->
-        <!-- ===== SOUMISSION : FORMSUBMIT D'ABORD, PUIS FIRESTORE (Sales Promoter) ===== -->
+    <!-- ===== SOUMISSION : FORMSUBMIT D'ABORD, PUIS FIRESTORE (Sales Promoter) ===== -->
     <script>
     (function () {
         const FORMSUBMIT_EMAIL = 'dl.companie@gmail.com';
@@ -414,7 +471,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             const formData = new FormData(form);
 
             for (const [key, value] of formData.entries()) {
-                // on ignore les champs techniques FormSubmit
                 if (key.startsWith('_')) continue;
 
                 if (key.endsWith('[]')) {
@@ -530,7 +586,6 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
                         try {
                             await saveToFirestore(form, type);
                         } catch (dbErr) {
-                            // le mail est parti, on ne fait pas échouer l'utilisateur
                             console.error('Firestore erreur (mail déjà envoyé):', dbErr);
                         }
 

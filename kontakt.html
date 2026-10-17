@@ -300,17 +300,66 @@
             .kontakt-head p { font-size: 0.85rem; }
             .kontakt-success { font-size: 0.88rem; padding: 14px 16px; }
         }
-        /* ---------- ARABE / RTL ---------- */
-.kontakt-section[dir="rtl"] .kontakt-submit-wrap { justify-content: flex-end; }
-.kontakt-section[dir="rtl"] .kontakt-submit svg { transform: scaleX(-1); }
-.kontakt-section[dir="rtl"] .kontakt-submit:hover:not(:disabled) svg { transform: scaleX(-1) translateX(4px); }
-.kontakt-section[dir="rtl"] .kontakt-form select {
-    background-position: 13px calc(50% - 2px), 18px calc(50% - 2px);
-    padding-right: 14px;
-    padding-left: 32px;
-}
-.kontakt-section[dir="rtl"] .kontakt-success { border-left-width: 2px; border-right: 6px solid #54e50d; }
-.kontakt-section[dir="rtl"] .kontakt-error { border-left-width: 2px; border-right: 6px solid #ff6b6b; }
+
+        /* ---------- ARABE / RTL (style interne uniquement) ---------- */
+        .kontakt-section[dir="rtl"] .kontakt-submit-wrap { justify-content: flex-end; }
+        .kontakt-section[dir="rtl"] .kontakt-submit svg { transform: scaleX(-1); }
+        .kontakt-section[dir="rtl"] .kontakt-submit:hover:not(:disabled) svg { transform: scaleX(-1) translateX(4px); }
+        .kontakt-section[dir="rtl"] .kontakt-form select {
+            background-position: 13px calc(50% - 2px), 18px calc(50% - 2px);
+            padding-right: 14px;
+            padding-left: 32px;
+        }
+        .kontakt-section[dir="rtl"] .kontakt-success { border-left-width: 2px; border-right: 6px solid #54e50d; }
+        .kontakt-section[dir="rtl"] .kontakt-error { border-left-width: 2px; border-right: 6px solid #ff6b6b; }
+
+        /* ============================================================
+           🔒 ANTI-MIROIR RTL — Garde le logo, le header, le footer
+           à leur place même quand Google Translate passe la page en arabe
+           ============================================================ */
+        html,
+        body,
+        .dashboard-header,
+        .social-top-bar,
+        .home-follow,
+        .vd-footer,
+        .kontakt-section {
+            direction: ltr !important;
+        }
+
+        /* Ordre forcé dans le header : LOGO → NAV → GLOBE */
+        .dashboard-header .logo-link {
+            order: 0 !important;
+            margin-right: auto !important;
+        }
+        .dashboard-header .dashboard-nav {
+            order: 1 !important;
+        }
+        .dashboard-header .header-lang-icon {
+            order: 2 !important;
+        }
+
+        /* ===== BOUTON TRADUCTION ===== */
+        .header-lang-icon {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 12px;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+        }
+        .header-lang-icon svg { width: 22px; height: 22px; }
+        .dashboard-header.scrolled .header-lang-icon,
+        body.scrolled-page .header-lang-icon {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-10px);
+        }
     </style>
 </head>
 
@@ -393,10 +442,8 @@
 
     <!-- ============================================================
          SECTION KONTAKT — FORMULAIRE
-         Envoi AJAX (sans redirection) — utilise le hash FormSubmit
-         DÉJÀ ACTIVÉ (le même que Vertriebspartner.html)
          ============================================================ -->
-    <section class="kontakt-section notranslate" translate="no" id="kontaktSection">
+    <section class="kontakt-section" id="kontaktSection">
     <div class="kontakt-inner">
 
         <div class="kontakt-head">
@@ -576,6 +623,92 @@
     <!-- ===== SCRIPTS ===== -->
     <script src="main.js"></script>
 
+    <!-- ============================================================
+         ✅ LANGUE : POP-UP + GOOGLE TRANSLATE (autonome)
+         N'applique PAS de dir=rtl sur html/body → logo reste à gauche
+         ============================================================ -->
+    <script>
+    (function () {
+        'use strict';
+
+        const popup   = document.getElementById('langPopup');
+        const trigger = document.getElementById('langTrigger');
+
+        /* ---------- 1) Ouvrir / fermer la pop-up ---------- */
+        if (trigger && popup) {
+            trigger.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                popup.classList.add('active');
+                popup.style.display = 'flex';
+            });
+        }
+
+        if (popup) {
+            popup.addEventListener('click', function (e) {
+                if (e.target === popup) {
+                    popup.classList.remove('active');
+                    popup.style.display = 'none';
+                }
+            });
+        }
+
+        /* ---------- 2) Appliquer la langue via cookie googtrans + reload ---------- */
+        function setLanguage(lang) {
+            const host = location.hostname;
+
+            // Effacer les cookies googtrans existants
+            const clear = '; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+            document.cookie = 'googtrans=' + clear;
+            document.cookie = 'googtrans=' + clear + '; domain=.' + host;
+            document.cookie = 'googtrans=' + clear + '; domain=' + host;
+
+            // Si ce n'est pas l'allemand, on pose le cookie
+            if (lang && lang !== 'de') {
+                const val = '/de/' + lang;
+                document.cookie = 'googtrans=' + val + '; path=/';
+                document.cookie = 'googtrans=' + val + '; path=/; domain=.' + host;
+                document.cookie = 'googtrans=' + val + '; path=/; domain=' + host;
+            }
+
+            // Recharge : Google Translate applique la traduction au chargement
+            location.reload();
+        }
+
+        /* ---------- 3) Écoute des boutons de langue ---------- */
+        document.querySelectorAll('.lang-btn').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const lang = this.getAttribute('data-lang');
+                if (popup) {
+                    popup.classList.remove('active');
+                    popup.style.display = 'none';
+                }
+                setLanguage(lang);
+            });
+        });
+
+        /* ---------- 4) Initialisation Google Translate (widget caché) ---------- */
+        window.googleTranslateElementInit = function () {
+            if (window.google && window.google.translate) {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'de',
+                    includedLanguages: 'de,ar,en,fr,tr,ru,pl,it,es',
+                    autoDisplay: false
+                }, 'google_translate_element');
+            }
+        };
+
+        if (!document.getElementById('google-translate-script')) {
+            const s = document.createElement('script');
+            s.id = 'google-translate-script';
+            s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            document.body.appendChild(s);
+        }
+    })();
+    </script>
+
     <!-- Menu hamburger -->
     <script>
     (function() {
@@ -659,8 +792,6 @@
 
     <!-- ============================================================
          ✅ ENVOI AJAX DU FORMULAIRE KONTAKT (sans redirection)
-         Utilise le hash FormSubmit DÉJÀ ACTIVÉ
-         (le même que Vertriebspartner.html → d6b69ca1bd3be32c7915fa4dd6e04bf0)
          ============================================================ -->
     <script>
     (function () {
@@ -677,18 +808,15 @@
             form.addEventListener('submit', async function (e) {
                 e.preventDefault();
 
-                // Cache les anciens messages
                 if (success) success.style.display = 'none';
                 if (error)   error.style.display   = 'none';
 
-                // État "envoi en cours"
                 if (btn) {
                     btn.classList.add('loading');
                     btn.dataset.originalText = btn.innerHTML;
                     btn.innerHTML = 'Envoi en cours...';
                 }
 
-                // Récupère les données du formulaire
                 const data = new FormData(form);
 
                 try {
@@ -701,7 +829,6 @@
                     const result = await response.json();
 
                     if (result.success === 'true' || result.success === true) {
-                        // ✅ Succès
                         form.reset();
                         if (success) {
                             success.style.display = 'flex';
@@ -718,7 +845,6 @@
                         error.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 } finally {
-                    // Restaure le bouton
                     if (btn) {
                         btn.classList.remove('loading');
                         btn.innerHTML = btn.dataset.originalText || 'Envoyer';
