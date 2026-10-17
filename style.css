@@ -8774,3 +8774,43 @@ body.admin-page .home-segments-row {
         text-align: center !important;
     }
 }
+/* ============================================================
+   ✅ INDEX MOBILE — VIDÉO COLLÉE SOUS LA BARRE DE NAVIGATION
+   ============================================================ */
+@media (max-width: 900px) {
+    /* On annule la remontée de 30px */
+    body.dashboard-page.index-page .hero-video-wrap,
+    body.index-page .home-hero-video,
+    body.dashboard-page.index-page .home-hero-right {
+        transform: none !important;
+        margin-top: 0 !important;
+    }
+
+    /* Le contenu démarre juste sous le header (44px + 60px) */
+    body.index-page.dashboard-page {
+        padding-top: 104px !important;
+    }
+    body.index-page.dashboard-page.scrolled-page {
+        padding-top: 60px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    /* header : 44px + 56px */
+    body.index-page.dashboard-page {
+        padding-top: 100px !important;
+    }
+    body.index-page.dashboard-page.scrolled-page {
+        padding-top: 56px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    /* header : 44px + 52px */
+    body.index-page.dashboard-page {
+        padding-top: 96px !important;
+    }
+    body.index-page.dashboard-page.scrolled-page {
+        padding-top: 52px !important;
+    }
+}
