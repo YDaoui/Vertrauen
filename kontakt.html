@@ -14,7 +14,7 @@
       gtag('config', 'G-EV3MLGBFYW');
     </script>
 
-    <!-- ✅ Firebase — INDISPENSABLE pour main.js -->
+    <!-- ✅ Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
@@ -314,8 +314,7 @@
         .kontakt-section[dir="rtl"] .kontakt-error { border-left-width: 2px; border-right: 6px solid #ff6b6b; }
 
         /* ============================================================
-           🔒 ANTI-MIROIR RTL — Garde le logo, le header, le footer
-           à leur place même quand Google Translate passe la page en arabe
+           🔒 ANTI-MIROIR RTL — logo / header / footer restent en LTR
            ============================================================ */
         html,
         body,
@@ -327,7 +326,6 @@
             direction: ltr !important;
         }
 
-        /* Ordre forcé dans le header : LOGO → NAV → GLOBE */
         .dashboard-header .logo-link {
             order: 0 !important;
             margin-right: auto !important;
@@ -360,6 +358,18 @@
             pointer-events: none;
             transform: translateY(-10px);
         }
+
+        /* ============================================================
+           🔧 WIDGET GOOGLE TRANSLATE — hors écran mais rendu
+           ============================================================ */
+        #google_translate_element {
+            position: absolute !important;
+            left: -9999px !important;
+            top: -9999px !important;
+            width: 1px !important;
+            height: 1px !important;
+            overflow: hidden !important;
+        }
     </style>
 </head>
 
@@ -389,8 +399,8 @@
         </div>
     </div>
 
-    <!-- Conteneur caché pour Google Translate -->
-    <div id="google_translate_element" style="display:none !important;"></div>
+    <!-- Conteneur Google Translate (hors écran) -->
+    <div id="google_translate_element"></div>
 
     <!-- ===== BANDEAU RÉSEAUX SOCIAUX ===== -->
     <div class="social-top-bar">
@@ -429,7 +439,6 @@
             <a href="ueber-uns.html">Über uns</a>
         </nav>
 
-        <!-- ✅ Bouton vecteur de traduction -->
         <button type="button" class="header-lang-icon" id="langTrigger" aria-label="Sprache wählen">
             <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
                 <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
@@ -624,17 +633,16 @@
     <script src="main.js"></script>
 
     <!-- ============================================================
-         ✅ LANGUE : POP-UP + GOOGLE TRANSLATE (autonome)
-         N'applique PAS de dir=rtl sur html/body → logo reste à gauche
+         ✅ LANGUE : COOKIE + RELOAD + FALLBACK MOBILE
          ============================================================ -->
     <script>
     (function () {
         'use strict';
 
-        const popup   = document.getElementById('langPopup');
-        const trigger = document.getElementById('langTrigger');
+        var popup   = document.getElementById('langPopup');
+        var trigger = document.getElementById('langTrigger');
 
-        /* ---------- 1) Ouvrir / fermer la pop-up ---------- */
+        /* ---------- Ouvrir / fermer la popup ---------- */
         if (trigger && popup) {
             trigger.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -643,7 +651,6 @@
                 popup.style.display = 'flex';
             });
         }
-
         if (popup) {
             popup.addEventListener('click', function (e) {
                 if (e.target === popup) {
@@ -653,59 +660,85 @@
             });
         }
 
-        /* ---------- 2) Appliquer la langue via cookie googtrans + reload ---------- */
-        function setLanguage(lang) {
-            const host = location.hostname;
-
-            // Effacer les cookies googtrans existants
-            const clear = '; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-            document.cookie = 'googtrans=' + clear;
-            document.cookie = 'googtrans=' + clear + '; domain=.' + host;
-            document.cookie = 'googtrans=' + clear + '; domain=' + host;
-
-            // Si ce n'est pas l'allemand, on pose le cookie
-            if (lang && lang !== 'de') {
-                const val = '/de/' + lang;
-                document.cookie = 'googtrans=' + val + '; path=/';
-                document.cookie = 'googtrans=' + val + '; path=/; domain=.' + host;
-                document.cookie = 'googtrans=' + val + '; path=/; domain=' + host;
-            }
-
-            // Recharge : Google Translate applique la traduction au chargement
-            location.reload();
-        }
-
-        /* ---------- 3) Écoute des boutons de langue ---------- */
+        /* ---------- Choix de langue : cookie + reload ---------- */
         document.querySelectorAll('.lang-btn').forEach(function (btn) {
             btn.addEventListener('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                const lang = this.getAttribute('data-lang');
+
+                var lang = this.getAttribute('data-lang');
+
                 if (popup) {
                     popup.classList.remove('active');
                     popup.style.display = 'none';
                 }
-                setLanguage(lang);
+
+                var host = location.hostname;
+                var exp  = '; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+
+                // Effacer tous les googtrans existants
+                document.cookie = 'googtrans=; path=/' + exp;
+                document.cookie = 'googtrans=; path=/; domain=' + host + exp;
+                document.cookie = 'googtrans=; path=/; domain=.' + host + exp;
+
+                // Poser le nouveau
+                if (lang && lang !== 'de') {
+                    document.cookie = 'googtrans=/de/' + lang + '; path=/';
+                    document.cookie = 'googtrans=/de/' + lang + '; path=/; domain=' + host;
+                    document.cookie = 'googtrans=/de/' + lang + '; path=/; domain=.' + host;
+                }
+
+                // Reload simple
+                location.reload();
             });
         });
 
-        /* ---------- 4) Initialisation Google Translate (widget caché) ---------- */
+        /* ---------- Google Translate init ---------- */
         window.googleTranslateElementInit = function () {
-            if (window.google && window.google.translate) {
-                new google.translate.TranslateElement({
-                    pageLanguage: 'de',
-                    includedLanguages: 'de,ar,en,fr,tr,ru,pl,it,es',
-                    autoDisplay: false
-                }, 'google_translate_element');
-            }
+            if (!window.google || !window.google.translate) return;
+            new google.translate.TranslateElement({
+                pageLanguage: 'de',
+                includedLanguages: 'de,ar,en,fr,tr,ru,pl,it,es',
+                autoDisplay: false
+            }, 'google_translate_element');
         };
 
-        if (!document.getElementById('google-translate-script')) {
-            const s = document.createElement('script');
-            s.id = 'google-translate-script';
-            s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        /* ---------- Charger le script GT si absent ---------- */
+        if (!document.querySelector('script[src*="translate_a/element.js"]')) {
+            var s = document.createElement('script');
+            s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            s.async = true;
             document.body.appendChild(s);
         }
+
+        /* ---------- FALLBACK MOBILE (indépendant) ---------- */
+        /* Si un cookie googtrans non-DE existe, on force la valeur
+           du sélecteur interne GT → déclenche la traduction même
+           si GT n'applique pas le cookie tout seul sur mobile. */
+        (function mobileFallback() {
+            var m = document.cookie.match(/googtrans=([^;]+)/);
+            if (!m) return;
+
+            var parts = decodeURIComponent(m[1]).split('/');
+            var target = parts[2];
+            if (!target || target === 'de') return;
+
+            var attempts = 0;
+            var iv = setInterval(function () {
+                attempts++;
+                var c = document.querySelector('.goog-te-combo');
+                if (c) {
+                    if (c.value !== target) {
+                        try {
+                            c.value = target;
+                            c.dispatchEvent(new Event('change', { bubbles: true }));
+                        } catch (err) {}
+                    }
+                    clearInterval(iv);
+                }
+                if (attempts > 50) clearInterval(iv);
+            }, 200);
+        })();
     })();
     </script>
 
@@ -791,7 +824,7 @@
     </script>
 
     <!-- ============================================================
-         ✅ ENVOI AJAX DU FORMULAIRE KONTAKT (sans redirection)
+         ✅ ENVOI AJAX DU FORMULAIRE KONTAKT
          ============================================================ -->
     <script>
     (function () {
