@@ -2899,20 +2899,71 @@ function animateCounters() {
 
 
 (function () {
+    'use strict';
+
     const POPUP_KEY = 'vertrauen_popup_seen';
+    const PAGE_LANG = 'de';
     let langInitDone = false;
 
-    function setGoogleLang(lang) {
-        const past = 'expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = 'googtrans=; ' + past;
-        document.cookie = 'googtrans=; ' + past + ' domain=' + location.hostname;
-        if (lang === 'ar') {
-            document.cookie = 'googtrans=/de/ar; path=/';
-            document.cookie = 'googtrans=/de/ar; path=/; domain=' + location.hostname;
-        }
-        location.reload();
+    /* ---------- Styles : widget rendu mais invisible + bannière masquée ---------- */
+    (function injectGtStyles() {
+        if (document.getElementById('gt-custom-style')) return;
+        const st = document.createElement('style');
+        st.id = 'gt-custom-style';
+        st.textContent =
+            '#google_translate_element{position:fixed!important;bottom:0!important;left:0!important;' +
+            'width:1px!important;height:1px!important;opacity:0!important;overflow:hidden!important;' +
+            'pointer-events:none!important;z-index:-1!important}' +
+            '.goog-te-banner-frame,.goog-te-banner-frame.skiptranslate,iframe.skiptranslate{display:none!important}' +
+            'body{top:0!important}' +
+            '.goog-tooltip,.goog-tooltip:hover{display:none!important}' +
+            '.goog-text-highlight{background:none!important;box-shadow:none!important}';
+        document.head.appendChild(st);
+    })();
+
+    /* ---------- Cookies googtrans ---------- */
+    function clearCookie() {
+        const host = location.hostname;
+        const past = '; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        document.cookie = 'googtrans=; path=/' + past;
+        document.cookie = 'googtrans=; path=/; domain=' + host + past;
+        document.cookie = 'googtrans=; path=/; domain=.' + host + past;
+    }
+    function setCookie(lang) {
+        const v = '/' + PAGE_LANG + '/' + lang;
+        const host = location.hostname;
+        document.cookie = 'googtrans=' + v + '; path=/';
+        document.cookie = 'googtrans=' + v + '; path=/; domain=' + host;
+    }
+    function getCookieLang() {
+        const m = document.cookie.match(/googtrans=([^;]+)/);
+        if (!m) return null;
+        const p = decodeURIComponent(m[1]).split('/');
+        return (p[2] && p[2] !== PAGE_LANG) ? p[2] : null;
     }
 
+    /* ---------- Piloter directement le sélecteur Google ---------- */
+    function applyViaCombo(lang, done) {
+        let tries = 0;
+        const iv = setInterval(function () {
+            tries++;
+            const c = document.querySelector('select.goog-te-combo');
+            if (c && c.options.length > 1) {
+                clearInterval(iv);
+                if (c.value !== lang) {
+                    c.value = lang;
+                    c.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+                if (done) done(true);
+            } else if (tries > 40) {            // ~8 s
+                clearInterval(iv);
+                console.warn('[Translate] .goog-te-combo introuvable (script Google bloqué ?)');
+                if (done) done(false);
+            }
+        }, 200);
+    }
+
+    /* ---------- Popup langue ---------- */
     function initLanguageSystem() {
         if (langInitDone) return;
         const popup = document.getElementById('langPopup');
@@ -2920,7 +2971,6 @@ function animateCounters() {
         if (!popup) return;
         langInitDone = true;
 
-        /* ---------- OUVERTURE AU CLIC SUR LE GLOBE ---------- */
         if (trigger) {
             trigger.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -2929,24 +2979,34 @@ function animateCounters() {
             });
         }
 
-        /* ---------- SÉLECTION D'UNE LANGUE ---------- */
         popup.querySelectorAll('.lang-btn').forEach(function (btn) {
-            btn.addEventListener('click', function () {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
                 localStorage.setItem(POPUP_KEY, '1');
                 popup.classList.remove('active');
+
                 const lang = this.getAttribute('data-lang');
-                setTimeout(function () { setGoogleLang(lang); }, 200);
+
+                // Retour à l'allemand : cookie effacé + reload
+                if (!lang || lang === PAGE_LANG) {
+                    clearCookie();
+                    location.reload();
+                    return;
+                }
+
+                // Autre langue : cookie + pilotage du widget, reload en secours
+                setCookie(lang);
+                applyViaCombo(lang, function (ok) {
+                    if (!ok) location.reload();
+                });
             });
         });
 
-        /* ---------- CLIC SUR LE FOND = FERMER ---------- */
         popup.addEventListener('click', function (e) {
-            if (e.target === popup) {
-                popup.classList.remove('active');
-            }
+            if (e.target === popup) popup.classList.remove('active');
         });
 
-        /* ---------- ÉCHAP = FERMER ---------- */
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && popup.classList.contains('active')) {
                 popup.classList.remove('active');
@@ -2954,12 +3014,17 @@ function animateCounters() {
         });
     }
 
+    /* ---------- Google Translate ---------- */
     window.googleTranslateElementInit = function () {
         try {
+            if (!document.getElementById('google_translate_element')) {
+                const d = document.createElement('div');
+                d.id = 'google_translate_element';
+                document.body.appendChild(d);
+            }
             new google.translate.TranslateElement({
-                pageLanguage: 'de',
+                pageLanguage: PAGE_LANG,
                 includedLanguages: 'de,ar',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
                 autoDisplay: false
             }, 'google_translate_element');
         } catch (e) { console.warn('Google Translate init error:', e); }
@@ -2967,21 +3032,27 @@ function animateCounters() {
 
     function loadGoogleTranslate() {
         if (window.__gtLoaded) return;
+        if (document.querySelector('script[src*="translate_a/element.js"]')) return;
         window.__gtLoaded = true;
         const s = document.createElement('script');
         s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        s.async = true;
+        s.onerror = function () { console.warn('[Translate] element.js bloqué'); };
         document.head.appendChild(s);
     }
 
     function start() {
         loadGoogleTranslate();
         initLanguageSystem();
+
+        // Réappliquer la langue mémorisée au chargement
+        const saved = getCookieLang();
+        if (saved) applyViaCombo(saved);
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
     else start();
 })();
-
 // =====================================================================
 // ===== LANGUE ACTUELLE (filtre images news) ==========================
 // =====================================================================

@@ -360,15 +360,34 @@
         }
 
         /* ============================================================
-           🔧 WIDGET GOOGLE TRANSLATE — hors écran mais rendu
+           🔧 WIDGET GOOGLE TRANSLATE — rendu mais invisible
+           (ne PAS le mettre en display:none ni à -9999px :
+            le widget doit rester rendu pour que .goog-te-combo existe)
            ============================================================ */
         #google_translate_element {
-            position: absolute !important;
-            left: -9999px !important;
-            top: -9999px !important;
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
             width: 1px !important;
             height: 1px !important;
+            opacity: 0 !important;
             overflow: hidden !important;
+            pointer-events: none !important;
+            z-index: -1 !important;
+        }
+
+        /* Bannière Google + décalage du body */
+        .goog-te-banner-frame,
+        .goog-te-banner-frame.skiptranslate,
+        iframe.skiptranslate {
+            display: none !important;
+        }
+        body { top: 0 !important; }
+        .goog-tooltip,
+        .goog-tooltip:hover { display: none !important; }
+        .goog-text-highlight {
+            background: none !important;
+            box-shadow: none !important;
         }
     </style>
 </head>
@@ -399,7 +418,7 @@
         </div>
     </div>
 
-    <!-- Conteneur Google Translate (hors écran) -->
+    <!-- Conteneur Google Translate (rendu, invisible) -->
     <div id="google_translate_element"></div>
 
     <!-- ===== BANDEAU RÉSEAUX SOCIAUX ===== -->
@@ -412,7 +431,7 @@
                 <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
                 </a>
-                
+
                 <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg>
                 </a>
@@ -550,7 +569,7 @@
             <a href="https://www.instagram.com/dl.companie/" target="_blank" class="social-icon instagram" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg>
             </a>
-            
+
             <a href="https://www.tiktok.com/@votrecompte" target="_blank" class="social-icon tiktok" aria-label="TikTok">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg>
             </a>
@@ -595,7 +614,7 @@
                     <div class="vd-footer-social">
                         <a href="https://www.facebook.com/profile.php?id=61594110473679" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
                         <a href="https://www.instagram.com/dl.companie/" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/></svg></a>
-                        
+
                         <a href="https://www.tiktok.com/@votrecompte" target="_blank" aria-label="TikTok"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.28-.27-2.64.09-3.68.82-1.13.8-1.84 2.13-1.74 3.55.14 1.93 1.74 3.61 3.67 3.76 1.31.1 2.58-.38 3.48-1.34.5-.53.83-1.22.92-1.94.09-.71.01-1.42.01-2.13.01-3.02.01-6.03.01-9.05.01-.01.02-.01.02-.02z"/></svg></a>
                     </div>
                 </div>
@@ -633,112 +652,120 @@
     <script src="main.js"></script>
 
     <!-- ============================================================
-         ✅ LANGUE : COOKIE + RELOAD + FALLBACK MOBILE
+         ✅ TRADUCTION : pilotage direct du widget Google Translate
+            (.goog-te-combo) + cookie + reload en secours
          ============================================================ -->
     <script>
     (function () {
         'use strict';
 
+        var PAGE_LANG = 'de';
         var popup   = document.getElementById('langPopup');
         var trigger = document.getElementById('langTrigger');
 
-        /* ---------- Ouvrir / fermer la popup ---------- */
-        if (trigger && popup) {
+        /* ---------- Popup ---------- */
+        function openPopup()  { if (popup) { popup.classList.add('active');    popup.style.display = 'flex'; } }
+        function closePopup() { if (popup) { popup.classList.remove('active'); popup.style.display = 'none'; } }
+
+        if (trigger) {
             trigger.addEventListener('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                popup.classList.add('active');
-                popup.style.display = 'flex';
+                openPopup();
             });
         }
         if (popup) {
             popup.addEventListener('click', function (e) {
-                if (e.target === popup) {
-                    popup.classList.remove('active');
-                    popup.style.display = 'none';
-                }
+                if (e.target === popup) closePopup();
             });
         }
 
-        /* ---------- Choix de langue : cookie + reload ---------- */
+        /* ---------- Cookies googtrans ---------- */
+        function clearCookie() {
+            var host = location.hostname;
+            var exp  = '; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+            document.cookie = 'googtrans=; path=/' + exp;
+            document.cookie = 'googtrans=; path=/; domain=' + host + exp;
+            document.cookie = 'googtrans=; path=/; domain=.' + host + exp;
+        }
+        function setCookie(lang) {
+            var v = '/' + PAGE_LANG + '/' + lang;
+            var host = location.hostname;
+            document.cookie = 'googtrans=' + v + '; path=/';
+            document.cookie = 'googtrans=' + v + '; path=/; domain=' + host;
+        }
+        function getCookieLang() {
+            var m = document.cookie.match(/googtrans=([^;]+)/);
+            if (!m) return null;
+            var p = decodeURIComponent(m[1]).split('/');
+            return (p[2] && p[2] !== PAGE_LANG) ? p[2] : null;
+        }
+
+        /* ---------- Piloter le sélecteur GT directement ---------- */
+        function applyViaCombo(lang, done) {
+            var tries = 0;
+            var iv = setInterval(function () {
+                tries++;
+                var c = document.querySelector('select.goog-te-combo');
+                if (c && c.options.length > 1) {
+                    clearInterval(iv);
+                    if (c.value !== lang) {
+                        c.value = lang;
+                        c.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                    if (done) done(true);
+                } else if (tries > 40) {          // ~8 s
+                    clearInterval(iv);
+                    console.warn('[Translate] .goog-te-combo introuvable (script GT bloqué ?)');
+                    if (done) done(false);
+                }
+            }, 200);
+        }
+
+        /* ---------- Choix de langue ---------- */
         document.querySelectorAll('.lang-btn').forEach(function (btn) {
             btn.addEventListener('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
 
                 var lang = this.getAttribute('data-lang');
+                closePopup();
 
-                if (popup) {
-                    popup.classList.remove('active');
-                    popup.style.display = 'none';
+                // Retour à l'allemand : on efface le cookie et on recharge
+                if (!lang || lang === PAGE_LANG) {
+                    clearCookie();
+                    location.reload();
+                    return;
                 }
 
-                var host = location.hostname;
-                var exp  = '; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-
-                // Effacer tous les googtrans existants
-                document.cookie = 'googtrans=; path=/' + exp;
-                document.cookie = 'googtrans=; path=/; domain=' + host + exp;
-                document.cookie = 'googtrans=; path=/; domain=.' + host + exp;
-
-                // Poser le nouveau
-                if (lang && lang !== 'de') {
-                    document.cookie = 'googtrans=/de/' + lang + '; path=/';
-                    document.cookie = 'googtrans=/de/' + lang + '; path=/; domain=' + host;
-                    document.cookie = 'googtrans=/de/' + lang + '; path=/; domain=.' + host;
-                }
-
-                // Reload simple
-                location.reload();
+                setCookie(lang);
+                applyViaCombo(lang, function (ok) {
+                    if (!ok) location.reload();   // secours
+                });
             });
         });
 
-        /* ---------- Google Translate init ---------- */
+        /* ---------- Init Google Translate ---------- */
         window.googleTranslateElementInit = function () {
             if (!window.google || !window.google.translate) return;
             new google.translate.TranslateElement({
-                pageLanguage: 'de',
+                pageLanguage: PAGE_LANG,
                 includedLanguages: 'de,ar,en,fr,tr,ru,pl,it,es',
                 autoDisplay: false
             }, 'google_translate_element');
         };
 
-        /* ---------- Charger le script GT si absent ---------- */
         if (!document.querySelector('script[src*="translate_a/element.js"]')) {
             var s = document.createElement('script');
             s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
             s.async = true;
-            document.body.appendChild(s);
+            s.onerror = function () { console.warn('[Translate] element.js bloqué'); };
+            document.head.appendChild(s);
         }
 
-        /* ---------- FALLBACK MOBILE (indépendant) ---------- */
-        /* Si un cookie googtrans non-DE existe, on force la valeur
-           du sélecteur interne GT → déclenche la traduction même
-           si GT n'applique pas le cookie tout seul sur mobile. */
-        (function mobileFallback() {
-            var m = document.cookie.match(/googtrans=([^;]+)/);
-            if (!m) return;
-
-            var parts = decodeURIComponent(m[1]).split('/');
-            var target = parts[2];
-            if (!target || target === 'de') return;
-
-            var attempts = 0;
-            var iv = setInterval(function () {
-                attempts++;
-                var c = document.querySelector('.goog-te-combo');
-                if (c) {
-                    if (c.value !== target) {
-                        try {
-                            c.value = target;
-                            c.dispatchEvent(new Event('change', { bubbles: true }));
-                        } catch (err) {}
-                    }
-                    clearInterval(iv);
-                }
-                if (attempts > 50) clearInterval(iv);
-            }, 200);
-        })();
+        /* ---------- Au chargement : réappliquer la langue du cookie ---------- */
+        var saved = getCookieLang();
+        if (saved) applyViaCombo(saved);
     })();
     </script>
 
