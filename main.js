@@ -1,6 +1,7 @@
 // =====================================================================
 // main.js — Fichier JS UNIQUE partagé par toutes les pages
 // Version complète et corrigée — Google Translate automatique
+// + Édition inline du mot de passe (bouton ✏️ dans Setting)
 // =====================================================================
 
 // ===== 1. FIREBASE INIT ==============================================
@@ -74,13 +75,8 @@ function fileToCompressedDataUrl(file, maxSize = 300, quality = 0.7) {
       img.onerror = () => reject(new Error('Bild konnte nicht geladen werden.'));
       img.onload = () => {
         let { width, height } = img;
-        if (width > height && width > maxSize) {
-          height = Math.round(height * (maxSize / width));
-          width = maxSize;
-        } else if (height > maxSize) {
-          width = Math.round(width * (maxSize / height));
-          height = maxSize;
-        }
+        if (width > height && width > maxSize) { height = Math.round(height * (maxSize / width)); width = maxSize; }
+        else if (height > maxSize) { width = Math.round(width * (maxSize / height)); height = maxSize; }
         const canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
@@ -107,7 +103,6 @@ function isCurrentUserAdmin() {
 function updateDashboardMenu() {
   const userEmail = localStorage.getItem('userEmail');
   const isAdmin = localStorage.getItem('isAdmin') === 'true';
-
   const adminMenu = document.getElementById('adminMenu');
   const userMenu = document.getElementById('userMenu');
   const userInfoBox = document.getElementById('userInfoBox');
@@ -121,36 +116,28 @@ function updateDashboardMenu() {
     userMenu.style.display = 'none';
     if (userInfoBox) userInfoBox.style.display = 'none';
     if (welcomeTitle) welcomeTitle.textContent = 'Willkommen im Admin-Dashboard!';
-    if (welcomeMessage) {
-      welcomeMessage.innerHTML = 'Sie haben vollen Zugriff auf alle Bereiche.<br />Nutzen Sie das Menü oben, um zu navigieren.';
-    }
+    if (welcomeMessage) welcomeMessage.innerHTML = 'Sie haben vollen Zugriff auf alle Bereiche.<br />Nutzen Sie das Menü oben, um zu navigieren.';
   } else if (userEmail) {
     adminMenu.style.display = 'none';
     userMenu.style.display = 'block';
     if (userInfoBox) userInfoBox.style.display = 'block';
     if (welcomeTitle) welcomeTitle.textContent = 'Willkommen auf Ihrem Portal!';
-    if (welcomeMessage) {
-      welcomeMessage.innerHTML = 'Hier finden Sie Ihre persönlichen Informationen.<br />Nutzen Sie das Menü oben, um zu navigieren.';
-    }
+    if (welcomeMessage) welcomeMessage.innerHTML = 'Hier finden Sie Ihre persönlichen Informationen.<br />Nutzen Sie das Menü oben, um zu navigieren.';
     loadUserPortalInfo(userEmail);
   } else {
     adminMenu.style.display = 'none';
     userMenu.style.display = 'none';
     if (userInfoBox) userInfoBox.style.display = 'none';
     if (welcomeTitle) welcomeTitle.textContent = 'Bitte melden Sie sich an';
-    if (welcomeMessage) {
-      welcomeMessage.innerHTML = 'Um auf Ihr persönliches Portal zuzugreifen,<br />melden Sie sich bitte mit Ihren Zugangsdaten an.';
-    }
+    if (welcomeMessage) welcomeMessage.innerHTML = 'Um auf Ihr persönliches Portal zuzugreifen,<br />melden Sie sich bitte mit Ihren Zugangsdaten an.';
   }
 }
 
 async function loadUserPortalInfo(email) {
   const infoContainer = document.getElementById('userContractInfo');
   if (!infoContainer) return;
-
   try {
     const userData = await getUserContractInfo(email);
-
     if (userData) {
       const anrede = userData.anrede || '';
       const vorname = userData.vorname || '';
@@ -158,23 +145,16 @@ async function loadUserPortalInfo(email) {
       const telefon = userData.telefon || 'Nicht angegeben';
       const fax = userData.fax || 'Nicht angegeben';
 
-      const contractSnapshot = await db.collection('contracts')
-        .where('userId', '==', email)
-        .limit(1)
-        .get();
-
+      const contractSnapshot = await db.collection('contracts').where('userId', '==', email).limit(1).get();
       let contractInfo = null;
       let offerInfo = null;
 
       if (!contractSnapshot.empty) {
         const contractDoc = contractSnapshot.docs[0];
         contractInfo = contractDoc.data();
-
         if (contractInfo.offerId) {
           const offerDoc = await db.collection('offers').doc(contractInfo.offerId).get();
-          if (offerDoc.exists) {
-            offerInfo = offerDoc.data();
-          }
+          if (offerDoc.exists) offerInfo = offerDoc.data();
         }
       }
 
@@ -183,30 +163,12 @@ async function loadUserPortalInfo(email) {
           <div class="portal-section">
             <h3>👤 Ihre Kontaktdaten</h3>
             <div class="info-grid">
-              <div class="info-item">
-                <span class="label">Anrede</span>
-                <span class="value">${anrede || 'Nicht angegeben'}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Vorname</span>
-                <span class="value">${vorname || 'Nicht angegeben'}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Nachname</span>
-                <span class="value">${nachname || 'Nicht angegeben'}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">E-Mail</span>
-                <span class="value">${email}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Telefon</span>
-                <span class="value">${telefon}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Fax</span>
-                <span class="value">${fax}</span>
-              </div>
+              <div class="info-item"><span class="label">Anrede</span><span class="value">${anrede || 'Nicht angegeben'}</span></div>
+              <div class="info-item"><span class="label">Vorname</span><span class="value">${vorname || 'Nicht angegeben'}</span></div>
+              <div class="info-item"><span class="label">Nachname</span><span class="value">${nachname || 'Nicht angegeben'}</span></div>
+              <div class="info-item"><span class="label">E-Mail</span><span class="value">${email}</span></div>
+              <div class="info-item"><span class="label">Telefon</span><span class="value">${telefon}</span></div>
+              <div class="info-item"><span class="label">Fax</span><span class="value">${fax}</span></div>
             </div>
           </div>
       `;
@@ -214,51 +176,22 @@ async function loadUserPortalInfo(email) {
       if (contractInfo) {
         const statusText = contractInfo.status === 'active' ? '🟢 Aktiv' : '🔴 Beendet';
         const statusClass = contractInfo.status === 'active' ? 'status-active' : 'status-expired';
-
         html += `
           <div class="portal-section">
             <h3>📄 Ihre Vertragsinformationen</h3>
             <div class="info-grid">
-              <div class="info-item">
-                <span class="label">Unternehmen</span>
-                <span class="value">${contractInfo.companyName || 'Nicht angegeben'}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Energietyp</span>
-                <span class="value">${contractInfo.energyType === 'strom' ? '⚡ Strom' : '🔥 Gas'}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Preis</span>
-                <span class="value">${contractInfo.price || 'Nicht angegeben'}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Laufzeit</span>
-                <span class="value">${contractInfo.duration || 'Nicht angegeben'}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Vertragsbeginn</span>
-                <span class="value">${contractInfo.dateFrom || 'Nicht angegeben'}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Vertragsende</span>
-                <span class="value">${contractInfo.dateTo || 'Nicht angegeben'}</span>
-              </div>
-              <div class="info-item full-width">
-                <span class="label">Status</span>
-                <span class="value ${statusClass}">${statusText}</span>
-              </div>
+              <div class="info-item"><span class="label">Unternehmen</span><span class="value">${contractInfo.companyName || 'Nicht angegeben'}</span></div>
+              <div class="info-item"><span class="label">Energietyp</span><span class="value">${contractInfo.energyType === 'strom' ? '⚡ Strom' : '🔥 Gas'}</span></div>
+              <div class="info-item"><span class="label">Preis</span><span class="value">${contractInfo.price || 'Nicht angegeben'}</span></div>
+              <div class="info-item"><span class="label">Laufzeit</span><span class="value">${contractInfo.duration || 'Nicht angegeben'}</span></div>
+              <div class="info-item"><span class="label">Vertragsbeginn</span><span class="value">${contractInfo.dateFrom || 'Nicht angegeben'}</span></div>
+              <div class="info-item"><span class="label">Vertragsende</span><span class="value">${contractInfo.dateTo || 'Nicht angegeben'}</span></div>
+              <div class="info-item full-width"><span class="label">Status</span><span class="value ${statusClass}">${statusText}</span></div>
             </div>
           </div>
         `;
       } else {
-        html += `
-          <div class="portal-section">
-            <h3>📄 Vertragsinformationen</h3>
-            <p style="color: #ff6b6b; padding: 15px; text-align: center;">
-              ⚠️ Kein aktiver Vertrag gefunden.
-            </p>
-          </div>
-        `;
+        html += `<div class="portal-section"><h3>📄 Vertragsinformationen</h3><p style="color: #ff6b6b; padding: 15px; text-align: center;">⚠️ Kein aktiver Vertrag gefunden.</p></div>`;
       }
 
       if (offerInfo) {
@@ -266,22 +199,10 @@ async function loadUserPortalInfo(email) {
           <div class="portal-section">
             <h3>📦 Angebotsdetails</h3>
             <div class="info-grid">
-              <div class="info-item full-width">
-                <span class="label">Angebot</span>
-                <span class="value">${offerInfo.companyName || 'Nicht angegeben'}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Energietyp</span>
-                <span class="value">${offerInfo.type === 'strom' ? '⚡ Strom' : '🔥 Gas'}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Preis</span>
-                <span class="value price">${offerInfo.price || 'Nicht angegeben'}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">Laufzeit</span>
-                <span class="value">${offerInfo.duration || 'Nicht angegeben'}</span>
-              </div>
+              <div class="info-item full-width"><span class="label">Angebot</span><span class="value">${offerInfo.companyName || 'Nicht angegeben'}</span></div>
+              <div class="info-item"><span class="label">Energietyp</span><span class="value">${offerInfo.type === 'strom' ? '⚡ Strom' : '🔥 Gas'}</span></div>
+              <div class="info-item"><span class="label">Preis</span><span class="value price">${offerInfo.price || 'Nicht angegeben'}</span></div>
+              <div class="info-item"><span class="label">Laufzeit</span><span class="value">${offerInfo.duration || 'Nicht angegeben'}</span></div>
             </div>
           </div>
         `;
@@ -291,15 +212,9 @@ async function loadUserPortalInfo(email) {
           <div class="portal-section">
             <h3>⚡ Aktionen</h3>
             <div class="action-buttons">
-              <button onclick="window.print()" class="action-btn">
-                <span class="icon">🖨️</span> Vertrag drucken
-              </button>
-              <button onclick="window.location.href='mailto:support@vertrauen-distributor.de'" class="action-btn">
-                <span class="icon">✉️</span> Support kontaktieren
-              </button>
-              <button onclick="window.location.href='mein-portal.html'" class="action-btn">
-                <span class="icon">📊</span> Zum vollständigen Portal
-              </button>
+              <button onclick="window.print()" class="action-btn"><span class="icon">🖨️</span> Vertrag drucken</button>
+              <button onclick="window.location.href='mailto:support@vertrauen-distributor.de'" class="action-btn"><span class="icon">✉️</span> Support kontaktieren</button>
+              <button onclick="window.location.href='mein-portal.html'" class="action-btn"><span class="icon">📊</span> Zum vollständigen Portal</button>
             </div>
           </div>
         </div>
@@ -307,23 +222,11 @@ async function loadUserPortalInfo(email) {
 
       infoContainer.innerHTML = html;
     } else {
-      infoContainer.innerHTML = `
-        <div class="portal-section">
-          <p style="color: #ff6b6b; padding: 20px; text-align: center;">
-            ⚠️ Keine Benutzerinformationen gefunden.
-          </p>
-        </div>
-      `;
+      infoContainer.innerHTML = `<div class="portal-section"><p style="color: #ff6b6b; padding: 20px; text-align: center;">⚠️ Keine Benutzerinformationen gefunden.</p></div>`;
     }
   } catch (error) {
     console.error('Fehler beim Laden des Portals:', error);
-    infoContainer.innerHTML = `
-      <div class="portal-section">
-        <p style="color: #ff6b6b; padding: 20px; text-align: center;">
-          ⚠️ Fehler beim Laden der Informationen. Bitte versuchen Sie es später erneut.
-        </p>
-      </div>
-    `;
+    infoContainer.innerHTML = `<div class="portal-section"><p style="color: #ff6b6b; padding: 20px; text-align: center;">⚠️ Fehler beim Laden der Informationen. Bitte versuchen Sie es später erneut.</p></div>`;
   }
 }
 
@@ -333,10 +236,8 @@ async function loadUserPortalInfo(email) {
 function togglePortalCard(cardId) {
     const card = document.getElementById(cardId);
     if (!card) return;
-
     const body = card.querySelector('.card-body');
     const arrow = card.querySelector('.arrow');
-
     if (body) body.classList.toggle('open');
     if (arrow) arrow.classList.toggle('open');
 }
@@ -344,37 +245,18 @@ function togglePortalCard(cardId) {
 function loadPersonalInfo(email) {
     const container = document.getElementById('personalInfo');
     if (!container) return;
-
     const db = firebase.firestore();
     db.collection('users').doc(email).get().then((doc) => {
         if (doc.exists) {
             const data = doc.data();
             container.innerHTML = `
                 <div class="info-grid">
-                    <div class="info-item">
-                        <span class="label">Anrede</span>
-                        <span class="value">${data.anrede || 'Nicht angegeben'}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Vorname</span>
-                        <span class="value">${data.vorname || 'Nicht angegeben'}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Nachname</span>
-                        <span class="value">${data.nachname || 'Nicht angegeben'}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">E-Mail</span>
-                        <span class="value">${email}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Telefon</span>
-                        <span class="value">${data.telefon || 'Nicht angegeben'}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Fax</span>
-                        <span class="value">${data.fax || 'Nicht angegeben'}</span>
-                    </div>
+                    <div class="info-item"><span class="label">Anrede</span><span class="value">${data.anrede || 'Nicht angegeben'}</span></div>
+                    <div class="info-item"><span class="label">Vorname</span><span class="value">${data.vorname || 'Nicht angegeben'}</span></div>
+                    <div class="info-item"><span class="label">Nachname</span><span class="value">${data.nachname || 'Nicht angegeben'}</span></div>
+                    <div class="info-item"><span class="label">E-Mail</span><span class="value">${email}</span></div>
+                    <div class="info-item"><span class="label">Telefon</span><span class="value">${data.telefon || 'Nicht angegeben'}</span></div>
+                    <div class="info-item"><span class="label">Fax</span><span class="value">${data.fax || 'Nicht angegeben'}</span></div>
                 </div>
             `;
         } else {
@@ -389,7 +271,6 @@ function loadPersonalInfo(email) {
 function loadPersonalDataToForm() {
     const userEmail = localStorage.getItem('userEmail');
     if (!userEmail) return;
-
     const db = firebase.firestore();
     db.collection('users').doc(userEmail).get().then((doc) => {
         if (doc.exists) {
@@ -400,283 +281,178 @@ function loadPersonalDataToForm() {
             document.getElementById('editPersonalTelefon').value = data.telefon || '';
             document.getElementById('editPersonalFax').value = data.fax || '';
         }
-    }).catch((error) => {
-        console.error('Fehler beim Laden der Daten:', error);
-    });
+    }).catch((error) => { console.error('Fehler beim Laden der Daten:', error); });
 }
 
 function loadPortalData(email) {
     const contractContainer = document.getElementById('contractInfo');
     const offerContainer = document.getElementById('offerDetails');
     const statusBadge = document.getElementById('contractStatusBadge');
-
     if (!contractContainer || !offerContainer) return;
-
     if (typeof firebase === 'undefined' || !firebase.apps.length) {
         setTimeout(function() { loadPortalData(email); }, 300);
         return;
     }
-
     const db = firebase.firestore();
-
-    db.collection('contracts')
-        .where('userId', '==', email)
-        .get()
-        .then((contractSnapshot) => {
-            if (contractSnapshot.empty) {
-                contractContainer.innerHTML = `
-                    <div style="text-align: center; padding: 20px; color: #ff6b6b;">
-                        ⚠️ Kein Vertrag gefunden.
-                    </div>
-                `;
-                offerContainer.innerHTML = `
-                    <div style="text-align: center; padding: 20px; color: #6a7b91;">
-                        Keine Angebote verfügbar.
-                    </div>
-                `;
-                if (statusBadge) statusBadge.style.display = 'none';
-                return;
-            }
-
-            let contractHtml = '';
-            let isActive = false;
-
-            contractSnapshot.forEach((contractDoc) => {
-                const contractData = contractDoc.data();
-                
-                if (contractData.status === 'active') isActive = true;
-
-                contractHtml = `
-                    <div class="contract-section">
-                        <div class="contract-header">
-                            <div>
-                                <strong style="color: #54e50d; font-size: 1.1rem;">${contractData.companyName || 'Unbekannt'}</strong>
-                                <span style="margin-left:12px; color:#ffffff;">${contractData.energyType === 'strom' ? '⚡ Strom' : '🔥 Gas'}</span>
-                            </div>
-                        </div>
-                        <div class="contract-details-grid">
-                            <div class="contract-detail-item">
-                                <span class="label">Preis</span>
-                                <span class="value">${contractData.price || 'N/A'}</span>
-                            </div>
-                            <div class="contract-detail-item">
-                                <span class="label">Laufzeit</span>
-                                <span class="value">${contractData.duration || 'N/A'}</span>
-                            </div>
-                            <div class="contract-detail-item">
-                                <span class="label">Vertragsbeginn</span>
-                                <span class="value">${contractData.dateFrom || 'N/A'}</span>
-                            </div>
-                            <div class="contract-detail-item">
-                                <span class="label">Vertragsende</span>
-                                <span class="value">${contractData.dateTo || 'N/A'}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            if (statusBadge) {
-                if (isActive) {
-                    statusBadge.style.display = 'inline-block';
-                    statusBadge.textContent = '🟢 Aktiv';
-                    statusBadge.style.background = 'rgba(84,229,13,0.15)';
-                    statusBadge.style.color = '#54e50d';
-                    statusBadge.style.border = '1px solid rgba(84,229,13,0.3)';
-                } else {
-                    statusBadge.style.display = 'inline-block';
-                    statusBadge.textContent = '🔴 Beendet';
-                    statusBadge.style.background = 'rgba(255,107,107,0.15)';
-                    statusBadge.style.color = '#ff6b6b';
-                    statusBadge.style.border = '1px solid rgba(255,107,107,0.3)';
-                }
-            }
-
-            contractContainer.innerHTML = contractHtml;
-
-            const offerPromises = [];
-            contractSnapshot.forEach((contractDoc) => {
-                const contractData = contractDoc.data();
-                if (contractData.offerId) {
-                    offerPromises.push(
-                        db.collection('offers').doc(contractData.offerId).get()
-                            .then((offerDoc) => {
-                                if (offerDoc.exists) {
-                                    const offerData = offerDoc.data();
-                                    const services = offerData.services || [];
-                                    return `
-                                        <div class="offer-item">
-                                            <div class="offer-info">
-                                                <div class="offer-name">${offerData.companyName || 'Unbekannt'}</div>
-                                                <div class="offer-details">
-                                                    ${offerData.type === 'strom' ? '⚡ Strom' : '🔥 Gas'}
-                                                    <span style="margin-left:12px; color:#54e50d;">💰 ${offerData.price || 'N/A'}</span>
-                                                    <span style="margin-left:12px; color:#6a7b91;">⏱ ${offerData.duration || 'N/A'}</span>
-                                                </div>
-                                                ${services.length > 0 ? `
-                                                    <div class="offer-meta">
-                                                        📋 ${services.join(' | ')}
-                                                    </div>
-                                                ` : ''}
-                                            </div>
-                                            <div class="offer-actions">
-                                                <button class="print-btn" onclick="window.print()">🖨️ Drucken</button>
-                                                <button class="support-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✉️ Support</button>
-                                                <button class="edit-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✏️ kündigen</button>
-                                            </div>
-                                        </div>
-                                    `;
-                                }
-                                return '';
-                            })
-                    );
-                }
-            });
-
-            Promise.all(offerPromises).then((offerItems) => {
-                const offersHtml = offerItems.filter(item => item).join('');
-                offerContainer.innerHTML = offersHtml || `
-                    <div style="text-align: center; padding: 20px; color: #6a7b91;">
-                        Keine Angebote verfügbar.
-                    </div>
-                `;
-            });
-
-        })
-        .catch((error) => {
-            console.error('Fehler beim Laden des Vertrags:', error);
-            contractContainer.innerHTML = `
-                <div style="text-align: center; padding: 20px; color: #ff6b6b;">
-                    ⚠️ Fehler beim Laden der Vertragsinformationen.
-                </div>
-            `;
-            offerContainer.innerHTML = `
-                <div style="text-align: center; padding: 20px; color: #ff6b6b;">
-                    ⚠️ Fehler beim Laden der Angebote.
-                </div>
-            `;
+    db.collection('contracts').where('userId', '==', email).get().then((contractSnapshot) => {
+        if (contractSnapshot.empty) {
+            contractContainer.innerHTML = `<div style="text-align: center; padding: 20px; color: #ff6b6b;">⚠️ Kein Vertrag gefunden.</div>`;
+            offerContainer.innerHTML = `<div style="text-align: center; padding: 20px; color: #6a7b91;">Keine Angebote verfügbar.</div>`;
             if (statusBadge) statusBadge.style.display = 'none';
+            return;
+        }
+        let contractHtml = '';
+        let isActive = false;
+        contractSnapshot.forEach((contractDoc) => {
+            const contractData = contractDoc.data();
+            if (contractData.status === 'active') isActive = true;
+            contractHtml = `
+                <div class="contract-section">
+                    <div class="contract-header">
+                        <div>
+                            <strong style="color: #54e50d; font-size: 1.1rem;">${contractData.companyName || 'Unbekannt'}</strong>
+                            <span style="margin-left:12px; color:#ffffff;">${contractData.energyType === 'strom' ? '⚡ Strom' : '🔥 Gas'}</span>
+                        </div>
+                    </div>
+                    <div class="contract-details-grid">
+                        <div class="contract-detail-item"><span class="label">Preis</span><span class="value">${contractData.price || 'N/A'}</span></div>
+                        <div class="contract-detail-item"><span class="label">Laufzeit</span><span class="value">${contractData.duration || 'N/A'}</span></div>
+                        <div class="contract-detail-item"><span class="label">Vertragsbeginn</span><span class="value">${contractData.dateFrom || 'N/A'}</span></div>
+                        <div class="contract-detail-item"><span class="label">Vertragsende</span><span class="value">${contractData.dateTo || 'N/A'}</span></div>
+                    </div>
+                </div>
+            `;
         });
+        if (statusBadge) {
+            if (isActive) {
+                statusBadge.style.display = 'inline-block';
+                statusBadge.textContent = '🟢 Aktiv';
+                statusBadge.style.background = 'rgba(84,229,13,0.15)';
+                statusBadge.style.color = '#54e50d';
+                statusBadge.style.border = '1px solid rgba(84,229,13,0.3)';
+            } else {
+                statusBadge.style.display = 'inline-block';
+                statusBadge.textContent = '🔴 Beendet';
+                statusBadge.style.background = 'rgba(255,107,107,0.15)';
+                statusBadge.style.color = '#ff6b6b';
+                statusBadge.style.border = '1px solid rgba(255,107,107,0.3)';
+            }
+        }
+        contractContainer.innerHTML = contractHtml;
+
+        const offerPromises = [];
+        contractSnapshot.forEach((contractDoc) => {
+            const contractData = contractDoc.data();
+            if (contractData.offerId) {
+                offerPromises.push(
+                    db.collection('offers').doc(contractData.offerId).get().then((offerDoc) => {
+                        if (offerDoc.exists) {
+                            const offerData = offerDoc.data();
+                            const services = offerData.services || [];
+                            return `
+                                <div class="offer-item">
+                                    <div class="offer-info">
+                                        <div class="offer-name">${offerData.companyName || 'Unbekannt'}</div>
+                                        <div class="offer-details">
+                                            ${offerData.type === 'strom' ? '⚡ Strom' : '🔥 Gas'}
+                                            <span style="margin-left:12px; color:#54e50d;">💰 ${offerData.price || 'N/A'}</span>
+                                            <span style="margin-left:12px; color:#6a7b91;">⏱ ${offerData.duration || 'N/A'}</span>
+                                        </div>
+                                        ${services.length > 0 ? `<div class="offer-meta">📋 ${services.join(' | ')}</div>` : ''}
+                                    </div>
+                                    <div class="offer-actions">
+                                        <button class="print-btn" onclick="window.print()">🖨️ Drucken</button>
+                                        <button class="support-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✉️ Support</button>
+                                        <button class="edit-btn" onclick="window.location.href='mailto:support@vertrauen-distributor.de'">✏️ kündigen</button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                        return '';
+                    })
+                );
+            }
+        });
+        Promise.all(offerPromises).then((offerItems) => {
+            const offersHtml = offerItems.filter(item => item).join('');
+            offerContainer.innerHTML = offersHtml || `<div style="text-align: center; padding: 20px; color: #6a7b91;">Keine Angebote verfügbar.</div>`;
+        });
+    }).catch((error) => {
+        console.error('Fehler beim Laden des Vertrags:', error);
+        contractContainer.innerHTML = `<div style="text-align: center; padding: 20px; color: #ff6b6b;">⚠️ Fehler beim Laden der Vertragsinformationen.</div>`;
+        offerContainer.innerHTML = `<div style="text-align: center; padding: 20px; color: #ff6b6b;">⚠️ Fehler beim Laden der Angebote.</div>`;
+        if (statusBadge) statusBadge.style.display = 'none';
+    });
 }
 
 function closeEditForm() {
     const editForm = document.getElementById('personalEditForm');
     const toggleBtn = document.getElementById('togglePersonalEdit');
     const msg = document.getElementById('personalEditMessage');
-    
     if (editForm) editForm.classList.remove('active');
-    if (toggleBtn) {
-        toggleBtn.classList.remove('hidden');
-        toggleBtn.textContent = '✏️ Bearbeiten';
-    }
-    if (msg) {
-        msg.textContent = '';
-        msg.className = 'message';
-    }
+    if (toggleBtn) { toggleBtn.classList.remove('hidden'); toggleBtn.textContent = '✏️ Bearbeiten'; }
+    if (msg) { msg.textContent = ''; msg.className = 'message'; }
 }
 
 function openEditForm() {
     const editForm = document.getElementById('personalEditForm');
     const toggleBtn = document.getElementById('togglePersonalEdit');
     const msg = document.getElementById('personalEditMessage');
-    
     if (editForm) editForm.classList.add('active');
     if (toggleBtn) toggleBtn.classList.add('hidden');
-    if (msg) {
-        msg.textContent = '';
-        msg.className = 'message';
-    }
+    if (msg) { msg.textContent = ''; msg.className = 'message'; }
     loadPersonalDataToForm();
 }
 
 function initMeinPortalPage() {
     const contractInfoContainer = document.getElementById('contractInfo');
     const offerDetailsContainer = document.getElementById('offerDetails');
-
     if (!contractInfoContainer || !offerDetailsContainer) return;
-
     const userEmail = localStorage.getItem('userEmail');
-
-    if (!userEmail) {
-        window.location.href = 'login.html';
-        return;
-    }
-
+    if (!userEmail) { window.location.href = 'login.html'; return; }
     const userNameDisplay = document.getElementById('userNameDisplay');
     if (userNameDisplay) {
         const nomUtilisateur = localStorage.getItem('userNachname') || userEmail;
         userNameDisplay.textContent = nomUtilisateur;
     }
-
     function waitForFirebaseAndLoad() {
         if (typeof firebase !== 'undefined' && firebase.apps.length) {
             loadPersonalInfo(userEmail);
             loadPortalData(userEmail);
-        } else {
-            setTimeout(waitForFirebaseAndLoad, 300);
-        }
+        } else { setTimeout(waitForFirebaseAndLoad, 300); }
     }
     waitForFirebaseAndLoad();
-
     const toggleBtn = document.getElementById('togglePersonalEdit');
     const cancelBtn = document.getElementById('cancelPersonalEdit');
-
     if (toggleBtn) {
         toggleBtn.addEventListener('click', function() {
             const editForm = document.getElementById('personalEditForm');
-            if (editForm && editForm.classList.contains('active')) {
-                closeEditForm();
-            } else {
-                openEditForm();
-            }
+            if (editForm && editForm.classList.contains('active')) closeEditForm();
+            else openEditForm();
         });
     }
-
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', function() {
-            closeEditForm();
-        });
-    }
-
+    if (cancelBtn) cancelBtn.addEventListener('click', function() { closeEditForm(); });
     const form = document.getElementById('editPersonalForm');
     const msg = document.getElementById('personalEditMessage');
-
     if (form) {
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             const userEmail = localStorage.getItem('userEmail');
-            if (!userEmail) {
-                msg.textContent = '❌ Kein Benutzer angemeldet.';
-                msg.className = 'message error';
-                return;
-            }
-
+            if (!userEmail) { msg.textContent = '❌ Kein Benutzer angemeldet.'; msg.className = 'message error'; return; }
             const anrede = document.getElementById('editPersonalAnrede').value;
             const vorname = document.getElementById('editPersonalVorname').value.trim();
             const nachname = document.getElementById('editPersonalNachname').value.trim();
             const telefon = document.getElementById('editPersonalTelefon').value.trim();
             const fax = document.getElementById('editPersonalFax').value.trim();
-
-            if (!vorname || !nachname) {
-                msg.textContent = '❌ Bitte füllen Sie Vorname und Nachname aus.';
-                msg.className = 'message error';
-                return;
-            }
-
+            if (!vorname || !nachname) { msg.textContent = '❌ Bitte füllen Sie Vorname und Nachname aus.'; msg.className = 'message error'; return; }
             try {
                 const db = firebase.firestore();
-                await db.collection('users').doc(userEmail).update({
-                    anrede, vorname, nachname, telefon, fax
-                });
-
+                await db.collection('users').doc(userEmail).update({ anrede, vorname, nachname, telefon, fax });
                 localStorage.setItem('userAnrede', anrede);
                 localStorage.setItem('userNachname', nachname);
-
                 msg.textContent = '✅ Persönliche Informationen erfolgreich aktualisiert!';
                 msg.className = 'message success';
-
                 loadPersonalInfo(userEmail);
-
             } catch (error) {
                 console.error('Fehler beim Aktualisieren:', error);
                 msg.textContent = '❌ Fehler beim Speichern: ' + error.message;
@@ -692,7 +468,6 @@ function initMeinPortalPage() {
 function initLoginPage() {
   const loginForm = document.getElementById('login-form');
   if (!loginForm) return;
-
   const loginContainer = document.getElementById('login-form-container');
   const forgotContainer = document.getElementById('forgot-form-container');
   const forgotLink = document.getElementById('forgot-link');
@@ -707,7 +482,6 @@ function initLoginPage() {
       if (fm) fm.textContent = '';
     });
   }
-
   if (backToLoginLink) {
     backToLoginLink.addEventListener('click', (e) => {
       e.preventDefault();
@@ -717,31 +491,20 @@ function initLoginPage() {
   }
 
   const loginMsg = document.getElementById('login-message');
-
   loginForm.addEventListener('submit', async function (e) {
     e.preventDefault();
     const email = document.getElementById('user').value.trim();
     const password = document.getElementById('pass').value.trim();
-
-    if (!email || !password) {
-      loginMsg.textContent = 'Bitte E-Mail und Passwort eingeben.';
-      loginMsg.style.color = '#cc0000';
-      return;
-    }
-
+    if (!email || !password) { loginMsg.textContent = 'Bitte E-Mail und Passwort eingeben.'; loginMsg.style.color = '#cc0000'; return; }
     try {
       const user = await getUser(email);
       if (user && user.password === password) {
         localStorage.setItem('userEmail', email);
         localStorage.setItem('isAdmin', isAdmin(email) ? 'true' : 'false');
-        if (user.nachname) localStorage.setItem('userNachname', user.nachname);
-        else localStorage.removeItem('userNachname');
-        if (user.anrede) localStorage.setItem('userAnrede', user.anrede);
-        else localStorage.removeItem('userAnrede');
-
+        if (user.nachname) localStorage.setItem('userNachname', user.nachname); else localStorage.removeItem('userNachname');
+        if (user.anrede) localStorage.setItem('userAnrede', user.anrede); else localStorage.removeItem('userAnrede');
         loginMsg.textContent = 'Login erfolgreich! Weiterleitung ...';
         loginMsg.style.color = '#008000';
-
         setTimeout(() => { window.location.href = 'admin.html'; }, 800);
       } else {
         loginMsg.textContent = 'E-Mail oder Passwort falsch.';
@@ -760,22 +523,11 @@ function initLoginPage() {
     forgotForm.addEventListener('submit', async function (e) {
       e.preventDefault();
       const email = document.getElementById('forgot-username').value.trim();
-
-      if (!email) {
-        forgotMsg.textContent = 'Bitte geben Sie Ihre E-Mail ein.';
-        forgotMsg.style.color = '#cc0000';
-        return;
-      }
-
+      if (!email) { forgotMsg.textContent = 'Bitte geben Sie Ihre E-Mail ein.'; forgotMsg.style.color = '#cc0000'; return; }
       try {
         const user = await getUser(email);
-        if (user) {
-          forgotMsg.textContent = 'Ein Link zum Zurücksetzen wurde gesendet.';
-          forgotMsg.style.color = '#008000';
-        } else {
-          forgotMsg.textContent = 'Kein Konto mit dieser E-Mail verknüpft.';
-          forgotMsg.style.color = '#54e50d';
-        }
+        if (user) { forgotMsg.textContent = 'Ein Link zum Zurücksetzen wurde gesendet.'; forgotMsg.style.color = '#008000'; }
+        else { forgotMsg.textContent = 'Kein Konto mit dieser E-Mail verknüpft.'; forgotMsg.style.color = '#54e50d'; }
       } catch (error) {
         console.error('Firebase error:', error);
         forgotMsg.textContent = 'Fehler bei der Anfrage.';
@@ -792,11 +544,7 @@ function initAdminPage() {
   const companyForm = document.getElementById('companyForm');
   const userList = document.getElementById('userList');
   if (!companyForm || !userList) return;
-
-  if (localStorage.getItem('isAdmin') !== 'true') {
-    window.location.href = 'dashboard.html';
-    return;
-  }
+  if (localStorage.getItem('isAdmin') !== 'true') { window.location.href = 'dashboard.html'; return; }
 
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -839,13 +587,8 @@ function initAdminPage() {
     document.getElementById('compPhone').value = data.phone || '';
     document.getElementById('compCreated').value = data.created || '';
     document.getElementById('compCommercial').value = data.commercial || '';
-    if (data.logo) {
-      logoPreview.src = data.logo;
-      logoPreview.classList.add('visible');
-    } else {
-      logoPreview.classList.remove('visible');
-      logoPreview.src = '';
-    }
+    if (data.logo) { logoPreview.src = data.logo; logoPreview.classList.add('visible'); }
+    else { logoPreview.classList.remove('visible'); logoPreview.src = ''; }
     submitBtn.textContent = 'Änderungen speichern';
     companyFormTitle.textContent = 'Unternehmen bearbeiten';
     editModeIndicator.classList.add('active');
@@ -868,16 +611,9 @@ function initAdminPage() {
 
   logoInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
-    if (!file) {
-      logoPreview.classList.remove('visible');
-      logoPreview.src = '';
-      return;
-    }
+    if (!file) { logoPreview.classList.remove('visible'); logoPreview.src = ''; return; }
     const reader = new FileReader();
-    reader.onload = (event) => {
-      logoPreview.src = event.target.result;
-      logoPreview.classList.add('visible');
-    };
+    reader.onload = (event) => { logoPreview.src = event.target.result; logoPreview.classList.add('visible'); };
     reader.readAsDataURL(file);
   });
 
@@ -891,16 +627,9 @@ function initAdminPage() {
     const commercial = document.getElementById('compCommercial').value.trim();
     const logoFile = logoInput.files[0];
     const msg = companyMessage;
-
-    if (!name) {
-      msg.textContent = 'Bitte geben Sie einen Namen ein.';
-      msg.className = 'message error';
-      return;
-    }
-
+    if (!name) { msg.textContent = 'Bitte geben Sie einen Namen ein.'; msg.className = 'message error'; return; }
     try {
       let logoUrl = null;
-
       if (logoFile) {
         uploadProgress.classList.add('active');
         msg.textContent = 'Logo wird verarbeitet...';
@@ -911,10 +640,8 @@ function initAdminPage() {
         const doc = await db.collection('companies').doc(docId).get();
         if (doc.exists) logoUrl = doc.data().logo || null;
       }
-
       const dataToSave = { name, service, phone, created, commercial };
       if (logoUrl) dataToSave.logo = logoUrl;
-
       if (docId) {
         await db.collection('companies').doc(docId).update(dataToSave);
         msg.textContent = '✅ Unternehmen erfolgreich aktualisiert!';
@@ -938,10 +665,7 @@ function initAdminPage() {
     const container = document.getElementById('companyList');
     try {
       const snapshot = await db.collection('companies').orderBy('createdAt', 'desc').get();
-      if (snapshot.empty) {
-        container.innerHTML = '<p style="color:#6a7b91;">Keine Unternehmen vorhanden.</p>';
-        return;
-      }
+      if (snapshot.empty) { container.innerHTML = '<p style="color:#6a7b91;">Keine Unternehmen vorhanden.</p>'; return; }
       let html = '';
       snapshot.forEach(doc => {
         const data = doc.data();
@@ -973,23 +697,15 @@ function initAdminPage() {
             const doc = await db.collection('companies').doc(id).get();
             if (doc.exists) fillEditForm(id, doc.data());
             else alert('Unternehmen nicht gefunden.');
-          } catch (error) {
-            console.error(error);
-            alert('Fehler beim Laden der Unternehmensdaten.');
-          }
+          } catch (error) { console.error(error); alert('Fehler beim Laden der Unternehmensdaten.'); }
         });
       });
 
       document.querySelectorAll('#companyList .delete-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
           if (confirm('Möchten Sie dieses Unternehmen wirklich löschen?')) {
-            try {
-              await db.collection('companies').doc(btn.dataset.id).delete();
-              loadCompaniesAdmin();
-            } catch (error) {
-              console.error(error);
-              alert('Fehler beim Löschen.');
-            }
+            try { await db.collection('companies').doc(btn.dataset.id).delete(); loadCompaniesAdmin(); }
+            catch (error) { console.error(error); alert('Fehler beim Löschen.'); }
           }
         });
       });
@@ -1003,10 +719,7 @@ function initAdminPage() {
     const container = document.getElementById('userList');
     try {
       const snapshot = await db.collection('users').get();
-      if (snapshot.empty) {
-        container.innerHTML = '<p style="color:#6a7b91;">Keine Benutzer vorhanden.</p>';
-        return;
-      }
+      if (snapshot.empty) { container.innerHTML = '<p style="color:#6a7b91;">Keine Benutzer vorhanden.</p>'; return; }
       let html = '';
       snapshot.forEach(doc => {
         const data = doc.data();
@@ -1037,19 +750,11 @@ function initAdminPage() {
               loadUsers();
               document.getElementById('editFormContainer').style.display = 'none';
               const msg = document.getElementById('editMessage');
-              if (msg) {
-                msg.textContent = '✅ Benutzer gelöscht.';
-                msg.className = 'message success';
-                setTimeout(() => { msg.textContent = ''; msg.className = 'message'; }, 3000);
-              }
-            } catch (error) {
-              console.error('Fehler beim Löschen:', error);
-              alert('Fehler beim Löschen des Benutzers.');
-            }
+              if (msg) { msg.textContent = '✅ Benutzer gelöscht.'; msg.className = 'message success'; setTimeout(() => { msg.textContent = ''; msg.className = 'message'; }, 3000); }
+            } catch (error) { console.error('Fehler beim Löschen:', error); alert('Fehler beim Löschen des Benutzers.'); }
           }
         });
       });
-
     } catch (error) {
       console.error(error);
       container.innerHTML = '<p style="color:#ff6b6b;">Fehler beim Laden.</p>';
@@ -1071,9 +776,7 @@ function initAdminPage() {
         document.getElementById('editTelefon').value = data.telefon || '';
         document.getElementById('editFax').value = data.fax || '';
       }
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) { console.error(error); }
   }
 
   document.getElementById('editUserForm').addEventListener('submit', async (e) => {
@@ -1120,33 +823,17 @@ function initCompanyPage() {
 
   function loadCompaniesPublic() {
     container.innerHTML = '<p style="color:#6a7b91;">Lade Unternehmen...</p>';
-
-    if (typeof firebase === 'undefined' || !firebase.apps.length) {
-      setTimeout(loadCompaniesPublic, 500);
-      return;
-    }
-
+    if (typeof firebase === 'undefined' || !firebase.apps.length) { setTimeout(loadCompaniesPublic, 500); return; }
     const db = firebase.firestore();
-
-    Promise.all([
-      db.collection('companies').orderBy('createdAt', 'desc').get(),
-      db.collection('contracts').get()
-    ])
+    Promise.all([db.collection('companies').orderBy('createdAt', 'desc').get(), db.collection('contracts').get()])
     .then(([companiesSnapshot, contractsSnapshot]) => {
-      if (companiesSnapshot.empty) {
-        container.innerHTML = '<p style="color:#6a7b91;">Keine Unternehmen vorhanden.</p>';
-        return;
-      }
-
+      if (companiesSnapshot.empty) { container.innerHTML = '<p style="color:#6a7b91;">Keine Unternehmen vorhanden.</p>'; return; }
       const contractCounts = {};
       contractsSnapshot.forEach(doc => {
         const data = doc.data();
         const companyName = data.companyName || '';
-        if (companyName) {
-          contractCounts[companyName] = (contractCounts[companyName] || 0) + 1;
-        }
+        if (companyName) contractCounts[companyName] = (contractCounts[companyName] || 0) + 1;
       });
-
       let html = '';
       companiesSnapshot.forEach(doc => {
         const data = doc.data();
@@ -1157,10 +844,8 @@ function initCompanyPage() {
         if (data.commercial) metaParts.push('Commercial: ' + data.commercial);
         if (data.created) metaParts.push('Erstellt: ' + data.created);
         const metaText = metaParts.join(' | ');
-
         const companyName = data.name || 'Unbekannt';
         const vertraege = contractCounts[companyName] || 0;
-
         html += `
           <div class="company-item">
             <div class="company-info">
@@ -1170,9 +855,7 @@ function initCompanyPage() {
                 <div class="meta">${metaText}</div>
               </div>
             </div>
-            <div class="company-stats">
-              <span class="number">${vertraege}</span> Verträge
-            </div>
+            <div class="company-stats"><span class="number">${vertraege}</span> Verträge</div>
           </div>
         `;
       });
@@ -1185,30 +868,11 @@ function initCompanyPage() {
   }
 
   function setupRealTimeListeners() {
-    if (typeof firebase === 'undefined' || !firebase.apps.length) {
-      setTimeout(setupRealTimeListeners, 500);
-      return;
-    }
-
+    if (typeof firebase === 'undefined' || !firebase.apps.length) { setTimeout(setupRealTimeListeners, 500); return; }
     const db = firebase.firestore();
-
-    db.collection('contracts').onSnapshot(function() {
-      loadCompaniesPublic();
-    }, function(error) {
-      console.error('Erreur lors de l\'écoute des contrats:', error);
-    });
-
-    db.collection('companies').onSnapshot(function() {
-      loadCompaniesPublic();
-    }, function(error) {
-      console.error('Erreur lors de l\'écoute des entreprises:', error);
-    });
-
-    db.collection('offers').onSnapshot(function() {
-      loadCompaniesPublic();
-    }, function(error) {
-      console.error('Erreur lors de l\'écoute des offres:', error);
-    });
+    db.collection('contracts').onSnapshot(function() { loadCompaniesPublic(); }, function(error) { console.error('Erreur lors de l\'écoute des contrats:', error); });
+    db.collection('companies').onSnapshot(function() { loadCompaniesPublic(); }, function(error) { console.error('Erreur lors de l\'écoute des entreprises:', error); });
+    db.collection('offers').onSnapshot(function() { loadCompaniesPublic(); }, function(error) { console.error('Erreur lors de l\'écoute des offres:', error); });
   }
 
   loadCompaniesPublic();
@@ -1227,10 +891,7 @@ function updateLoginButton() {
     if (isLoggedIn) {
       loginBtn.textContent = 'Abmelden';
       loginBtn.href = '#';
-      loginBtn.onclick = function(e) {
-        e.preventDefault();
-        window.logout();
-      };
+      loginBtn.onclick = function(e) { e.preventDefault(); window.logout(); };
     } else {
       loginBtn.textContent = 'Login';
       loginBtn.href = 'login.html';
@@ -1242,10 +903,7 @@ function updateLoginButton() {
     if (isLoggedIn) {
       logoutMobile.style.display = 'block';
       logoutMobile.textContent = 'Abmelden';
-      logoutMobile.onclick = function(e) {
-        e.preventDefault();
-        window.logout();
-      };
+      logoutMobile.onclick = function(e) { e.preventDefault(); window.logout(); };
     } else {
       logoutMobile.style.display = 'none';
       logoutMobile.onclick = null;
@@ -1256,12 +914,10 @@ function updateLoginButton() {
 function updateUserDisplay() {
   const nameSpan = document.getElementById('userNameDisplay');
   if (!nameSpan) return;
-
   const isLoggedIn = localStorage.getItem('userEmail') !== null;
   const anrede = localStorage.getItem('userAnrede');
   const nachname = localStorage.getItem('userNachname');
   const userEmail = localStorage.getItem('userEmail');
-
   if (isLoggedIn && nachname) {
     const displayName = anrede ? anrede + ' ' + nachname : nachname;
     nameSpan.innerHTML = '<span class="welcome-text">Willkommen</span>, <span class="welcome-name">' + displayName + '</span>';
@@ -1280,35 +936,22 @@ function updateUserDisplay() {
 function initHamburger() {
   const hamburger = document.getElementById('hamburgerBtn');
   const nav = document.getElementById('mainNav');
-
-  if (!hamburger || !nav) {
-    setTimeout(initHamburger, 200);
-    return;
-  }
-
+  if (!hamburger || !nav) { setTimeout(initHamburger, 200); return; }
   const newHamburger = hamburger.cloneNode(true);
   hamburger.parentNode.replaceChild(newHamburger, hamburger);
-
   const finalHamburger = document.getElementById('hamburgerBtn');
   const finalNav = document.getElementById('mainNav');
-
   if (!finalHamburger || !finalNav) return;
-
   finalHamburger.addEventListener('click', function(e) {
     e.stopPropagation();
     this.classList.toggle('active');
     finalNav.classList.toggle('open');
   });
-
   finalNav.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', function() {
-      if (finalNav.classList.contains('open')) {
-        finalHamburger.classList.remove('active');
-        finalNav.classList.remove('open');
-      }
+      if (finalNav.classList.contains('open')) { finalHamburger.classList.remove('active'); finalNav.classList.remove('open'); }
     });
   });
-
   document.addEventListener('click', function(e) {
     if (finalNav.classList.contains('open')) {
       if (!finalNav.contains(e.target) && !finalHamburger.contains(e.target)) {
@@ -1324,7 +967,6 @@ function initHamburger() {
 // =====================================================================
 function initTawkTo() {
   document.querySelectorAll('script[src*="embed.tawk.to"]').forEach(s => s.remove());
-
   setTimeout(() => {
     const script = document.createElement('script');
     script.async = true;
@@ -1349,12 +991,7 @@ function initChatOnAllPages() {
 // =====================================================================
 function initStatsPage() {
   if (!document.getElementById('emailDonut')) return;
-
-  if (typeof firebase === 'undefined' || !firebase.apps.length) {
-    console.warn('Firebase nicht initialisiert. Warte...');
-    setTimeout(initStatsPage, 500);
-    return;
-  }
+  if (typeof firebase === 'undefined' || !firebase.apps.length) { setTimeout(initStatsPage, 500); return; }
   const db = firebase.firestore();
 
   let emailChart = null, companyChart = null, stromChart = null, gasChart = null, stromVertragChart = null, gasVertragChart = null;
@@ -1364,42 +1001,24 @@ function initStatsPage() {
   async function loadStats() {
     try {
       const [usersSnap, companiesSnap, offersSnap, contractsSnap] = await Promise.all([
-        db.collection('users').get(),
-        db.collection('companies').get(),
-        db.collection('offers').get(),
-        db.collection('contracts').get()
+        db.collection('users').get(), db.collection('companies').get(),
+        db.collection('offers').get(), db.collection('contracts').get()
       ]);
-
       const totalUsers = usersSnap.size;
       const totalCompanies = companiesSnap.size;
-
-      let totalStrom = 0;
-      let totalGas = 0;
-      let totalStromVertrag = 0;
-      let totalGasVertrag = 0;
-
-      const companyMap = {};
-      const contractCounts = {};
-      const companyLogoMap = {};
+      let totalStrom = 0, totalGas = 0, totalStromVertrag = 0, totalGasVertrag = 0;
+      const companyMap = {}, contractCounts = {}, companyLogoMap = {};
 
       offersSnap.forEach(doc => {
         const data = doc.data();
         if (data.type === 'strom' || data.type === 'both') totalStrom++;
         if (data.type === 'gas' || data.type === 'both') totalGas++;
-
         const companyId = data.companyId || 'unknown';
         const price = parseFloat(data.price ? data.price.replace(/[^0-9.,]/g, '').replace(',', '.') : 0);
-
         if (!companyMap[companyId]) {
-          companyMap[companyId] = {
-            name: data.companyName || 'Unbekannt',
-            logo: data.companyLogo || '',
-            strom: null,
-            gas: null
-          };
+          companyMap[companyId] = { name: data.companyName || 'Unbekannt', logo: data.companyLogo || '', strom: null, gas: null };
           companyLogoMap[data.companyName || 'Unbekannt'] = data.companyLogo || '';
         }
-
         if (data.type === 'strom' || data.type === 'both') companyMap[companyId].strom = price;
         if (data.type === 'gas' || data.type === 'both') companyMap[companyId].gas = price;
       });
@@ -1408,39 +1027,24 @@ function initStatsPage() {
         const data = doc.data();
         if (data.energyType === 'strom') totalStromVertrag++;
         else if (data.energyType === 'gas') totalGasVertrag++;
-
         const companyName = data.companyName || 'Unbekannt';
-        if (!contractCounts[companyName]) {
-          contractCounts[companyName] = { strom: 0, gas: 0 };
-          companyLogoMap[companyName] = data.companyLogo || '';
-        }
+        if (!contractCounts[companyName]) { contractCounts[companyName] = { strom: 0, gas: 0 }; companyLogoMap[companyName] = data.companyLogo || ''; }
         if (data.energyType === 'strom') contractCounts[companyName].strom++;
         else if (data.energyType === 'gas') contractCounts[companyName].gas++;
       });
 
       Object.keys(companyMap).forEach(key => {
         const name = companyMap[key].name;
-        if (companyMap[key].logo && !companyLogoMap[name]) {
-          companyLogoMap[name] = companyMap[key].logo;
-        }
+        if (companyMap[key].logo && !companyLogoMap[name]) companyLogoMap[name] = companyMap[key].logo;
       });
 
-      const chartData = Object.values(companyMap)
-        .filter(company => company.strom !== null || company.gas !== null)
-        .sort((a, b) => (a.strom || 0) - (b.strom || 0));
-
-      const contractChartData = Object.keys(contractCounts)
-        .filter(name => contractCounts[name].strom > 0 || contractCounts[name].gas > 0)
-        .sort((a, b) => {
-          const totalA = contractCounts[a].strom + contractCounts[a].gas;
-          const totalB = contractCounts[b].strom + contractCounts[b].gas;
-          return totalB - totalA;
-        });
-
-      const contractDataWithLogos = contractChartData.map(name => ({
-        name: name,
-        logo: companyLogoMap[name] || DEFAULT_LOGO
-      }));
+      const chartData = Object.values(companyMap).filter(c => c.strom !== null || c.gas !== null).sort((a, b) => (a.strom || 0) - (b.strom || 0));
+      const contractChartData = Object.keys(contractCounts).filter(name => contractCounts[name].strom > 0 || contractCounts[name].gas > 0).sort((a, b) => {
+        const totalA = contractCounts[a].strom + contractCounts[a].gas;
+        const totalB = contractCounts[b].strom + contractCounts[b].gas;
+        return totalB - totalA;
+      });
+      const contractDataWithLogos = contractChartData.map(name => ({ name: name, logo: companyLogoMap[name] || DEFAULT_LOGO }));
 
       const emailEl = document.getElementById('emailCount');
       const companyEl = document.getElementById('companyCount');
@@ -1448,7 +1052,6 @@ function initStatsPage() {
       const gasEl = document.getElementById('gasCount');
       const stromVertragEl = document.getElementById('stromVertragCount');
       const gasVertragEl = document.getElementById('gasVertragCount');
-
       if (emailEl) emailEl.textContent = totalUsers;
       if (companyEl) companyEl.textContent = totalCompanies;
       if (stromEl) stromEl.textContent = totalStrom;
@@ -1462,14 +1065,11 @@ function initStatsPage() {
       updateDonut('gasDonut', totalGas, '#54e50d', '#6a7b91');
       updateDonut('stromVertragDonut', totalStromVertrag, '#54e50d', '#6a7b91');
       updateDonut('gasVertragDonut', totalGasVertrag, '#54e50d', '#6a7b91');
-
       updateOfferComparisonChart(chartData);
       updateContractComparisonChart(contractDataWithLogos, contractCounts);
-
     } catch (error) {
       console.error('Fehler beim Laden der Statistiken:', error);
-      const ids = ['emailCount', 'companyCount', 'stromCount', 'gasCount', 'stromVertragCount', 'gasVertragCount'];
-      ids.forEach(id => {
+      ['emailCount', 'companyCount', 'stromCount', 'gasCount', 'stromVertragCount', 'gasVertragCount'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.textContent = '❌';
       });
@@ -1479,9 +1079,7 @@ function initStatsPage() {
   function updateDonut(canvasId, value, color, bgColor) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
-
     const ctx = canvas.getContext('2d');
-
     if (canvasId === 'emailDonut' && emailChart) emailChart.destroy();
     else if (canvasId === 'companyDonut' && companyChart) companyChart.destroy();
     else if (canvasId === 'stromDonut' && stromChart) stromChart.destroy();
@@ -1491,42 +1089,24 @@ function initStatsPage() {
 
     const displayValue = Math.min(value, 100);
     const remaining = 100 - displayValue;
-
     const chart = new Chart(ctx, {
       type: 'doughnut',
-      data: {
-        labels: ['', ''],
-        datasets: [{
-          data: [displayValue, remaining],
-          backgroundColor: [color, bgColor],
-          borderWidth: 0
-        }]
-      },
-      options: {
-        cutout: '65%',
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          legend: { display: false },
-          tooltip: { enabled: false }
-        }
-      },
+      data: { labels: ['', ''], datasets: [{ data: [displayValue, remaining], backgroundColor: [color, bgColor], borderWidth: 0 }] },
+      options: { cutout: '65%', responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false }, tooltip: { enabled: false } } },
       plugins: [{
         id: 'centerText',
         beforeDraw: function(chart) {
           const { width, height, ctx } = chart;
           ctx.save();
-          const text = value.toString();
           ctx.font = 'bold 18px Arial';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillStyle = '#ffffff';
-          ctx.fillText(text, width / 2, height / 2);
+          ctx.fillText(value.toString(), width / 2, height / 2);
           ctx.restore();
         }
       }]
     });
-
     if (canvasId === 'emailDonut') emailChart = chart;
     else if (canvasId === 'companyDonut') companyChart = chart;
     else if (canvasId === 'stromDonut') stromChart = chart;
@@ -1538,96 +1118,37 @@ function initStatsPage() {
   function updateOfferComparisonChart(data) {
     const canvas = document.getElementById('offerComparisonChart');
     if (!canvas) return;
-
-    if (offerComparisonChart) {
-      offerComparisonChart.destroy();
-      offerComparisonChart = null;
-    }
-
+    if (offerComparisonChart) { offerComparisonChart.destroy(); offerComparisonChart = null; }
     if (data.length === 0) {
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#6a7b91';
-      ctx.font = '16px Arial';
-      ctx.textAlign = 'center';
+      ctx.fillStyle = '#6a7b91'; ctx.font = '16px Arial'; ctx.textAlign = 'center';
       ctx.fillText('Keine Angebote vorhanden', canvas.width / 2, canvas.height / 2);
       return;
     }
-
     const ctx = canvas.getContext('2d');
-
     const labels = data.map((item, index) => index + 1);
     const stromPrices = data.map(item => item.strom || 0);
     const gasPrices = data.map(item => item.gas || 0);
-
-    const stromColor = '#54e50d';
-    const gasColor = '#a0a6cc';
-    const stromColorRgba = 'rgba(84, 229, 13, 0.8)';
-    const gasColorRgba = 'rgba(133, 145, 214, 0.8)';
 
     offerComparisonChart = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: labels,
         datasets: [
-          {
-            label: 'Strom (€/kWh)',
-            data: stromPrices,
-            backgroundColor: stromColorRgba,
-            borderColor: stromColor,
-            borderWidth: 2,
-            borderRadius: 4,
-            barPercentage: 0.35
-          },
-          {
-            label: 'Gas (€/kWh)',
-            data: gasPrices,
-            backgroundColor: gasColorRgba,
-            borderColor: gasColor,
-            borderWidth: 2,
-            borderRadius: 4,
-            barPercentage: 0.35
-          }
+          { label: 'Strom (€/kWh)', data: stromPrices, backgroundColor: 'rgba(84, 229, 13, 0.8)', borderColor: '#54e50d', borderWidth: 2, borderRadius: 4, barPercentage: 0.35 },
+          { label: 'Gas (€/kWh)', data: gasPrices, backgroundColor: 'rgba(133, 145, 214, 0.8)', borderColor: '#a0a6cc', borderWidth: 2, borderRadius: 4, barPercentage: 0.35 }
         ]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true, maintainAspectRatio: false,
         plugins: {
-          legend: {
-            display: true,
-            labels: {
-              color: '#ffffff',
-              font: { size: 14, weight: 'bold' },
-              padding: 20,
-              usePointStyle: true,
-              pointStyle: 'circle'
-            }
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + ' €/kWh';
-              }
-            }
-          }
+          legend: { display: true, labels: { color: '#ffffff', font: { size: 14, weight: 'bold' }, padding: 20, usePointStyle: true, pointStyle: 'circle' } },
+          tooltip: { callbacks: { label: function(context) { return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + ' €/kWh'; } } }
         },
         scales: {
-          y: {
-            beginAtZero: true,
-            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-            ticks: {
-              color: '#6a7b91',
-              callback: function(value) {
-                return value.toFixed(2) + ' €';
-              }
-            }
-          },
-          x: {
-            grid: { display: false },
-            ticks: { display: false },
-            afterFit: function(scale) { scale.height += 50; }
-          }
+          y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#6a7b91', callback: function(value) { return value.toFixed(2) + ' €'; } } },
+          x: { grid: { display: false }, ticks: { display: false }, afterFit: function(scale) { scale.height += 50; } }
         },
         plugins: [{
           id: 'customLabels',
@@ -1638,10 +1159,8 @@ function initStatsPage() {
               meta.data.forEach(function(bar, index) {
                 const data = dataset.data[index];
                 if (data > 0) {
-                  ctx.fillStyle = '#ffffff';
-                  ctx.font = 'bold 11px Arial';
-                  ctx.textAlign = 'center';
-                  ctx.textBaseline = 'bottom';
+                  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 11px Arial';
+                  ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
                   ctx.fillText(data.toFixed(2), bar.x, bar.y - 4);
                 }
               });
@@ -1657,23 +1176,17 @@ function initStatsPage() {
           const yAxis = chart.scales.y;
           const logoSize = 28;
           const logoY = yAxis.bottom + 30;
-
           data.forEach((item, index) => {
             const x = xAxis.getPixelForValue(index);
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.src = item.logo || DEFAULT_LOGO;
-
             const drawLogo = function() {
               ctx.save();
-              ctx.shadowColor = 'rgba(216, 217, 220, 0.4)';
-              ctx.shadowBlur = 8;
+              ctx.shadowColor = 'rgba(216, 217, 220, 0.4)'; ctx.shadowBlur = 8;
               ctx.beginPath();
-              if (ctx.roundRect) {
-                ctx.roundRect(x - logoSize/2 - 4, logoY - logoSize/2 - 4, logoSize + 8, logoSize + 8, 6);
-              } else {
-                ctx.rect(x - logoSize/2 - 4, logoY - logoSize/2 - 4, logoSize + 8, logoSize + 8);
-              }
+              if (ctx.roundRect) ctx.roundRect(x - logoSize/2 - 4, logoY - logoSize/2 - 4, logoSize + 8, logoSize + 8, 6);
+              else ctx.rect(x - logoSize/2 - 4, logoY - logoSize/2 - 4, logoSize + 8, logoSize + 8);
               ctx.fillStyle = 'rgba(205, 205, 209, 0.6)';
               ctx.fill();
               ctx.shadowBlur = 0;
@@ -1683,15 +1196,10 @@ function initStatsPage() {
               ctx.drawImage(img, x - logoSize/2, logoY - logoSize/2, logoSize, logoSize);
               ctx.restore();
             };
-
             if (img.complete && img.naturalWidth > 0) drawLogo();
             else {
               img.onload = drawLogo;
-              img.onerror = function() {
-                const defaultImg = new Image();
-                defaultImg.src = DEFAULT_LOGO;
-                defaultImg.onload = drawLogo;
-              };
+              img.onerror = function() { const defaultImg = new Image(); defaultImg.src = DEFAULT_LOGO; defaultImg.onload = drawLogo; };
             }
           });
         }
@@ -1702,95 +1210,37 @@ function initStatsPage() {
   function updateContractComparisonChart(contractDataWithLogos, contractCounts) {
     const canvas = document.getElementById('contractComparisonChart');
     if (!canvas) return;
-
-    if (contractComparisonChart) {
-      contractComparisonChart.destroy();
-      contractComparisonChart = null;
-    }
-
+    if (contractComparisonChart) { contractComparisonChart.destroy(); contractComparisonChart = null; }
     if (contractDataWithLogos.length === 0) {
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#6a7b91';
-      ctx.font = '16px Arial';
-      ctx.textAlign = 'center';
+      ctx.fillStyle = '#6a7b91'; ctx.font = '16px Arial'; ctx.textAlign = 'center';
       ctx.fillText('Keine Verträge vorhanden', canvas.width / 2, canvas.height / 2);
       return;
     }
-
     const ctx = canvas.getContext('2d');
-
     const labels = contractDataWithLogos.map((item, index) => index + 1);
     const stromData = contractDataWithLogos.map(item => contractCounts[item.name]?.strom || 0);
     const gasData = contractDataWithLogos.map(item => contractCounts[item.name]?.gas || 0);
-
-    const stromColor = '#54e50d';
-    const gasColor = '#4ecdc4';
-    const stromColorRgba = 'rgba(84, 229, 13, 0.8)';
-    const gasColorRgba = 'rgba(78, 205, 196, 0.8)';
 
     contractComparisonChart = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: labels,
         datasets: [
-          {
-            label: 'Strom Verträge',
-            data: stromData,
-            backgroundColor: stromColorRgba,
-            borderColor: stromColor,
-            borderWidth: 2,
-            borderRadius: 4,
-            barPercentage: 0.35
-          },
-          {
-            label: 'Gas Verträge',
-            data: gasData,
-            backgroundColor: gasColorRgba,
-            borderColor: gasColor,
-            borderWidth: 2,
-            borderRadius: 4,
-            barPercentage: 0.35
-          }
+          { label: 'Strom Verträge', data: stromData, backgroundColor: 'rgba(84, 229, 13, 0.8)', borderColor: '#54e50d', borderWidth: 2, borderRadius: 4, barPercentage: 0.35 },
+          { label: 'Gas Verträge', data: gasData, backgroundColor: 'rgba(78, 205, 196, 0.8)', borderColor: '#4ecdc4', borderWidth: 2, borderRadius: 4, barPercentage: 0.35 }
         ]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true, maintainAspectRatio: false,
         plugins: {
-          legend: {
-            display: true,
-            labels: {
-              color: '#ffffff',
-              font: { size: 14, weight: 'bold' },
-              padding: 20,
-              usePointStyle: true,
-              pointStyle: 'circle'
-            }
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return context.dataset.label + ': ' + context.parsed.y + ' Vertrag(e)';
-              }
-            }
-          }
+          legend: { display: true, labels: { color: '#ffffff', font: { size: 14, weight: 'bold' }, padding: 20, usePointStyle: true, pointStyle: 'circle' } },
+          tooltip: { callbacks: { label: function(context) { return context.dataset.label + ': ' + context.parsed.y + ' Vertrag(e)'; } } }
         },
         scales: {
-          y: {
-            beginAtZero: true,
-            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-            ticks: {
-              color: '#6a7b91',
-              stepSize: 1,
-              callback: function(value) { return value + ' Verträge'; }
-            }
-          },
-          x: {
-            grid: { display: false },
-            ticks: { display: false },
-            afterFit: function(scale) { scale.height += 50; }
-          }
+          y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#6a7b91', stepSize: 1, callback: function(value) { return value + ' Verträge'; } } },
+          x: { grid: { display: false }, ticks: { display: false }, afterFit: function(scale) { scale.height += 50; } }
         },
         plugins: [{
           id: 'customLabels',
@@ -1801,10 +1251,8 @@ function initStatsPage() {
               meta.data.forEach(function(bar, index) {
                 const data = dataset.data[index];
                 if (data > 0) {
-                  ctx.fillStyle = '#ffffff';
-                  ctx.font = 'bold 11px Arial';
-                  ctx.textAlign = 'center';
-                  ctx.textBaseline = 'bottom';
+                  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 11px Arial';
+                  ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
                   ctx.fillText(data, bar.x, bar.y - 4);
                 }
               });
@@ -1820,23 +1268,17 @@ function initStatsPage() {
           const yAxis = chart.scales.y;
           const logoSize = 28;
           const logoY = yAxis.bottom + 30;
-
           contractDataWithLogos.forEach((item, index) => {
             const x = xAxis.getPixelForValue(index);
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.src = item.logo || DEFAULT_LOGO;
-
             const drawLogo = function() {
               ctx.save();
-              ctx.shadowColor = 'rgba(216, 217, 220, 0.4)';
-              ctx.shadowBlur = 8;
+              ctx.shadowColor = 'rgba(216, 217, 220, 0.4)'; ctx.shadowBlur = 8;
               ctx.beginPath();
-              if (ctx.roundRect) {
-                ctx.roundRect(x - logoSize/2 - 4, logoY - logoSize/2 - 4, logoSize + 8, logoSize + 8, 6);
-              } else {
-                ctx.rect(x - logoSize/2 - 4, logoY - logoSize/2 - 4, logoSize + 8, logoSize + 8);
-              }
+              if (ctx.roundRect) ctx.roundRect(x - logoSize/2 - 4, logoY - logoSize/2 - 4, logoSize + 8, logoSize + 8, 6);
+              else ctx.rect(x - logoSize/2 - 4, logoY - logoSize/2 - 4, logoSize + 8, logoSize + 8);
               ctx.fillStyle = 'rgba(205, 205, 209, 0.6)';
               ctx.fill();
               ctx.shadowBlur = 0;
@@ -1846,15 +1288,10 @@ function initStatsPage() {
               ctx.drawImage(img, x - logoSize/2, logoY - logoSize/2, logoSize, logoSize);
               ctx.restore();
             };
-
             if (img.complete && img.naturalWidth > 0) drawLogo();
             else {
               img.onload = drawLogo;
-              img.onerror = function() {
-                const defaultImg = new Image();
-                defaultImg.src = DEFAULT_LOGO;
-                defaultImg.onload = drawLogo;
-              };
+              img.onerror = function() { const defaultImg = new Image(); defaultImg.src = DEFAULT_LOGO; defaultImg.onload = drawLogo; };
             }
           });
         }
@@ -1863,13 +1300,8 @@ function initStatsPage() {
   }
 
   function setupStatsRealTimeListeners() {
-    if (typeof firebase === 'undefined' || !firebase.apps.length) {
-      setTimeout(setupStatsRealTimeListeners, 500);
-      return;
-    }
-
+    if (typeof firebase === 'undefined' || !firebase.apps.length) { setTimeout(setupStatsRealTimeListeners, 500); return; }
     const db = firebase.firestore();
-
     db.collection('users').onSnapshot(() => loadStats());
     db.collection('companies').onSnapshot(() => loadStats());
     db.collection('offers').onSnapshot(() => loadStats());
@@ -1886,26 +1318,17 @@ function initStatsPage() {
 async function loadCompaniesForOfferSelect() {
   const panel = document.getElementById('offerCompanyPanel');
   if (!panel) return;
-
   panel.innerHTML = '<p style="color:#6a7b91; padding:10px;">Lade Unternehmen...</p>';
-
   try {
     const snapshot = await db.collection('companies').orderBy('name').get();
-
-    if (snapshot.empty) {
-      panel.innerHTML = '<p style="color:#6a7b91; padding:10px;">Keine Unternehmen vorhanden.</p>';
-      return;
-    }
-
+    if (snapshot.empty) { panel.innerHTML = '<p style="color:#6a7b91; padding:10px;">Keine Unternehmen vorhanden.</p>'; return; }
     const currentId = document.getElementById('offerCompany')?.value || '';
     let html = '';
-
     snapshot.forEach(doc => {
       const data = doc.data();
       const name = (data.name || 'Unbekannt').replace(/"/g, '&quot;');
       const logo = data.logo || '';
       const selectedClass = doc.id === currentId ? ' selected' : '';
-
       html += `
         <div class="custom-select-option${selectedClass}" data-id="${doc.id}" data-name="${name}" data-logo="${logo}">
           <img src="${logo || DEFAULT_LOGO}" alt="${name}" class="custom-select-option-logo" onerror="this.onerror=null;this.src='${DEFAULT_LOGO}';" />
@@ -1913,16 +1336,13 @@ async function loadCompaniesForOfferSelect() {
         </div>
       `;
     });
-
     panel.innerHTML = html;
-
     panel.querySelectorAll('.custom-select-option').forEach(opt => {
       opt.addEventListener('click', () => {
         setOfferCompanySelection(opt.dataset.id, opt.dataset.name, opt.dataset.logo);
         closeOfferCompanyPanel();
       });
     });
-
   } catch (error) {
     console.error('Fehler beim Laden der Unternehmen:', error);
     panel.innerHTML = '<p style="color:#ff6b6b; padding:10px;">Fehler beim Laden.</p>';
@@ -1933,7 +1353,6 @@ function setOfferCompanySelection(id, name, logoUrl) {
   const hiddenInput = document.getElementById('offerCompany');
   const trigger = document.getElementById('offerCompanyTrigger');
   if (hiddenInput) hiddenInput.value = id || '';
-
   if (trigger) {
     if (id) {
       trigger.innerHTML = `
@@ -1944,38 +1363,22 @@ function setOfferCompanySelection(id, name, logoUrl) {
       trigger.innerHTML = '<span class="custom-select-trigger-placeholder">-- Unternehmen auswählen --</span>';
     }
   }
-
   document.querySelectorAll('#offerCompanyPanel .custom-select-option').forEach(opt => {
     opt.classList.toggle('selected', opt.dataset.id === id);
   });
 }
 
-function openOfferCompanyPanel() {
-  const wrap = document.getElementById('offerCompanySelect');
-  if (wrap) wrap.classList.add('open');
-}
-
-function closeOfferCompanyPanel() {
-  const wrap = document.getElementById('offerCompanySelect');
-  if (wrap) wrap.classList.remove('open');
-}
+function openOfferCompanyPanel() { const wrap = document.getElementById('offerCompanySelect'); if (wrap) wrap.classList.add('open'); }
+function closeOfferCompanyPanel() { const wrap = document.getElementById('offerCompanySelect'); if (wrap) wrap.classList.remove('open'); }
 
 function setupCompanyLogoPreview() {
   const trigger = document.getElementById('offerCompanyTrigger');
   const wrap = document.getElementById('offerCompanySelect');
   if (!trigger || !wrap) return;
-
   const newTrigger = trigger.cloneNode(true);
   trigger.parentNode.replaceChild(newTrigger, trigger);
-
-  newTrigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    wrap.classList.toggle('open');
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!wrap.contains(e.target)) closeOfferCompanyPanel();
-  });
+  newTrigger.addEventListener('click', (e) => { e.stopPropagation(); wrap.classList.toggle('open'); });
+  document.addEventListener('click', (e) => { if (!wrap.contains(e.target)) closeOfferCompanyPanel(); });
 }
 
 function initOfferForm() {
@@ -2005,14 +1408,8 @@ function initOfferForm() {
     cancelOfferBtn.addEventListener('click', function() {
       offerFormContainer.style.display = 'none';
       if (toggleOfferBtn) toggleOfferBtn.textContent = '➕ Angebot hinzufügen';
-      if (offerMessage) {
-        offerMessage.textContent = '';
-        offerMessage.className = 'message';
-      }
-      if (offerForm) {
-        offerForm.reset();
-        delete offerForm.dataset.editId;
-      }
+      if (offerMessage) { offerMessage.textContent = ''; offerMessage.className = 'message'; }
+      if (offerForm) { offerForm.reset(); delete offerForm.dataset.editId; }
       setOfferCompanySelection('', '', '');
       closeOfferCompanyPanel();
     });
@@ -2021,7 +1418,6 @@ function initOfferForm() {
   if (offerForm) {
     offerForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-
       const editId = this.dataset.editId;
       const companyId = document.getElementById('offerCompany').value;
       const energyType = document.querySelector('input[name="offerEnergyType"]:checked');
@@ -2029,26 +1425,10 @@ function initOfferForm() {
       let duration = document.getElementById('offerDuration').value.trim();
       const msg = document.getElementById('offerMessage');
 
-      if (!companyId) {
-        msg.textContent = 'Bitte wählen Sie ein Unternehmen aus.';
-        msg.className = 'message error';
-        return;
-      }
-      if (!energyType) {
-        msg.textContent = 'Bitte wählen Sie einen Energietyp.';
-        msg.className = 'message error';
-        return;
-      }
-      if (!price) {
-        msg.textContent = 'Bitte geben Sie einen Preis ein.';
-        msg.className = 'message error';
-        return;
-      }
-      if (!duration) {
-        msg.textContent = 'Bitte geben Sie eine Laufzeit ein.';
-        msg.className = 'message error';
-        return;
-      }
+      if (!companyId) { msg.textContent = 'Bitte wählen Sie ein Unternehmen aus.'; msg.className = 'message error'; return; }
+      if (!energyType) { msg.textContent = 'Bitte wählen Sie einen Energietyp.'; msg.className = 'message error'; return; }
+      if (!price) { msg.textContent = 'Bitte geben Sie einen Preis ein.'; msg.className = 'message error'; return; }
+      if (!duration) { msg.textContent = 'Bitte geben Sie eine Laufzeit ein.'; msg.className = 'message error'; return; }
 
       if (!price.includes('€/kWh')) price = price.trim() + ' €/kWh';
       if (!duration.includes('Monate')) duration = duration.trim() + ' Monate';
@@ -2057,16 +1437,10 @@ function initOfferForm() {
         const companyDoc = await db.collection('companies').doc(companyId).get();
         const companyData = companyDoc.data() || {};
         const companyName = companyData.name || 'Unbekannt';
-
         const offerData = {
-          companyId: companyId,
-          companyName: companyName,
-          companyLogo: companyData.logo || '',
-          type: energyType.value,
-          price: price,
-          duration: duration
+          companyId: companyId, companyName: companyName, companyLogo: companyData.logo || '',
+          type: energyType.value, price: price, duration: duration
         };
-
         if (editId) {
           await db.collection('offers').doc(editId).update(offerData);
           msg.textContent = `✅ Angebot für ${companyName} erfolgreich aktualisiert!`;
@@ -2076,21 +1450,16 @@ function initOfferForm() {
           await db.collection('offers').add(offerData);
           msg.textContent = `✅ Angebot für ${companyName} (${energyType.value === 'strom' ? '⚡ Strom' : '🔥 Gas'}) erfolgreich hinzugefügt!`;
         }
-
         msg.className = 'message success';
         offerForm.reset();
         setOfferCompanySelection('', '', '');
-
         loadOffersAdmin();
         loadCompaniesForOfferSelect();
-
         setTimeout(() => {
           offerFormContainer.style.display = 'none';
           if (toggleOfferBtn) toggleOfferBtn.textContent = '➕ Angebot hinzufügen';
-          msg.textContent = '';
-          msg.className = 'message';
+          msg.textContent = ''; msg.className = 'message';
         }, 1500);
-
       } catch (error) {
         console.error('❌ Fehler beim Speichern des Angebots:', error);
         msg.textContent = '❌ Fehler: ' + error.message;
@@ -2103,18 +1472,13 @@ function initOfferForm() {
 async function loadOffersAdmin() {
   const container = document.getElementById('offerList');
   if (!container) return;
-
   try {
     const snapshot = await db.collection('offers').orderBy('createdAt', 'desc').get();
-    if (snapshot.empty) {
-      container.innerHTML = '<p style="color:#6a7b91;">Keine Angebote vorhanden.</p>';
-      return;
-    }
+    if (snapshot.empty) { container.innerHTML = '<p style="color:#6a7b91;">Keine Angebote vorhanden.</p>'; return; }
     let html = '';
     snapshot.forEach(doc => {
       const data = doc.data();
       const typeLabel = data.type === 'strom' ? '⚡ Strom' : '🔥 Gas';
-
       html += `
         <div class="company-item" data-id="${doc.id}">
           <div class="company-info">
@@ -2145,37 +1509,23 @@ window.editOffer = async function(id) {
     const doc = await db.collection('offers').doc(id).get();
     if (doc.exists) {
       const data = doc.data();
-
       const toggleBtn = document.getElementById('toggleOfferForm');
       const formContainer = document.getElementById('offerFormContainer');
-      if (toggleBtn && formContainer) {
-        formContainer.style.display = 'block';
-        toggleBtn.textContent = '✖ Angebot schließen';
-      }
-
+      if (toggleBtn && formContainer) { formContainer.style.display = 'block'; toggleBtn.textContent = '✖ Angebot schließen'; }
       setOfferCompanySelection(data.companyId || '', data.companyName || '', data.companyLogo || '');
-
       const radio = document.querySelector(`input[name="offerEnergyType"][value="${data.type}"]`);
       if (radio) radio.checked = true;
-
       let priceValue = data.price || '';
       let durationValue = data.duration || '';
-
       priceValue = priceValue.replace(/\s*€\/kWh\s*$/, '');
       durationValue = durationValue.replace(/\s*Monate\s*$/, '');
-
       document.getElementById('offerPrice').value = priceValue;
       document.getElementById('offerDuration').value = durationValue;
-
       document.getElementById('offerMessage').textContent = '✏️ Angebot wird bearbeitet...';
       document.getElementById('offerMessage').className = 'message';
-
       document.getElementById('offerForm').dataset.editId = id;
     }
-  } catch (error) {
-    console.error('Fehler beim Laden des Angebots:', error);
-    alert('Fehler beim Laden des Angebots.');
-  }
+  } catch (error) { console.error('Fehler beim Laden des Angebots:', error); alert('Fehler beim Laden des Angebots.'); }
 };
 
 window.deleteOffer = async function(id) {
@@ -2184,15 +1534,8 @@ window.deleteOffer = async function(id) {
       await db.collection('offers').doc(id).delete();
       loadOffersAdmin();
       const msg = document.getElementById('offerMessage');
-      if (msg) {
-        msg.textContent = '✅ Angebot gelöscht.';
-        msg.className = 'message success';
-        setTimeout(() => { msg.textContent = ''; msg.className = 'message'; }, 3000);
-      }
-    } catch (error) {
-      console.error('Fehler beim Löschen des Angebots:', error);
-      alert('Fehler beim Löschen des Angebots.');
-    }
+      if (msg) { msg.textContent = '✅ Angebot gelöscht.'; msg.className = 'message success'; setTimeout(() => { msg.textContent = ''; msg.className = 'message'; }, 3000); }
+    } catch (error) { console.error('Fehler beim Löschen des Angebots:', error); alert('Fehler beim Löschen des Angebots.'); }
   }
 };
 
@@ -2215,44 +1558,24 @@ async function loadUsersForContract() {
         fullName: (data.vorname || '') + ' ' + (data.nachname || '')
       });
     });
-  } catch (error) {
-    console.error('Fehler beim Laden der Benutzer:', error);
-  }
+  } catch (error) { console.error('Fehler beim Laden der Benutzer:', error); }
 }
 
 async function loadOffersForContractSelect() {
   const panel = document.getElementById('contractOfferPanel');
   if (!panel) return;
-
   panel.innerHTML = '<p style="color:#6a7b91; padding:10px;">Lade Angebote...</p>';
-
   try {
     const snapshot = await db.collection('offers').orderBy('companyName').get();
-
-    if (snapshot.empty) {
-      panel.innerHTML = '<p style="color:#6a7b91; padding:10px;">Keine Angebote vorhanden.</p>';
-      return;
-    }
-
+    if (snapshot.empty) { panel.innerHTML = '<p style="color:#6a7b91; padding:10px;">Keine Angebote vorhanden.</p>'; return; }
     allOffers = [];
     const currentId = document.getElementById('contractOfferId')?.value || '';
     let html = '';
-
     snapshot.forEach(doc => {
       const data = doc.data();
-      const offerData = {
-        id: doc.id,
-        companyName: data.companyName || 'Unbekannt',
-        companyLogo: data.companyLogo || '',
-        type: data.type || 'strom',
-        price: data.price || 'k.A.',
-        duration: data.duration || 'k.A.'
-      };
-      allOffers.push(offerData);
-
+      allOffers.push({ id: doc.id, companyName: data.companyName || 'Unbekannt', companyLogo: data.companyLogo || '', type: data.type || 'strom', price: data.price || 'k.A.', duration: data.duration || 'k.A.' });
       const label = `${data.companyName || 'Unbekannt'} - ${data.type === 'strom' ? '⚡ Strom' : '🔥 Gas'} - ${data.price || 'k.A.'}`;
       const selectedClass = doc.id === currentId ? ' selected' : '';
-
       html += `
         <div class="custom-select-option${selectedClass}" data-id="${doc.id}" data-name="${data.companyName}" data-logo="${data.companyLogo}" data-price="${data.price || ''}" data-duration="${data.duration || ''}" data-type="${data.type || 'strom'}">
           <img src="${data.companyLogo || DEFAULT_LOGO}" alt="${data.companyName}" class="custom-select-option-logo" onerror="this.onerror=null;this.src='${DEFAULT_LOGO}';" />
@@ -2260,16 +1583,13 @@ async function loadOffersForContractSelect() {
         </div>
       `;
     });
-
     panel.innerHTML = html;
-
     panel.querySelectorAll('.custom-select-option').forEach(opt => {
       opt.addEventListener('click', () => {
         setContractOfferSelection(opt.dataset.id, opt.dataset.name, opt.dataset.logo, opt.dataset.price, opt.dataset.duration, opt.dataset.type);
         closeContractOfferPanel();
       });
     });
-
   } catch (error) {
     console.error('Fehler beim Laden der Angebote:', error);
     panel.innerHTML = '<p style="color:#ff6b6b; padding:10px;">Fehler beim Laden.</p>';
@@ -2280,9 +1600,7 @@ function setContractOfferSelection(id, name, logoUrl, price, duration, type) {
   const hiddenInput = document.getElementById('contractOfferId');
   const trigger = document.getElementById('contractOfferTrigger');
   const infoContainer = document.getElementById('contractOfferInfo');
-
   if (hiddenInput) hiddenInput.value = id || '';
-
   if (trigger) {
     if (id) {
       trigger.innerHTML = `
@@ -2293,7 +1611,6 @@ function setContractOfferSelection(id, name, logoUrl, price, duration, type) {
       trigger.innerHTML = '<span class="custom-select-trigger-placeholder">-- Angebot auswählen --</span>';
     }
   }
-
   if (id && infoContainer) {
     infoContainer.style.display = 'block';
     document.getElementById('contractOfferCompanyName').textContent = name || '-';
@@ -2302,39 +1619,26 @@ function setContractOfferSelection(id, name, logoUrl, price, duration, type) {
   } else if (infoContainer) {
     infoContainer.style.display = 'none';
   }
-
   document.querySelectorAll('#contractOfferPanel .custom-select-option').forEach(opt => {
     opt.classList.toggle('selected', opt.dataset.id === id);
   });
 }
 
-function openContractOfferPanel() {
-  const wrap = document.getElementById('contractOfferSelect');
-  if (wrap) wrap.classList.add('open');
-}
-
-function closeContractOfferPanel() {
-  const wrap = document.getElementById('contractOfferSelect');
-  if (wrap) wrap.classList.remove('open');
-}
+function openContractOfferPanel() { const wrap = document.getElementById('contractOfferSelect'); if (wrap) wrap.classList.add('open'); }
+function closeContractOfferPanel() { const wrap = document.getElementById('contractOfferSelect'); if (wrap) wrap.classList.remove('open'); }
 
 function setupContractOfferSelect() {
   const trigger = document.getElementById('contractOfferTrigger');
   const wrap = document.getElementById('contractOfferSelect');
   if (!trigger || !wrap) return;
-
   const newTrigger = trigger.cloneNode(true);
   trigger.parentNode.replaceChild(newTrigger, trigger);
-
   newTrigger.addEventListener('click', (e) => {
     e.stopPropagation();
     wrap.classList.toggle('open');
     loadOffersForContractSelect();
   });
-
-  document.addEventListener('click', (e) => {
-    if (!wrap.contains(e.target)) closeContractOfferPanel();
-  });
+  document.addEventListener('click', (e) => { if (!wrap.contains(e.target)) closeContractOfferPanel(); });
 }
 
 function setupUserSearch() {
@@ -2344,40 +1648,26 @@ function setupUserSearch() {
   const selectedName = document.getElementById('contractUserSelectedName');
   const clearBtn = document.getElementById('contractUserClear');
   const hiddenInput = document.getElementById('contractUserId');
-
   if (!searchInput) return;
 
   searchInput.addEventListener('input', function() {
     const query = this.value.toLowerCase().trim();
-
-    if (query.length < 2) {
-      resultsContainer.classList.remove('show');
-      return;
-    }
-
+    if (query.length < 2) { resultsContainer.classList.remove('show'); return; }
     const filtered = allUsers.filter(user => {
       const searchStr = (user.fullName + ' ' + user.email).toLowerCase();
       return searchStr.includes(query);
     });
-
     if (filtered.length === 0) {
       resultsContainer.innerHTML = '<div class="result-item" style="color:#6a7b91;">Keine Benutzer gefunden</div>';
       resultsContainer.classList.add('show');
       return;
     }
-
     let html = '';
     filtered.slice(0, 10).forEach(user => {
-      html += `
-        <div class="result-item" data-email="${user.email}">
-          <div>${user.fullName || user.email}</div>
-          <div class="result-email">${user.email}</div>
-        </div>
-      `;
+      html += `<div class="result-item" data-email="${user.email}"><div>${user.fullName || user.email}</div><div class="result-email">${user.email}</div></div>`;
     });
     resultsContainer.innerHTML = html;
     resultsContainer.classList.add('show');
-
     resultsContainer.querySelectorAll('.result-item').forEach(item => {
       item.addEventListener('click', function() {
         const email = this.dataset.email;
@@ -2394,9 +1684,7 @@ function setupUserSearch() {
   });
 
   document.addEventListener('click', function(e) {
-    if (!resultsContainer.contains(e.target) && e.target !== searchInput) {
-      resultsContainer.classList.remove('show');
-    }
+    if (!resultsContainer.contains(e.target) && e.target !== searchInput) resultsContainer.classList.remove('show');
   });
 
   if (clearBtn) {
@@ -2412,41 +1700,20 @@ function setupUserSearch() {
 function initDatePickers() {
   const dateFrom = document.getElementById('contractDateFrom');
   const dateTo = document.getElementById('contractDateTo');
-
-  if (typeof flatpickr === 'undefined') {
-    console.warn('Flatpickr nicht geladen. Utilisation des datepickers natifs.');
-    return;
-  }
-
+  if (typeof flatpickr === 'undefined') { console.warn('Flatpickr nicht geladen. Utilisation des datepickers natifs.'); return; }
   if (dateFrom) {
     try {
       flatpickr(dateFrom, {
-        dateFormat: "Y-m-d",
-        locale: "de",
-        allowInput: true,
-        minDate: "today",
+        dateFormat: "Y-m-d", locale: "de", allowInput: true, minDate: "today",
         onChange: function(selectedDates, dateStr, instance) {
-          if (dateTo && dateTo._flatpickr) {
-            dateTo._flatpickr.set('minDate', dateStr);
-          }
+          if (dateTo && dateTo._flatpickr) dateTo._flatpickr.set('minDate', dateStr);
         }
       });
-    } catch (e) {
-      console.warn('Erreur Flatpickr sur dateFrom:', e);
-    }
+    } catch (e) { console.warn('Erreur Flatpickr sur dateFrom:', e); }
   }
-
   if (dateTo) {
-    try {
-      flatpickr(dateTo, {
-        dateFormat: "Y-m-d",
-        locale: "de",
-        allowInput: true,
-        minDate: "today"
-      });
-    } catch (e) {
-      console.warn('Erreur Flatpickr sur dateTo:', e);
-    }
+    try { flatpickr(dateTo, { dateFormat: "Y-m-d", locale: "de", allowInput: true, minDate: "today" }); }
+    catch (e) { console.warn('Erreur Flatpickr sur dateTo:', e); }
   }
 }
 
@@ -2482,14 +1749,8 @@ function initContractForm() {
     cancelContractBtn.addEventListener('click', function() {
       contractFormContainer.classList.remove('active');
       if (toggleContractBtn) toggleContractBtn.textContent = '➕ Vertrag hinzufügen';
-      if (contractMessage) {
-        contractMessage.textContent = '';
-        contractMessage.className = 'message';
-      }
-      if (contractForm) {
-        contractForm.reset();
-        delete contractForm.dataset.editId;
-      }
+      if (contractMessage) { contractMessage.textContent = ''; contractMessage.className = 'message'; }
+      if (contractForm) { contractForm.reset(); delete contractForm.dataset.editId; }
       if (editContractModeIndicator) editContractModeIndicator.classList.remove('active');
       document.getElementById('contractOfferInfo').style.display = 'none';
       document.getElementById('contractUserSelected').style.display = 'none';
@@ -2502,7 +1763,6 @@ function initContractForm() {
   if (contractForm) {
     contractForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-
       const editId = this.dataset.editId;
       const userId = document.getElementById('contractUserId').value;
       const offerId = document.getElementById('contractOfferId').value;
@@ -2511,31 +1771,11 @@ function initContractForm() {
       const dateTo = document.getElementById('contractDateTo').value;
       const msg = document.getElementById('contractMessage');
 
-      if (!userId) {
-        msg.textContent = 'Bitte wählen Sie einen Benutzer aus.';
-        msg.className = 'message error';
-        return;
-      }
-      if (!offerId) {
-        msg.textContent = 'Bitte wählen Sie ein Angebot aus.';
-        msg.className = 'message error';
-        return;
-      }
-      if (!energyType) {
-        msg.textContent = 'Bitte wählen Sie einen Energietyp.';
-        msg.className = 'message error';
-        return;
-      }
-      if (!dateFrom || !dateTo) {
-        msg.textContent = 'Bitte geben Sie beide Daten ein.';
-        msg.className = 'message error';
-        return;
-      }
-      if (new Date(dateFrom) > new Date(dateTo)) {
-        msg.textContent = 'Das Startdatum muss vor dem Enddatum liegen.';
-        msg.className = 'message error';
-        return;
-      }
+      if (!userId) { msg.textContent = 'Bitte wählen Sie einen Benutzer aus.'; msg.className = 'message error'; return; }
+      if (!offerId) { msg.textContent = 'Bitte wählen Sie ein Angebot aus.'; msg.className = 'message error'; return; }
+      if (!energyType) { msg.textContent = 'Bitte wählen Sie einen Energietyp.'; msg.className = 'message error'; return; }
+      if (!dateFrom || !dateTo) { msg.textContent = 'Bitte geben Sie beide Daten ein.'; msg.className = 'message error'; return; }
+      if (new Date(dateFrom) > new Date(dateTo)) { msg.textContent = 'Das Startdatum muss vor dem Enddatum liegen.'; msg.className = 'message error'; return; }
 
       const offerDoc = await db.collection('offers').doc(offerId).get();
       const offerData = offerDoc.exists ? offerDoc.data() : {};
@@ -2543,18 +1783,12 @@ function initContractForm() {
       const userData = userDoc.exists ? userDoc.data() : {};
 
       const contractData = {
-        userId: userId,
-        userEmail: userId,
+        userId: userId, userEmail: userId,
         userName: (userData.vorname || '') + ' ' + (userData.nachname || ''),
-        offerId: offerId,
-        companyName: offerData.companyName || 'Unbekannt',
-        companyLogo: offerData.companyLogo || '',
-        energyType: energyType.value,
-        price: offerData.price || 'k.A.',
-        duration: offerData.duration || 'k.A.',
-        dateFrom: dateFrom,
-        dateTo: dateTo,
-        status: 'active',
+        offerId: offerId, companyName: offerData.companyName || 'Unbekannt',
+        companyLogo: offerData.companyLogo || '', energyType: energyType.value,
+        price: offerData.price || 'k.A.', duration: offerData.duration || 'k.A.',
+        dateFrom: dateFrom, dateTo: dateTo, status: 'active',
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       };
 
@@ -2569,7 +1803,6 @@ function initContractForm() {
           await db.collection('contracts').add(contractData);
           msg.textContent = '✅ Vertrag erfolgreich erstellt!';
         }
-
         msg.className = 'message success';
         contractForm.reset();
         document.getElementById('contractOfferInfo').style.display = 'none';
@@ -2577,16 +1810,12 @@ function initContractForm() {
         document.getElementById('contractUserId').value = '';
         document.getElementById('contractOfferId').value = '';
         setContractOfferSelection('', '', '', '', '', '');
-
         loadContractsAdmin();
-
         setTimeout(() => {
           contractFormContainer.classList.remove('active');
           if (toggleContractBtn) toggleContractBtn.textContent = '➕ Vertrag hinzufügen';
-          msg.textContent = '';
-          msg.className = 'message';
+          msg.textContent = ''; msg.className = 'message';
         }, 1500);
-
       } catch (error) {
         console.error('❌ Fehler beim Speichern des Vertrags:', error);
         msg.textContent = '❌ Fehler: ' + error.message;
@@ -2599,20 +1828,14 @@ function initContractForm() {
 async function loadContractsAdmin() {
   const container = document.getElementById('contractList');
   if (!container) return;
-
   try {
     const snapshot = await db.collection('contracts').orderBy('createdAt', 'desc').get();
-    if (snapshot.empty) {
-      container.innerHTML = '<p style="color:#6a7b91;">Keine Verträge vorhanden.</p>';
-      return;
-    }
-
+    if (snapshot.empty) { container.innerHTML = '<p style="color:#6a7b91;">Keine Verträge vorhanden.</p>'; return; }
     let html = '';
     for (const doc of snapshot.docs) {
       const data = doc.data();
       const typeLabel = data.energyType === 'strom' ? '⚡ Strom' : '🔥 Gas';
       const statusLabel = data.status === 'active' ? '🟢 Aktiv' : '🔴 Beendet';
-
       html += `
         <div class="contract-item" data-id="${doc.id}">
           <div class="contract-info">
@@ -2646,55 +1869,32 @@ window.editContract = async function(id) {
     const doc = await db.collection('contracts').doc(id).get();
     if (doc.exists) {
       const data = doc.data();
-
       const toggleBtn = document.getElementById('toggleContractForm');
       const formContainer = document.getElementById('contractFormContainer');
       const editModeIndicator = document.getElementById('editContractModeIndicator');
-
-      if (toggleBtn && formContainer) {
-        formContainer.classList.add('active');
-        toggleBtn.textContent = '✖ Vertrag schließen';
-      }
+      if (toggleBtn && formContainer) { formContainer.classList.add('active'); toggleBtn.textContent = '✖ Vertrag schließen'; }
       if (editModeIndicator) editModeIndicator.classList.add('active');
 
       const userSearch = document.getElementById('contractUserSearch');
       const userHidden = document.getElementById('contractUserId');
       const userSelected = document.getElementById('contractUserSelected');
       const userSelectedName = document.getElementById('contractUserSelectedName');
-
       if (userSearch) userSearch.value = data.userName || data.userEmail || '';
       if (userHidden) userHidden.value = data.userId || '';
-      if (userSelected && userSelectedName) {
-        userSelectedName.textContent = data.userName || data.userEmail || '';
-        userSelected.style.display = 'block';
-      }
+      if (userSelected && userSelectedName) { userSelectedName.textContent = data.userName || data.userEmail || ''; userSelected.style.display = 'block'; }
 
       const radio = document.querySelector(`input[name="contractEnergyType"][value="${data.energyType}"]`);
       if (radio) radio.checked = true;
 
-      setContractOfferSelection(
-        data.offerId || '',
-        data.companyName || '',
-        data.companyLogo || '',
-        data.price || '',
-        data.duration || '',
-        data.energyType || 'strom'
-      );
-
+      setContractOfferSelection(data.offerId || '', data.companyName || '', data.companyLogo || '', data.price || '', data.duration || '', data.energyType || 'strom');
       document.getElementById('contractDateFrom').value = data.dateFrom || '';
       document.getElementById('contractDateTo').value = data.dateTo || '';
-
       document.getElementById('contractMessage').textContent = '✏️ Vertrag wird bearbeitet...';
       document.getElementById('contractMessage').className = 'message';
-
       document.getElementById('contractForm').dataset.editId = id;
-
       setTimeout(initDatePickers, 100);
     }
-  } catch (error) {
-    console.error('Fehler beim Laden des Vertrags:', error);
-    alert('Fehler beim Laden des Vertrags.');
-  }
+  } catch (error) { console.error('Fehler beim Laden des Vertrags:', error); alert('Fehler beim Laden des Vertrags.'); }
 };
 
 window.deleteContract = async function(id) {
@@ -2703,15 +1903,8 @@ window.deleteContract = async function(id) {
       await db.collection('contracts').doc(id).delete();
       loadContractsAdmin();
       const msg = document.getElementById('contractMessage');
-      if (msg) {
-        msg.textContent = '✅ Vertrag gelöscht.';
-        msg.className = 'message success';
-        setTimeout(() => { msg.textContent = ''; msg.className = 'message'; }, 3000);
-      }
-    } catch (error) {
-      console.error('Fehler beim Löschen des Vertrags:', error);
-      alert('Fehler beim Löschen des Vertrags.');
-    }
+      if (msg) { msg.textContent = '✅ Vertrag gelöscht.'; msg.className = 'message success'; setTimeout(() => { msg.textContent = ''; msg.className = 'message'; }, 3000); }
+    } catch (error) { console.error('Fehler beim Löschen des Vertrags:', error); alert('Fehler beim Löschen des Vertrags.'); }
   }
 };
 
@@ -2721,20 +1914,13 @@ window.deleteContract = async function(id) {
 function initSektorenPage() {
     const segments = document.querySelectorAll('.sektoren-page .segment');
     if (segments.length === 0) return;
-
     segments.forEach(seg => seg.classList.remove('active'));
-
     segments.forEach(segment => {
         segment.addEventListener('click', function (e) {
             if (e.target.closest('a')) return;
-
             const isActive = this.classList.contains('active');
-
             segments.forEach(seg => seg.classList.remove('active'));
-
-            if (!isActive) {
-                this.classList.add('active');
-            }
+            if (!isActive) this.classList.add('active');
         });
     });
 }
@@ -2743,107 +1929,70 @@ function initSektorenPage() {
 // ===== SCROLL : masque le bandeau social, garde le header ===========
 // =====================================================================
 function initScrollBehavior() {
-  const socialBar   = document.querySelector('.social-top-bar');
-  const header      = document.getElementById('dashboardHeader')
-                      || document.querySelector('.dashboard-header');
-  const formSection = document.querySelector('.vp-form-section');
-  const body        = document.body;
-
+  const socialBar = document.querySelector('.social-top-bar');
+  const header = document.getElementById('dashboardHeader') || document.querySelector('.dashboard-header');
+  const body = document.body;
   const THRESHOLD = 50;
   let ticking = false;
-
   function apply() {
     ticking = false;
-    const y = window.scrollY || window.pageYOffset
-              || document.documentElement.scrollTop || 0;
+    const y = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
     const scrolled = y > THRESHOLD;
-
     body.classList.toggle('scrolled-page', scrolled);
-    if (socialBar)   socialBar.classList.toggle('hidden', scrolled);
-    if (header)    { header.classList.toggle('top-zero', scrolled);
-                     header.classList.toggle('scrolled', scrolled); }
-   // if (formSection) formSection.classList.toggle('scrolled', scrolled);
+    if (socialBar) socialBar.classList.toggle('hidden', scrolled);
+    if (header) { header.classList.toggle('top-zero', scrolled); header.classList.toggle('scrolled', scrolled); }
   }
-
-  window.addEventListener('scroll', function () {
-    if (!ticking) { ticking = true; requestAnimationFrame(apply); }
-  }, { passive: true });
-
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(apply); } }, { passive: true });
   window.addEventListener('resize', apply, { passive: true });
   document.addEventListener('scroll', apply, { passive: true });
   apply();
 }
 
 // =====================================================================
-// ===== CARTE D'ALLEMAGNE — POINTS SUR LES VILLES ====================
+// ===== CARTE D'ALLEMAGNE ============================================
 // =====================================================================
 function addGermanCitiesDots() {
   const mapImg = document.querySelector('.de-map-img');
   if (!mapImg) return;
-
-  // Définis tes villes ici (x / y en % de l'image)
-  const cities = window.GERMAN_CITIES || [
-    // { name: 'Wuppertal', x: 30, y: 52 },
-  ];
+  const cities = window.GERMAN_CITIES || [];
   if (!cities.length) return;
-
   const parent = mapImg.parentElement;
   parent.style.position = 'relative';
   parent.querySelectorAll('.city-point, .city-pulse, .city-name').forEach(el => el.remove());
-
   cities.forEach(city => {
     const pulse = document.createElement('div');
     pulse.className = 'city-pulse';
-    pulse.style.left = city.x + '%';
-    pulse.style.top = city.y + '%';
+    pulse.style.left = city.x + '%'; pulse.style.top = city.y + '%';
     parent.appendChild(pulse);
-
     const dot = document.createElement('div');
     dot.className = 'city-point';
-    dot.style.left = city.x + '%';
-    dot.style.top = city.y + '%';
+    dot.style.left = city.x + '%'; dot.style.top = city.y + '%';
     parent.appendChild(dot);
-
     const label = document.createElement('div');
     label.className = 'city-name';
-    label.style.left = city.x + '%';
-    label.style.top = (city.y - 5) + '%';
+    label.style.left = city.x + '%'; label.style.top = (city.y - 5) + '%';
     label.textContent = city.name;
     parent.appendChild(label);
   });
 }
 
-window.addEventListener('load', function () {
-  setTimeout(addGermanCitiesDots, 200);
-});
-
+window.addEventListener('load', function () { setTimeout(addGermanCitiesDots, 200); });
 setTimeout(addGermanCitiesDots, 1000);
 
 // =====================================================================
-// ===== SEGMENTS INDEX — CLIC + SCROLL FLUIDE + DONUTS ===============
+// ===== SEGMENTS INDEX ==============================================
 // =====================================================================
 function initSegmentsIndex() {
-  // ✅ Ne pas s'exécuter sur admin : géré par le script inline d'admin.html
   if (document.body.classList.contains('admin-page')) return;
-
   const tabs = document.querySelectorAll('.home-segment-tab');
   const details = document.querySelectorAll('.home-segment-detail');
   if (!tabs.length || !details.length) return;
-
-  console.log('✅ Segments index : ' + tabs.length + ' onglets, ' + details.length + ' détails');
-
   tabs.forEach(tab => {
     tab.addEventListener('click', function () {
       const segment = this.dataset.segment;
-      console.log('🔵 Clic sur segment :', segment);
-
       tabs.forEach(t => t.classList.remove('active'));
       this.classList.add('active');
-
-      const targetSection = document.querySelector(
-        '.home-segment-detail[data-segment="' + segment + '"]'
-      );
-
+      const targetSection = document.querySelector('.home-segment-detail[data-segment="' + segment + '"]');
       if (targetSection) {
         const num = targetSection.querySelector('.donut-num');
         if (num) {
@@ -2855,21 +2004,14 @@ function initSegmentsIndex() {
             function step(now) {
               const progress = Math.min((now - start) / duration, 1);
               const eased = 1 - Math.pow(1 - progress, 3);
-              const value = Math.floor(target * eased);
-              num.textContent = value.toLocaleString('de-DE');
+              num.textContent = Math.floor(target * eased).toLocaleString('de-DE');
               if (progress < 1) requestAnimationFrame(step);
               else num.textContent = target.toLocaleString('de-DE');
             }
             requestAnimationFrame(step);
           }
         }
-
-        targetSection.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-
-        console.log('📏 Scroll vers :', targetSection.id);
+        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   });
@@ -2888,8 +2030,7 @@ function animateCounters() {
     function step(now) {
       const progress = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      const value = Math.floor(target * eased);
-      el.textContent = value.toLocaleString('de-DE');
+      el.textContent = Math.floor(target * eased).toLocaleString('de-DE');
       if (progress < 1) requestAnimationFrame(step);
       else el.textContent = target.toLocaleString('de-DE');
     }
@@ -2897,15 +2038,15 @@ function animateCounters() {
   });
 }
 
-
+// =====================================================================
+// ===== GOOGLE TRANSLATE + POPUP LANGUE ===============================
+// =====================================================================
 (function () {
     'use strict';
-
     const POPUP_KEY = 'vertrauen_popup_seen';
     const PAGE_LANG = 'de';
     let langInitDone = false;
 
-    /* ---------- Styles : widget rendu mais invisible + bannière masquée ---------- */
     (function injectGtStyles() {
         if (document.getElementById('gt-custom-style')) return;
         const st = document.createElement('style');
@@ -2921,7 +2062,6 @@ function animateCounters() {
         document.head.appendChild(st);
     })();
 
-    /* ---------- Cookies googtrans ---------- */
     function clearCookie() {
         const host = location.hostname;
         const past = '; expires=Thu, 01 Jan 1970 00:00:00 GMT';
@@ -2942,7 +2082,6 @@ function animateCounters() {
         return (p[2] && p[2] !== PAGE_LANG) ? p[2] : null;
     }
 
-    /* ---------- Piloter directement le sélecteur Google ---------- */
     function applyViaCombo(lang, done) {
         let tries = 0;
         const iv = setInterval(function () {
@@ -2950,71 +2089,37 @@ function animateCounters() {
             const c = document.querySelector('select.goog-te-combo');
             if (c && c.options.length > 1) {
                 clearInterval(iv);
-                if (c.value !== lang) {
-                    c.value = lang;
-                    c.dispatchEvent(new Event('change', { bubbles: true }));
-                }
+                if (c.value !== lang) { c.value = lang; c.dispatchEvent(new Event('change', { bubbles: true })); }
                 if (done) done(true);
-            } else if (tries > 40) {            // ~8 s
+            } else if (tries > 40) {
                 clearInterval(iv);
-                console.warn('[Translate] .goog-te-combo introuvable (script Google bloqué ?)');
                 if (done) done(false);
             }
         }, 200);
     }
 
-    /* ---------- Popup langue ---------- */
     function initLanguageSystem() {
         if (langInitDone) return;
         const popup = document.getElementById('langPopup');
         const trigger = document.getElementById('langTrigger');
         if (!popup) return;
         langInitDone = true;
-
-        if (trigger) {
-            trigger.addEventListener('click', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                popup.classList.add('active');
-            });
-        }
-
+        if (trigger) trigger.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); popup.classList.add('active'); });
         popup.querySelectorAll('.lang-btn').forEach(function (btn) {
             btn.addEventListener('click', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
+                e.preventDefault(); e.stopPropagation();
                 localStorage.setItem(POPUP_KEY, '1');
                 popup.classList.remove('active');
-
                 const lang = this.getAttribute('data-lang');
-
-                // Retour à l'allemand : cookie effacé + reload
-                if (!lang || lang === PAGE_LANG) {
-                    clearCookie();
-                    location.reload();
-                    return;
-                }
-
-                // Autre langue : cookie + pilotage du widget, reload en secours
+                if (!lang || lang === PAGE_LANG) { clearCookie(); location.reload(); return; }
                 setCookie(lang);
-                applyViaCombo(lang, function (ok) {
-                    if (!ok) location.reload();
-                });
+                applyViaCombo(lang, function (ok) { if (!ok) location.reload(); });
             });
         });
-
-        popup.addEventListener('click', function (e) {
-            if (e.target === popup) popup.classList.remove('active');
-        });
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && popup.classList.contains('active')) {
-                popup.classList.remove('active');
-            }
-        });
+        popup.addEventListener('click', function (e) { if (e.target === popup) popup.classList.remove('active'); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && popup.classList.contains('active')) popup.classList.remove('active'); });
     }
 
-    /* ---------- Google Translate ---------- */
     window.googleTranslateElementInit = function () {
         try {
             if (!document.getElementById('google_translate_element')) {
@@ -3022,11 +2127,7 @@ function animateCounters() {
                 d.id = 'google_translate_element';
                 document.body.appendChild(d);
             }
-            new google.translate.TranslateElement({
-                pageLanguage: PAGE_LANG,
-                includedLanguages: 'de,ar',
-                autoDisplay: false
-            }, 'google_translate_element');
+            new google.translate.TranslateElement({ pageLanguage: PAGE_LANG, includedLanguages: 'de,ar', autoDisplay: false }, 'google_translate_element');
         } catch (e) { console.warn('Google Translate init error:', e); }
     };
 
@@ -3044,8 +2145,6 @@ function animateCounters() {
     function start() {
         loadGoogleTranslate();
         initLanguageSystem();
-
-        // Réappliquer la langue mémorisée au chargement
         const saved = getCookieLang();
         if (saved) applyViaCombo(saved);
     }
@@ -3053,8 +2152,9 @@ function animateCounters() {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
     else start();
 })();
+
 // =====================================================================
-// ===== LANGUE ACTUELLE (filtre images news) ==========================
+// ===== LANGUE ACTUELLE ==============================================
 // =====================================================================
 function getCurrentLanguage() {
   if (document.cookie.indexOf('googtrans=/de/ar') !== -1) return 'ar';
@@ -3069,18 +2169,10 @@ function applyNewsLanguageFilter() {
 }
 
 // =====================================================================
-// ===== ADMIN SEGMENTS : DÉSACTIVÉ (géré par admin.html inline) =======
+// ===== ADMIN SEGMENTS : DÉSACTIVÉ ====================================
 // =====================================================================
-function initAdminSegments() {
-  // ⚠️ VIDÉ VOLONTAIREMENT.
-  // La gestion des onglets sur admin.html est faite par son script inline
-  // (pour éviter le double listener qui provoquait un scroll indésirable).
-  return;
-}
+function initAdminSegments() { return; }
 
-// =====================================================================
-// ===== COMPTEURS ANIMÉS (admin) — appelable par le script inline =====
-// =====================================================================
 function animateAdminCounters(root) {
   (root || document).querySelectorAll('.donut-num, .stat-big').forEach(el => {
     const target = parseInt(el.getAttribute('data-target'), 10);
@@ -3100,7 +2192,7 @@ function animateAdminCounters(root) {
 }
 
 // =====================================================================
-// ===== ADMIN SETTING : Gestion des utilisateurs ======================
+// ===== ADMIN SETTING : Gestion des utilisateurs (+ édition MDP ✏️) ===
 // =====================================================================
 function initAdminSetting() {
   let initDone = false;
@@ -3143,6 +2235,107 @@ function initAdminSetting() {
       area.classList.remove('form-open');
     });
 
+    /* -------- Ferme toutes les lignes d'édition MDP sauf celle passée -------- */
+    function closeAllPasswordEditRows(exceptRow) {
+      document.querySelectorAll('.pw-edit-row').forEach(r => {
+        if (r !== exceptRow) r.remove();
+      });
+      document.querySelectorAll('.pw-edit-btn.active').forEach(b => b.classList.remove('active'));
+    }
+
+    /* -------- Ouvre / ferme la ligne d'édition MDP pour un utilisateur -------- */
+    function togglePasswordEditRow(userRow, email) {
+      const existing = userRow.nextElementSibling;
+      if (existing && existing.classList.contains('pw-edit-row')) {
+        existing.remove();
+        const eb = userRow.querySelector('.pw-edit-btn');
+        if (eb) eb.classList.remove('active');
+        return;
+      }
+
+      closeAllPasswordEditRows(null);
+
+      const editBtn = userRow.querySelector('.pw-edit-btn');
+      if (editBtn) editBtn.classList.add('active');
+
+      const colCount = userRow.children.length;
+      const editRow = document.createElement('tr');
+      editRow.className = 'pw-edit-row';
+      editRow.innerHTML = `
+        <td colspan="${colCount}">
+          <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end;">
+            <div style="flex:1; min-width:180px;">
+              <label style="display:block; font-size:0.75rem; color:#A0AAB5; margin-bottom:4px;">Neues Passwort *</label>
+              <input type="text" class="form-control pw-new" placeholder="Neues Passwort" autocomplete="new-password" />
+            </div>
+            <div style="flex:1; min-width:180px;">
+              <label style="display:block; font-size:0.75rem; color:#A0AAB5; margin-bottom:4px;">Passwort bestätigen *</label>
+              <input type="text" class="form-control pw-confirm" placeholder="Passwort erneut" autocomplete="new-password" />
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="setting-submit-btn pw-save">💾 Speichern</button>
+              <button type="button" class="setting-cancel-btn pw-cancel">✖ Abbrechen</button>
+            </div>
+          </div>
+          <p class="setting-user-message pw-status" style="margin:8px 0 0;"></p>
+        </td>
+      `;
+      userRow.parentNode.insertBefore(editRow, userRow.nextSibling);
+
+      const newPwd    = editRow.querySelector('.pw-new');
+      const confirmPwd = editRow.querySelector('.pw-confirm');
+      const statusEl  = editRow.querySelector('.pw-status');
+      const saveBtn   = editRow.querySelector('.pw-save');
+      const cancelBtnEl = editRow.querySelector('.pw-cancel');
+
+      setTimeout(() => newPwd.focus(), 100);
+
+      const closeRow = () => {
+        editRow.remove();
+        if (editBtn) editBtn.classList.remove('active');
+      };
+
+      cancelBtnEl.addEventListener('click', closeRow);
+
+      saveBtn.addEventListener('click', async () => {
+        const v1 = newPwd.value.trim();
+        const v2 = confirmPwd.value.trim();
+        const err = (m) => { statusEl.textContent = '❌ ' + m; statusEl.style.color = '#ff6b6b'; };
+
+        if (!v1 || !v2) return err('Bitte beide Felder ausfüllen.');
+        if (v1 !== v2)  return err('Die Passwörter stimmen nicht überein.');
+        if (v1.length < 4) return err('Passwort zu kurz (min. 4 Zeichen).');
+
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Wird gespeichert ...';
+
+        try {
+          await db.collection('users').doc(email).update({
+            password: v1,
+            passwordUpdatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            passwordUpdatedBy: localStorage.getItem('userEmail') || 'admin'
+          });
+
+          statusEl.textContent = '✅ Passwort erfolgreich geändert.';
+          statusEl.style.color = '#54e50d';
+
+          // Met à jour le mot de passe affiché dans la ligne utilisateur
+          const pwSpan = userRow.querySelector('.pw-hidden');
+          if (pwSpan) {
+            pwSpan.dataset.pw = v1;
+            if (pwSpan.dataset.shown === '1') pwSpan.textContent = v1;
+          }
+
+          setTimeout(closeRow, 1200);
+        } catch (err) {
+          console.error('savePassword error:', err);
+          err(err.message || 'Unbekannt');
+          saveBtn.disabled = false;
+          saveBtn.textContent = '💾 Speichern';
+        }
+      });
+    }
+
     async function loadUsers() {
       list.innerHTML = '<p class="setting-list-loading">Lade Benutzer...</p>';
       try {
@@ -3167,6 +2360,7 @@ function initAdminSetting() {
             <td>
               <span class="pw-hidden" data-pw="${pw}" data-shown="0">••••••••</span>
               <button type="button" class="pw-toggle" title="Anzeigen / Verbergen">👁</button>
+              <button type="button" class="pw-edit-btn" data-email="${email}" title="Passwort ändern">✏️</button>
             </td>
             <td>
               <button type="button" class="setting-delete-btn" data-email="${email}">Löschen</button>
@@ -3176,6 +2370,7 @@ function initAdminSetting() {
         html += '</tbody></table></div>';
         list.innerHTML = html;
 
+        /* -------- Toggle afficher/masquer le mot de passe -------- */
         list.querySelectorAll('.pw-toggle').forEach(btn => {
           btn.addEventListener('click', function () {
             const span = this.previousElementSibling;
@@ -3188,6 +2383,18 @@ function initAdminSetting() {
           });
         });
 
+        /* -------- Bouton ✏️ : ouvre la ligne d'édition inline -------- */
+        list.querySelectorAll('.pw-edit-btn').forEach(btn => {
+          btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const email = this.dataset.email;
+            const userRow = this.closest('tr');
+            togglePasswordEditRow(userRow, email);
+          });
+        });
+
+        /* -------- Bouton supprimer -------- */
         list.querySelectorAll('.setting-delete-btn').forEach(btn => {
           btn.addEventListener('click', async function () {
             const email = this.dataset.email;
@@ -3216,14 +2423,8 @@ function initAdminSetting() {
       const telefon  = document.getElementById('settingTelefon').value.trim();
       const fax      = document.getElementById('settingFax').value.trim();
 
-      if (!email || !password) {
-        showMsg('❌ E-Mail und Passwort sind erforderlich.', 'error');
-        return;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showMsg('❌ Bitte eine gültige E-Mail-Adresse eingeben.', 'error');
-        return;
-      }
+      if (!email || !password) { showMsg('❌ E-Mail und Passwort sind erforderlich.', 'error'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showMsg('❌ Bitte eine gültige E-Mail-Adresse eingeben.', 'error'); return; }
 
       const btn = form.querySelector('button[type="submit"]');
       const originalText = btn ? btn.textContent : '';
@@ -3270,14 +2471,12 @@ function initAdminSetting() {
 function initAdminNews() {
   const STORAGE_PREFIX = 'news_img_';
   let initDone = false;
-
   function run() {
     if (initDone) return;
     const firstTab = document.querySelector('.admin-news-tab');
     if (!firstTab) return;
     initDone = true;
 
-    // Onglets catégories
     const tabs = document.querySelectorAll('.admin-news-tab');
     const cats = document.querySelectorAll('.admin-news-cat');
     tabs.forEach(tab => {
@@ -3289,16 +2488,11 @@ function initAdminNews() {
       });
     });
 
-    // Restaurer images sauvegardées (localStorage)
     document.querySelectorAll('img[data-img-key]').forEach(img => {
       const saved = localStorage.getItem(STORAGE_PREFIX + img.dataset.imgKey);
-      if (saved) {
-        img.src = saved;
-        img.parentElement.classList.remove('img-error');
-      }
+      if (saved) { img.src = saved; img.parentElement.classList.remove('img-error'); }
     });
 
-    // Boutons Parcourir
     document.querySelectorAll('.news-browse-btn').forEach(btn => {
       btn.addEventListener('click', function () {
         const input = document.querySelector('.news-file-input[data-key="' + this.dataset.target + '"]');
@@ -3306,7 +2500,6 @@ function initAdminNews() {
       });
     });
 
-    // Changement de fichier
     document.querySelectorAll('.news-file-input').forEach(input => {
       input.addEventListener('change', function (e) {
         const file = e.target.files[0];
@@ -3314,7 +2507,6 @@ function initAdminNews() {
         const key = this.dataset.key;
         const img = document.querySelector('img[data-img-key="' + key + '"]');
         if (!img) return;
-
         const reader = new FileReader();
         reader.onload = event => {
           const image = new Image();
@@ -3327,15 +2519,10 @@ function initAdminNews() {
             canvas.height = height;
             canvas.getContext('2d').drawImage(image, 0, 0, width, height);
             const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-
             img.src = dataUrl;
             img.parentElement.classList.remove('img-error');
-
-            try {
-              localStorage.setItem(STORAGE_PREFIX + key, dataUrl);
-            } catch (err) {
-              alert('⚠️ Image trop volumineuse pour être sauvegardée.');
-            }
+            try { localStorage.setItem(STORAGE_PREFIX + key, dataUrl); }
+            catch (err) { alert('⚠️ Image trop volumineuse pour être sauvegardée.'); }
           };
           image.src = event.target.result;
         };
@@ -3344,10 +2531,43 @@ function initAdminNews() {
       });
     });
   }
-
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
   else run();
   setTimeout(run, 500);
+}
+
+// =====================================================================
+// ===== CADENAS : état connecté + déconnexion =========================
+// =====================================================================
+function updateLockIcon() {
+  const lock = document.querySelector('.header-lock-icon');
+  if (!lock) return;
+  const isLoggedIn = localStorage.getItem('userEmail') !== null;
+  if (!isLoggedIn) return;
+  const svgAttrs = 'viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  lock.classList.add('is-logged');
+  lock.setAttribute('href', '#');
+  lock.setAttribute('aria-label', 'Abmelden');
+  lock.setAttribute('title', 'Abmelden');
+  lock.innerHTML =
+    '<svg class="lock-ico-user" ' + svgAttrs + '>' +
+      '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>' +
+      '<circle cx="9" cy="7" r="4"/>' +
+      '<polyline points="16 11 18 13 22 9"/>' +
+    '</svg>' +
+    '<svg class="lock-ico-out" ' + svgAttrs + '>' +
+      '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>' +
+      '<polyline points="16 17 21 12 16 7"/>' +
+      '<line x1="21" y1="12" x2="9" y2="12"/>' +
+    '</svg>';
+  lock.onclick = function (e) {
+    e.preventDefault();
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('userNachname');
+    localStorage.removeItem('userAnrede');
+    window.location.href = 'index.html';
+  };
 }
 
 // =====================================================================
@@ -3356,7 +2576,6 @@ function initAdminNews() {
 document.addEventListener('DOMContentLoaded', function() {
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   const protectedPages = ['dashboard.html', 'admin.html', 'stat.html', 'mein-portal.html', 'portail.html'];
-
   if (protectedPages.includes(currentPage)) {
     const isLoggedIn = localStorage.getItem('userEmail') !== null;
     if (!isLoggedIn && currentPage !== 'login.html') {
@@ -3364,45 +2583,6 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
   }
-  // =====================================================================
-// ===== CADENAS : état connecté + déconnexion =========================
-// =====================================================================
-function updateLockIcon() {
-  const lock = document.querySelector('.header-lock-icon');
-  if (!lock) return;
-
-  const isLoggedIn = localStorage.getItem('userEmail') !== null;
-  if (!isLoggedIn) return; // déconnecté : le cadenas reste un lien vers pageadmin.html
-
-  const svgAttrs = 'viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
-
-  lock.classList.add('is-logged');
-  lock.setAttribute('href', '#');
-  lock.setAttribute('aria-label', 'Abmelden');
-  lock.setAttribute('title', 'Abmelden');
-  lock.innerHTML =
-    // icône "utilisateur connecté" (par défaut)
-    '<svg class="lock-ico-user" ' + svgAttrs + '>' +
-      '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>' +
-      '<circle cx="9" cy="7" r="4"/>' +
-      '<polyline points="16 11 18 13 22 9"/>' +
-    '</svg>' +
-    // icône "déconnexion" (au survol)
-    '<svg class="lock-ico-out" ' + svgAttrs + '>' +
-      '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>' +
-      '<polyline points="16 17 21 12 16 7"/>' +
-      '<line x1="21" y1="12" x2="9" y2="12"/>' +
-    '</svg>';
-
-  lock.onclick = function (e) {
-    e.preventDefault();
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('isAdmin');
-    localStorage.removeItem('userNachname');
-    localStorage.removeItem('userAnrede');
-    window.location.href = 'index.html'; // change si tu veux une autre page
-  };
-}
 
   initLoginPage();
   initAdminPage();
@@ -3410,28 +2590,18 @@ function updateLockIcon() {
   initStatsPage();
   initMeinPortalPage();
   updateLoginButton();
-  
-  updateLockIcon();   // ← ajoute cette ligne
+  updateLockIcon();
   updateUserDisplay();
   updateDashboardMenu();
   initScrollBehavior();
   initHamburger();
   initChatOnAllPages();
   initSektorenPage();
-
-  // ⚠️ initAdminSegments() est VIDE : le script inline d'admin.html gère les onglets
   initAdminSegments();
-
   initAdminSetting();
   initAdminNews();
   applyNewsLanguageFilter();
-
   animateCounters();
-
-  // ✅ Guard : ne pas exécuter sur admin
-  if (!document.body.classList.contains('admin-page')) {
-    initSegmentsIndex();
-  }
-
+  if (!document.body.classList.contains('admin-page')) initSegmentsIndex();
   addGermanCitiesDots();
 });

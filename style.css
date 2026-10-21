@@ -8812,3 +8812,26 @@ body.admin-page .home-segments-row {
         padding-top: 52px !important;
     }
 }
+/* ============================================================
+   ✅ FOOTER MOBILE — LOGO AGRANDI SANS AUGMENTER LA HAUTEUR
+   ============================================================ */
+
+/* ---------- MOBILE (max 480px) ---------- */
+@media (max-width: 480px) {
+    .vd-footer-col-brand .vd-footer-logo {
+        width: 120px !important;
+        height: 120px !important;
+        max-width: 120px !important;
+        max-height: 120px !important;
+    }
+}
+
+/* ---------- TRÈS PETIT MOBILE (max 360px) ---------- */
+@media (max-width: 360px) {
+    .vd-footer-col-brand .vd-footer-logo {
+        width: 105px !important;
+        height: 105px !important;
+        max-width: 105px !important;
+        max-height: 105px !important;
+    }
+}

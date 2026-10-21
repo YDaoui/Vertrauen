@@ -25,6 +25,61 @@
     <link rel="icon" type="image/x-icon" href="Images/Icones/Vertrauen_Icone1.ico" />
     <link rel="shortcut icon" href="Images/Icone/Vertrauen_Icone1.ico" />
     <link rel="stylesheet" href="style.css" />
+
+    <!-- ===== STYLE RADIOS B2B / B2C ===== -->
+    <style>
+        .vp-category-radio {
+            display: flex;
+            gap: 10px;
+            margin: 0 0 16px 0;
+            flex-wrap: wrap;
+        }
+        .vp-radio-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 9px 18px;
+            border-radius: 10px;
+            border: 1px solid #2a6eb5;
+            background: rgba(12, 37, 69, 0.6);
+            color: #A0AAB5;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .vp-radio-label:hover {
+            border-color: #54e50d;
+            color: #ffffff;
+        }
+        .vp-radio-label input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid #2a6eb5;
+            background: transparent;
+            margin: 0;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .vp-radio-label input[type="radio"]:checked {
+            border-color: #54e50d;
+            background: #54e50d;
+            box-shadow: inset 0 0 0 3px #0c2545;
+        }
+        .vp-radio-label.active {
+            border-color: #54e50d;
+            background: rgba(84, 229, 13, 0.15);
+            color: #54e50d;
+            box-shadow: 0 0 12px rgba(84, 229, 13, 0.2);
+        }
+    </style>
 </head>
 
 <body class="dashboard-page admin-page">
@@ -206,6 +261,22 @@
                         <div class="setting-block-head">
                             <span class="green-bar"></span>
                             <h4>Anfragen Vertriebspartner</h4>
+                        </div>
+
+                        <!-- ===== RADIOS B2B / B2C ===== -->
+                        <div class="vp-category-radio" id="vpCategoryRadio">
+                            <label class="vp-radio-label active">
+                                <input type="radio" name="vpCategory" value="alle" checked>
+                                <span>Alle</span>
+                            </label>
+                            <label class="vp-radio-label">
+                                <input type="radio" name="vpCategory" value="b2b">
+                                <span>B2B</span>
+                            </label>
+                            <label class="vp-radio-label">
+                                <input type="radio" name="vpCategory" value="b2c">
+                                <span>B2C</span>
+                            </label>
                         </div>
 
                         <div class="admin-news-tabs" id="vpFilterTabs">
@@ -611,7 +682,7 @@
         /* ============================================================
            KONFIGURATION EMAILJS
            ============================================================ */
-        const EMAILJS_SERVICE_ID  = 'service_o2dk6yp';
+        const EMAILJS_SERVICE_ID  = 'service_4ge391j';
         const EMAILJS_TEMPLATE_ID = 'template_6kwx8hi';
         const ADMIN_EMAIL         = 'infos@dl-distri.de';
 
@@ -668,15 +739,24 @@
         }
 
         /* ============================================================
-           2. FILTER
+           2. FILTER (Statut + Catégorie B2B/B2C)
            ============================================================ */
-        let vpFilter = 'alle';
+        let vpFilter = 'alle';         // Statut : alle | offen | beantwortet
+        let vpCategory = 'alle';       // Catégorie : alle | b2b | b2c
         let vkFilter = 'alle';
         let vpAllDocs = [];
         let vkAllDocs = [];
 
         window._vpRequestsCache = {};
         window._vkRequestsCache = {};
+
+        /* Détecte la catégorie B2B / B2C d'un document Vertriebspartner */
+        function getVPCategory(dataOrDoc) {
+            const d = dataOrDoc && dataOrDoc.data ? dataOrDoc.data() : dataOrDoc;
+            const t = (d.type || '').toString().toUpperCase();
+            if (t.includes('B2C')) return 'b2c';
+            return 'b2b';
+        }
 
         function initFilterTabs() {
             const vpFilterTabs = document.querySelectorAll('#vpFilterTabs .admin-news-tab');
@@ -700,6 +780,23 @@
             });
         }
 
+        /* Radios B2B / B2C */
+        function initVPCategoryRadio() {
+            const radios = document.querySelectorAll('#vpCategoryRadio input[name="vpCategory"]');
+            if (!radios.length) return;
+            radios.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    if (!this.checked) return;
+                    vpCategory = this.value;
+                    document.querySelectorAll('#vpCategoryRadio .vp-radio-label').forEach(lbl => {
+                        const inp = lbl.querySelector('input[type="radio"]');
+                        lbl.classList.toggle('active', !!(inp && inp.checked));
+                    });
+                    applyVPFilter();
+                });
+            });
+        }
+
         function applyVPFilter() {
             const list = document.getElementById('vpRequestsList');
             if (!list) return;
@@ -710,7 +807,16 @@
             }
 
             const filtered = vpAllDocs.filter(doc => {
-                const replied = doc.data().replied === true;
+                const d = doc.data();
+
+                /* --- Filtre catégorie B2B / B2C --- */
+                if (vpCategory !== 'alle') {
+                    const cat = getVPCategory(d);
+                    if (cat !== vpCategory) return false;
+                }
+
+                /* --- Filtre statut (Offen / Beantwortet) --- */
+                const replied = d.replied === true;
                 if (vpFilter === 'offen') return !replied;
                 if (vpFilter === 'beantwortet') return replied;
                 return true;
@@ -859,22 +965,18 @@
         }
 
         /* ============================================================
-           LÖSCHEN — Benutzerdefiniertes Bestätigungs-Modal
+           LÖSCHEN
            ============================================================ */
         let _pendingDelete = null;
 
         function deleteRequest(docId, name) {
             _pendingDelete = { docId, name };
-
             document.getElementById('confirmName').textContent = name || '—';
             document.getElementById('confirmStatus').textContent = '';
-
             const btn = document.getElementById('confirmDeleteBtn');
             btn.disabled = false;
             btn.textContent = '🗑️ Ja, löschen';
-
-            const modal = document.getElementById('confirmModal');
-            modal.classList.add('active');
+            document.getElementById('confirmModal').classList.add('active');
         }
 
         function closeConfirmModal() {
@@ -884,7 +986,6 @@
 
         async function executeDelete() {
             if (!_pendingDelete) return;
-
             const { docId } = _pendingDelete;
             const btn = document.getElementById('confirmDeleteBtn');
             const status = document.getElementById('confirmStatus');
@@ -903,18 +1004,12 @@
             try {
                 const db = firebase.firestore();
                 await db.collection(COLLECTION).doc(docId).delete();
-
                 status.textContent = '✅ Erfolgreich gelöscht.';
                 status.style.color = '#54e50d';
-
                 loadVPRequests();
                 loadVKRequests();
                 loadStats();
-
-                setTimeout(() => {
-                    closeConfirmModal();
-                }, 900);
-
+                setTimeout(() => { closeConfirmModal(); }, 900);
             } catch (err) {
                 console.error('executeDelete error:', err);
                 status.textContent = '❌ Fehler: ' + err.message;
@@ -927,30 +1022,23 @@
         async function loadVPRequests() {
             const list = document.getElementById('vpRequestsList');
             if (!list) return;
-
             if (typeof firebase === 'undefined' || !firebase.apps.length) {
                 setTimeout(loadVPRequests, 500);
                 return;
             }
-
             const db = firebase.firestore();
             list.innerHTML = '<p class="setting-list-loading">Lade Anfragen...</p>';
-
             try {
                 const snap = await db.collection(COLLECTION).orderBy('createdAt', 'desc').get();
-
                 vpAllDocs = snap.docs.filter(doc => {
                     const t = (doc.data().type || '').toString();
                     return t.startsWith('Vertriebspartner');
                 });
-
                 if (vpAllDocs.length === 0) {
                     list.innerHTML = '<p class="setting-list-empty">Keine Anfragen vorhanden.</p>';
                     return;
                 }
-
                 applyVPFilter();
-
             } catch (err) {
                 console.error('loadVPRequests error:', err);
                 list.innerHTML = '<p class="setting-list-error">Fehler beim Laden.</p>';
@@ -960,30 +1048,23 @@
         async function loadVKRequests() {
             const list = document.getElementById('vkRequestsList');
             if (!list) return;
-
             if (typeof firebase === 'undefined' || !firebase.apps.length) {
                 setTimeout(loadVKRequests, 500);
                 return;
             }
-
             const db = firebase.firestore();
             list.innerHTML = '<p class="setting-list-loading">Lade Anfragen...</p>';
-
             try {
                 const snap = await db.collection(COLLECTION).orderBy('createdAt', 'desc').get();
-
                 vkAllDocs = snap.docs.filter(doc => {
                     const t = (doc.data().type || '').toString();
                     return t === 'Promoter';
                 });
-
                 if (vkAllDocs.length === 0) {
                     list.innerHTML = '<p class="setting-list-empty">Keine Anfragen vorhanden.</p>';
                     return;
                 }
-
                 applyVKFilter();
-
             } catch (err) {
                 console.error('loadVKRequests error:', err);
                 list.innerHTML = '<p class="setting-list-error">Fehler beim Laden.</p>';
@@ -995,11 +1076,15 @@
            ============================================================ */
         let statsCharts = { categories: null, status: null, timeline: null };
 
+        /* Catégorisation mise à jour : un type contenant "B2C" passe en B2C,
+           sinon les types commençant par "Vertriebspartner" restent B2B,
+           Promoter reste D2D, le reste passe en B2C. */
         function categorize(type) {
             const t = (type || '').toString().toLowerCase();
-            if (t.startsWith('vertriebspartner')) return 'B2B';
             if (t === 'promoter') return 'D2D';
-            if (t.startsWith('b2c') || t === 'b2c') return 'B2C';
+            if (t.includes('b2c')) return 'B2C';
+            if (t.startsWith('vertriebspartner') || t.includes('b2b')) return 'B2B';
+            if (t.startsWith('b2c')) return 'B2C';
             return 'B2C';
         }
 
@@ -1008,11 +1093,7 @@
                 setTimeout(loadStats, 500);
                 return;
             }
-            if (typeof Chart === 'undefined') {
-                console.warn('Chart.js nicht geladen');
-                return;
-            }
-
+            if (typeof Chart === 'undefined') return;
             try {
                 const db = firebase.firestore();
                 const snap = await db.collection(COLLECTION).get();
@@ -1054,9 +1135,7 @@
                     docDate = new Date(d.repliedAtLocal);
                 } else if (d.dateEnvoiFr) {
                     const parts = d.dateEnvoiFr.split('.');
-                    if (parts.length === 3) {
-                        docDate = new Date(parts[2], parts[1] - 1, parts[0]);
-                    }
+                    if (parts.length === 3) docDate = new Date(parts[2], parts[1] - 1, parts[0]);
                 }
                 if (docDate && !isNaN(docDate)) {
                     docDate.setHours(0, 0, 0, 0);
@@ -1084,7 +1163,6 @@
             const ctx = document.getElementById('chartCategories');
             if (!ctx) return;
             if (statsCharts.categories) statsCharts.categories.destroy();
-
             statsCharts.categories = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -1098,30 +1176,10 @@
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '62%',
+                    responsive: true, maintainAspectRatio: false, cutout: '62%',
                     plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: '#A0AAB5',
-                                font: { size: 10, weight: '600' },
-                                padding: 10,
-                                boxWidth: 10,
-                                boxHeight: 10,
-                                usePointStyle: true,
-                                pointStyle: 'circle'
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(12, 37, 69, 0.95)',
-                            borderColor: '#54e50d',
-                            borderWidth: 1,
-                            titleColor: '#FFFFFF',
-                            bodyColor: '#A0AAB5',
-                            padding: 8
-                        }
+                        legend: { position: 'bottom', labels: { color: '#A0AAB5', font: { size: 10, weight: '600' }, padding: 10, boxWidth: 10, boxHeight: 10, usePointStyle: true, pointStyle: 'circle' } },
+                        tooltip: { backgroundColor: 'rgba(12, 37, 69, 0.95)', borderColor: '#54e50d', borderWidth: 1, titleColor: '#FFFFFF', bodyColor: '#A0AAB5', padding: 8 }
                     }
                 }
             });
@@ -1131,67 +1189,27 @@
             const ctx = document.getElementById('chartStatus');
             if (!ctx) return;
             if (statsCharts.status) statsCharts.status.destroy();
-
             const offenB2B = b2b - repliedB2B;
             const offenB2C = b2c - repliedB2C;
             const offenD2D = d2d - repliedD2D;
-
             statsCharts.status = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: ['B2B', 'B2C', 'D2D'],
                     datasets: [
-                        {
-                            label: 'Offen',
-                            data: [offenB2B, offenB2C, offenD2D],
-                            backgroundColor: '#4fa8ff',
-                            borderRadius: 5,
-                            borderSkipped: false
-                        },
-                        {
-                            label: 'Beantwortet',
-                            data: [repliedB2B, repliedB2C, repliedD2D],
-                            backgroundColor: '#54e50d',
-                            borderRadius: 5,
-                            borderSkipped: false
-                        }
+                        { label: 'Offen', data: [offenB2B, offenB2C, offenD2D], backgroundColor: '#4fa8ff', borderRadius: 5, borderSkipped: false },
+                        { label: 'Beantwortet', data: [repliedB2B, repliedB2C, repliedD2D], backgroundColor: '#54e50d', borderRadius: 5, borderSkipped: false }
                     ]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: true, maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: '#A0AAB5',
-                                font: { size: 10, weight: '600' },
-                                padding: 10,
-                                boxWidth: 10,
-                                boxHeight: 10,
-                                usePointStyle: true,
-                                pointStyle: 'circle'
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(12, 37, 69, 0.95)',
-                            borderColor: '#54e50d',
-                            borderWidth: 1,
-                            titleColor: '#FFFFFF',
-                            bodyColor: '#A0AAB5',
-                            padding: 8
-                        }
+                        legend: { position: 'bottom', labels: { color: '#A0AAB5', font: { size: 10, weight: '600' }, padding: 10, boxWidth: 10, boxHeight: 10, usePointStyle: true, pointStyle: 'circle' } },
+                        tooltip: { backgroundColor: 'rgba(12, 37, 69, 0.95)', borderColor: '#54e50d', borderWidth: 1, titleColor: '#FFFFFF', bodyColor: '#A0AAB5', padding: 8 }
                     },
                     scales: {
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: '#A0AAB5', font: { size: 10, weight: '600' } }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: { color: '#A0AAB5', font: { size: 10 }, precision: 0 },
-                            grid: { color: 'rgba(160, 170, 181, 0.10)' }
-                        }
+                        x: { grid: { display: false }, ticks: { color: '#A0AAB5', font: { size: 10, weight: '600' } } },
+                        y: { beginAtZero: true, ticks: { color: '#A0AAB5', font: { size: 10 }, precision: 0 }, grid: { color: 'rgba(160, 170, 181, 0.10)' } }
                     }
                 }
             });
@@ -1201,12 +1219,8 @@
             const ctx = document.getElementById('chartTimeline');
             if (!ctx) return;
             if (statsCharts.timeline) statsCharts.timeline.destroy();
-
-            const labels = days.map(d =>
-                d.date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })
-            );
+            const labels = days.map(d => d.date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }));
             const data = days.map(d => d.count);
-
             statsCharts.timeline = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -1216,46 +1230,22 @@
                         data: data,
                         borderColor: '#54e50d',
                         backgroundColor: 'rgba(79, 168, 255, 0.14)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.35,
+                        borderWidth: 2, fill: true, tension: 0.35,
                         pointBackgroundColor: '#54e50d',
                         pointBorderColor: '#0c2545',
                         pointBorderWidth: 1.5,
-                        pointRadius: 3,
-                        pointHoverRadius: 5
+                        pointRadius: 3, pointHoverRadius: 5
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: true, maintainAspectRatio: false,
                     plugins: {
                         legend: { display: false },
-                        tooltip: {
-                            backgroundColor: 'rgba(12, 37, 69, 0.95)',
-                            borderColor: '#54e50d',
-                            borderWidth: 1,
-                            titleColor: '#FFFFFF',
-                            bodyColor: '#A0AAB5',
-                            padding: 8
-                        }
+                        tooltip: { backgroundColor: 'rgba(12, 37, 69, 0.95)', borderColor: '#54e50d', borderWidth: 1, titleColor: '#FFFFFF', bodyColor: '#A0AAB5', padding: 8 }
                     },
                     scales: {
-                        x: {
-                            grid: { display: false },
-                            ticks: {
-                                color: '#A0AAB5',
-                                font: { size: 9 },
-                                maxRotation: 0,
-                                autoSkip: true,
-                                maxTicksLimit: 10
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: { color: '#A0AAB5', font: { size: 10 }, precision: 0 },
-                            grid: { color: 'rgba(160, 170, 181, 0.10)' }
-                        }
+                        x: { grid: { display: false }, ticks: { color: '#A0AAB5', font: { size: 9 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 10 } },
+                        y: { beginAtZero: true, ticks: { color: '#A0AAB5', font: { size: 10 }, precision: 0 }, grid: { color: 'rgba(160, 170, 181, 0.10)' } }
                     }
                 }
             });
@@ -1266,14 +1256,11 @@
            ============================================================ */
         function openReplyModal(req) {
             currentRequest = req;
-
             const modal = document.getElementById('replyModal');
             const subjectInput = document.getElementById('replySubject');
             const messageInput = document.getElementById('replyMessage');
             const status = document.getElementById('replyStatus');
-
             document.getElementById('replyToEmail').textContent = req.email || '—';
-
             if (req.replied) {
                 subjectInput.value = req.replySubject || 'Antwort auf Ihre Anfrage – Vertrauen Distributor';
                 messageInput.value = req.replyText || '';
@@ -1285,7 +1272,6 @@
                 status.textContent = '';
                 status.style.color = '';
             }
-
             modal.classList.add('active');
             setTimeout(() => messageInput.focus(), 200);
         }
@@ -1296,74 +1282,51 @@
         }
 
         /* ============================================================
-           6. ANTWORT SENDEN — EMAILJS
+           6. ANTWORT SENDEN
            ============================================================ */
         async function sendReply() {
             if (!currentRequest) return;
-
             const subject = document.getElementById('replySubject').value.trim();
             const message = document.getElementById('replyMessage').value.trim();
             const status = document.getElementById('replyStatus');
             const btn = document.getElementById('replySendBtn');
-
             if (!subject || !message) {
                 status.textContent = '❌ Bitte Betreff und Nachricht ausfüllen.';
                 status.style.color = '#ff6b6b';
                 return;
             }
-
             btn.disabled = true;
             btn.textContent = 'Wird gesendet ...';
-
             try {
-                // ===== Admin-Infos =====
                 const adminAnrede   = localStorage.getItem('userAnrede')   || '';
                 const adminNachname = localStorage.getItem('userNachname') || '';
                 const adminEmail    = localStorage.getItem('userEmail')    || 'admin';
                 const adminName     = (adminAnrede + ' ' + adminNachname).trim() || adminEmail;
 
-                // ===== 1. E-MAIL-VERSAND ÜBER EMAILJS =====
-                if (typeof emailjs === 'undefined') {
-                    throw new Error('EmailJS nicht geladen. Prüfe das SDK im <head>.');
-                }
+                if (typeof emailjs === 'undefined') throw new Error('EmailJS nicht geladen.');
 
-                await emailjs.send(
-                    EMAILJS_SERVICE_ID,
-                    EMAILJS_TEMPLATE_ID,
-                    {
-                        to_email:  currentRequest.email,
-                        to_name:   currentRequest.name,
-                        subject:   subject,
-                        message:   message,
-                        from_name: adminName,
-                        reply_to:  ADMIN_EMAIL
-                    }
-                );
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                    to_email: currentRequest.email,
+                    to_name: currentRequest.name,
+                    subject: subject,
+                    message: message,
+                    from_name: adminName,
+                    reply_to: ADMIN_EMAIL
+                });
 
-                // ===== 2. FIRESTORE-AKTUALISIERUNG =====
                 if (typeof firebase !== 'undefined' && firebase.apps.length) {
                     const db = firebase.firestore();
                     const now = new Date();
-
                     await db.collection(COLLECTION).doc(currentRequest.id).update({
-                        replied: true,
-                        repliedBy: adminName,
-                        repliedByEmail: adminEmail,
-                        replySubject: subject,
-                        replyText: message,
+                        replied: true, repliedBy: adminName, repliedByEmail: adminEmail,
+                        replySubject: subject, replyText: message,
                         repliedAt: firebase.firestore.FieldValue.serverTimestamp(),
                         repliedAtLocal: now.toISOString()
                     });
-
                     await db.collection(REPLIES_COLLECTION).add({
-                        requestId: currentRequest.id,
-                        toEmail: currentRequest.email,
-                        toName: currentRequest.name,
-                        fromEmail: ADMIN_EMAIL,
-                        fromAdmin: adminName,
-                        fromAdminEmail: adminEmail,
-                        subject: subject,
-                        message: message,
+                        requestId: currentRequest.id, toEmail: currentRequest.email, toName: currentRequest.name,
+                        fromEmail: ADMIN_EMAIL, fromAdmin: adminName, fromAdminEmail: adminEmail,
+                        subject: subject, message: message,
                         sentAt: firebase.firestore.FieldValue.serverTimestamp(),
                         sentAtLocal: now.toISOString()
                     });
@@ -1371,7 +1334,6 @@
 
                 status.textContent = '✅ Antwort wurde erfolgreich gesendet.';
                 status.style.color = '#54e50d';
-
                 setTimeout(() => {
                     closeReplyModal();
                     btn.disabled = false;
@@ -1380,7 +1342,6 @@
                     loadVKRequests();
                     loadStats();
                 }, 1200);
-
             } catch (err) {
                 console.error('sendReply error:', err);
                 status.textContent = '❌ Fehler: ' + (err.text || err.message || 'Unbekannt');
@@ -1396,28 +1357,21 @@
         function init() {
             initTabs();
             initFilterTabs();
+            initVPCategoryRadio();   /* NEW */
 
             document.getElementById('replyClose')?.addEventListener('click', closeReplyModal);
             document.getElementById('replyCancelBtn')?.addEventListener('click', closeReplyModal);
             document.getElementById('replySendBtn')?.addEventListener('click', sendReply);
 
             const modal = document.getElementById('replyModal');
-            if (modal) {
-                modal.addEventListener('click', e => {
-                    if (e.target === modal) closeReplyModal();
-                });
-            }
+            if (modal) modal.addEventListener('click', e => { if (e.target === modal) closeReplyModal(); });
 
             document.getElementById('confirmCloseBtn')?.addEventListener('click', closeConfirmModal);
             document.getElementById('confirmCancelBtn')?.addEventListener('click', closeConfirmModal);
             document.getElementById('confirmDeleteBtn')?.addEventListener('click', executeDelete);
 
             const confirmModal = document.getElementById('confirmModal');
-            if (confirmModal) {
-                confirmModal.addEventListener('click', e => {
-                    if (e.target === confirmModal) closeConfirmModal();
-                });
-            }
+            if (confirmModal) confirmModal.addEventListener('click', e => { if (e.target === confirmModal) closeConfirmModal(); });
 
             loadStats();
             loadVPRequests();
