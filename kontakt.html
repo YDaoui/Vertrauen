@@ -361,8 +361,6 @@
 
         /* ============================================================
            🔧 WIDGET GOOGLE TRANSLATE — rendu mais invisible
-           (ne PAS le mettre en display:none ni à -9999px :
-            le widget doit rester rendu pour que .goog-te-combo existe)
            ============================================================ */
         #google_translate_element {
             position: fixed !important;
@@ -376,7 +374,6 @@
             z-index: -1 !important;
         }
 
-        /* Bannière Google + décalage du body */
         .goog-te-banner-frame,
         .goog-te-banner-frame.skiptranslate,
         iframe.skiptranslate {
@@ -484,7 +481,12 @@
         </div>
 
         <div class="kontakt-card">
-            <form class="kontakt-form" id="kontaktForm" novalidate>
+            <!-- ✅ Ajout de action + method pour le progressive enhancement
+                 et pour que FormSubmit puisse recevoir la soumission même
+                 si JavaScript est désactivé. -->
+            <form class="kontakt-form" id="kontaktForm"
+                  action="https://formsubmit.co/dl.companie@gmail.com"
+                  method="POST" novalidate>
 
                 <input type="hidden" name="_subject" value="Kontaktanfrage" />
                 <input type="hidden" name="_captcha" value="false" />
@@ -652,8 +654,7 @@
     <script src="main.js"></script>
 
     <!-- ============================================================
-         ✅ TRADUCTION : pilotage direct du widget Google Translate
-            (.goog-te-combo) + cookie + reload en secours
+         ✅ TRADUCTION
          ============================================================ -->
     <script>
     (function () {
@@ -663,7 +664,6 @@
         var popup   = document.getElementById('langPopup');
         var trigger = document.getElementById('langTrigger');
 
-        /* ---------- Popup ---------- */
         function openPopup()  { if (popup) { popup.classList.add('active');    popup.style.display = 'flex'; } }
         function closePopup() { if (popup) { popup.classList.remove('active'); popup.style.display = 'none'; } }
 
@@ -680,7 +680,6 @@
             });
         }
 
-        /* ---------- Cookies googtrans ---------- */
         function clearCookie() {
             var host = location.hostname;
             var exp  = '; expires=Thu, 01 Jan 1970 00:00:00 GMT';
@@ -701,7 +700,6 @@
             return (p[2] && p[2] !== PAGE_LANG) ? p[2] : null;
         }
 
-        /* ---------- Piloter le sélecteur GT directement ---------- */
         function applyViaCombo(lang, done) {
             var tries = 0;
             var iv = setInterval(function () {
@@ -714,15 +712,14 @@
                         c.dispatchEvent(new Event('change', { bubbles: true }));
                     }
                     if (done) done(true);
-                } else if (tries > 40) {          // ~8 s
+                } else if (tries > 40) {
                     clearInterval(iv);
-                    console.warn('[Translate] .goog-te-combo introuvable (script GT bloqué ?)');
+                    console.warn('[Translate] .goog-te-combo introuvable');
                     if (done) done(false);
                 }
             }, 200);
         }
 
-        /* ---------- Choix de langue ---------- */
         document.querySelectorAll('.lang-btn').forEach(function (btn) {
             btn.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -731,7 +728,6 @@
                 var lang = this.getAttribute('data-lang');
                 closePopup();
 
-                // Retour à l'allemand : on efface le cookie et on recharge
                 if (!lang || lang === PAGE_LANG) {
                     clearCookie();
                     location.reload();
@@ -740,12 +736,11 @@
 
                 setCookie(lang);
                 applyViaCombo(lang, function (ok) {
-                    if (!ok) location.reload();   // secours
+                    if (!ok) location.reload();
                 });
             });
         });
 
-        /* ---------- Init Google Translate ---------- */
         window.googleTranslateElementInit = function () {
             if (!window.google || !window.google.translate) return;
             new google.translate.TranslateElement({
@@ -763,7 +758,6 @@
             document.head.appendChild(s);
         }
 
-        /* ---------- Au chargement : réappliquer la langue du cookie ---------- */
         var saved = getCookieLang();
         if (saved) applyViaCombo(saved);
     })();
@@ -851,11 +845,57 @@
     </script>
 
     <!-- ============================================================
-         ✅ ENVOI AJAX DU FORMULAIRE KONTAKT
+         ✅ ENVOI AJAX DU FORMULAIRE KONTAKT (v2 corrigée)
          ============================================================ -->
     <script>
     (function () {
-        const AJAX_ENDPOINT = 'https://formsubmit.co/ajax/dl.companie@gmail.com';
+        'use strict';
+
+        const COLLECTION = 'senden_Kontakt';
+
+        /* Endpoint déduit de l'attribut action du formulaire (cohérent
+           avec le comportement des autres formulaires du site). */
+        function getAjaxEndpoint(form) {
+            const action = (form.getAttribute('action') || '').trim();
+            if (!action) return null;
+            if (action.includes('formsubmit.co/ajax/')) return action;
+            return action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+        }
+
+        function formToObject(form) {
+            const data = {};
+            for (const [key, value] of new FormData(form).entries()) {
+                if (data[key] !== undefined) {
+                    if (!Array.isArray(data[key])) data[key] = [data[key]];
+                    data[key].push(value);
+                } else {
+                    data[key] = value;
+                }
+            }
+            return data;
+        }
+
+        async function saveToFirestore(form) {
+            if (typeof firebase === 'undefined' || !firebase.apps.length) {
+                console.warn('[Kontakt] Firebase non initialisé — Firestore ignoré.');
+                return null;
+            }
+            const db = firebase.firestore();
+            const now = new Date();
+            const payload = {
+                type: 'Kontakt',
+                ...formToObject(form),
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                dateEnvoi: now.toISOString(),
+                dateEnvoiFr: now.toLocaleDateString('de-DE'),
+                heureEnvoi: now.toLocaleTimeString('de-DE', {
+                    hour: '2-digit', minute: '2-digit', second: '2-digit'
+                })
+            };
+            const ref = await db.collection(COLLECTION).add(payload);
+            console.log('✅ Firestore Kontakt — ID:', ref.id);
+            return ref.id;
+        }
 
         function initKontaktForm() {
             const form = document.getElementById('kontaktForm');
@@ -871,35 +911,63 @@
                 if (success) success.style.display = 'none';
                 if (error)   error.style.display   = 'none';
 
+                const originalHTML = btn ? btn.innerHTML : '';
                 if (btn) {
                     btn.classList.add('loading');
-                    btn.dataset.originalText = btn.innerHTML;
-                    btn.innerHTML = 'Envoi en cours...';
+                    btn.disabled = true;
+                    btn.innerHTML = 'Wird gesendet…';
                 }
 
-                const data = new FormData(form);
+                const endpoint = getAjaxEndpoint(form);
+                if (!endpoint) {
+                    console.error('[Kontakt] Formulaire sans attribut action.');
+                    if (error) {
+                        error.style.display = 'block';
+                        error.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    if (btn) { btn.classList.remove('loading'); btn.disabled = false; btn.innerHTML = originalHTML; }
+                    return;
+                }
 
                 try {
-                    const response = await fetch(AJAX_ENDPOINT, {
+                    /* 1) Firestore (best-effort, non bloquant) */
+                    try {
+                        await saveToFirestore(form);
+                    } catch (fbErr) {
+                        console.warn('[Kontakt] Firestore échec (non bloquant) :', fbErr);
+                    }
+
+                    /* 2) FormSubmit AJAX */
+                    const res = await fetch(endpoint, {
                         method: 'POST',
                         headers: { 'Accept': 'application/json' },
-                        body: data
+                        body: new FormData(form)
                     });
 
-                    const result = await response.json();
+                    const raw = await res.text();
+                    let data;
+                    try { data = JSON.parse(raw); } catch { data = { success: 'false', message: raw }; }
 
-                    if (result.success === 'true' || result.success === true) {
+                    if (data.success === 'true' || data.success === true) {
                         form.reset();
                         if (success) {
                             success.style.display = 'flex';
                             success.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         }
                     } else {
-                        throw new Error(result.message || 'Erreur inconnue');
+                        console.error('[Kontakt] FormSubmit refusé :', data);
+                        if (error) {
+                            error.style.display = 'block';
+                            /* Affiche le message serveur (utile : "activation requise", etc.) */
+                            const span = error.querySelector('[data-i18n="error"]');
+                            if (span && data.message) {
+                                span.textContent = 'FormSubmit: ' + data.message;
+                            }
+                            error.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
                     }
-
                 } catch (err) {
-                    console.error('Erreur envoi formulaire :', err);
+                    console.error('[Kontakt] Erreur réseau :', err);
                     if (error) {
                         error.style.display = 'block';
                         error.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -907,7 +975,8 @@
                 } finally {
                     if (btn) {
                         btn.classList.remove('loading');
-                        btn.innerHTML = btn.dataset.originalText || 'Envoyer';
+                        btn.disabled = false;
+                        btn.innerHTML = originalHTML || 'Senden';
                     }
                 }
             });

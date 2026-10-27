@@ -563,33 +563,41 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     })();
     </script>
 
-    <!-- ===== SOUMISSION : FIRESTORE + FORMSUBMIT ===== -->
+    <!-- ===== SOUMISSION : FIRESTORE + FORMSUBMIT (v2 corrigée) ===== -->
     <script>
     (function () {
-        const AJAX_ENDPOINT = 'https://formsubmit.co/ajax/dl.companie@gmail.com';
+        'use strict';
+
         const COLLECTION = 'senden_Vertriebspartner';
 
-        function getSubmissionType(form) {
-            const isPromoter = document.body.classList.contains('salespromoter-page');
-            if (isPromoter) return 'Promoter';
+        /* -----------------------------------------------------------------
+           Déduit l'endpoint AJAX depuis l'action du formulaire.
+           B2B action : https://formsubmit.co/dl.companie@gmail.com
+           B2C action : https://formsubmit.co/d6b69ca1bd3be32c7915fa4dd6e04bf0
+           -> ajax   : https://formsubmit.co/ajax/...
+           ----------------------------------------------------------------- */
+        function getAjaxEndpoint(form) {
+            const action = (form.getAttribute('action') || '').trim();
+            if (!action) return null;
+            if (action.includes('formsubmit.co/ajax/')) return action;
+            return action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+        }
 
+        function getSubmissionType(form) {
             const panel = form.closest('.vp-tab-panel');
             const angle = panel ? panel.getAttribute('data-tab-panel') : null;
             if (angle === 'b2b') return 'Vertriebspartner B2B';
             if (angle === 'b2c') return 'Vertriebspartner B2C';
-
             return 'Vertriebspartner';
         }
 
         function formToObject(form) {
             const data = {};
-            const formData = new FormData(form);
-
-            for (const [key, value] of formData.entries()) {
+            for (const [key, value] of new FormData(form).entries()) {
                 if (key.endsWith('[]')) {
-                    const cleanKey = key.replace('[]', '');
-                    if (!Array.isArray(data[cleanKey])) data[cleanKey] = [];
-                    data[cleanKey].push(value);
+                    const k = key.replace('[]', '');
+                    if (!Array.isArray(data[k])) data[k] = [];
+                    data[k].push(value);
                 } else if (data[key] !== undefined) {
                     if (!Array.isArray(data[key])) data[key] = [data[key]];
                     data[key].push(value);
@@ -600,34 +608,29 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             return data;
         }
 
+        /* Firebase est déjà initialisé dans main.js (chargé en bas de page).
+           On le réutilise directement. Si pour une raison quelconque il ne
+           l'est pas encore, on n'empêche pas FormSubmit de partir. */
         async function saveToFirestore(form, type) {
             if (typeof firebase === 'undefined' || !firebase.apps.length) {
-                console.warn('Firebase non initialisé — enregistrement ignoré');
+                console.warn('[Form] Firebase non initialisé — Firestore ignoré (non bloquant).');
                 return null;
             }
-
             const db = firebase.firestore();
-            const fields = formToObject(form);
-
-            const userEmail = localStorage.getItem('userEmail') || null;
             const now = new Date();
-
             const payload = {
                 type: type,
-                ...fields,
-                userEmail: userEmail,
+                ...formToObject(form),
+                userEmail: localStorage.getItem('userEmail') || null,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 dateEnvoi: now.toISOString(),
                 dateEnvoiFr: now.toLocaleDateString('de-DE'),
                 heureEnvoi: now.toLocaleTimeString('de-DE', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
+                    hour: '2-digit', minute: '2-digit', second: '2-digit'
                 })
             };
-
             const ref = await db.collection(COLLECTION).add(payload);
-            console.log('✅ Enregistré dans', COLLECTION, '— ID:', ref.id);
+            console.log('✅ Firestore — ID:', ref.id);
             return ref.id;
         }
 
@@ -638,64 +641,81 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
             const p = document.createElement('p');
             p.className = 'vp-form-message ' + type;
             p.textContent = text;
-            p.style.textAlign = 'center';
-            p.style.fontWeight = '600';
-            p.style.marginTop = '15px';
-            p.style.fontSize = '1rem';
-            p.style.color = (type === 'success') ? '#54e50d' : '#ff6b6b';
+            p.style.textAlign     = 'center';
+            p.style.fontWeight    = '600';
+            p.style.marginTop     = '15px';
+            p.style.fontSize      = '1rem';
+            p.style.color         = (type === 'success') ? '#54e50d' : '#ff6b6b';
             form.appendChild(p);
+
+            // Le message est parfois hors écran → on scrolle dessus
+            try { p.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_) {}
         }
 
         function initFormFeedback() {
             document.querySelectorAll('.vp-form').forEach(function (form) {
+
                 form.addEventListener('submit', async function (e) {
                     e.preventDefault();
 
                     const btn = form.querySelector('button[type="submit"]');
-                    const originalText = btn ? btn.textContent : '';
-
-                    if (btn) {
-                        btn.disabled = true;
-                        btn.textContent = 'Wird gesendet ...';
-                    }
+                    const original = btn ? btn.textContent : '';
+                    if (btn) { btn.disabled = true; btn.textContent = 'Wird gesendet ...'; }
 
                     const type = getSubmissionType(form);
+                    const endpoint = getAjaxEndpoint(form);
+
+                    if (!endpoint) {
+                        showMessage(form, 'error', '❌ Konfigurationsfehler: FormSubmit-URL fehlt im <form action>.');
+                        if (btn) { btn.disabled = false; btn.textContent = original; }
+                        return;
+                    }
 
                     try {
-                        await saveToFirestore(form, type);
+                        // 1) Firestore (ne bloque jamais l'envoi si ça échoue)
+                        try {
+                            await saveToFirestore(form, type);
+                        } catch (fbErr) {
+                            console.warn('[Form] Firestore échec (non bloquant) :', fbErr);
+                        }
 
-                        const formData = new FormData(form);
-                        const response = await fetch(AJAX_ENDPOINT, {
+                        // 2) FormSubmit AJAX
+                        const res = await fetch(endpoint, {
                             method: 'POST',
-                            body: formData,
+                            body: new FormData(form),
                             headers: { 'Accept': 'application/json' }
                         });
 
-                        const data = await response.json();
+                        const raw = await res.text();
+                        let data;
+                        try { data = JSON.parse(raw); } catch { data = { success: 'false', message: raw }; }
 
                         if (data.success === 'true' || data.success === true) {
-                            showMessage(form, 'success',
-                                '✅ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.');
+                            showMessage(form, 'success', '✅ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.');
                             form.reset();
                         } else {
-                            throw new Error(data.message || 'Unbekannter Fehler');
+                            console.error('[Form] FormSubmit refusé :', data);
+                            showMessage(
+                                form, 'error',
+                                '❌ FormSubmit: ' +
+                                (data.message || 'Bitte aktivieren Sie zuerst den Empfänger per Bestätigungs-E-Mail (Spam prüfen).')
+                            );
                         }
-
-                    } catch (error) {
-                        console.error('Erreur:', error);
-                        showMessage(form, 'error',
-                            '❌ Fehler beim Senden. Bitte versuchen Sie es später erneut.');
+                    } catch (err) {
+                        console.error('[Form] Erreur réseau :', err);
+                        showMessage(form, 'error', '❌ Netzwerkfehler beim Senden. Bitte später erneut versuchen.');
                     } finally {
-                        if (btn) {
-                            btn.disabled = false;
-                            btn.textContent = originalText;
-                        }
+                        if (btn) { btn.disabled = false; btn.textContent = original; }
                     }
                 });
             });
         }
 
-        document.addEventListener('DOMContentLoaded', initFormFeedback);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initFormFeedback);
+        } else {
+            initFormFeedback();
+        }
     })();
     </script>
 
