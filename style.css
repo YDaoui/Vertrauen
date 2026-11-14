@@ -8850,7 +8850,7 @@ body.admin-page .home-segments-row {
     align-self: flex-start;
 }
 /* ============================================================
-   ✅ LIGHTBOX MOBILE + TABLETTE — remplit l'écran sans déborder
+   ✅ LIGHTBOX MOBILE + TABLETTE — image entière dans l'écran
    ============================================================ */
 @media (max-width: 900px) {
     .home-hero { padding: 30px 20px 15px !important; }
@@ -8860,22 +8860,30 @@ body.admin-page .home-segments-row {
     .home-segment-tab .tab-title { font-size: 0.78rem !important; letter-spacing: 1px !important; }
     .home-segment-tab .tab-sub { font-size: 0.58rem !important; letter-spacing: 0.8px !important; }
 
-    /* ---- LIGHTBOX : occupe exactement l'écran, sans déborder ---- */
+    /* ---- LIGHTBOX : plein écran, image centrée ---- */
     .news-lightbox {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;          /* hauteur réelle visible sur mobile */
         padding: 0 !important;
         background: #000 !important;
         overflow: hidden !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 
-    /* ✅ Image en absolute inset:0 → prend EXACTEMENT la zone visible */
+    /* ✅ contain = toute l'image visible, sans zoom ni rognage */
     .news-lightbox-img {
-        position: absolute !important;
-        inset: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        max-width: none !important;
-        max-height: none !important;
-        object-fit: cover !important;     /* remplit largeur ET hauteur */
+        position: static !important;
+        width: auto !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: 100vh !important;
+        max-height: 100dvh !important;
+        object-fit: contain !important;
         object-position: center center !important;
         border: none !important;
         border-radius: 0 !important;
@@ -8905,32 +8913,11 @@ body.admin-page .home-segments-row {
     .home-segment-tab .tab-title { font-size: 0.72rem !important; }
     .home-segment-tab .tab-sub { font-size: 0.52rem !important; }
 
-    .news-lightbox {
-        padding: 0 !important;
-        background: #000 !important;
-        overflow: hidden !important;
-    }
-
-    .news-lightbox-img {
-        position: absolute !important;
-        inset: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        max-width: none !important;
-        max-height: none !important;
-        object-fit: cover !important;
-        object-position: center center !important;
-        border: none !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-    }
-
     .news-lightbox-close {
         top: 12px !important;
         right: 12px !important;
         width: 42px !important;
         height: 42px !important;
-        border: 2px solid #54e50d !important;
     }
     .news-lightbox-close svg {
         width: 20px !important;
