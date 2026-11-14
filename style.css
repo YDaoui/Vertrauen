@@ -8850,32 +8850,67 @@ body.admin-page .home-segments-row {
     align-self: flex-start;
 }
 /* ============================================================
-   DATENSCHUTZ — liste à puces verte
+   ✅ LIGHTBOX MOBILE + TABLETTE — PLEIN ÉCRAN
    ============================================================ */
-.datenschutz-page .ds-list {
-    list-style: none;
-    padding: 0;
-    margin: 12px 0 18px;
+@media (max-width: 900px) {
+    .home-hero { padding: 30px 20px 15px !important; }
+    .home-hero-head .hero-h2 { font-size: 1.1rem; }
+    .home-segments-row { grid-template-columns: repeat(2, 1fr) !important; gap: 6px !important; }
+    .home-segment-tab { padding: 12px 8px !important; }
+    .home-segment-tab .tab-title { font-size: 0.78rem !important; letter-spacing: 1px !important; }
+    .home-segment-tab .tab-sub { font-size: 0.58rem !important; letter-spacing: 0.8px !important; }
+
+    /* ---- LIGHTBOX PLEIN ÉCRAN ---- */
+    .news-lightbox {
+        padding: 0 !important;
+        background: rgba(0, 0, 0, 0.98) !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .news-lightbox-img {
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;      /* corrige la barre d'adresse mobile */
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        max-height: 100dvh !important;
+        object-fit: contain !important; /* image entière, sans coupure */
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        animation: newsLightboxIn 0.3s ease;
+    }
+
+    .news-lightbox-close {
+        top: 14px !important;
+        right: 14px !important;
+        width: 46px !important;
+        height: 46px !important;
+        background: rgba(12, 37, 69, 0.95) !important;
+        z-index: 10 !important;
+    }
+
+    .news-lightbox-close svg {
+        width: 22px !important;
+        height: 22px !important;
+    }
 }
 
-.datenschutz-page .ds-list li {
-    position: relative;
-    color: #E8ECF0;
-    line-height: 1.75;
-    font-size: 0.95rem;
-    padding-left: 22px;
-    margin: 6px 0;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
-}
+@media (max-width: 480px) {
+    .home-hero-head .hero-h2 { font-size: 0.95rem; }
+    .home-segment-tab { padding: 10px 6px !important; }
+    .home-segment-tab .tab-title { font-size: 0.72rem !important; }
+    .home-segment-tab .tab-sub { font-size: 0.52rem !important; }
 
-.datenschutz-page .ds-list li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.65em;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #54e50d;
-    box-shadow: 0 0 8px rgba(84, 229, 13, 0.7);
+    .news-lightbox-close {
+        top: 12px !important;
+        right: 12px !important;
+        width: 42px !important;
+        height: 42px !important;
+    }
+    .news-lightbox-close svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
 }
