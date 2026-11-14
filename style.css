@@ -8850,7 +8850,7 @@ body.admin-page .home-segments-row {
     align-self: flex-start;
 }
 /* ============================================================
-   ✅ LIGHTBOX MOBILE + TABLETTE — PLEIN ÉCRAN (largeur + hauteur)
+   ✅ LIGHTBOX MOBILE + TABLETTE — ajusté à l'écran, jamais plus
    ============================================================ */
 @media (max-width: 900px) {
     .home-hero { padding: 30px 20px 15px !important; }
@@ -8860,22 +8860,23 @@ body.admin-page .home-segments-row {
     .home-segment-tab .tab-title { font-size: 0.78rem !important; letter-spacing: 1px !important; }
     .home-segment-tab .tab-sub { font-size: 0.58rem !important; letter-spacing: 0.8px !important; }
 
-    /* ---- LIGHTBOX PLEIN ÉCRAN ---- */
+    /* ---- LIGHTBOX ---- */
     .news-lightbox {
         padding: 0 !important;
         background: #000 !important;
-        align-items: stretch !important;
-        justify-content: stretch !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 
     .news-lightbox-img {
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;         /* corrige la barre d'adresse mobile */
+        /* ✅ On NE force PAS width/height — on LIMITE seulement */
+        width: auto !important;
+        height: auto !important;
         max-width: 100vw !important;
         max-height: 100vh !important;
-        max-height: 100dvh !important;
-        object-fit: cover !important;      /* ← REMPLIT largeur ET hauteur */
+        max-height: 100dvh !important;   /* hauteur réelle visible sur mobile */
+        object-fit: contain !important;  /* image entière, jamais coupée */
         object-position: center center !important;
         border: none !important;
         border-radius: 0 !important;
@@ -8905,26 +8906,14 @@ body.admin-page .home-segments-row {
     .home-segment-tab .tab-title { font-size: 0.72rem !important; }
     .home-segment-tab .tab-sub { font-size: 0.52rem !important; }
 
-    /* ---- LIGHTBOX PLEIN ÉCRAN (petit mobile) ---- */
-    .news-lightbox {
-        padding: 0 !important;
-        background: #000 !important;
-        align-items: stretch !important;
-        justify-content: stretch !important;
-    }
-
     .news-lightbox-img {
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
+        width: auto !important;
+        height: auto !important;
         max-width: 100vw !important;
         max-height: 100vh !important;
         max-height: 100dvh !important;
-        object-fit: cover !important;
+        object-fit: contain !important;
         object-position: center center !important;
-        border: none !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
     }
 
     .news-lightbox-close {
