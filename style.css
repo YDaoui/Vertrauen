@@ -8835,3 +8835,47 @@ body.admin-page .home-segments-row {
         max-height: 105px !important;
     }
 }
+/* ============================================================
+   ✅ SEGMENTS — photo alignée en haut à gauche
+   ============================================================ */
+.detail-top {
+    align-items: start !important;
+}
+
+.detail-text {
+    padding-top: 4px;
+}
+
+.detail-more-link {
+    align-self: flex-start;
+}
+/* ============================================================
+   DATENSCHUTZ — liste à puces verte
+   ============================================================ */
+.datenschutz-page .ds-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 18px;
+}
+
+.datenschutz-page .ds-list li {
+    position: relative;
+    color: #E8ECF0;
+    line-height: 1.75;
+    font-size: 0.95rem;
+    padding-left: 22px;
+    margin: 6px 0;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+.datenschutz-page .ds-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #54e50d;
+    box-shadow: 0 0 8px rgba(84, 229, 13, 0.7);
+}
