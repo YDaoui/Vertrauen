@@ -2542,32 +2542,62 @@ function initAdminNews() {
 function updateLockIcon() {
   const lock = document.querySelector('.header-lock-icon');
   if (!lock) return;
+
+  const LOGIN_PAGE = 'login.html';     // ⚠️ nom réel de ta page de connexion
+  const DASHBOARD_PAGE = 'admin.html'; // page après connexion
+
+  const currentPage = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
   const isLoggedIn = localStorage.getItem('userEmail') !== null;
-  if (!isLoggedIn) return;
   const svgAttrs = 'viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
-  lock.classList.add('is-logged');
-  lock.setAttribute('href', '#');
-  lock.setAttribute('aria-label', 'Abmelden');
-  lock.setAttribute('title', 'Abmelden');
+
+  // Reset
+  lock.onclick = null;
+  lock.classList.remove('is-logged');
+
+  // 1) Non connecté : cadenas -> page de connexion
+  if (!isLoggedIn) {
+    lock.setAttribute('href', LOGIN_PAGE);
+    lock.setAttribute('aria-label', 'Portalanmeldung');
+    lock.removeAttribute('title');
+    lock.innerHTML =
+      '<svg ' + svgAttrs + '><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+    return;
+  }
+
+  // 2) Connecté sur admin.html : porte de sortie (déconnexion)
+  if (currentPage === DASHBOARD_PAGE) {
+    lock.classList.add('is-logged');
+    lock.setAttribute('href', '#');
+    lock.setAttribute('aria-label', 'Abmelden');
+    lock.setAttribute('title', 'Abmelden');
+    lock.innerHTML =
+      '<svg class="lock-ico-user" ' + svgAttrs + '>' +
+        '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>' +
+        '<circle cx="9" cy="7" r="4"/>' +
+        '<polyline points="16 11 18 13 22 9"/>' +
+      '</svg>' +
+      '<svg class="lock-ico-out" ' + svgAttrs + '>' +
+        '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>' +
+        '<polyline points="16 17 21 12 16 7"/>' +
+        '<line x1="21" y1="12" x2="9" y2="12"/>' +
+      '</svg>';
+    lock.onclick = function (e) {
+      e.preventDefault();
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('isAdmin');
+      localStorage.removeItem('userNachname');
+      localStorage.removeItem('userAnrede');
+      window.location.href = 'index.html';
+    };
+    return;
+  }
+
+  // 3) Connecté sur une autre page : icône profil -> retour à admin.html
+  lock.setAttribute('href', DASHBOARD_PAGE);
+  lock.setAttribute('aria-label', 'Mein Konto');
+  lock.setAttribute('title', 'Mein Konto');
   lock.innerHTML =
-    '<svg class="lock-ico-user" ' + svgAttrs + '>' +
-      '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>' +
-      '<circle cx="9" cy="7" r="4"/>' +
-      '<polyline points="16 11 18 13 22 9"/>' +
-    '</svg>' +
-    '<svg class="lock-ico-out" ' + svgAttrs + '>' +
-      '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>' +
-      '<polyline points="16 17 21 12 16 7"/>' +
-      '<line x1="21" y1="12" x2="9" y2="12"/>' +
-    '</svg>';
-  lock.onclick = function (e) {
-    e.preventDefault();
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('isAdmin');
-    localStorage.removeItem('userNachname');
-    localStorage.removeItem('userAnrede');
-    window.location.href = 'index.html';
-  };
+    '<svg ' + svgAttrs + '><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>';
 }
 
 // =====================================================================
